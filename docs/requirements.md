@@ -56,32 +56,27 @@ Andy Lake
 ### **Functional Requirements (Must haves)**
 
 * Reusability
-    * groups, tests, and archives must be able to be used in multiple templates without the need for duplicate data entry
+    * Groups, Tests, and Archives must be reusable in multiple templates without the need for duplicate data entry
 * Publishing
     * Templates must be accessible from customizable URLs
-* User Administration
+* User Administration and Authentication
     * The main admin must be able to add other users as either admins or normal users
-* Authentication
-    * All users must use a password to login
-    * Use HTTP Basic Authentication
+    * All users must use a HTTP Basic Auth (username/password) to login
     * User will be assigned either an admin role or a regular user role
 * Importing
-    * Users must be able to import existing pSConfig templates from a URL, file, or raw JSON
-    * Currently, some users have hand-managed JSON files. It would be very useful to be able to import this JSON and then edit it in the UI
-* Group Types
+    * Users must be able to accurately import existing pSConfig templates from a URL, file, or raw JSON
+* Test Creation
     * Tests must support *mesh*, *disjoint *and *list* group types
-* Test Types
     * Support any test that pScheduler supports, such as throughput, ping, one-way latency and traceroute tests. This data will be retrieved from the pScheduler API
-* Test Options
     * Users must be able to set optional test parameters
-* Support for contexts
+* Support for Contexts
     * Users should be able to define context objects which allow certain user-specified changes to the execution context prior to execution of that tool running a test
     * [https://docs.perfsonar.net/psconfig_templates_advanced.html#using-contexts](https://docs.perfsonar.net/psconfig_templates_advanced.html#using-contexts)
 * Schedule Interval
     * Users must be able to specify the interval between task runs in either seconds or by using a cron-style interval
-* Support archivers
+* Support Archivers
     * Support any archiver that pScheduler supports. This data will be retrieved from the pScheduler API
-* Auto Template
+* Auto Templating
     * Users must be able to generate an *auto template* (JSON) which aggregates all tests defined in various templates for a specific host
     * Concept here is that we can retrieve all applicable tests for a specific host, even if the tests are defined in separate perfSONAR installations
 * Variable Substitutions
@@ -90,7 +85,7 @@ Andy Lake
 * Common Display Options
     * There are options common to all tasks that are used to inform how the tasks are displayed in things like Grafana. Specifically a task reference section can have a display-task-name and display-task-group. They are not in the schema but they are important to current agents, so we should make it easy to set these.
     * Example JSON: [https://github.com/perfsonar/psconfig/blob/master/psconfig/perfsonar-psconfig/doc/skeleton.json#L94-L97](https://github.com/perfsonar/psconfig/blob/master/psconfig/perfsonar-psconfig/doc/skeleton.json#L94-L97) 
-* Autocomplete
+* Autocompletion
     * This is necessary to prevent typos/errors. As you start typing, it narrows the selection based upon what is already available - using lookup service info
     * This will be helpful when adding hosts
 * User Options
@@ -107,14 +102,14 @@ Andy Lake
     * [https://docs.perfsonar.net/psconfig_templates_advanced.html](https://docs.perfsonar.net/psconfig_templates_advanced.html)
     * These include advanced addresses, groups and hosts options, sharing address properties with hosts, and including external files
 * Advanced filtering of hosts
-    * When adding new hosts, users should have the ability to search through the simple lookup service to filter out stuff via advanced options such as give me all hosts with XYZ criteria etc
+    * When adding new hosts, users should have the ability to search through the simple lookup service to filter out stuff via advanced optionssuch as give me all hosts with XYZ criteria etc
 
 ### **Technical Requirements:**
 
 * API
-    * Users must be able to create/update/retrieve templates, hosts, host groups, tests and tasks via a REST API
-* Language / Framework
-    * We plan to use ReactJS for frontend and FastAPI for the backend API (with HTTP Basic Auth for authentication)
+    * Users must be able to create/update/retrieve Templates, Hosts, Host Groups, Tests and Tasks via a REST API
+* Authentication
+    * We shall be using HTTP Basic Auth for authentication
 * Database
     * The supporting database will be PostgreSQL
 * Validation
