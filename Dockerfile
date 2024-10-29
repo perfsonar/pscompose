@@ -10,11 +10,17 @@ RUN python3 -m venv /venv
 RUN . /venv/bin/activate
 RUN pip install -r /app/requirements.txt
 
-# shared volume (?)
-#VOLUME /sys/fs/cgroup
+# TODO: 
+# - Ensure postgres is running
+# - The image needs a pScheduler instance running
+# - Put the SQL in place to initialize the storage tables
+# - write all of the python code for the API
+# - wrap the pScheduler API return stuff for the pSCompose UI
+# - code the UI
+# - profit
 
 # our application runs on port 80
 EXPOSE 80
 
 # Keep docker container running
-CMD ["fastapi", "run", "app/pscompose/api.py", "--port", "80"]
+CMD ["fastapi", "run", "app/pscompose/api/api.py", "--port", "80"]
