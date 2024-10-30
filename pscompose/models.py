@@ -6,13 +6,13 @@ from enum import Enum
 
 from sqlalchemy import create_engine, Column, LargeBinary, Integer, Text
 
-from pscompose.settings import POSTGRES_DB_NAME, TOKEN_SCOPES
+from pscompose.settings import POSTGRES_USER_NAME, POSTGRES_DB_NAME, TOKEN_SCOPES
 
 # Pydantic Validation Model subclasses will model input and output types from the API.
 # SQLAlchemy Storage subclasses will model data as stored in the DB.
 
 engine = create_engine(
-    "postgresql:///" + POSTGRES_DB_NAME
+    "postgresql://%s@/%s" % (POSTGRES_USER_NAME, POSTGRES_DB_NAME)
 )
 
 SQLAlchemyStorage = declarative_base()

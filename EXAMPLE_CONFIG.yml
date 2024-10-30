@@ -1,0 +1,11 @@
+---
+
+postgres:
+  user_name: postgres
+  db_name: pscompose
+
+auth:
+  read_scope: "pscompose:read"
+  write_scope: "pscompose:write"
+  publish_scope: "pscompose:publish"
+  admin_scope: "pscompose:admin"
