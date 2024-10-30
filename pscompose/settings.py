@@ -20,10 +20,11 @@ except Exception as e:
 if conf is None:
     conf = {}
 
-POSTGRES = conf.get("POSTGRES", {})  # default to empty dict so we can set further defaults
+POSTGRES = conf.get("postgres", {})  # default to empty dict so we can set further defaults
 AUTH = conf.get("auth", {})
 
-POSTGRES_DB_NAME = POSTGRES.get("DB_NAME", "pscompose")
+POSTGRES_DB_NAME = POSTGRES.get("db_name", "pscompose")
+POSTGRES_USER_NAME = POSTGRES.get("user_name", "postgres")
 
 TOKEN_SCOPES = {
     "read": AUTH.get("read_scope", "pscompose:read"),
