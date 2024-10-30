@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Security
 from fastapi_versioning import version
-from terranova.backends.auth import auth_check, User
-from terranova.settings import TOKEN_SCOPES
-from terranova.backends.auth.basic import backend
-from terranova.models import UserCreate, UserUpdate, PasswordReset
+from pscompose.auth import auth_check
+from pscompose.settings import TOKEN_SCOPES
+from pscompose.auth.basic import backend
+from pscompose.models import User, UserCreate, UserUpdate, PasswordReset
 
 router = APIRouter(tags=["HTTP Basic Auth User Management"])
 

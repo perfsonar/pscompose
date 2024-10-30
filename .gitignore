@@ -3,3 +3,6 @@
 
 # vagrant stuff
 .vagrant
+
+# python cache
+__pycache__
