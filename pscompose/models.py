@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.dialects import postgresql
 from enum import Enum
 
-from sqlalchemy import create_engine, Column, Integer, Text
+from sqlalchemy import create_engine, Column, LargeBinary, Integer, Text
 
 from pscompose.settings import POSTGRES_DB_NAME, TOKEN_SCOPES
 
@@ -53,5 +53,5 @@ class UserTable(SQLAlchemyStorage):
     # username used to store both email and username
     username = Column(Text)
     name = Column(Text)
-    password = Column(Text)
+    password = Column(LargeBinary(60))
     scopes = Column(postgresql.JSON)

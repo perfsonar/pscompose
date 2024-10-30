@@ -71,7 +71,7 @@ class BasicBackend:
         if password:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode(), salt)
-            db_user.password = hashed_password
+            db_user.password = hashed_password.decode('utf8')
         self.session.commit()
         return User(
             username=db_user.username,
