@@ -16,13 +16,13 @@ from the top-level directory. You should then be able to point your browser to:
 [TBD]
 ```
 
-## Fronend / HTML Mockup Development
+## Frontend / HTML Mockup Development
 
 While we are working on the initial HTML mockups, there will be two steps required to run tailwindcss to watch for changes to the HTML files. These steps should be run in separate shells.
 
 ### Step One: Tailwind CSS build
 
-You can start it with this convenience make command:
+You can start it with this convenient make command:
 
 ```
 make css-watch
