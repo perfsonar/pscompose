@@ -22,6 +22,7 @@ def generate_router(datatype: str, user: User):
 
     router = APIRouter(tags=[f"{datatype}"])
 
+    # Endpoint for retrieving all records of a given datatype (e.g., GET /templates)
     # List endpoint (e.g., GET /templates)
     @router.get(f"/{datatype}s/", summary=f"List all {datatype}s")
     @version(1)
@@ -31,18 +32,24 @@ def generate_router(datatype: str, user: User):
             raise HTTPException(status_code=404, detail=f"No {datatype}s found")
         return rows
 
+    # router.post(f"/{datatype}/", summary=f"Create a new {datatype}")(
+    #     create_item_endpoint(datatype, item_handler, "create")
+    # )
+
+    # Endpoint for CREATING a new record
+    # Create endpoint (e.g., POST /template)
     @router.post(f"/{datatype}", summary=f"Create a new {datatype}")
     @version(1)
-    def create_datatype(
-        record: DataTableBase,
+    def create_item(
+        data: DataTableBase,
         user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
         try:
             response = backend.create_datatype(
-                ref_set=record.ref_set,
+                ref_set=data.ref_set,
                 type=datatype,
-                json=record.json,
-                name=record.name,
+                json=data.json,
+                name=data.name,
                 created_by=user.name,
                 # created_at = ""
                 last_edited_by=user.name,
@@ -57,10 +64,60 @@ def generate_router(datatype: str, user: User):
             raise HTTPException(status_code=400, detail=f"Integrity error: {str(e)}")
         except Exception as e:
             backend.session.rollback()
-    
-    # Create endpoint (e.g., POST /template)
-    # router.post(f"/{datatype}/", summary=f"Create a new {datatype}")(
-    #     create_item_endpoint(datatype, item_handler, "create")
-    # )
+
+    # Endpoint for UPDATING an existing record
+    # Update endpoint (e.g., PUT /template)
+    @router.put(f"/{datatype}/{{item_id}}/", summary=f"Update a {datatype}")
+    @version(1)
+    def update_item(
+        item_id: str,
+        updated_data: DataTableBase,
+        user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
+    ):
+        existing_item = backend.get_datatype(type=datatype, id=item_id)
+        if not existing_item:
+            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
+
+        response = backend.update_datatype(
+            res=existing_item,
+            ref_set=updated_data.ref_set,
+            json=updated_data.json,
+            name=updated_data.name,
+            last_edited_by=user.name
+            # last_edited_at=""
+        )
+        return response
+
+    # Endpoint for DELETING an existing record
+    @router.delete(f"/{datatype}/{{item_id}}/", summary=f"Delete a {datatype}")
+    @version(1)
+    def delete_item(
+        item_id: str,
+        user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
+    ):
+        existing_item = backend.get_datatype(type=datatype, id=item_id)
+        if not existing_item:
+            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
+
+        response = backend.delete_datatype(existing_item)
+        return response
+
+    # Endpoint for retrieving JSON of a specific item by ID
+    @router.get(f"/{datatype}/{{item_id}}/json", summary=f"Get the corresponding {datatype} JSON")
+    def get_item_json(item_id: str):
+        try:
+            response = backend.get_datatype_json(type=datatype, id=item_id)
+        except HTTPException as e:
+            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found")
+        return response
+
+    # Endpoint for retrieving the URL of a specific item by ID
+    @router.get(f"/{datatype}/{{item_id}}/json", summary=f"Get the corresponding {datatype} JSON")
+    def get_item_url(item_id: str):
+        try:
+            response = backend.get_datatype_json(type=datatype, id=item_id)
+        except HTTPException as e:
+            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found")
+        return response
 
     return router
