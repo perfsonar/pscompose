@@ -32,3 +32,13 @@ TOKEN_SCOPES = {
     "publish": AUTH.get("publish_scope", "pscompose:publish"),
     "admin": AUTH.get("admin_scope", "pscompose:admin"),
 }
+
+class DataTypes:
+    TEMPLATE = "template"
+    TASK = "task"
+    SCHEDULE = "schedule"
+    ARCHIVE = "archive"
+    CONTEXT = "context"
+    GROUP = "group"
+    HOST = "host"
+    TEST = "test"
