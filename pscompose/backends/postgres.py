@@ -2,6 +2,7 @@ from pscompose.models import DataTable, engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pscompose.settings import DataTypes
 from fastapi import Depends, HTTPException
+from sqlalchemy import func
 
 class PostgresBackend:
     """
@@ -13,11 +14,6 @@ class PostgresBackend:
         DataTable.__table__.create(bind=engine, checkfirst=True)
         self.session = sessionmaker(bind=engine)()
 
-    def get_results(self, type):
-        query = self.session.query(DataTable).filter_by(type=type)
-        rows = query.all()
-        return rows
-    
     def create_datatype(self, ref_set, type, json, name, created_by, last_edited_by):
         try:
             new_type = DataTable(
@@ -38,21 +34,6 @@ class PostgresBackend:
             self.session.rollback()
             raise HTTPException(status_code=422, detail=f"Could not create the {type}")
 
-    def get_datatype(self, type, id):
-        query = self.session.query(DataTable).filter_by(type=type)
-        if id:
-            query = query.filter_by(id=id)
-
-        result = query.first()
-        if not result:
-            raise HTTPException(status_code=422, detail="Invalid request. No results found")
-        else:
-            return result
-
-    def get_datatype_json(self, type, id):
-        result = self.get_datatype(type, id)
-        return result.json
-
     def update_datatype(self, res, ref_set=None, json=None, name=None, last_edited_by=None):
         if ref_set:
             res.ref_set = ref_set
@@ -71,6 +52,47 @@ class PostgresBackend:
         self.session.commit()
 
         return # What to return
+    
+    def find_records(self, target_id):
+        """
+        Find all records in the database where the ref_set contains the given target_id.
+        """
+        try:
+            # Query to find records where target_id is in ref_set
+            query = self.session.query(DataTable).filter(
+                target_id == func.any(DataTable.ref_set)
+            )
+            results = query.all()
+            if not results:
+                raise HTTPException(status_code=422, detail=f"No records found with {target_id} in ref_set")
+            return results
+        except Exception as e:
+            self.session.rollback()
+            raise HTTPException(status_code=500, detail=f"An error occurred while querying the database: {str(e)}")
+
+    def get_results(self, type):
+        query = self.session.query(DataTable).filter_by(type=type)
+        rows = query.all()
+        return rows
+    
+    def get_datatype(self, type, id):
+        query = self.session.query(DataTable).filter_by(type=type)
+        if id:
+            query = query.filter_by(id=id)
+
+        result = query.first()
+        if not result:
+            raise HTTPException(status_code=422, detail="Invalid request. No results found")
+        else:
+            return result
+
+    def get_datatype_json(self, type, id):
+        result = self.get_datatype(type, id)
+        return result.json
+
+    def get_datatype_url(self, type, id):
+        result = self.get_datatype(type, id)
+        return result.url
 
 
 backend = PostgresBackend()
