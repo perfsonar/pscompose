@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Shoe Lace -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+    <style>
+      .backdrop {
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+      }
+
+      .nav-container {
+        width: fit-content; /* Shrink to content width */
+        flex-shrink: 0; /* Prevent flex shrinkage */
+        padding: 0 8px; /* Adjust horizontal padding as needed */
+        margin: 0 auto; /* Remove default margins */
+      }
+      .wizard-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .wizard-title {
+        color: #FFFFFF;
+        font-family: "Source Sans 3";
+        font-size: 48px;
+      }
+      .progress-bar { 
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        overflow: hidden;
+        padding-left: 50px;
+        padding-right: 50px;
+      }
+      .progress-cancel {
+        box-sizing: border-box;
+        /* Auto layout */
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 16px;
+        gap: 16px;
+
+        width: 156px;
+        min-width: 44px;
+        height: 40px;
+        min-height: 40px;
+          background: #19191A;
+          border: 2px solid #31B63F;
+          border-radius: 18px;
+          
+          color: #FFFFFF;
+          font-family: "Source Sans 3";
+      }
+
+      .progress-cancel svg {
+        max-width: 24px;
+      }
+
+      .progress-bar svg {
+        width: 100%;
+        height: auto;
+      }
+
+      .progress-next {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 auto;
+        width: 124px;
+        min-width: 44px;
+        height: 40px;
+        min-height: 40px;
+
+        background: #31B63F;
+        border: 2px solid #C2C2C2;
+        border-radius: 18px;
+        color: #FFFFFF;
+        font-family: "Source Sans 3";
+      }
+      .progress-next svg {
+        max-width: 24px;
+      }
+
+      .step-section {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 256px 32px;
+        gap: 32px;
+
+      }
+      .step-title {
+        color: #FFFFFF;
+        font-family: "Source Sans 3";
+        font-size: 36px;
+      }
+      .step-text {
+        color: #FFFFFF;
+        font-family: "Source Sans 3";
+        font-size: 18px;
+        text-align: left;
+      }
+      .step-box {
+        display: flex;
+        flex-direction: row;
+        padding: 0px;
+        background: #19191A;
+        border: 4px solid #5C5F6B;
+        border-radius: 12px;
+        width: 60vw;
+        margin-top: 32px;
+        margin-bottom: 32px;
+      }
+
+      .step-box-title-text {
+        font-family: 'Source Sans 3';
+        font-style: normal;
+        font-size: 20px;
+        color: #FFFFFF;
+        text-align: left;
+      }
+
+
+    </style>
+
+<link rel="stylesheet" href="../../css/pscompose.css" />
+<script src="../nav.js"></script>
+  </head>
+  <body class="packets-ui">
+    <div class="bg-surface-bg">
+      <div id="top-nav-container">
+
+      </div>
+      <div class="backdrop">
+      <div id="nav-container">
+      </div>
+    <div class="wizard-container">
+      <h3 class="wizard-title">New Template</h3>
+      <div class="progress-bar">
+        <a href="wizard-step5.html">
+        <button class="progress-cancel">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7071 4.29289C13.0976 4.68342 13.0976 5.31658 12.7071 5.70711L6.41421 12L12.7071 18.2929C13.0976 18.6834 13.0976 19.3166 12.7071 19.7071C12.3166 20.0976 11.6834 20.0976 11.2929 19.7071L4.29289 12.7071C3.90237 12.3166 3.90237 11.6834 4.29289 11.2929L11.2929 4.29289C11.6834 3.90237 12.3166 3.90237 12.7071 4.29289Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z" fill="white"/>
+            </svg>            
+          Previous
+        </button>
+        </a>
+        <svg width="1312" height="22" viewBox="0 0 1312 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_3502_12269)">
+          <path d="M258.5 9C257.395 9 256.5 9.89543 256.5 11C256.5 12.1046 257.395 13 258.5 13V9ZM445.833 11C445.833 16.891 450.609 21.6667 456.5 21.6667C462.391 21.6667 467.167 16.891 467.167 11C467.167 5.10896 462.391 0.333333 456.5 0.333333C450.609 0.333333 445.833 5.10896 445.833 11ZM258.5 13H456.5V9H258.5V13Z" fill="#31B63F"/>
+          <path d="M60.5 9C59.3954 9 58.5 9.89543 58.5 11C58.5 12.1046 59.3954 13 60.5 13V9ZM247.833 11C247.833 16.891 252.609 21.6667 258.5 21.6667C264.391 21.6667 269.167 16.891 269.167 11C269.167 5.10896 264.391 0.333333 258.5 0.333333C252.609 0.333333 247.833 5.10896 247.833 11ZM60.5 13H258.5V9H60.5V13Z" fill="#31B63F"/>
+          <path d="M456.5 9C455.395 9 454.5 9.89543 454.5 11C454.5 12.1046 455.395 13 456.5 13V9ZM643.833 11C643.833 16.891 648.609 21.6667 654.5 21.6667C660.391 21.6667 665.167 16.891 665.167 11C665.167 5.10896 660.391 0.333333 654.5 0.333333C648.609 0.333333 643.833 5.10896 643.833 11ZM456.5 13H654.5V9H456.5V13Z" fill="#31B63F"/>
+          <path d="M643 9C641.895 9 641 9.89543 641 11C641 12.1046 641.895 13 643 13V9ZM644.333 11C644.333 16.891 649.109 21.6667 655 21.6667C660.891 21.6667 665.667 16.891 665.667 11C665.667 5.10896 660.891 0.333333 655 0.333333C649.109 0.333333 644.333 5.10896 644.333 11ZM643 13L655 13V9L643 9V13Z" fill="#31B63F"/>
+          <path d="M654.5 9C653.395 9 652.5 9.89543 652.5 11C652.5 12.1046 653.395 13 654.5 13V9ZM843.833 11C843.833 16.891 848.609 21.6667 854.5 21.6667C860.391 21.6667 865.167 16.891 865.167 11C865.167 5.10896 860.391 0.333333 854.5 0.333333C848.609 0.333333 843.833 5.10896 843.833 11ZM654.5 13H854.5V9H654.5V13Z" fill="#31B63F"/>
+          <path d="M654.5 9C653.395 9 652.5 9.89543 652.5 11C652.5 12.1046 653.395 13 654.5 13V9ZM843.833 11C843.833 16.891 848.609 21.6667 854.5 21.6667C860.391 21.6667 865.167 16.891 865.167 11C865.167 5.10896 860.391 0.333333 854.5 0.333333C848.609 0.333333 843.833 5.10896 843.833 11ZM654.5 13H854.5V9H654.5V13Z" fill="#31B63F"/>
+          <path d="M854.5 9C853.395 9 852.5 9.89543 852.5 11C852.5 12.1046 853.395 13 854.5 13V9ZM1041.83 11C1041.83 16.891 1046.61 21.6667 1052.5 21.6667C1058.39 21.6667 1063.17 16.891 1063.17 11C1063.17 5.10896 1058.39 0.333333 1052.5 0.333333C1046.61 0.333333 1041.83 5.10896 1041.83 11ZM854.5 13H1052.5V9H854.5V13Z" fill="#31B63F"/>
+          <path d="M1052.5 9C1051.4 9 1050.5 9.89543 1050.5 11C1050.5 12.1046 1051.4 13 1052.5 13V9ZM1239.83 11C1239.83 16.891 1244.61 21.6667 1250.5 21.6667C1256.39 21.6667 1261.17 16.891 1261.17 11C1261.17 5.10896 1256.39 0.333333 1250.5 0.333333C1244.61 0.333333 1239.83 5.10896 1239.83 11ZM1052.5 13H1250.5V9H1052.5V13Z" fill="#31B63F"/>
+          <rect x="1240" width="22" height="22" rx="11" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M1255.35 7.64645C1255.55 7.84171 1255.55 8.15829 1255.35 8.35355L1249.85 13.8536C1249.66 14.0488 1249.34 14.0488 1249.15 13.8536L1246.65 11.3536C1246.45 11.1583 1246.45 10.8417 1246.65 10.6464C1246.84 10.4512 1247.16 10.4512 1247.35 10.6464L1249.5 12.7929L1254.65 7.64645C1254.84 7.45118 1255.16 7.45118 1255.35 7.64645Z" fill="white"/>
+          <rect x="50.5" y="1" width="19" height="20" rx="9.5" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M64.3536 7.64645C64.5488 7.84171 64.5488 8.15829 64.3536 8.35355L58.8536 13.8536C58.6583 14.0488 58.3417 14.0488 58.1464 13.8536L55.6464 11.3536C55.4512 11.1583 55.4512 10.8417 55.6464 10.6464C55.8417 10.4512 56.1583 10.4512 56.3536 10.6464L58.5 12.7929L63.6464 7.64645C63.8417 7.45118 64.1583 7.45118 64.3536 7.64645Z" fill="white"/>
+          <rect x="248.5" y="1" width="19" height="20" rx="9.5" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M262.354 7.64645C262.549 7.84171 262.549 8.15829 262.354 8.35355L256.854 13.8536C256.658 14.0488 256.342 14.0488 256.146 13.8536L253.646 11.3536C253.451 11.1583 253.451 10.8417 253.646 10.6464C253.842 10.4512 254.158 10.4512 254.354 10.6464L256.5 12.7929L261.646 7.64645C261.842 7.45118 262.158 7.45118 262.354 7.64645Z" fill="white"/>
+          <rect x="445" width="22" height="22" rx="11" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M460.354 7.64645C460.549 7.84171 460.549 8.15829 460.354 8.35355L454.854 13.8536C454.658 14.0488 454.342 14.0488 454.146 13.8536L451.646 11.3536C451.451 11.1583 451.451 10.8417 451.646 10.6464C451.842 10.4512 452.158 10.4512 452.354 10.6464L454.5 12.7929L459.646 7.64645C459.842 7.45118 460.158 7.45118 460.354 7.64645Z" fill="white"/>
+          <rect x="644" width="22" height="22" rx="11" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M659.354 7.64645C659.549 7.84171 659.549 8.15829 659.354 8.35355L653.854 13.8536C653.658 14.0488 653.342 14.0488 653.146 13.8536L650.646 11.3536C650.451 11.1583 650.451 10.8417 650.646 10.6464C650.842 10.4512 651.158 10.4512 651.354 10.6464L653.5 12.7929L658.646 7.64645C658.842 7.45118 659.158 7.45118 659.354 7.64645Z" fill="white"/>
+          <rect x="844" width="22" height="22" rx="11" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M859.354 7.64645C859.549 7.84171 859.549 8.15829 859.354 8.35355L853.854 13.8536C853.658 14.0488 853.342 14.0488 853.146 13.8536L850.646 11.3536C850.451 11.1583 850.451 10.8417 850.646 10.6464C850.842 10.4512 851.158 10.4512 851.354 10.6464L853.5 12.7929L858.646 7.64645C858.842 7.45118 859.158 7.45118 859.354 7.64645Z" fill="white"/>
+          <rect x="1042" width="22" height="22" rx="11" fill="#31B63F"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M1057.35 7.64645C1057.55 7.84171 1057.55 8.15829 1057.35 8.35355L1051.85 13.8536C1051.66 14.0488 1051.34 14.0488 1051.15 13.8536L1048.65 11.3536C1048.45 11.1583 1048.45 10.8417 1048.65 10.6464C1048.84 10.4512 1049.16 10.4512 1049.35 10.6464L1051.5 12.7929L1056.65 7.64645C1056.84 7.45118 1057.16 7.45118 1057.35 7.64645Z" fill="white"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_3502_12269">
+          <rect width="1211" height="22" fill="white" transform="translate(50.5)"/>
+          </clipPath>
+          </defs>
+          </svg>
+          
+          
+          
+          <a href="wizard-step7.html">
+          <button class="progress-next">
+            Save
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V8.41421L15.5858 4H5ZM2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.2652 2 16.5196 2.10536 16.7071 2.29289L21.7071 7.29289C21.8946 7.48043 22 7.73478 22 8V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6 13C6 12.4477 6.44772 12 7 12H17C17.5523 12 18 12.4477 18 13V21C18 21.5523 17.5523 22 17 22C16.4477 22 16 21.5523 16 21V14H8V21C8 21.5523 7.55228 22 7 22C6.44772 22 6 21.5523 6 21V13Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7 2C7.55228 2 8 2.44772 8 3V7H15C15.5523 7 16 7.44772 16 8C16 8.55228 15.5523 9 15 9H7C6.44772 9 6 8.55228 6 8V3C6 2.44772 6.44772 2 7 2Z" fill="white"/>
+              </svg>
+              
+          </button>
+        </a>
+      </div>
+
+      <h3 class="step-title">Step 7) Create Template</h3>
+      <div class="step-section">
+      <p class="step-text">You’ve reached the final step!  Name your template and select which tasks to include!</p>
+      <div class="step-box">
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  </body>
+  </html>
