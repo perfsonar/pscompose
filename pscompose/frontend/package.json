@@ -7,8 +7,7 @@
     "css-watch": "npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch"
   },
   "dependencies": {
-    "@esnet/esnet-tokens": "^1.1.0",
-    "@esnet/packets-ui": "^0.6.1"
+    "@esnet/esnet-tokens": "file:///~/Documents/GitHub/packets-design-system/packages/design-tokens"
   },
   "keywords": [],
   "author": "Katrina Turner <khturner2@es.net>",

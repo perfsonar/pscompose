@@ -7,31 +7,91 @@
       href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
       rel="stylesheet"
     />
+    <!-- Shoe Lace -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+    <style>
+
+      /* Login Page */
+    .login-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
+    .login-sect, .logo-sect {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .login-sect {
+      background: var(--surface-1, #19191A);
+    }
+    .logo-sect {
+      background: var(--background, #252526);
+    }
+
+    .login-title {
+      color: var(--copy, #FFF);
+      font-family: Signika;
+      font-size: 48px;
+      font-weight: 600;
+    }
+
+    .login-form-slot::part(form-control) {
+      color: var(--copy, #FFF);
+      border-radius: 0;
+    }
+
+    .login-form-slot::part(form-control-label) {
+      margin-bottom: 10px;
+      font-family: "Source Sans 3"; 
+      font-weight: 600;
+    }
+
+    sl-button.login-button::part(base){
+      display: flex;
+      margin-bottom: 10px;
+      border-color: #0A4854;
+      border-radius: 18px;
+      --sl-input-border-width: 2px;
+    }
+    sl-button.create-account-button::part(base) {
+      --sl-input-border-width: 2px;
+      display:flex;
+      margin-bottom: 10px;
+      border-radius: 18px;
+      background-color: transparent;
+      border-color: #004573;
+    }
+
+    .login-button, .create-account-button {
+      display: flex;
+    }
+    </style>
+
     <link rel="stylesheet" href="../css/pscompose.css" />
-    <title>Hello World</title>
+
   </head>
-  <body class="packets-ui">
-    <div class="bg-surface-bg">
-      <h1>Hello World</h1>
-      <div class="top-nav">
-        pSCompose
+  <body>
+    <div class="login-container">
+      <div class="login-sect">
+        <h1 class="login-title">Login</h1>
+        <form class="login-form">
+          <sl-input class="login-form-slot" --sl-border-radius-small="small" name="username" label="Username" placeholder="email"></sl-input>
+          <br><br>
+          <sl-input class="login-form-slot" name="password" type="password" label="Password" password-toggle></sl-input>
+          <br><br>
+          <a href="home.html">
+          <sl-button class="login-button" type="submit" variant="success" pill>Login</sl-button>
+          </a>
+          <sl-button class="create-account-button" type="submit" variant="success" pill>Create Account</sl-button>
+        </form>
       </div>
-      <div class="backdrop">
-        <div class="left-nav">
-          <div class="left-nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-locate"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/></svg>
-            Templates
-          </div>
-          <div class="left-nav-item">Tasks</div>
-          <div class="left-nav-item">Contexts</div>
-          <div class="left-nav-item">Tests</div>
-          <div class="left-nav-item">Archives</div>
-          <div class="left-nav-item">Schedules</div>
-          <div class="left-nav-item">Groups</div>
-          <div class="left-nav-item">Hosts</div>
-        </div>
-        <div>content</div>
+      <div class="logo-sect">
+        <img src="" alt="Project Logo" class="logo">
       </div>
     </div>
-  </body>
+</body>
 </html>
