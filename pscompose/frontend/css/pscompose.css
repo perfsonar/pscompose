@@ -599,15 +599,42 @@ video {
 .bg-surface-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(37 37 38 / var(--tw-bg-opacity, 1));
+  min-height: 100vh;
 }
 
 /* Components */
+html, body {
+  height: 100%;
+  margin: 0; /* Important: Remove default margin */
+}
+
+
+/* NAVIGATION - nav.js */
 
 .backdrop {
-  width: 100%;
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start;
+  width: 100%; 
+  flex-grow: 1;
+}
+
+.pscompose {
+  color: var(--copy, #FFF);
+  font-family: "Source Sans 3";
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.readme {
+  font-family: "Source Sans 3";
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .top-nav {
+  display: flex;
+  flex-direction: row;
   height: 3rem;
   width: 100%;
   --tw-border-opacity: 1;
@@ -617,6 +644,29 @@ video {
   font-family: Source Sans 3, Open Sans, sans-serif;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  padding: 32px 16px;
+  background: #19191A;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.top-left a{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: auto;
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+}
+
+.top-right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  gap: 10px;
 }
 
 .left-nav {
@@ -624,6 +674,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
   font-family: Source Code Pro, monospace;
+  min-height: calc(100vh - 3rem);
 }
 
 .left-nav-item {
@@ -633,11 +684,117 @@ video {
   font-family: Source Code Pro, monospace;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
 }
 
-.logo-section {
-  width: 8rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
-  font-family: Source Code Pro, monospace;
+
+
+/* PAGES */
+.page {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 88px;
+  min-width: calc(100vw - 8rem);
+  gap: 20px;
 }
+
+.page h2 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 110%;
+  color: #FFFFFF;
+}
+
+.page h3 {
+  color: #FFFFFF;
+  font-family: "Source Sans 3";
+  font-size: 36px;
+}
+
+.page h4 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-size: 20px;
+  color: #FFFFFF;
+  text-align: left;
+}
+
+.page p {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 120%;
+  color: #FFFFFF;
+}
+
+/* PAGES - WIZARD */
+
+
+.progress-bar { 
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.progress-bar svg {
+  width: 100%;
+  height: auto;
+  margin: '0 50px 0 50px'
+}
+
+.step-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 172px 0px;
+  gap: 32px;
+  flex: 1;
+  min-height: 447px;
+  width: 80vw;
+}
+
+.step-text {
+  color: #FFFFFF;
+  font-family: "Source Sans 3";
+  font-size: 18px;
+  text-align: left;
+}
+
+.step-box {
+  display: flex;
+  background: #19191A;
+  border: 4px solid #5C5F6B;
+  border-radius: 12px;
+  width: 100%;
+  flex: 1;
+}
+
+.step-box-left {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 43px;
+  gap: 8px;
+  border-radius: 12px 0px 0px 12px;
+  flex: 0.4;
+}
+
+.step-box-right {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  gap: 16px;
+  border-radius: 0px 12px 12px 0px;
+  flex: 0.6;
+}
+
