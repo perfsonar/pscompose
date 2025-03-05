@@ -588,6 +588,7 @@ video {
   }
 }
 
+
 .flex {
   display: flex;
 }
@@ -647,6 +648,10 @@ html, body {
   padding: 32px 16px;
   background: #19191A;
   border-bottom: 1px solid #FFFFFF;
+}
+
+.Logo {
+  height: 4rem;
 }
 
 .top-left a{
