@@ -25,7 +25,7 @@ function createLayout() {
           <li>
    
           <a class="left-nav-item" href="/mockups/pages/tasks.html">
-          <i data-lucide="clipboard" style="width: 48px; height: 48px;"></i>
+          <i data-lucide="clipboard-list" style="width: 48px; height: 48px;"></i>
           Tasks</a></li>
 
           <li><a class="left-nav-item" href="/mockups/pages/contexts.html">
