@@ -696,6 +696,13 @@ html, body {
   gap: 10px;
 }
 
+/* ICONS */
+.lucide {
+  width: 48px; 
+  height: 48px;
+  color: #FFFFFF
+}
+
 
 
 /* PAGES */

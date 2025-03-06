@@ -64,31 +64,33 @@ function createLayout() {
     `;
     return layoutHtml;
   }
-
-function initializePage() {
-  document.body.innerHTML = createLayout();
-  loadPageContent();
-  lucide.createIcons();
-}
-
-function loadPageContent() {
-  const pageContent = document.getElementById('page-content');
-  const currentPage = window.location.pathname.split("/").pop() || 'index.html';
-  fetch(currentPage)
-    .then(response => response.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const content = doc.querySelector('body').innerHTML;
-      pageContent.innerHTML = content;
-    })
-    .catch(error => console.error('Error loading page content:', error));
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Load Lucide script
-  const script = document.createElement('script');
-  script.src = "https://unpkg.com/lucide@latest";
-  script.onload = initializePage; // Initialize page after Lucide is loaded
-  document.head.appendChild(script);
-});
+  
+  function initializePage() {
+    document.body.innerHTML = createLayout();
+    loadPageContent().then(() => {
+      lucide.createIcons();
+    });
+  }
+  
+  function loadPageContent() {
+    const pageContent = document.getElementById('page-content');
+    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+    return fetch(currentPage)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const content = doc.querySelector('body').innerHTML;
+        pageContent.innerHTML = content;
+      })
+      .catch(error => console.error('Error loading page content:', error));
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Load Lucide script
+    const script = document.createElement('script');
+    script.src = "https://unpkg.com/lucide@latest";
+    script.onload = initializePage; // Initialize page after Lucide is loaded
+    script.onerror = () => console.error('Failed to load Lucide script');
+    document.head.appendChild(script);
+  });
