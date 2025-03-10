@@ -599,11 +599,25 @@ video {
 
 .bg-surface-bg {
   --tw-bg-opacity: 1;
-  background-color: rgb(37 37 38 / var(--tw-bg-opacity, 1));
+  background-color: var(--background-color);
   min-height: 100vh;
 }
 
-/* Components */
+/* COLOR */
+:root {
+  --background-color: #252526;
+  --copy-color: #ffffff;
+  --copyAlt-color: #C2C2C2;
+  --surface1-color: #19191A;
+  --surface2-color: #000000;
+  --error-color: #A6111B;
+  --success-color: #31B63F;
+  --shadow-color: #5C5F6B;
+}
+
+
+/* COMPONENTS */
+
 html, body {
   height: 100%;
   margin: 0; /* Important: Remove default margin */
@@ -646,8 +660,8 @@ html, body {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
   padding: 32px 16px;
-  background: #19191A;
-  border-bottom: 1px solid #FFFFFF;
+  background: var(--surface1-color);
+  border-bottom: 1px solid var(--copy-color);
 }
 
 .Logo {
@@ -697,10 +711,11 @@ html, body {
 }
 
 /* ICONS */
+
 .lucide {
   width: 48px; 
   height: 48px;
-  color: #FFFFFF
+  color: var(--copy-color);
 }
 
 
@@ -722,11 +737,11 @@ html, body {
   font-weight: 500;
   font-size: 64px;
   line-height: 110%;
-  color: #FFFFFF;
+  color: var(--copy-color);
 }
 
 .page h3 {
-  color: #FFFFFF;
+  color: var(--copy-color);
   font-family: "Source Sans 3";
   font-size: 36px;
 }
@@ -735,7 +750,7 @@ html, body {
   font-family: 'Source Sans 3';
   font-style: normal;
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--copy-color);
   text-align: left;
 }
 
@@ -745,11 +760,10 @@ html, body {
   font-weight: 400;
   font-size: 18px;
   line-height: 120%;
-  color: #FFFFFF;
+  color: var(--copy-color);
 }
 
 /* PAGES - WIZARD */
-
 
 .progress-bar { 
   display: flex;
@@ -776,7 +790,7 @@ html, body {
 }
 
 .step-text {
-  color: #FFFFFF;
+  color: var(--copy-color);
   font-family: "Source Sans 3";
   font-size: 18px;
   text-align: left;
@@ -784,7 +798,7 @@ html, body {
 
 .step-box {
   display: flex;
-  background: #19191A;
+  background: var(--surface1-color);
   border: 4px solid #5C5F6B;
   border-radius: 12px;
   width: 100%;

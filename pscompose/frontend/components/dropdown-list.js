@@ -34,6 +34,7 @@ export class DropDownList extends HTMLElement {
           display: flex;
           align-items: center;
         }
+
         select {
           background-color: ${this.backgroundcolor || '#000000'};
           color: ${this.textcolor || '#FFFFFF'};
@@ -41,7 +42,7 @@ export class DropDownList extends HTMLElement {
           display: flex;
           flex-direction: row;
           align-items: center;
-          padding: 8px;
+          padding: 8px 64px 8px 8px;
           width: 100%;
           height: 40px;
           min-height: 34px;

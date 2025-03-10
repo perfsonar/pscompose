@@ -52,51 +52,36 @@
     <script src='../../components/text-input-area.js' type="module"></script>
     <script src='../../components/dropdown-list.js' type="module"></script>
     <script src='../../components/toggle-button.js' type="module"></script>
+    <script src='../../components/checkbox.js' type="module"></script>
     <body>
       <div class="page" id="page-content">
-        <h2>New Test</h2>
+        <h2>New Group</h2>
         <div class="content">
           <div class="contentdiv">
-            <text-input label="Name" placeholder="New Test"></text-input>
+            <text-input label="Name" placeholder="Enter Name"></text-input>
             <dropdown-list
-                  placeholder="Select Type"
-                  label="Type" 
-                  options='[{"value": "option1", "label": "Throughput"}, {"value": "option2", "label": "Throughput"}, {"value": "option2", "label": "Throughput"}]'>
+                placeholder="Select Type"
+                label="Type" 
+                options='[{"value": "option1", "label": "Mesh"}, {"value": "option2", "label": "Type 2"}, {"value": "option2", "label": "Type 3"}]'>
             </dropdown-list>
           </div>
-          <text-input label="Protocol" placeholder=""></text-input>
+          <!-- tag drop down list -->
+          <dropdown-list
+            placeholder="Add Host"
+            label="Hosts" 
+            options='[{"value": "option1", "label": "Host 1"}, {"value": "option2", "label": "Host 2"}, {"value": "option2", "label": "Host 3"}]'>
+          </dropdown-list>
           <div class="contentdiv">
             <dropdown-list
-                  placeholder="Select Source"
-                  label="Source" 
-                  options='[{"value": "option1", "label": "Source 1"}, {"value": "option2", "label": "Source B"}, {"value": "option2", "label": "Source C"}]'>
+                placeholder="Add Host"
+                label="Excludes:" 
+                options='[{"value": "option1", "label": "Host 1"}, {"value": "option2", "label": "Host 2"}, {"value": "option2", "label": "Host 3"}]'>
             </dropdown-list>
+            <p>to</p>
             <dropdown-list
-              placeholder="Select Destination"
-              label="Destination" 
-              options='[{"value": "option1", "label": "Destination A"}, {"value": "option2", "label": "Destination B"}, {"value": "option2", "label": "Destination C"}]'>
-            </dropdown-list>
-          </div>
-          <div class="contentdiv">
-            <dropdown-list
-                  placeholder="Select Interval"
-                  label="Interval" 
-                  options='[{"value": "option1", "label": "Interval A"}, {"value": "option2", "label": "Interval B"}, {"value": "option2", "label": "Interval C"}]'>
-            </dropdown-list>
-            <dropdown-list
-              placeholder="units"
-              label="_" 
-              options='[{"value": "option1", "label": "hour"}, {"value": "option2", "label": "min"}, {"value": "option2", "label": "sec"}]'>
-            </dropdown-list>
-            <dropdown-list
-            placeholder="Select Duration"
-            label="Duration" 
-            options='[{"value": "option1", "label": "Duration A"}, {"value": "option2", "label": "Duration B"}, {"value": "option2", "label": "Duration C"}]'>
-            </dropdown-list>
-            <dropdown-list
-                placeholder="units"
+                placeholder="Add Host"
                 label="_" 
-                options='[{"value": "option1", "label": "hour"}, {"value": "option2", "label": "min"}, {"value": "option2", "label": "sec"}]'>
+                options='[{"value": "option1", "label": "Host 1"}, {"value": "option2", "label": "Host 2"}, {"value": "option2", "label": "Host 3"}]'>
             </dropdown-list>
           </div>
           <text-input-area label="Other Meta" placeholder="Enter JSON"></text-input-area>

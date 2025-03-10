@@ -1,5 +1,5 @@
 export class ToggleButton extends HTMLElement {
-  static observedAttributes = ["checked", "label", "backgroundcolor", "bordercolor", "textcolor"];
+  static observedAttributes = ["checked", "label"];
 
   constructor() {
     super();
@@ -28,19 +28,16 @@ export class ToggleButton extends HTMLElement {
   }
 
   render() {
-    const backgroundColor = this.getAttribute('backgroundcolor') || '#31B63F';
-    const borderColor = this.getAttribute('bordercolor') || '#31B63F';
-    const textColor = this.getAttribute('textcolor') || 'white';
     const label = this.getAttribute('label') || '';
 
     const style = `
       <style>
         .toggle {
-        display: flex;
-        flex-direction: column;
-        aligned-items: center;
-        justify-content: center;
-        flex: 1;
+          display: flex;
+          flex-direction: column;
+          aligned-items: center;
+          gap: 8px;
+          flex: 1;
         }
 
         .switch {
@@ -79,27 +76,32 @@ export class ToggleButton extends HTMLElement {
         }
         
         input:checked + .slider {
-          background-color: ${backgroundColor};
+          background-color: var(--success-color);
         }
         
         input:checked + .slider:before {
           transform: translateX(26px);
         }
-        
-        .label {
-          font-family: 'Source Sans 3', sans-serif;
+
+        p {
+          color: var(--copy-color);
+          font-family: 'Source Sans 3';
           font-style: normal;
           font-weight: 400;
           font-size: 16px;
-          color: ${textColor};
+          line-height: 120%;
+          display: flex;
+          align-items: center;
+          margin: 0;
         }
+  
       </style>
     `;
 
     this.shadow.innerHTML = `
       ${style}
       <div class="toggle">
-        <span class="label">${label}</span>
+        <p>${label}</p>
         <label class="switch">
           <input type="checkbox" ${this.checked ? 'checked' : ''}>
           <span class="slider"></span>

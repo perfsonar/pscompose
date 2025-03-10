@@ -12,7 +12,7 @@ function createLayout() {
 
         <div class="top-right">
           <p class="readme"> README </p>
-          <i data-lucide="user-circle-2" style="width: 48px; height: 48px; color: #31B63F"></i>
+          <i data-lucide="user-circle-2" style="width: 48px; height: 48px; color: var(--success-color)"></i>
         </div>
       </div>
       
