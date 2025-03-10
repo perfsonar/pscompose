@@ -1,18 +1,16 @@
-export class TextInput extends HTMLElement {
+export class TextInputNum extends HTMLElement {
   static observedAttributes = ["label", "placeholder", "backgroundcolor", "labelcolor", "textcolor"];
 
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: 'open' });
-  }
 
   connectedCallback() {
     this.render();
+    lucide.createIcons(); 
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     this[name] = newValue;
     this.render();
+    lucide.createIcons(); 
   }
 
   render() {
@@ -24,10 +22,10 @@ export class TextInput extends HTMLElement {
           gap: 8px;
           flex: 1;
         }
+
         label {
           color: ${this.labelcolor || 'var(--copy-color)'};
 
-          /* packets/label/1/large */
           font-family: 'Source Sans 3';
           font-style: normal;
           font-weight: 400;
@@ -75,14 +73,16 @@ export class TextInput extends HTMLElement {
       </style>
     `;
 
-    this.shadow.innerHTML = `
+    this.innerHTML = `
       ${inputStyle}
       <div class="input-container">
         ${this.label ? `<label for="myInput">${this.label}</label>` : ''}
-          <input type="text" id="myInput" placeholder="${this.placeholder || ''}" />
+        <input type="text" id="myInput" placeholder="${this.placeholder || ''}" />
+        <i style="width: 24px;  height: 24px;" data-lucide="plus"></i>
+        <i style="width: 24px;  height: 24px;" data-lucide="minus"></i>
       </div>
     `;
   }
 }
 
-customElements.define('text-input', TextInput);
+customElements.define('text-input-num', TextInputNum);

@@ -1,6 +1,7 @@
 export class WebButton extends HTMLElement {
     static observedAttributes = ["link", "label", "theme", "backgroundcolor", "bordercolor", "textcolor", "lefticon", "righticon"];
-  
+    
+    
     connectedCallback() {
       this.render();
       lucide.createIcons(); 

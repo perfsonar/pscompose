@@ -1,4 +1,4 @@
-export class ToggleButton extends HTMLElement {
+export class Switch extends HTMLElement {
   static observedAttributes = ["checked", "label"];
 
   constructor() {
@@ -113,4 +113,4 @@ export class ToggleButton extends HTMLElement {
   }
 }
 
-customElements.define('toggle-button', ToggleButton);
+customElements.define('switch', Switch);
