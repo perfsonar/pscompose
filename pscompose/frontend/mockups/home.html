@@ -29,14 +29,14 @@
       .getting-started-title {
         font-family: "Source Sans 3";
         font-size: 40px;
-        color: #FFFFFF;
+        color: var(--copy-color);
         font-weight: 600;
       }
 
       .getting-started-p {
         font-family: "Source Sans 3";
         font-size: 16px;
-        color: #FFFFFF;
+        color: var(--copy-color);
         text-align: center;
       }
       .getting-started-boxes {
@@ -60,10 +60,10 @@
         text-align: left;
         border-bottom: 1px solid #ddd;
         font-family: "Source Sans 3";
-        color: #FFFFFF;
+        color: var(--copy-color);
       }
       th {
-        background-color: #19191A;
+        background-color: var(--surface1-color);
       }
       .th-content {
         display: flex;
@@ -88,14 +88,14 @@
         align-items: center;
         padding: 32px 32px 16px;
         gap: 32px;
-        background: #19191A;
+        background: var(--surface1-color);
         min-height: calc(100vh - 3rem);
       }
 
       .short-cut-title {
         font-family: "Source Sans 3";
         font-size: 36px;
-        color: #FFFFFF;
+        color: var(--copy-color);
       }
       
       .list-box{
@@ -105,7 +105,7 @@
         padding: 16px;
         gap: 10px;
         width: 100%;
-        background: #000000;
+        background: var(--surface2-color);
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 12px;
       }
@@ -118,7 +118,7 @@
       }
 
       .box-name {
-        color: #FFFFFF;
+        color: var(--copy-color);
         font-family: "Source Sans 3";
         font-size: 24px;
         font-weight: 600;
@@ -126,7 +126,7 @@
       }
 
       .box-text {
-        color: #FFFFFF;
+        color: var(--copy-color);
         font-family: "Source Sans 3";
         font-weight: 400;
         font-size: 12px;
@@ -151,9 +151,9 @@
           <div class="getting-started-boxes">
             <div class="list-box">
               <div class="box-header">
-                <i class="lucide" data-lucide="locate"></i>                  
+                <i class="lucide" style="color: var(--copy-color)" data-lucide="locate"></i>                  
                 <p class="box-name">Import Template</p>
-                <web-button link="imports/import_template_1.html" label="" lefticon="home" righticon="user" ></web-button>
+                <web-button link="imports/import_template_1.html" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
               </div>
               <p class="box-text">
                 Import an existing template json by uploading the file or copying and pasting the json directly.
@@ -165,13 +165,7 @@
               <div class="box-header">
                 <i class="lucide" data-lucide="plus"></i>          
                 <p class="box-name">Create New Template</p>
-                <a href="pages/wizard/wizard-step1.html">
-                <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1" y="1" width="46" height="42" rx="19" stroke="#31B63F" stroke-width="2" stroke-linejoin="round"/>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M16 22C16 21.4477 16.4477 21 17 21H31C31.5523 21 32 21.4477 32 22C32 22.5523 31.5523 23 31 23H17C16.4477 23 16 22.5523 16 22Z" fill="#31B63F"/>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M23.2929 14.2929C23.6834 13.9024 24.3166 13.9024 24.7071 14.2929L31.7071 21.2929C32.0976 21.6834 32.0976 22.3166 31.7071 22.7071L24.7071 29.7071C24.3166 30.0976 23.6834 30.0976 23.2929 29.7071C22.9024 29.3166 22.9024 28.6834 23.2929 28.2929L29.5858 22L23.2929 15.7071C22.9024 15.3166 22.9024 14.6834 23.2929 14.2929Z" fill="#31B63F"/>
-                </svg>
-                </a>
+                <web-button link="pages/wizard/wizard-step1.html" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
               </div>
               <p class="box-text">
                 This will walk you through creating a new template from scratch
@@ -226,7 +220,7 @@
             <td>6 hours</td>
             <td>1 host</td>
             <td>
-              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: #31B63F"></i>
+              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
             </td>
             <td> 
               <div class="action-icons">
@@ -241,7 +235,7 @@
             <td>6 hours</td>
             <td>1 host</td>
             <td>
-              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: #31B63F"></i>
+              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
             </td>
             <td> 
               <div class="action-icons">

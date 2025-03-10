@@ -25,7 +25,7 @@ export class TextInput extends HTMLElement {
           flex: 1;
         }
         label {
-          color: ${this.labelcolor || '#FFFFFF'};
+          color: ${this.labelcolor || 'var(--copy-color)'};
 
           /* packets/label/1/large */
           font-family: 'Source Sans 3';
@@ -49,15 +49,21 @@ export class TextInput extends HTMLElement {
           gap: 16px;
 
           width: 100%;
-          height: 34px;
+          height: 40px;
 
           border: 1px solid #C3C7D9;
           border-radius: 0px;
+          font-size: 16px;
+        }
+
+        ::placeholder {
+          font-size: 16px;
+          padding: 8px 64px 8px 8px;
         }
 
         input:focus {
           outline: none;
-          border-color: #31B63F;
+          border-color: 'var(--success-color)';
         }
 
         .icon {

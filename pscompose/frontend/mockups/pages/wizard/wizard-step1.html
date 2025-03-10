@@ -26,8 +26,7 @@
     <div class="page" id="page-content">
       <h2>New Template</h2>
       <div class="progress-bar">
-        <web-button link="../../home.html" label="Cancel" backgroundcolor="#19191A" textcolor='#C2C2C2'>
-        </web-button>
+        <web-button link="../../home.html" label="Cancel" theme="primary"></web-button>
 
         <svg width="100%" height="22" viewBox="0 0 1312 22" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_4131_11908)">
@@ -48,12 +47,7 @@
           </svg>
           
           
-        <web-button link="wizard-step2.html" label="Next" backgroundcolor='#31B63F' textcolor="#FFFFFF" righticon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z" fill="white"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2929 4.29289C11.6834 3.90237 12.3166 3.90237 12.7071 4.29289L19.7071 11.2929C20.0976 11.6834 20.0976 12.3166 19.7071 12.7071L12.7071 19.7071C12.3166 20.0976 11.6834 20.0976 11.2929 19.7071C10.9024 19.3166 10.9024 18.6834 11.2929 18.2929L17.5858 12L11.2929 5.70711C10.9024 5.31658 10.9024 4.68342 11.2929 4.29289Z" fill="white"/>
-          </svg>              
-          '>
-        </web-button>
+        <web-button link="wizard-step2.html" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
       </div>
 
       <h3>Step 1) Hosts</h3>
@@ -72,25 +66,12 @@
           options='[{"value": "option1", "label": "Host A"}, {"value": "option2", "label": "Host B"}, {"value": "option2", "label": "Host C"}]'>
           </dropdown-list>
 
-          <web-button link="" label="New Host" backgroundcolor='#5C5F6B' textcolor="#FFFFFF" bordercolor="#5C5F6B" lefticon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 1C12.5523 1 13 1.44772 13 2V10C13 10.5523 12.5523 11 12 11C11.4477 11 11 10.5523 11 10V2C11 1.44772 11.4477 1 12 1Z" fill="white"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.29289 5.29289C7.68342 4.90237 8.31658 4.90237 8.70711 5.29289L12 8.58579L15.2929 5.29289C15.6834 4.90237 16.3166 4.90237 16.7071 5.29289C17.0976 5.68342 17.0976 6.31658 16.7071 6.70711L12.7071 10.7071C12.3166 11.0976 11.6834 11.0976 11.2929 10.7071L7.29289 6.70711C6.90237 6.31658 6.90237 5.68342 7.29289 5.29289Z" fill="white"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M4 15C3.44772 15 3 15.4477 3 16V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V16C21 15.4477 20.5523 15 20 15H4ZM1 16C1 14.3431 2.34315 13 4 13H20C21.6569 13 23 14.3431 23 16V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V16Z" fill="white"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 18C5 17.4477 5.44772 17 6 17H6.01C6.56228 17 7.01 17.4477 7.01 18C7.01 18.5523 6.56228 19 6.01 19H6C5.44772 19 5 18.5523 5 18Z" fill="white"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 18C9 17.4477 9.44772 17 10 17H10.01C10.5623 17 11.01 17.4477 11.01 18C11.01 18.5523 10.5623 19 10.01 19H10C9.44772 19 9 18.5523 9 18Z" fill="white"/>
-            </svg>            
-            '>
+          <web-button link="" label="New Host" theme="shadow" bordercolor="#5C5F6B" lefticon='hard-drive-download'>
           </web-button>
           
         </div>
         <div class="step-box-right" >
-          <svg width="151" height="151" viewBox="0 0 151 151" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M75.5 6.75C78.9518 6.75 81.75 9.54822 81.75 13V63C81.75 66.4518 78.9518 69.25 75.5 69.25C72.0482 69.25 69.25 66.4518 69.25 63V13C69.25 9.54822 72.0482 6.75 75.5 6.75Z" fill="#5C5F6B"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M46.0806 33.5806C48.5214 31.1398 52.4786 31.1398 54.9194 33.5806L75.5 54.1612L96.0806 33.5806C98.5214 31.1398 102.479 31.1398 104.919 33.5806C107.36 36.0214 107.36 39.9786 104.919 42.4194L79.9194 67.4194C77.4786 69.8602 73.5214 69.8602 71.0806 67.4194L46.0806 42.4194C43.6398 39.9786 43.6398 36.0214 46.0806 33.5806Z" fill="#5C5F6B"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 94.25C22.0482 94.25 19.25 97.0482 19.25 100.5V125.5C19.25 128.952 22.0482 131.75 25.5 131.75H125.5C128.952 131.75 131.75 128.952 131.75 125.5V100.5C131.75 97.0482 128.952 94.25 125.5 94.25H25.5ZM6.75 100.5C6.75 90.1447 15.1447 81.75 25.5 81.75H125.5C135.855 81.75 144.25 90.1447 144.25 100.5V125.5C144.25 135.855 135.855 144.25 125.5 144.25H25.5C15.1447 144.25 6.75 135.855 6.75 125.5V100.5Z" fill="#5C5F6B"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M31.75 113C31.75 109.548 34.5482 106.75 38 106.75H38.0625C41.5143 106.75 44.3125 109.548 44.3125 113C44.3125 116.452 41.5143 119.25 38.0625 119.25H38C34.5482 119.25 31.75 116.452 31.75 113Z" fill="#5C5F6B"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M56.75 113C56.75 109.548 59.5482 106.75 63 106.75H63.0625C66.5143 106.75 69.3125 109.548 69.3125 113C69.3125 116.452 66.5143 119.25 63.0625 119.25H63C59.5482 119.25 56.75 116.452 56.75 113Z" fill="#5C5F6B"/>
-            </svg>            
+          <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='hard-drive-download'></i>          
         </div>
       </div>
 
