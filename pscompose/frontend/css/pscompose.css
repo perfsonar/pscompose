@@ -689,7 +689,7 @@ html, body {
 }
 
 .left-nav {
-  width: 8rem;
+  width: 100px;
   --tw-bg-opacity: 1;
   background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
   font-family: Source Code Pro, monospace;
@@ -710,6 +710,66 @@ html, body {
   gap: 10px;
 }
 
+    /* Submenu Styles */
+.parent-item {
+  position: relative;
+}
+
+.submenu-container {
+  flex: 1;
+  background-color: var(--surface2-color);
+}
+
+.submenu {
+  display: none;
+  transition: opacity 0.3s ease-in-out;
+  flex: 1;
+}
+
+.submenu.show {
+  display: flex;
+  flex-direction: column;
+  left: 100%; /* Aligns the submenu to the right side of the parent */
+  top: 0; /* Aligns the submenu to the top of the parent */
+  background-color: var(--surface2-color); /* Matches the background color of the left nav */
+  color: var(--copy-color);
+  padding: 32px 32px;
+  gap: 16px;
+  font-family: 'Source Sans 3';
+  background-color: var(--surface2-color);
+
+  width: 300px;
+}
+
+.submenu li {
+  display: flex;
+  flex-direction: row;
+  /* packets/header/4/sans */
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 140%;
+  align-items: center;
+  gap: 12px;
+}
+.submenu h1 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+
+  color: var(--success-color);
+}
+
+#page-content {
+  flex-grow: 1; /* Make the content area grow to fill available space */
+}
+
+
 /* ICONS */
 
 .lucide {
@@ -720,6 +780,8 @@ html, body {
 
 
 
+
+
 /* PAGES */
 .page {
   display: flex;
@@ -727,7 +789,6 @@ html, body {
   align-items: center;
   flex-direction: column;
   padding: 88px;
-  min-width: calc(100vw - 8rem);
   gap: 20px;
 }
 
