@@ -71,6 +71,7 @@ class DataTable(SQLAlchemyStorage):
     type = Column(Text)
     json = Column(postgresql.JSON)
     name = Column(Text)
+    url = Column(Text)
     created_by = Column(Text)
     created_at = Column(
         DateTime(timezone=True), # Stores timezone-aware timestamps
@@ -84,5 +85,4 @@ class DataTable(SQLAlchemyStorage):
         onupdate=func.now(), # Automatically updates the column to the current timestamp whenever the record is updated
         nullable=False # enforces that every record has a timestamp
     )
-    url = Column(Text)
 

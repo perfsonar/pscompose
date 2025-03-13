@@ -6,13 +6,13 @@ from pscompose.settings import DataTypes
 from pscompose.models import User, DataTable
 from pscompose.auth import auth_check
 from pscompose.backends.postgres import backend
-from pscompose.settings import DataTypes, TOKEN_SCOPES
+from pscompose.settings import DataTypes, TOKEN_SCOPES, PARENT_CHILD_RELATIONSHIP
 from pscompose.form_schemas import HOST_SCHEMA, HOST_UI_SCHEMA
 from pscompose.schemas import DataTableBase
 
 from sqlalchemy.exc import IntegrityError
 
-def generate_router(datatype: str, user: User):
+def generate_router(datatype: str):
     """
     Generates a FastAPI router with list and item-specific endpoints for a given datatype.
     
@@ -31,10 +31,6 @@ def generate_router(datatype: str, user: User):
         if not rows:
             raise HTTPException(status_code=404, detail=f"No {datatype}s found")
         return rows
-
-    # router.post(f"/{datatype}/", summary=f"Create a new {datatype}")(
-    #     create_item_endpoint(datatype, item_handler, "create")
-    # )
 
     # Endpoint for CREATING a new record
     # Create endpoint (e.g., POST /template)
@@ -55,6 +51,8 @@ def generate_router(datatype: str, user: User):
                 last_edited_by=user.name,
                 # last_edited_at = ""
             )
+            # Q: why would we do this?
+            # Update on each of the child objects when a new type is created
             return {
                 "message": f"{datatype} created successfully", 
                 "id": response.id
@@ -89,6 +87,7 @@ def generate_router(datatype: str, user: User):
         return response
 
     # Endpoint for DELETING an existing record
+    # Delete endpoint (e.g., DELETE /template)
     @router.delete(f"/{datatype}/{{item_id}}/", summary=f"Delete a {datatype}")
     @version(1)
     def delete_item(
@@ -112,7 +111,7 @@ def generate_router(datatype: str, user: User):
         return response
 
     # Endpoint for retrieving the URL of a specific item by ID
-    @router.get(f"/{datatype}/{{item_id}}/json", summary=f"Get the corresponding {datatype} JSON")
+    @router.get(f"/{datatype}/{{item_id}}/url", summary=f"Get the corresponding {datatype} URL")
     def get_item_url(item_id: str):
         try:
             response = backend.get_datatype_json(type=datatype, id=item_id)
