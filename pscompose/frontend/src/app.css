@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Components */
+.backdrop {
+  @apply w-full;
+}
+
+.top-nav {
+  @apply w-full h-12 bg-surface-1 text-white-100 border-b-white-100 font-sans;
+}
+
+.left-nav {
+  @apply w-32 bg-surface-1 font-mono;
+}
+
+.left-nav-item {
+  @apply font-mono text-white-100 h-24 p-3 items-center;
+}
+
+.logo-section {
+  @apply w-32 bg-surface-1 font-mono
+}
+
+
