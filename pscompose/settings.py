@@ -42,3 +42,17 @@ class DataTypes:
     GROUP = "group"
     HOST = "host"
     TEST = "test"
+
+PARENT_CHILD_RELATIONSHIP = {
+    # TODO : Is it hosts or addresses?
+    # "template": ["archive", "host", "group", "schedule", "test", "task", "context"],
+    "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
+    "archive": [],
+    "context": [],
+    "group": ["address"],
+    # "address": [],
+    # "host": ["address", "context"],
+    "schedule": [],
+    "task": ["group", "test", "schedule", "archive"],
+    "test": []
+}
