@@ -1,0 +1,55 @@
+{
+    "host_schema":
+    {
+        "title": "Schema for creating a new host form",
+        "type": "object",
+        "properties":
+        {
+            "name":
+            {
+                "type": "string",
+                "title": "Host Name",
+                "description": "A string to identify this host",
+                "default": ""
+            },
+            "address":
+            {
+                "type": "string",
+                "title": "Address",
+                "description": "The host address",
+                "default": ""
+            },
+            "no-agent":
+            {
+                "type": "boolean",
+                "title": "No Agent",
+                "description": "Check this box if no agent is required"
+            }
+        },
+        "required":
+        [
+            "name",
+            "address",
+            "no-agent"
+        ]
+    },
+    "host_ui_schema":
+    {
+        "name":
+        {
+            "ui:widget": "text"
+        },
+        "description":
+        {
+            "ui:widget": "text"
+        },
+        "no-agent":
+        {
+            "ui:widget": "checkbox",
+            "ui:options":
+            {
+                "inline": true
+            }
+        }
+    }
+}
