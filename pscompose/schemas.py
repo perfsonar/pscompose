@@ -336,7 +336,7 @@ class DataTableBase(BaseModel):
     type: str
     # json: Union[Dict[str, Archives], Dict[str, Hosts], Dict[str, Groups], Dict[str, Schedules], Dict[str, Meta], Dict[str, Tasks], Dict[str, Tests], Templates]
     # TODO : Check this below? The json can be a subtype as well, eg : if we're storing just an archive, then we won't have the entire schema object
-    json: pSConfigSchema
+    json_field: pSConfigSchema = Field(None, alias="json")
     name: str
     created_by: str
     created_at: datetime

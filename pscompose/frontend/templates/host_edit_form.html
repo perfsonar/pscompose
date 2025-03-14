@@ -1,0 +1,49 @@
+<div class="host edit-form">
+  <div class="page">
+    <h2>New Host</h2>
+    <div class="content">
+      <form hx-ext="client-side-templates">
+        <!--fieldset hx-get="/templates/jsonform.html" hx-trigger="load">
+        </fieldset-->
+
+        <button hx-get="/DELETE_ME-dummy_api/host_json_schema.json"
+                hx-swap="innerHTML"
+                hx-target="#content"
+                nunjucks-template="example-template">
+          Click Me
+        </button>
+
+        <fieldset id="content">Nothing yet...</fieldset>
+
+        <script id="example-template" type="nunjucks">
+          <json-form
+                form-data='{"name": "my test host", "address": "test.example.com", "no-agent": "This is form data"}'
+                schema-json='{{ host_schema | dump }}'
+                ui-schema-json='{
+                  "type": "VerticalLayout",
+                  "elements": [{
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                  },
+                  {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                  },
+                  {
+                      "type": "Control",
+                      "scope": "#/properties/no-agent"
+                  }]
+                }'
+              ></json-form>
+        </script>
+
+
+        <div class="save-cancel">
+          <web-button link="import_template_2.html" label="Delete" theme="error" righticon='trash-2'></web-button>
+          <web-button link="import_template_2.html" label="Save" theme="secondary" righticon='save'></web-button>
+          <web-button label="Cancel" theme="primary" righticon='x'></web-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

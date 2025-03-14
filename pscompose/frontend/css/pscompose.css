@@ -885,3 +885,40 @@ html, body {
   flex: 0.6;
 }
 
+/* HOST EDIT FORM */
+
+.host.edit-form .content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding: 0 88px 0 88px;
+}
+
+.host.edit-form .contentdiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+.host.edit-form text-input {
+  flex-grow: 1;
+}
+
+.host.edit-form dropdown-list {
+  flex-grow: 1;
+}
+
+.host.edit-form .save-cancel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 12px 0px;
+  gap: 10px;
+
+  width: 100%;
+  height: 64px;
+}
