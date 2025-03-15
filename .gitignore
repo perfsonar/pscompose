@@ -7,4 +7,10 @@
 # python cache
 __pycache__
 
+# python virtualenv
+venv
+
 node_modules
+
+# mac annoyance
+.DS_Store
