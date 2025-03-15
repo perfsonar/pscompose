@@ -4,30 +4,29 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-          href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+          href="/css/google-fonts-signika-and-source-sans.css"
           rel="stylesheet"
         />
         <!-- psCompose -->
-        <link rel="stylesheet" href="../css/pscompose.css" />
+        <link rel="stylesheet" href="/css/pscompose.css" />
 
         <!-- Lucide Icon Library -->
-        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="/lib/lucide.min.js@0.479.0" type="text/javascript"></script>
 
         <!-- HTMX Library -->
-        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-        <script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
-        <script src="https://unpkg.com/mustache@latest"></script>
-        <script src="https://mozilla.github.io/nunjucks/files/nunjucks.min.js"></script>
+        <script src="/lib/htmx.org@2.0.4"></script>
+        <script src="/lib/client-side-templates.min.js@2.0.4"></script>
+        <script src="/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- Web Components -->
-        <script src='../../components/json_forms.esm.js' type="module"></script>
+        <script src='/components/json_forms.esm.js' type="module"></script>
 
-        <script src='../../components/web-button.js' type="module"></script>
-        <script src='../../components/text-input.js' type="module"></script>
-        <script src='../../components/text-input-area.js' type="module"></script>
-        <script src='../../components/dropdown-list.js' type="module"></script>
-        <script src='../../components/switch.js' type="module"></script>
-        <script src='../../components/checkbox.js' type="module"></script>
+        <script src='/components/web-button.js' type="module"></script>
+        <script src='/components/text-input.js' type="module"></script>
+        <script src='/components/text-input-area.js' type="module"></script>
+        <script src='/components/dropdown-list.js' type="module"></script>
+        <script src='/components/switch.js' type="module"></script>
+        <script src='/components/checkbox.js' type="module"></script>
 
         <script>
             document.addEventListener('htmx:afterRequest', function(evt) {
@@ -41,16 +40,34 @@
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
         <div class="bg-surface-bg">
-            <nav hx-get="/templates/top_nav.html" hx-trigger="load">
+            <nav hx-get="/partials/top_nav.html" hx-trigger="load">
             </nav>
             <div class="backdrop">
-                <nav hx-get="/templates/left_nav.html" hx-trigger="load">
+                <nav hx-get="/partials/left_nav.html" hx-trigger="load">
                 </nav>
                 <main id='page-content'>
-                    <div hx-get="/templates/host_edit_form.html" hx-trigger="load">
+
+                    <div id='router-target'>
                     </div>
+
                 </main>
             </div>
         </div>
+        <script>
+            // the actual URL router
+            function urlRouter(path){
+                path = path.replace("/app", "");
+                if (path == "/"){
+                    return "/pages/index.html";
+                }
+                let directory = path.split("/")[1];
+                return `/pages/${directory}/${directory}.html`;
+            }
+            let elem = document.getElementById("router-target");
+            elem.innerHTML = `<div
+                hx-get='${urlRouter(window.location.pathname)}'
+                hx-trigger='load'>
+            </div>`;
+        </script>
     </body>
     </html>
