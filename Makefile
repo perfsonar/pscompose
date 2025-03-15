@@ -21,4 +21,4 @@ css-watch:
 .PHONY: run-mockups
 run-mockups:
 	@echo "Starting simple HTTP server on http://localhost:8000/"
-	cd pscompose/frontend && python3 -m http.server
+	cd pscompose/frontend && python3 server.py
