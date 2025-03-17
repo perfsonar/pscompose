@@ -17,12 +17,11 @@ from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
 from pydantic import AnyUrl, BaseModel, Extra, Field, conint, constr
 
-# Custom JSON type
+
 class AnyJSON(BaseModel):
     __root__: Optional[Union[List, bool, int, float, Dict[str, Any], str]]
 
 
-# Base types
 class Cardinal(BaseModel):
     __root__: conint(ge=1)
 
@@ -87,7 +86,18 @@ class URLHostPort(BaseModel):
     __root__: Union[HostNamePort, IPv6RFC2732]
 
 
-# Selectors
+class ExcludesAddressPair(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+    local_address: AddressSelector = Field(..., alias='local-address')
+    target_addresses: List[AddressSelector] = Field(..., alias='target-addresses')
+
+
+class ExcludesAddressPairList(BaseModel):
+    __root__: List[ExcludesAddressPair]
+
+
 class AddressSelectorClass(BaseModel):
     class Config:
         extra = Extra.forbid
@@ -115,13 +125,31 @@ class GroupType(Enum):
     LIST = 'list'
     MESH = 'mesh'
 
+
 class ExcludesSelfScope(Enum):
     HOST = 'host'
     ADDRESS = 'address'
     DISABLED = 'disabled'
 
 
-# Core Models
+class ContextSpecification(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+    context: str
+    data: AnyJSON
+    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
+
+
+class TestSpecification(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+    type: str
+    spec: AnyJSON
+    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
+
+
 class ArchiveJQTransformSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
@@ -144,15 +172,6 @@ class ArchiveSpecification(BaseModel):
     schema_: Optional[Cardinal] = Field(None, alias='schema')
 
 
-class ContextSpecification(BaseModel):
-    class Config:
-        extra = Extra.forbid
-
-    context: str
-    data: AnyJSON
-    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
-
-
 class TaskSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
@@ -170,12 +189,16 @@ class TaskSpecification(BaseModel):
     field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
 
 
-class TestSpecification(BaseModel):
+class AddressSpecificationLabelMapItem(BaseModel):
     class Config:
         extra = Extra.forbid
 
-    type: str
-    spec: AnyJSON
+    address: Host
+    lead_bind_address: Optional[Host] = Field(None, alias='lead-bind-address')
+    pscheduler_address: Optional[URLHostPort] = Field(None, alias='pscheduler-address')
+    contexts: Optional[List[NameType]] = None
+    disabled: Optional[bool] = None
+    no_agent: Optional[bool] = Field(None, alias='no-agent')
     field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
 
 
@@ -192,34 +215,21 @@ class ScheduleSpecification(BaseModel):
     field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
 
 
-class HostSpecificationLabelMapItem(BaseModel):
-    class Config:
-        extra = Extra.forbid
-
-    address: Host
-    lead_bind_address: Optional[Host] = Field(None, alias='lead-bind-address')
-    pscheduler_address: Optional[URLHostPort] = Field(None, alias='pscheduler-address')
-    contexts: Optional[List[NameType]] = None
-    disabled: Optional[bool] = None
-    no_agent: Optional[bool] = Field(None, alias='no-agent')
-    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
-
-
-class HostSpecificationLabelMap(BaseModel):
+class AddressSpecificationLabelMap(BaseModel):
     class Config:
         extra = Extra.forbid
 
     __root__: Dict[
-        constr(regex=r'^[a-zA-Z0-9:._\-]+$'), HostSpecificationLabelMapItem
+        constr(regex=r'^[a-zA-Z0-9:._\-]+$'), AddressSpecificationLabelMapItem
     ]
 
 
-class HostSpecificationRemoteMapItem(BaseModel):
+class AddressSpecificationRemoteMapItem(BaseModel):
     class Config:
         extra = Extra.forbid
 
     address: Optional[Host] = None
-    labels: Optional[HostSpecificationLabelMap] = None
+    labels: Optional[AddressSpecificationLabelMap] = None
     lead_bind_address: Optional[Host] = Field(None, alias='lead-bind-address')
     pscheduler_address: Optional[URLHostPort] = Field(None, alias='pscheduler-address')
     contexts: Optional[List[NameType]] = None
@@ -228,44 +238,13 @@ class HostSpecificationRemoteMapItem(BaseModel):
     field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
 
 
-class HostSpecificationRemoteMap(BaseModel):
+class AddressSpecificationRemoteMap(BaseModel):
     class Config:
         extra = Extra.forbid
 
     __root__: Dict[
-        constr(regex=r'^[a-zA-Z0-9:._\-]+$'), HostSpecificationRemoteMapItem
+        constr(regex=r'^[a-zA-Z0-9:._\-]+$'), AddressSpecificationRemoteMapItem
     ]
-
-
-class HostSpecification(BaseModel):
-    class Config:
-        extra = Extra.forbid
-
-    address: Host
-    host: Optional[NameType] = None
-    labels: Optional[HostSpecificationLabelMap] = None
-    remote_addresses: Optional[HostSpecificationRemoteMap] = Field(
-        None, alias='remote-addresses'
-    )
-    lead_bind_address: Optional[Host] = Field(None, alias='lead-bind-address')
-    pscheduler_address: Optional[URLHostPort] = Field(None, alias='pscheduler-address')
-    contexts: Optional[List[NameType]] = None
-    tags: Optional[List[str]] = None
-    disabled: Optional[bool] = None
-    no_agent: Optional[bool] = Field(None, alias='no-agent')
-    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
-
-
-class ExcludesAddressPair(BaseModel):
-    class Config:
-        extra = Extra.forbid
-
-    local_address: AddressSelector = Field(..., alias='local-address')
-    target_addresses: List[AddressSelector] = Field(..., alias='target-addresses')
-
-
-class ExcludesAddressPairList(BaseModel):
-    __root__: List[ExcludesAddressPair]
 
 
 class GroupListSpecification(BaseModel):
@@ -310,10 +289,30 @@ class GroupSpecification(BaseModel):
     ]
 
 
+class AddressSpecification(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+    address: Host
+    host: Optional[NameType] = None
+    labels: Optional[AddressSpecificationLabelMap] = None
+    remote_addresses: Optional[AddressSpecificationRemoteMap] = Field(
+        None, alias='remote-addresses'
+    )
+    lead_bind_address: Optional[Host] = Field(None, alias='lead-bind-address')
+    pscheduler_address: Optional[URLHostPort] = Field(None, alias='pscheduler-address')
+    contexts: Optional[List[NameType]] = None
+    tags: Optional[List[str]] = None
+    disabled: Optional[bool] = None
+    no_agent: Optional[bool] = Field(None, alias='no-agent')
+    field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
+
+
 class pSConfigSchema(BaseModel):
     class Config:
         extra = Extra.forbid
 
+    addresses: Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), AddressSpecification]
     archives: Optional[
         Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), ArchiveSpecification]
     ] = None
@@ -321,7 +320,6 @@ class pSConfigSchema(BaseModel):
         Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), ContextSpecification]
     ] = None
     groups: Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), GroupSpecification]
-    hosts: Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), HostSpecification]
     includes: Optional[List[AnyUrl]] = None
     schedules: Optional[
         Dict[constr(regex=r'^[a-zA-Z0-9:._\-]+$'), ScheduleSpecification]
@@ -336,7 +334,7 @@ class DataTableBase(BaseModel):
     type: str
     # json: Union[Dict[str, Archives], Dict[str, Hosts], Dict[str, Groups], Dict[str, Schedules], Dict[str, Meta], Dict[str, Tasks], Dict[str, Tests], Templates]
     # TODO : Check this below? The json can be a subtype as well, eg : if we're storing just an archive, then we won't have the entire schema object
-    json: pSConfigSchema
+    json_data: pSConfigSchema = Field(None, alias="json")
     name: str
     created_by: str
     created_at: datetime
