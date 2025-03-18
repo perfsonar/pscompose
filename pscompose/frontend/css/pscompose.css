@@ -601,6 +601,8 @@ video {
   --tw-bg-opacity: 1;
   background-color: var(--background-color);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* COLOR */
@@ -625,14 +627,6 @@ html, body {
 
 
 /* NAVIGATION - nav.js */
-
-.backdrop {
-  display: flex;
-  flex-direction: row; 
-  justify-content: flex-start;
-  width: 100%; 
-  flex-grow: 1;
-}
 
 .pscompose {
   color: var(--copy, #FFF);
@@ -687,6 +681,14 @@ html, body {
   margin-left: auto;
   gap: 10px;
 }
+
+.backdrop {
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start;
+  width: 100%; 
+}
+
 
 .left-nav {
   width: 100px;
@@ -765,10 +767,6 @@ html, body {
   color: var(--success-color);
 }
 
-#page-content {
-  flex-grow: 1; /* Make the content area grow to fill available space */
-}
-
 
 /* ICONS */
 
@@ -779,6 +777,9 @@ html, body {
 }
 
 
+main {
+  min-width: calc(100vw - 100px);
+}
 
 
 

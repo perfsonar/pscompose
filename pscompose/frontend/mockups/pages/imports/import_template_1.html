@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Shoe Lace -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+    
+    <style>
+      .step-box {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 32px;
+        gap: 16px;
+      }
+
+
+      .save-cancel {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+        padding: 12px 0px;
+        gap: 10px;
+
+      }
+
+
+      .copy-json {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 12px 0px;
+        gap: 10px;
+      }
+
+    </style>
+    <link rel="stylesheet" href="../../../css/pscompose.css" />
+
+    </head>
+    <script src="../../nav.js"></script>
+    <script src='../../../components/web-button.js' type="module"></script>
+    <script src='../../../components/text-input.js' type="module"></script>
+    <script src='../../../components/text-input-area.js' type="module"></script>
+    <script src='../../../components/dropdown-list.js' type="module"></script>
+    <body>
+      <div class="page" id="page-content">
+        <h2>Import Template</h2>
+        <p>To import template, please provide name and import via URL link or file upload.</p>
+        <div class="step-box">
+          <text-input label="Name" placeholder="New Template"></text-input>
+          <dropdown-list
+              placeholder="Choose Import Method"
+              label="ImportVia" 
+              options='[{"value": "option1", "label": "Upload JSON file"}, {"value": "option2", "label": "URL"}, {"value": "option2", "label": "Paste JSON"}]'>
+          </dropdown-list>
+          <text-input-area label="JSON" placeholder="Enter Json"></text-input-area>
+                  
+          <div class="save-cancel">
+              <web-button link="import_template_2.html" theme="secondary" label="Save" righticon="save" ></web-button>
+              <web-button  link="../home.html" label="Cancel" theme="primary" righticon='x'></web-button>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
