@@ -5,10 +5,10 @@ from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
 
 # Setup CRUD endpoints
-router = generate_router("host")
+router = generate_router("address")
 
 # Custom endpoints
-@router.get("/host/form", summary="Return the form to be rendered")
+@router.get("/address/form", summary="Return the form to be rendered")
 @version(1)
 def get_form():
     # Talk to pScheduler API
@@ -18,12 +18,12 @@ def get_form():
         "host_ui_schema": HOST_UI_SCHEMA
     }
 
-@router.get("/host/{hostId}/change")
+@router.get("/address/{addressId}/change")
 @version(1)
-def get_updated_entries(hostId: str):
+def get_updated_entries(addressId: str):
     '''
     Get the entire list of things that will need to be updated when some information about a given host is changed.
     This will include host groups that reference this host, along with perhaps tests, tasks, templates and others
     '''
-    results = backend.find_records(target_id=hostId)
+    results = backend.find_records(target_id=addressId)
     return results
