@@ -15,6 +15,8 @@ STATIC_ROUTES = (
     "/app",
     "/components",
     "/css",
+    "/mockups",
+    "/dummy_api"
 )
 
 
@@ -52,7 +54,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 # and then normalize the path to the real file on disk
                 output_path = normalize_path(path, root)
                 break
-
+        print("reading file from %s" % output_path)
         return output_path
 
 

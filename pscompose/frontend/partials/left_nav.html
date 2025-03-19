@@ -2,59 +2,71 @@
 <ul>
 
   <li class="parent-item" data-submenu="submenu-templates">
-    <a class="left-nav-item" href="/templates/">
+    <a class="left-nav-item" id="templates" hx-target="#subnav">
       <i data-lucide="locate" style="width: 48px; height: 48px;"></i>
       Templates
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-tasks">
-    <a class="left-nav-item" href="/tasks/">
+    <a class="left-nav-item" id="tasks">
       <i data-lucide="clipboard-list" style="width: 48px; height: 48px;"></i>
       Tasks
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-contexts">
-    <a class="left-nav-item" href="/contexts/">
+    <a class="left-nav-item" id="contexts">
       <i data-lucide="file-question" style="width: 48px; height: 48px;"></i>
       Contexts
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-tests">
-    <a class="left-nav-item" href="/tests/">
+    <a class="left-nav-item" id="tests">
       <i data-lucide="flask-conical" style="width: 48px; height: 48px;"></i>
       Tests
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-archives">
-    <a class="left-nav-item" href="/archives/">
+    <a class="left-nav-item" id="archives">
       <i data-lucide="database" style="width: 48px; height: 48px;"></i>
       Archives
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-schedules">
-    <a class="left-nav-item" href="/schedules/">
+    <a class="left-nav-item" id="schedules">
       <i data-lucide="calendar-check" style="width: 48px; height: 48px;"></i>
       Schedules
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-groups">
-    <a class="left-nav-item" href="/groups/">
+    <a class="left-nav-item" id="groups">
       <i data-lucide="group" style="width: 48px; height: 48px;"></i>
       Groups
     </a>
   </li>
 
   <li class="parent-item" data-submenu="submenu-hosts">
-    <a class="left-nav-item" href="/addresses/">
+    <a class="left-nav-item" id="addresses">
       <i data-lucide="hard-drive-download" style="width: 48px; height: 48px;"></i>
       Addresses
     </a>
   </li>
 
 </ul>
+
+
+
+<script>
+  function renderHighlight(){
+      // window.psCompose holds application state.
+    let activeSection = psCompose.activeSection;
+    let activeElement = document.querySelector(`.left-nav #${activeSection}`);
+    activeElement.classList.add("active");    
+  }
+  renderHighlight();
+</script>
