@@ -16,8 +16,8 @@
         <script id="example-template" type="nunjucks">
           <json-form
                 form-data='{"name": "my test host", "address": "test.example.com", "no-agent": true}'
-                schema-json='{{ host_schema | dump }}'
-                ui-schema-json='{
+                schema-data='{{ host_schema | dump }}'
+                layout-data='{
                   "type": "VerticalLayout",
                   "elements": [{
                       "type": "Control",

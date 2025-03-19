@@ -923,8 +923,18 @@ html, body {
   height: 64px;
 }
 #router-target {
+  font-family: "Source Sans 3", "Open Sans", sans-serif;
+}
+.page input {
+  width: 100%;
+  margin-bottom: 1em;
+  padding: 0.2em 0.4em;
+}
+.page label {
   color: white;
-  font-family: Source Sans 3, Open Sans, sans-serif;
+}
+.page form .description {
+  color: white; 
 }
 
 .left-nav .active { 
