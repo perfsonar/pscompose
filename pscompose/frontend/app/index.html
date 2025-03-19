@@ -47,7 +47,7 @@
                 </nav>
                 <main id='page-content'>
 
-                    <div id='router-target'>
+                    <div id='router-target' class="page">
                     </div>
 
                 </main>
@@ -60,11 +60,16 @@
                 if (path == "/"){
                     return "/pages/index.html";
                 }
-                let directory = path.split("/")[1];
-                return `/pages/${directory}/${directory}.html`;
+                window.psCompose = {
+                    "activeSection": null
+                }
+                psCompose.activeSection = path.split("/")[1];
+                return `/pages/${psCompose.activeSection}/${psCompose.activeSection}.html`;
             }
-            let elem = document.getElementById("router-target");
-            elem.innerHTML = `<div
+
+            let target = document.getElementById("router-target");
+
+            target.innerHTML = `<div
                 hx-get='${urlRouter(window.location.pathname)}'
                 hx-trigger='load'>
             </div>`;

@@ -6,18 +6,16 @@
         <!--fieldset hx-get="/templates/jsonform.html" hx-trigger="load">
         </fieldset-->
 
-        <button hx-get="/DELETE_ME-dummy_api/host_json_schema.json"
-                hx-swap="innerHTML"
-                hx-target="#content"
+        <fieldset id="content"
+                hx-get="/dummy_api/host_json_schema.json"
+                hx-trigger="load"
                 nunjucks-template="example-template">
-          Click Me
-        </button>
-
-        <fieldset id="content">Nothing yet...</fieldset>
+          Loading Form...
+        </fieldset>
 
         <script id="example-template" type="nunjucks">
           <json-form
-                form-data='{"name": "my test host", "address": "test.example.com", "no-agent": "This is form data"}'
+                form-data='{"name": "my test host", "address": "test.example.com", "no-agent": true}'
                 schema-json='{{ host_schema | dump }}'
                 ui-schema-json='{
                   "type": "VerticalLayout",
