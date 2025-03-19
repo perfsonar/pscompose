@@ -55,17 +55,92 @@
             </div>
         </div>
         <script>
+            window.psCompose = {
+                "activeSection": null,
+                "sections": {
+                    "addresses": {
+                        "singular": "Address",
+                        "plural": "Addresses",
+                        "page_url": "/addresses/",
+                        "page_template": "/pages/addresses/addresses.html",
+                        "list_endpoint": "/dummy_api/address_list.json",
+                        "detail_endpoint": "/dummy_api/address_${id}.json",
+                        "icon": "hard-drive-download",
+                    },
+                    "archives": {
+                        "singular": "Archive",
+                        "plural": "Archives",
+                        "page_url": "/archives/",
+                        "page_template": "/pages/archive/archives.html",
+                        "list_endpoint": "/dummy_api/archive_list.json",
+                        "detail_endpoint": "/dummy_api/archive_${id}.json",
+                        "icon": "database",
+                    },
+                    "contexts": {
+                        "singular": "Context",
+                        "plural": "Contexts",
+                        "page_url": "/contexts/",
+                        "page_template": "/pages/contexts/contexts.html",
+                        "list_endpoint": "/dummy_api/context_list.json",
+                        "detail_endpoint": "/dummy_api/context_${id}.json",
+                        "icon": "file-question",
+                    },
+                    "groups": {
+                        "singular": "Group",
+                        "plural": "Groups",
+                        "page_url": "/groups/",
+                        "page_template": "/pages/groups/groups.html",
+                        "list_endpoint": "/dummy_api/group_list.json",
+                        "detail_endpoint": "/dummy_api/group_${id}.json",
+                        "icon": "group",
+                    },
+                    "schedules": {
+                        "singular": "Schedule",
+                        "plural": "Schedules",
+                        "page_url": "/schedules/",
+                        "page_template": "/pages/schedules/schedules.html",
+                        "list_endpoint": "/dummy_api/schedule_list.json",
+                        "detail_endpoint": "/dummy_api/schedule_${id}.json",
+                        "icon": "calendar-check",
+                    },
+                    "tasks": {
+                        "singular": "Task",
+                        "plural": "Tasks",
+                        "page_url": "/tasks/",
+                        "page_template": "/pages/tasks/tasks.html",
+                        "list_endpoint": "/dummy_api/task_list.json",
+                        "detail_endpoint": "/dummy_api/task_${id}.json",
+                        "icon": "clipboard-list",
+                    },
+                    "templates": {
+                        "singular": "Template",
+                        "plural": "Templates",
+                        "page_url": "/templates/",
+                        "page_template": "/pages/templates/templates.html",
+                        "list_endpoint": "/dummy_api/template_list.json",
+                        "detail_endpoint": "/dummy_api/template_${id}.json",
+                        "icon": "locate",
+                    },
+                    "tests": {
+                        "singular": "Test",
+                        "plural": "Tests",
+                        "page_url": "/tests/",
+                        "page_template": "/pages/tests/tests.html",
+                        "list_endpoint": "/dummy_api/test_list.json",
+                        "detail_endpoint": "/dummy_api/test_${id}.json",
+                        "icon": "flask-conical",
+                    },
+                }
+            }
+            console.log(psCompose)
             // the actual URL router
             function urlRouter(path){
                 path = path.replace("/app", "");
                 if (path == "/"){
                     return "/pages/index.html";
                 }
-                window.psCompose = {
-                    "activeSection": null
-                }
                 psCompose.activeSection = path.split("/")[1];
-                return `/pages/${psCompose.activeSection}/${psCompose.activeSection}.html`;
+                return `${psCompose.sections[psCompose.activeSection].page_template}`;
             }
 
             let target = document.getElementById("router-target");
