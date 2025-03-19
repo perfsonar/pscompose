@@ -47,23 +47,23 @@
   </div>
 
   <div class="submenu-container">
-        <!--h1 class='heading'>Templates</h1>
-        <li class='new'>
-            <i data-lucide="plus" style="width: 36px; height: 36px;"></i>
-        </li>
-        <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">Template A</a></li>
-        <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">Template B</a></li-->
-<button hx-get='/dummy_api/${psCompose.activeSection}_list.json' hx-trigger='load' style='width:300px; height:100px; border:1px solid white; background: #333;' template-nunjucks='submenu-template' target="submenu-container"></button>
-
-
   </div>
 
   <script id="submenu-template" type="nunjucks">
-      <h1>Hello World</h1>
-      <h1>{{psCompose.activeSection}}</h1>
-      <li>
-        <i data-lucide="plus" style="width: 36px; height: 36px;"></i><a href="/{{psCompose.activeSection}}/templates.html">New {{psCompose.activeSection}}</a></li>
-      <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">{{name}}</a></li>
+    <div class='submenu show'>
+      <h1>{{data.psCompose.sections[data.psCompose.activeSection].plural}}</h1>
+      <ul>
+        <li>
+          <i data-lucide="plus" style="width: 36px; height: 36px;"></i>
+          <a href="{{data.psCompose.sections[data.psCompose.activeSection].page_url}}">
+            New {{data.psCompose.sections[data.psCompose.activeSection].singular}}
+          </a>
+        </li>
+        {% for item in data %}
+          <li><i data-lucide="{{data.psCompose.sections[data.psCompose.activeSection].icon}}" style="width: 36px; height: 36px;"></i><a href="#">{{item.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
   </script>
 </nav>
 
@@ -71,17 +71,23 @@
 <script>
   function toggleSubmenu(){
     let container = document.querySelector(".submenu-container");
-    container.innerHTML = ``;
-    console.log(container);
+    container.innerHTML = `
+      <div
+        hx-get='${psCompose.sections[psCompose.activeSection].list_endpoint}'
+        hx-trigger='load'
+        hx-target='.submenu-container'
+        nunjucks-array-template="submenu-template"
+        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+      </div>`;
+    htmx.process(container);
   }
   function renderHighlight(){
-      // window.psCompose holds application state.
     document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
-      elem.classList.remove("active");
+      elem?.classList.remove("active");
     });
     let activeSection = psCompose.activeSection;
     let activeElement = document.querySelector(`.left-nav #${activeSection}`);
-    activeElement.classList.add("active");    
+    activeElement?.classList.add("active");
   }
   renderHighlight();
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
