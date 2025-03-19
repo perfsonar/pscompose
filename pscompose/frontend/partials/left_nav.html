@@ -1,72 +1,95 @@
-<div class="left-nav">
-<ul>
+<nav class="backdrop" hx-ext="client-side-templates">
 
-  <li class="parent-item" data-submenu="submenu-templates">
-    <a class="left-nav-item" id="templates" hx-target="#subnav">
-      <i data-lucide="locate" style="width: 48px; height: 48px;"></i>
-      Templates
-    </a>
-  </li>
+  <div class="left-nav">
+  <ul>
 
-  <li class="parent-item" data-submenu="submenu-tasks">
-    <a class="left-nav-item" id="tasks">
-      <i data-lucide="clipboard-list" style="width: 48px; height: 48px;"></i>
-      Tasks
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
+        <i data-lucide="locate" style="width: 48px; height: 48px;"></i>
+        Templates
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-contexts">
-    <a class="left-nav-item" id="contexts">
-      <i data-lucide="file-question" style="width: 48px; height: 48px;"></i>
-      Contexts
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="tasks" data-submenu="tasks">
+        <i data-lucide="clipboard-list" style="width: 48px; height: 48px;"></i>
+        Tasks
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-tests">
-    <a class="left-nav-item" id="tests">
-      <i data-lucide="flask-conical" style="width: 48px; height: 48px;"></i>
-      Tests
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="contexts" data-submenu="contexts">
+        <i data-lucide="file-question" style="width: 48px; height: 48px;"></i>
+        Contexts
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-archives">
-    <a class="left-nav-item" id="archives">
-      <i data-lucide="database" style="width: 48px; height: 48px;"></i>
-      Archives
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="tests" data-submenu="tests">
+        <i data-lucide="flask-conical" style="width: 48px; height: 48px;"></i>
+        Tests
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-schedules">
-    <a class="left-nav-item" id="schedules">
-      <i data-lucide="calendar-check" style="width: 48px; height: 48px;"></i>
-      Schedules
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="archives" data-submenu="archives">
+        <i data-lucide="database" style="width: 48px; height: 48px;"></i>
+        Archives
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-groups">
-    <a class="left-nav-item" id="groups">
-      <i data-lucide="group" style="width: 48px; height: 48px;"></i>
-      Groups
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="schedules" data-submenu="schedules">
+        <i data-lucide="calendar-check" style="width: 48px; height: 48px;"></i>
+        Schedules
+    </li>
 
-  <li class="parent-item" data-submenu="submenu-hosts">
-    <a class="left-nav-item" id="addresses">
-      <i data-lucide="hard-drive-download" style="width: 48px; height: 48px;"></i>
-      Addresses
-    </a>
-  </li>
+    <li class="parent-item left-nav-item" id="groups" data-submenu="groups">
+        <i data-lucide="group" style="width: 48px; height: 48px;"></i>
+        Groups
+    </li>
 
-</ul>
+    <li class="parent-item left-nav-item" id="addresses" data-submenu="addresses">
+        <i data-lucide="hard-drive-download" style="width: 48px; height: 48px;"></i>
+        Addresses
+    </li>
 
+  </ul>
+  </div>
+
+  <div class="submenu-container">
+        <!--h1 class='heading'>Templates</h1>
+        <li class='new'>
+            <i data-lucide="plus" style="width: 36px; height: 36px;"></i>
+        </li>
+        <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">Template A</a></li>
+        <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">Template B</a></li-->
+<button hx-get='/dummy_api/${psCompose.activeSection}_list.json' hx-trigger='load' style='width:300px; height:100px; border:1px solid white; background: #333;' template-nunjucks='submenu-template' target="submenu-container"></button>
+
+
+  </div>
+
+  <script id="submenu-template" type="nunjucks">
+      <h1>Hello World</h1>
+      <h1>{{psCompose.activeSection}}</h1>
+      <li>
+        <i data-lucide="plus" style="width: 36px; height: 36px;"></i><a href="/{{psCompose.activeSection}}/templates.html">New {{psCompose.activeSection}}</a></li>
+      <li><i data-lucide="locate" style="width: 36px; height: 36px;"></i><a href="#">{{name}}</a></li>
+  </script>
+</nav>
 
 
 <script>
+  function toggleSubmenu(){
+    let container = document.querySelector(".submenu-container");
+    container.innerHTML = ``;
+    console.log(container);
+  }
   function renderHighlight(){
       // window.psCompose holds application state.
+    document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
+      elem.classList.remove("active");
+    });
     let activeSection = psCompose.activeSection;
     let activeElement = document.querySelector(`.left-nav #${activeSection}`);
     activeElement.classList.add("active");    
   }
   renderHighlight();
+  document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
+    elem.classList.remove("active");
+    elem.addEventListener("click", function(){
+      psCompose.activeSection = elem.getAttribute('data-submenu');
+      toggleSubmenu();
+      renderHighlight();
+    });
+  })
 </script>
