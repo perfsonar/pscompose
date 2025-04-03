@@ -21,12 +21,10 @@
         GET /api/address/new/form ->
           Get form data with empty JSON object for new address
           This should be exactly what's in dummy_api/address/new/form/response.json
-        DELETE /api/address/uuid-slug
-          returns the deleted object exactly as /api/address/uuid-slug/json
         -->
 
         <fieldset id="content"
-                hx-get="/dummy_api/address/uuid-slug/form/response.json"
+                hx-get="/dummy_api/address/new/form/response.json"
                 hx-trigger="load"
                 nunjucks-template="example-template">
           Loading Form...
