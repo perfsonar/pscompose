@@ -56,6 +56,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 break
         print("reading file from %s" % output_path)
         return output_path
+    def do_POST(self, *args, **kwargs):
+        self.do_GET(*args, **kwargs)
 
 
 if __name__ == "__main__":

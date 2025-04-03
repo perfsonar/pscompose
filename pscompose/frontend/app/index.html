@@ -121,7 +121,7 @@
                         "detail_endpoint": "/dummy_api/template_${id}.json",
                         "icon": "locate",
                     },
-                    "tests": {
+                    "   ": {
                         "singular": "Test",
                         "plural": "Tests",
                         "page_url": "/tests/",
@@ -140,6 +140,7 @@
                     return "/pages/index.html";
                 }
                 psCompose.activeSection = path.split("/")[1];
+                psCompose.subsection = path.split("/")[2];
                 return `${psCompose.sections[psCompose.activeSection].page_template}`;
             }
 

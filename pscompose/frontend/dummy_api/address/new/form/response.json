@@ -1,5 +1,26 @@
 {
-    "host_schema":
+    "ui_schema":
+    {
+        "type": "VerticalLayout",
+        "elements":
+        [
+            {
+                "type": "Control",
+                "scope": "#/properties/name"
+            },
+            {
+                "type": "Control",
+                "scope": "#/properties/address"
+            },
+            {
+                "type": "Control",
+                "scope": "#/properties/no-agent"
+            }
+        ]
+    },
+    "form_data":
+    {},
+    "json_schema":
     {
         "title": "Schema for creating a new host form",
         "type": "object",
@@ -23,7 +44,8 @@
             {
                 "type": "boolean",
                 "title": "No Agent",
-                "description": "Check this box if no agent is required"
+                "description": "Check this box if no agent is required",
+                "default": false
             }
         },
         "required":
@@ -32,24 +54,5 @@
             "address",
             "no-agent"
         ]
-    },
-    "host_ui_schema":
-    {
-        "name":
-        {
-            "ui:widget": "text"
-        },
-        "description":
-        {
-            "ui:widget": "text"
-        },
-        "no-agent":
-        {
-            "ui:widget": "checkbox",
-            "ui:options":
-            {
-                "inline": true
-            }
-        }
     }
 }
