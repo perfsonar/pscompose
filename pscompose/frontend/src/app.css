@@ -2,3 +2,338 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Components */
+.backdrop {
+  @apply w-full;
+}
+
+.top-nav {
+  @apply w-full h-12 bg-surface-1 text-white-100 border-b-white-100 font-sans;
+}
+
+.left-nav {
+  @apply w-32 bg-surface-1 font-mono;
+}
+
+.left-nav-item {
+  @apply font-mono text-white-100 h-24 p-3 items-center;
+}
+
+.logo-section {
+  @apply w-32 bg-surface-1 font-mono
+}
+
+/* COMPONENTS */
+
+html, body {
+  height: 100%;
+  margin: 0; /* Important: Remove default margin */
+}
+
+
+/* NAVIGATION */
+
+main {
+  min-width: calc(100vw - 100px);
+}
+
+.backdrop {
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start;
+  width: 100%; 
+  flex-grow: 1;
+}
+
+.pscompose {
+  color: var(--copy, #FFF);
+  font-family: "Source Sans 3";
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.readme {
+  font-family: "Source Sans 3";
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.top-nav {
+  display: flex;
+  flex-direction: row;
+  height: 3rem;
+  width: 100%;
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
+  font-family: Source Sans 3, Open Sans, sans-serif;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  padding: 32px 16px;
+  background: var(--surface1-color);
+  border-bottom: 1px solid var(--copy-color);
+}
+
+.Logo {
+  height: 4rem;
+}
+
+.top-left a{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: auto;
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+}
+
+.top-right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  gap: 10px;
+}
+
+.left-nav {
+  width: 100px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
+  font-family: Source Code Pro, monospace;
+  min-height: calc(100vh - 3rem);
+}
+
+.left-nav-item {
+  height: 6rem;
+  align-items: center;
+  padding: 0.75rem;
+  font-family: Source Code Pro, monospace;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+    /* Submenu Styles */
+.parent-item {
+  position: relative;
+}
+
+.submenu-container {
+  flex: 1;
+  background-color: var(--surface2-color);
+}
+
+.submenu {
+  display: none;
+  transition: opacity 0.3s ease-in-out;
+  flex: 1;
+}
+
+.submenu.show {
+  display: flex;
+  flex-direction: column;
+  left: 100%; /* Aligns the submenu to the right side of the parent */
+  top: 0; /* Aligns the submenu to the top of the parent */
+  background-color: var(--surface2-color); /* Matches the background color of the left nav */
+  color: var(--copy-color);
+  padding: 32px 32px;
+  gap: 16px;
+  font-family: 'Source Sans 3';
+  background-color: var(--surface2-color);
+
+  width: 300px;
+}
+
+.submenu li {
+  display: flex;
+  flex-direction: row;
+  /* packets/header/4/sans */
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 140%;
+  align-items: center;
+  gap: 12px;
+}
+.submenu h1 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+
+  color: var(--success-color);
+}
+
+#page-content {
+  flex-grow: 1; /* Make the content area grow to fill available space */
+}
+
+
+/* ICONS */
+
+.lucide {
+  width: 48px; 
+  height: 48px;
+  color: var(--copy-color);
+}
+
+
+
+
+
+/* PAGES */
+.page {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 88px;
+  gap: 20px;
+}
+
+.page h2 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 110%;
+  color: var(--copy-color);
+}
+
+.page h3 {
+  color: var(--copy-color);
+  font-family: "Source Sans 3";
+  font-size: 36px;
+}
+
+.page h4 {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-size: 20px;
+  color: var(--copy-color);
+  text-align: left;
+}
+
+.page p {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 120%;
+  color: var(--copy-color);
+}
+
+/* PAGES - WIZARD */
+
+.progress-bar { 
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.progress-bar svg {
+  width: 100%;
+  height: auto;
+  margin: '0 50px 0 50px'
+}
+
+.step-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 172px 0px;
+  gap: 32px;
+  flex: 1;
+  min-height: 447px;
+  width: 80vw;
+}
+
+.step-text {
+  color: var(--copy-color);
+  font-family: "Source Sans 3";
+  font-size: 18px;
+  text-align: left;
+}
+
+.step-box {
+  display: flex;
+  background: var(--surface1-color);
+  border: 4px solid #5C5F6B;
+  border-radius: 12px;
+  width: 100%;
+  flex: 1;
+}
+
+.step-box-left {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 43px;
+  gap: 8px;
+  border-radius: 12px 0px 0px 12px;
+  flex: 0.4;
+}
+
+.step-box-right {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  gap: 16px;
+  border-radius: 0px 12px 12px 0px;
+  flex: 0.6;
+}
+
+/* TEMPLATE-SPECIFIC styling */
+
+
+/* HOST EDIT FORM */
+
+.host.edit-form .content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding: 0 88px 0 88px;
+}
+
+.host.edit-form .contentdiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+.host.edit-form text-input {
+  flex-grow: 1;
+}
+
+.host.edit-form dropdown-list {
+  flex-grow: 1;
+}
+
+.host.edit-form .save-cancel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 12px 0px;
+  gap: 10px;
+
+  width: 100%;
+  height: 64px;
+}

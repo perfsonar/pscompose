@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="/css/google-fonts-signika-and-source-sans.css"
+          rel="stylesheet"
+        />
+        <!-- psCompose -->
+        <link rel="stylesheet" href="/css/pscompose.css" />
+
+        <!-- Lucide Icon Library -->
+        <script src="/lib/lucide.min.js@0.479.0" type="text/javascript"></script>
+
+        <!-- HTMX Library -->
+        <script src="/lib/htmx.org@2.0.4"></script>
+        <script src="/lib/client-side-templates.min.js@2.0.4"></script>
+        <script src="/lib/nunjucks.min.js@3.2.4"></script>
+
+        <!-- JSON Forms Web Component Library -->
+        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta1/dist/jsonforms.esm.js' type="module"></script>
+
+        <!-- Web Components -->
+        <script src='/components/web-button.js' type="module"></script>
+        <script src='/components/text-input.js' type="module"></script>
+        <script src='/components/text-input-area.js' type="module"></script>
+        <script src='/components/dropdown-list.js' type="module"></script>
+        <script src='/components/switch.js' type="module"></script>
+        <script src='/components/checkbox.js' type="module"></script>
+
+        <script>
+            document.addEventListener('htmx:afterRequest', function(evt) {
+                lucide.createIcons();
+            });
+            // probably we'll need something like this too:
+            /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
+                outboundReq.headers.push(["my auth header"])
+            })*/
+        </script>
+    </head>
+    <body class="packets-ui" hx-ext="client-side-templates">
+        <div class="bg-surface-bg">
+            <nav hx-get="/partials/top_nav.html" hx-trigger="load">
+            </nav>
+            <div class="backdrop">
+                <nav hx-get="/partials/left_nav.html" hx-trigger="load">
+                </nav>
+                <main id='page-content'>
+
+                    <div id='router-target' class="page">
+                    </div>
+
+                </main>
+            </div>
+        </div>
+        <script>
+            window.psCompose = {
+                "activeSection": null,
+                "sections": {
+                    "addresses": {
+                        "singular": "Address",
+                        "plural": "Addresses",
+                        "page_url": "/addresses/",
+                        "page_template": "/pages/addresses/addresses.html",
+                        "list_endpoint": "/dummy_api/address_list.json",
+                        "detail_endpoint": "/dummy_api/address_${id}.json",
+                        "icon": "hard-drive-download",
+                    },
+                    "archives": {
+                        "singular": "Archive",
+                        "plural": "Archives",
+                        "page_url": "/archives/",
+                        "page_template": "/pages/archive/archives.html",
+                        "list_endpoint": "/dummy_api/archive_list.json",
+                        "detail_endpoint": "/dummy_api/archive_${id}.json",
+                        "icon": "database",
+                    },
+                    "contexts": {
+                        "singular": "Context",
+                        "plural": "Contexts",
+                        "page_url": "/contexts/",
+                        "page_template": "/pages/contexts/contexts.html",
+                        "list_endpoint": "/dummy_api/context_list.json",
+                        "detail_endpoint": "/dummy_api/context_${id}.json",
+                        "icon": "file-question",
+                    },
+                    "groups": {
+                        "singular": "Group",
+                        "plural": "Groups",
+                        "page_url": "/groups/",
+                        "page_template": "/pages/groups/groups.html",
+                        "list_endpoint": "/dummy_api/group_list.json",
+                        "detail_endpoint": "/dummy_api/group_${id}.json",
+                        "icon": "group",
+                    },
+                    "schedules": {
+                        "singular": "Schedule",
+                        "plural": "Schedules",
+                        "page_url": "/schedules/",
+                        "page_template": "/pages/schedules/schedules.html",
+                        "list_endpoint": "/dummy_api/schedule_list.json",
+                        "detail_endpoint": "/dummy_api/schedule_${id}.json",
+                        "icon": "calendar-check",
+                    },
+                    "tasks": {
+                        "singular": "Task",
+                        "plural": "Tasks",
+                        "page_url": "/tasks/",
+                        "page_template": "/pages/tasks/tasks.html",
+                        "list_endpoint": "/dummy_api/task_list.json",
+                        "detail_endpoint": "/dummy_api/task_${id}.json",
+                        "icon": "clipboard-list",
+                    },
+                    "templates": {
+                        "singular": "Template",
+                        "plural": "Templates",
+                        "page_url": "/templates/",
+                        "page_template": "/pages/templates/templates.html",
+                        "list_endpoint": "/dummy_api/template_list.json",
+                        "detail_endpoint": "/dummy_api/template_${id}.json",
+                        "icon": "locate",
+                    },
+                    "   ": {
+                        "singular": "Test",
+                        "plural": "Tests",
+                        "page_url": "/tests/",
+                        "page_template": "/pages/tests/tests.html",
+                        "list_endpoint": "/dummy_api/test_list.json",
+                        "detail_endpoint": "/dummy_api/test_${id}.json",
+                        "icon": "flask-conical",
+                    },
+                }
+            }
+            console.log(psCompose)
+            // the actual URL router
+            function urlRouter(path){
+                path = path.replace("/app", "");
+                if (path == "/"){
+                    return "/pages/index.html";
+                }
+                psCompose.activeSection = path.split("/")[1];
+                psCompose.subsection = path.split("/")[2];
+                return `${psCompose.sections[psCompose.activeSection].page_template}`;
+            }
+
+            let target = document.getElementById("router-target");
+
+            target.innerHTML = `<div
+                hx-get='${urlRouter(window.location.pathname)}'
+                hx-trigger='load'>
+            </div>`;
+        </script>
+    </body>
+    </html>
