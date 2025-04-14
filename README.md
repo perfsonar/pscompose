@@ -26,7 +26,7 @@ While we are working on the initial HTML mockups, there will be two steps requir
 
 ### Step One: Tailwind CSS build
 
-You can start it with this convenience make command:
+You can start it with this convenient make command:
 
 ```
 make css-watch
