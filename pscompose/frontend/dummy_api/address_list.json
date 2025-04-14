@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Example Address 1",
+        "address": "test.example.com",
+        "no-agent": false
+    },
+    {
+        "name": "Example Address 2",
+        "address": "test2.example.com",
+        "no-agent": true
+    },
+    {
+        "name": "Example Address 3",
+        "address": "test3.example.com",
+        "no-agent": false
+    }
+]

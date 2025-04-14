@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Shoe Lace -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+    <style>
+      .step-box {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 32px;
+        gap: 16px;
+      }
+
+      .template-url {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+        padding: 12px 0px;
+        gap: 10px;
+      }
+
+      .copy-json {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 12px 0px;
+        gap: 10px;
+      }
+
+
+    </style>
+    <link rel="stylesheet" href="../../css/pscompose.css" />
+
+    </head>
+    <script src="../nav.js"></script>
+    <script src='../../components/web-button.js' type="module"></script>
+    <script src='../../components/text-input.js' type="module"></script>
+    <script src='../../components/text-input-area.js' type="module"></script>
+    <script src='../../components/dropdown-list.js' type="module"></script>
+    <body class="packets-ui">
+        <div class="bg-surface-bg">
+            <div class="page" id="page-content">
+              <h2>Imported Template Saved!</h2>
+              <div class="step-box">
+                <text-input-area label="JSON" placeholder="Enter Json"></text-input-area>
+                        
+                <div class="copy-json">
+                  <web-button label="Copy JSON" theme="secondary" righticon='clipboard-copy'></web-button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+    </html>

@@ -32,3 +32,27 @@ TOKEN_SCOPES = {
     "publish": AUTH.get("publish_scope", "pscompose:publish"),
     "admin": AUTH.get("admin_scope", "pscompose:admin"),
 }
+
+class DataTypes:
+    TEMPLATE = "template"
+    TASK = "task"
+    SCHEDULE = "schedule"
+    ARCHIVE = "archive"
+    CONTEXT = "context"
+    GROUP = "group"
+    HOST = "host"
+    TEST = "test"
+
+PARENT_CHILD_RELATIONSHIP = {
+    # TODO : Is it hosts or addresses?
+    # "template": ["archive", "host", "group", "schedule", "test", "task", "context"],
+    "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
+    "archive": [],
+    "context": [],
+    "group": ["address"],
+    # "address": [],
+    # "host": ["address", "context"],
+    "schedule": [],
+    "task": ["group", "test", "schedule", "archive"],
+    "test": []
+}
