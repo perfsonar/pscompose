@@ -81,10 +81,20 @@
       </div>`;
     htmx.process(container);
   }
+
+  function untoggleSubmenu() {
+    let container = document.querySelector(".submenu-container");
+    container.innerHTML = `
+      <div
+        hx-get='${psCompose.sections[psCompose.activeSection].list_endpoint}'
+        hx-trigger='load'
+        hx-target="submenu-template"
+        nunjucks-array-template='.submenu-container'
+        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+      </div>`;
+    htmx.process(container);
+  }
   function renderHighlight(){
-    document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
-      elem?.classList.remove("active");
-    });
     let activeSection = psCompose.activeSection;
     let activeElement = document.querySelector(`.left-nav #${activeSection}`);
     activeElement?.classList.add("active");
@@ -93,9 +103,14 @@
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
     elem.classList.remove("active");
     elem.addEventListener("click", function(){
-      psCompose.activeSection = elem.getAttribute('data-submenu');
-      toggleSubmenu();
-      renderHighlight();
+      if (elem?.classList.contains("active")) {
+        elem?.classList.remove("active");
+        untoggleSubmenu();
+      } else {
+        psCompose.activeSection = elem.getAttribute('data-submenu');
+        toggleSubmenu();
+        renderHighlight();
+      }
     });
   })
 </script>
