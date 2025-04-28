@@ -18,7 +18,7 @@ css-watch:
 	@echo "Starting tailwind via npm to watch for CSS changes..."
 	cd pscompose/frontend && npm run css-watch
 
-.PHONY: run-mockups
-run-mockups:
+.PHONY: run-frontend
+run-frontend:
 	@echo "Starting simple HTTP server on http://localhost:8000/"
 	cd pscompose/frontend && python3 server.py

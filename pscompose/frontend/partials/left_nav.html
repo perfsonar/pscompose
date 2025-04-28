@@ -51,16 +51,16 @@
 
   <script id="submenu-template" type="nunjucks">
     <div class='submenu show'>
-      <h1>{{data.psCompose.sections[data.psCompose.activeSection].plural}}</h1>
+      <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
       <ul>
         <li>
           <i data-lucide="plus" style="width: 36px; height: 36px;"></i>
-          <a href="{{data.psCompose.sections[data.psCompose.activeSection].page_url}}">
-            New {{data.psCompose.sections[data.psCompose.activeSection].singular}}
+          <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
+            New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}
           </a>
         </li>
         {% for item in data %}
-          <li><i data-lucide="{{data.psCompose.sections[data.psCompose.activeSection].icon}}" style="width: 36px; height: 36px;"></i><a href="#">{{item.name}}</a></li>
+          <li><i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}" style="width: 36px; height: 36px;"></i><a href="#">{{item.name}}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -73,7 +73,7 @@
     let container = document.querySelector(".submenu-container");
     container.innerHTML = `
       <div
-        hx-get='${psCompose.sections[psCompose.activeSection].list_endpoint}'
+        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
         hx-trigger='load'
         hx-target='.submenu-container'
         nunjucks-array-template="submenu-template"
@@ -81,21 +81,36 @@
       </div>`;
     htmx.process(container);
   }
+
+  function untoggleSubmenu() {
+    let container = document.querySelector(".submenu-container");
+    container.innerHTML = `
+      <div
+        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+        hx-trigger='load'
+        hx-target="submenu-template"
+        nunjucks-array-template='.submenu-container'
+        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+      </div>`;
+    htmx.process(container);
+  }
   function renderHighlight(){
-    document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
-      elem?.classList.remove("active");
-    });
-    let activeSection = psCompose.activeSection;
-    let activeElement = document.querySelector(`.left-nav #${activeSection}`);
+    let activeMenuItem = psCompose.activeMenuItem;
+    let activeElement = document.querySelector(`.left-nav #${activeMenuItem}`);
     activeElement?.classList.add("active");
   }
   renderHighlight();
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
     elem.classList.remove("active");
     elem.addEventListener("click", function(){
-      psCompose.activeSection = elem.getAttribute('data-submenu');
-      toggleSubmenu();
-      renderHighlight();
+      if (elem?.classList.contains("active")) {
+        elem?.classList.remove("active");
+        untoggleSubmenu();
+      } else {
+        psCompose.activeMenuItem = elem.getAttribute('data-submenu');
+        toggleSubmenu();
+        renderHighlight();
+      }
     });
   })
 </script>
