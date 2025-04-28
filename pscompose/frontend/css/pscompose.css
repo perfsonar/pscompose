@@ -886,20 +886,27 @@ html, body {
 }
 
 /* HOST EDIT FORM */
+.host.edit-form .page{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+  gap: 20px;
+}
 
 .host.edit-form .content {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  width: 100%;
-  padding: 0 88px 0 88px;
+  width: 50vw;
 }
 
 .host.edit-form .contentdiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   gap: 24px;
 }
 
@@ -942,4 +949,127 @@ html, body {
 }
 .left-nav .active svg {
   stroke-width: 2.5px;
+}
+
+/* HOME PAGE AKA INDEX */
+.homepage {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.getting-started-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  padding: 88px;
+}
+
+.getting-started-title {
+  font-family: "Source Sans 3";
+  font-size: 36px;
+  color: var(--copy-color);
+  font-weight: 600;
+}
+
+.getting-started-p {
+  font-family: "Source Sans 3";
+  font-size: 16px;
+  color: var(--copy-color);
+  text-align: center;
+}
+.getting-started-boxes {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-family: "Source Sans 3";
+  color: var(--copy-color);
+}
+th {
+  background-color: var(--surface1-color);
+}
+.th-content {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.action-icons{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.short-cuts {
+  width: 30%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 32px 16px;
+  gap: 32px;
+  background: var(--surface1-color);
+  min-height: calc(100vh - 3rem);
+}
+
+.short-cut-title {
+  font-family: "Source Sans 3";
+  font-size: 36px;
+  color: var(--copy-color);
+}
+
+.list-box{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 16px;
+  gap: 10px;
+  width: 100%;
+  background: var(--surface2-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+.box-header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.box-name {
+  color: var(--copy-color);
+  font-family: "Source Sans 3";
+  font-size: 2px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.box-text {
+  color: var(--copy-color);
+  font-family: "Source Sans 3";
+  font-weight: 400;
+  font-size: 12px;
+}
+
+/* JSON FORM */
+json-form {
+  width: 1200px;
 }

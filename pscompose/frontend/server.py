@@ -22,9 +22,6 @@ STATIC_ROUTES = (
 
 def normalize_path(path, root):
     # normalize path and prepend root directory
-    path = path.split("?", 1)[0]
-    path = path.split("#", 1)[0]
-    path = posixpath.normpath(unquote(path))
     words = path.split("/")
     words = filter(None, words)
 
@@ -45,6 +42,9 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         # set default root to cwd
         root = os.getcwd()
 
+        path = path.split("?", 1)[0]
+        path = path.split("#", 1)[0]
+        path = posixpath.normpath(unquote(path))
         # this is an SPA app. By default, vend index.html for all routes
         output_path = os.path.join(root, "app/%s/index.html" % path)
         # unless the route is listed in STATIC_ROUTES. In that case...
