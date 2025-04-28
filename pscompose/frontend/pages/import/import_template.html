@@ -1,0 +1,18 @@
+<h2>Import Template</h2>
+<div class="step-section">
+    <p>To import template, please provide name and import via URL link or file upload.</p>
+    <div class="step-box-column">
+        <text-input label="Name" placeholder="New Template"></text-input>
+        <dropdown-list
+            placeholder="Choose Import Method"
+            label="ImportVia" 
+            options='[{"value": "option1", "label": "Upload JSON file"}, {"value": "option2", "label": "URL"}, {"value": "option2", "label": "Paste JSON"}]'>
+        </dropdown-list>
+        <text-input-area label="JSON" placeholder="Enter Json"></text-input-area>
+                
+        <div class="save-cancel">
+            <web-button link="/import/2/import_template_saved/" theme="secondary" label="Save" righticon="save" ></web-button>
+            <web-button  link="/" label="Cancel" theme="primary" righticon='x'></web-button>
+        </div>
+    </div>
+</div>
