@@ -632,6 +632,7 @@ html, body {
   justify-content: flex-start;
   width: 100%; 
   flex-grow: 1;
+  height: 100%;
 }
 
 .pscompose {
@@ -692,8 +693,8 @@ html, body {
   width: 100px;
   --tw-bg-opacity: 1;
   background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
-  font-family: Source Code Pro, monospace;
   min-height: calc(100vh - 3rem);
+  height: 100%;
 }
 
 .left-nav-item {
@@ -701,6 +702,7 @@ html, body {
   align-items: center;
   padding: 0.75rem;
   font-family: "Source Code Pro", monospace;
+  font-size: 0.8rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
   display: flex;
@@ -788,7 +790,7 @@ html, body {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  padding: 88px;
+  padding: 72px;
   gap: 20px;
 }
 
@@ -799,12 +801,14 @@ html, body {
   font-size: 64px;
   line-height: 110%;
   color: var(--copy-color);
+  text-align: center;
 }
 
 .page h3 {
   color: var(--copy-color);
   font-family: "Source Sans 3";
   font-size: 36px;
+  text-align: center;
 }
 
 .page h4 {
@@ -813,6 +817,7 @@ html, body {
   font-size: 20px;
   color: var(--copy-color);
   text-align: left;
+  text-align: center;
 }
 
 .page p {
@@ -885,6 +890,18 @@ html, body {
   flex: 0.6;
 }
 
+.step-box-column {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface1-color);
+  border: 4px solid #5C5F6B;
+  border-radius: 12px;
+  width: 100%;
+  flex: 1;
+  padding: 16px 32px;
+  gap: 16px;
+}
+
 /* HOST EDIT FORM */
 .host.edit-form .page{
   display: flex;
@@ -918,7 +935,7 @@ html, body {
   flex-grow: 1;
 }
 
-.host.edit-form .save-cancel {
+.save-cancel {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -929,6 +946,16 @@ html, body {
   width: 100%;
   height: 64px;
 }
+
+.copy-json {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 12px 0px;
+  gap: 10px;
+}
+
 #router-target {
   font-family: "Source Sans 3", "Open Sans", sans-serif;
 }
@@ -963,7 +990,6 @@ html, body {
   flex-direction: column;
   gap: 32px;
   align-items: center;
-  padding: 88px;
 }
 
 .getting-started-title {
