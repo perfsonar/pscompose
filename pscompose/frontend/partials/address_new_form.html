@@ -33,7 +33,7 @@
         <script id="example-template" type="nunjucks">
           <json-form
             form-data='{{ form_data | dump }}'
-            schema-data='{{ host_schema | dump }}'
+            schema-data='{{ json_schema | dump }}'
             layout-data='{{ ui_schema | dump }}'
           ></json-form>
         </script>
