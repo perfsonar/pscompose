@@ -20,5 +20,5 @@ css-watch:
 
 .PHONY: run-frontend
 run-frontend:
-	@echo "Starting simple HTTP server on http://localhost:8000/"
-	cd pscompose/frontend && python3 server.py
+	@echo "Starting simple HTTP server on http://localhost:5001/"
+	cd pscompose/frontend && python3 server.py --port=5001

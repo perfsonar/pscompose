@@ -1,14 +1,29 @@
 version: '3.8'
 services:
+  postgres:
+    image: postgres:14
+    container_name: perfsonar-pscompose-postgres
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   pscompose:
     container_name: perfsonar-pscompose
     image: perfsonar/testpoint:systemd
     build:
       context: .
       dockerfile: Dockerfile
-#    network_mode: "host"
+    depends_on:
+      - postgres
     restart: on-failure
     ports:
       - "8888:80"
-#    volumes:
-#       - ./pscompose:/app
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:  # Persistent storage for PostgreSQL

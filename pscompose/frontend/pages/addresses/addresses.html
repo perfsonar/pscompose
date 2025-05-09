@@ -6,7 +6,7 @@
     let url = "/partials/address_edit_form.html";
     if(psCompose.subsection == "new"){
         url = "/partials/address_new_form.html";
-    } 
+    }
     elem.setAttribute("hx-get", url);
     elem.setAttribute("hx-trigger", "load");
     let container = document.getElementById("address-form-container");

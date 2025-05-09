@@ -2,6 +2,7 @@ import os
 import posixpath
 from urllib.parse import unquote
 import http.server
+import argparse
 
 # BaseHTTPServer
 # from SimpleHTTPServer import SimpleHTTPRequestHandler
@@ -61,8 +62,12 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int, default=8000)
+    args = parser.parse_args()
+
     HOST = "127.0.0.1"
-    PORT = 8000
+    PORT = args.port
     server = http.server.HTTPServer((HOST, PORT), RequestHandler)
     print("Serving HTTP on %s:%s" % (HOST, PORT))
     try:

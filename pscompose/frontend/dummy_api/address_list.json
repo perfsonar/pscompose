@@ -1,17 +1,26 @@
 [
     {
+        "id": "2vsad2",
         "name": "Example Address 1",
-        "address": "test.example.com",
-        "no-agent": false
+        "json": {
+            "address": "test.example.com",
+            "no-agent": false
+        }
     },
     {
+        "id": "12bs12",
         "name": "Example Address 2",
-        "address": "test2.example.com",
-        "no-agent": true
+        "json": {
+            "address": "test2.example.com",
+            "no-agent": true
+        }
     },
     {
+        "id": "sn4141",
         "name": "Example Address 3",
-        "address": "test3.example.com",
-        "no-agent": false
+        "json": {
+            "address": "test3.example.com",
+            "no-agent": false
+        }
     }
 ]

@@ -337,7 +337,6 @@ class DataTableBase(BaseModel):
     ref_set: Optional[List[str]]
     type: str
     json_data: Union[
-        pSConfigSchema,  # Full schema
         AddressSpecification,
         ArchiveSpecification,
         ContextSpecification,
@@ -345,13 +344,37 @@ class DataTableBase(BaseModel):
         ScheduleSpecification,
         TaskSpecification,
         TestSpecification,
+        pSConfigSchema,  # Full schema
     ] = Field(None, alias="json")
     name: str
     created_by: str
-    created_at: datetime
+    created_at: Optional[datetime] = None
     last_edited_by: str
-    last_edited_at: datetime
-    url: str
+    last_edited_at: Optional[datetime] = None
+    url: Optional[str] = None
+
+
+class DataTableUpdate(BaseModel):
+    ref_set: Optional[List[str]] = None
+    type: Optional[str] = None
+    json_data: Optional[
+        Union[
+            AddressSpecification,
+            ArchiveSpecification,
+            ContextSpecification,
+            GroupSpecification,
+            ScheduleSpecification,
+            TaskSpecification,
+            TestSpecification,
+            pSConfigSchema,
+        ]
+    ] = Field(None, alias="json")
+    name: Optional[str] = None
+    created_by: Optional[str] = None
+    created_at: Optional[datetime] = None
+    last_edited_by: Optional[str] = None
+    last_edited_at: Optional[datetime] = None
+    url: Optional[str] = None
 
 
 pSConfigSchema.update_forward_refs()

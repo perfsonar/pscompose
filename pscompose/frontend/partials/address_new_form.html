@@ -2,49 +2,84 @@
   <div class="page">
     <h2>New Address</h2>
     <div class="content">
-      <form action="/dummy_api/address/response.json" method="POST">
-
-
-        <!--
-
-        Implementation notes for ssbaveja
-
-        POST /api/address ->
-          Create or Update Address
-          This should be exactly what's in dummy_api/address/response.json
-        GET /api/address/uuid-slug/json -> 
-          Get instance JSON data for address identified by 'uuid-slug'
-          This should be exactly what's in dummy_api/address/uuid-slug/json/response.json
-        GET /api/address/uuid-slug/form ->
-          Get instance JSON Data, plus form data identified by uuid-slug
-          This should be exactly what's in dummy_api/address/uuid-slug/form/response.json
-        GET /api/address/new/form ->
-          Get form data with empty JSON object for new address
-          This should be exactly what's in dummy_api/address/new/form/response.json
-        -->
-
-        <fieldset id="content"
-                hx-get="/dummy_api/address/new/form/response.json"
-                hx-trigger="load"
-                nunjucks-template="example-template">
+      <form id="my-form">
+        <fieldset
+          id="content"
+          hx-get="http://0.0.0.0:8000/api/address/new/form"
+          hx-trigger="load"
+          nunjucks-template="example-template">
           Loading Form...
         </fieldset>
 
         <script id="example-template" type="nunjucks">
           <json-form
+            id="my-json-form"
             form-data='{{ form_data | dump }}'
-            schema-data='{{ host_schema | dump }}'
+            schema-data='{{ json_schema | dump }}'
             layout-data='{{ ui_schema | dump }}'
           ></json-form>
         </script>
 
-
         <div class="save-cancel">
-          <web-button link="import_template_2.html" label="Delete" theme="error" righticon='trash-2'></web-button>
-          <web-button link="import_template_2.html" label="Save" theme="secondary" righticon='save'></web-button>
-          <web-button label="Cancel" theme="primary" righticon='x'></web-button>
+          <web-button
+            label="Delete"
+            theme="error"
+            righticon='trash-2'>
+          </web-button>
+
+          <web-button
+            link="import_template_2.html"
+            label="Save"
+            theme="secondary"
+            righticon='save'>
+          </web-button>
+
+          <web-button
+            label="Cancel"
+            theme="primary"
+            righticon='x'>
+          </web-button>
         </div>
       </form>
+      <!-- Response container -->
+      <div id="response-container"></div>
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById("my-form").addEventListener("submit", async function (event) {
+    event.preventDefault(); // stop default form submission
+
+    const elem = document.querySelector("json-form");
+    const form_data = JSON.parse(elem.serializeForm())
+    const { name, ...rest } = form_data; // Need to remove name from the form
+
+    // TODO : Do we need to set "url" to something here? Is url going to always remain the same?
+    const data = {
+      ref_set: [],
+      type: "address",
+      json: rest,
+      name: name,
+      created_by: "ssbaveja", // TODO : this will not be needed since it'll be parsed from user object
+      last_edited_by: "ssbaveja", // TODO : this will not be needed since it'll be parsed from user object
+    }
+
+    try {
+      const response = await fetch("http://0.0.0.0:8000/api/address", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      console.log("Success:", result);
+      document.getElementById("response-container").innerText = "Address saved successfully!";
+    } catch (error) {
+      console.error("Error:", error);
+      document.getElementById("response-container").innerText = "Something went wrong.";
+    }
+  });
+</script>

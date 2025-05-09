@@ -1,7 +1,8 @@
 ---
 
 postgres:
-  user_name: postgres
+  user_name: pscompose_user
+  password: password
   db_name: pscompose
 
 auth:
