@@ -1,4 +1,5 @@
-# pscompose
+# pSCompose
+
 A graphical interface for composing perfSONAR configurations
 
 ## API & General Development
@@ -45,8 +46,8 @@ This will update the output CSS file in `pscompose/frontend/css/pscompose.css`. 
 This will start a simple HTTP Server that just serves the files under pscompose/frontend
 
 ```
-make run-mockups
+make run-frontend
 ```
 
-You should be able to see the mockups at: `http://localhost:8000/mockups/`
+You should be able to see the frontend at: `http://localhost:5001/`
 

@@ -24,7 +24,7 @@ POSTGRES = conf.get("postgres", {})  # default to empty dict so we can set furth
 AUTH = conf.get("auth", {})
 
 POSTGRES_DB_NAME = POSTGRES.get("db_name", "pscompose")
-POSTGRES_USER_NAME = POSTGRES.get("user_name", "postgres")
+POSTGRES_USER_NAME = POSTGRES.get("user_name", "pscompose_user")
 
 TOKEN_SCOPES = {
     "read": AUTH.get("read_scope", "pscompose:read"),
@@ -40,8 +40,8 @@ class DataTypes:
     ARCHIVE = "archive"
     CONTEXT = "context"
     GROUP = "group"
-    HOST = "host"
     TEST = "test"
+    ADDRESS = "address"
 
 PARENT_CHILD_RELATIONSHIP = {
     # TODO : Is it hosts or addresses?

@@ -20,7 +20,12 @@
         <script src="/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- JSON Forms Web Component Library -->
-        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta1/dist/jsonforms.esm.js' type="module"></script>
+        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta4/dist/jsonforms.esm.js' type="module"></script>
+
+        <!-- Dynamic URL Extension (dynamic-url) for HTMX -->
+        <!-- For production -->
+        <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/FumingPower3925/htmx-dynamic-url@main/dist/dynamic-url.min.js" integrity="sha384-xzJhFGTvjMySqCy1UJ/W3aBlfKC2xvFn/cxc0+VcRaJSL3HLvWX622kBDyi0c5Ro" crossorigin="anonymous"></script>
 
         <!-- Web Components -->
         <script src='/components/web-button.js' type="module"></script>
@@ -39,6 +44,9 @@
                 outboundReq.headers.push(["my auth header"])
             })*/
         </script>
+
+        <!-- Allow AJAX requests outside the domain -->
+        <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
         <div class="bg-surface-bg">
@@ -176,9 +184,9 @@
                     "addresses": {
                         "singular": "Address",
                         "plural": "Addresses",
-                        "page_url": "/addresses/",
+                        "page_url": "/addresses",
                         "page_template": "/pages/addresses/addresses.html",
-                        "list_endpoint": "/dummy_api/address_list.json",
+                        "list_endpoint": "http://localhost:8000/api/address/",
                         "detail_endpoint": "/dummy_api/address_${id}.json",
                         "icon": "hard-drive-download",
                     },
@@ -284,19 +292,34 @@
                 if (path == "/"){
                     return "/pages/index.html";
                 }
-                psCompose.activeRoute = psCompose.router[path];
-                console.log(psCompose.activeRoute);
-                psCompose.activeMenuItem = path.split("/")[1];
-                psCompose.subsection = path.split("/")[2];
-                psCompose.pathParts = path.split("/");
+                let pathParts = path.split("/").filter(p => p); // removes empty strings
+                psCompose.activeMenuItem = pathParts[0];
+                psCompose.subsection = pathParts[1];
+                psCompose.pathParts = pathParts;
 
+                // Build base path for route lookup: e.g., "/addresses/"
+                let basePath = `/${psCompose.activeMenuItem}/`;
+                psCompose.activeRoute = psCompose.router[basePath];
                 let getParams = new URLSearchParams(searchString);
                 getParams.keys().forEach((k)=>{
-                    psCompose.activeSection[k] = getParams[k];
+                    psCompose.activeRoute[k] = getParams.get(k);
                 })
 
                 return `${psCompose.activeRoute.page_template}`;
             }
+
+            function myResolver(varName) {
+                console.log(`[Resolver] Looking for: {${varName}}`);
+                // Check if the variable exists in our state object
+                if (varName in psCompose.activeRoute) {
+                  return psCompose.activeRoute[varName]; // Return the value
+                }
+                // IMPORTANT: Return undefined for unhandled variables
+                return undefined;
+            }
+
+            // Assign the resolver function to htmx config
+            htmx.config.dynamicUrlResolver = myResolver;
 
             let target = document.getElementById("router-target");
 
