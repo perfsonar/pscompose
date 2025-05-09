@@ -754,6 +754,7 @@ html, body {
   line-height: 140%;
   align-items: center;
   gap: 12px;
+  margin-bottom: 10px;
 }
 .submenu h1 {
   font-family: 'Source Sans 3';

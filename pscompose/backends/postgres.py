@@ -1,4 +1,5 @@
 from pscompose.models import DataTable, engine
+from pscompose.schemas import DataTableUpdate
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pscompose.settings import DataTypes
 from fastapi import Depends, HTTPException
@@ -14,44 +15,55 @@ class PostgresBackend:
         DataTable.__table__.create(bind=engine, checkfirst=True)
         self.session = sessionmaker(bind=engine)()
 
-    def create_datatype(self, ref_set, type, json, name, created_by, last_edited_by):
+    def create_datatype(self, ref_set, datatype, json, name, created_by, last_edited_by):
         try:
             new_type = DataTable(
                 ref_set = ref_set,
-                type = type,
+                type = datatype,
                 json = json,
                 name = name,
                 created_by = created_by,
-                # created_at = "",
                 last_edited_by = last_edited_by,
-                # last_edited_at = ""
+                # created_at = created_at,
+                # last_edited_at = last_edited_at,
+                # url = url
             )
             self.session.add(new_type)
             self.session.commit()
-            # What to return?
             return new_type
         except Exception as e:
             self.session.rollback()
             raise HTTPException(status_code=422, detail=f"Could not create the {type}")
 
-    def update_datatype(self, res, ref_set=None, json=None, name=None, last_edited_by=None):
-        if ref_set:
-            res.ref_set = ref_set
-        if json:
-            res.json = json
-        if name:
-            res.name = name
-        if last_edited_by:
-            res.last_edited_by = last_edited_by
-        self.session.commit()
+    def update_datatype(self, existing_result, updated_data):
+        try:
+            updated_dict = updated_data.dict(exclude_unset=True, by_alias=True)
+            for field, value in updated_dict.items():
+                setattr(existing_result, field, value)
 
-        return # What to return
+            self.session.commit()
+
+            return {
+                "id": existing_result.id,
+                "type": existing_result.type,
+                "name": existing_result.name,
+                "json": existing_result.json,
+                "ref_set": existing_result.ref_set,
+                "last_edited_by": existing_result.last_edited_by,
+                "last_edited_at": existing_result.last_edited_at
+            }
+        except Exception as e:
+            self.session.rollback()
+            raise HTTPException(status_code=500, detail=f"Failed to update record: {str(e)}")
     
     def delete_datatype(self, res):
-        self.session.delete(res)
-        self.session.commit()
-
-        return # What to return
+        try:
+            self.session.delete(res)
+            self.session.commit()
+            return {"message": f"Record with {res.id} deleted successfully"}
+        except Exception as e:
+            self.session.rollback()
+            raise HTTPException(status_code=500, detail=f"Failed to delete record: {str(e)}")
     
     def find_records(self, target_id):
         """
@@ -70,29 +82,21 @@ class PostgresBackend:
             self.session.rollback()
             raise HTTPException(status_code=500, detail=f"An error occurred while querying the database: {str(e)}")
 
-    def get_results(self, type):
-        query = self.session.query(DataTable).filter_by(type=type)
+    def get_results(self, datatype):
+        query = self.session.query(DataTable).filter_by(type=datatype)
         rows = query.all()
-        return rows
+        return [row for row in rows]
     
-    def get_datatype(self, type, id):
-        query = self.session.query(DataTable).filter_by(type=type)
-        if id:
-            query = query.filter_by(id=id)
+    def get_datatype(self, datatype, item_id):
+        query = self.session.query(DataTable).filter_by(type=datatype)
+        if item_id:
+            query = query.filter_by(id=item_id)
 
         result = query.first()
         if not result:
-            raise HTTPException(status_code=422, detail="Invalid request. No results found")
+            raise HTTPException(status_code=404, detail=f"No records found for id : {id}")
         else:
             return result
-
-    def get_datatype_json(self, type, id):
-        result = self.get_datatype(type, id)
-        return result.json
-
-    def get_datatype_url(self, type, id):
-        result = self.get_datatype(type, id)
-        return result.url
 
 
 backend = PostgresBackend()
