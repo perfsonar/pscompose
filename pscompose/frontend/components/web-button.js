@@ -1,15 +1,40 @@
 export class WebButton extends HTMLElement {
-  static observedAttributes = ["link", "label", "theme", "backgroundcolor", "bordercolor", "textcolor", "lefticon", "righticon",
-                               "hxget", "hxpost", "hxput", "hxpatch", "hxdelete", "hxtrigger", "hxtarget"];
+  static observedAttributes = ["link", "label", "theme", "backgroundcolor", "bordercolor", "textcolor", "lefticon", "righticon"];
+  passthroughAttributes = {};
+  passthroughAttributeMatchers = [new RegExp(/hx-.*/), new RegExp(/data-.*/),]
+
   connectedCallback() {
+    Array.from(this.attributes).forEach((attr)=> {
+        this.passthroughAttributeMatchers.forEach((re)=>{
+            if(re.test(attr.name)){
+                this.passthroughAttributes[attr.name] = this.getAttribute(attr.name);
+                console.log("observed!", attr.name, this.getAttribute(attr.name), this.htmxAttributes);
+            }
+        })
+    })
+
+    const observer = new MutationObserver((mutationRecords) => {
+      mutationRecords.forEach(record => {
+        this.passthroughAttributeMatchers.forEach((re)=>{
+            if(re.test(record.attributeName)){
+              this.passthroughAttributes[record.attributeName] = this.getAttribute(record.attributeName)
+                console.log("observed!", record.attributeName, this.getAttribute(record.attributeName), this.htmxAttributes);
+                this.render();
+            }
+        }
+      )});
+    }).observe(this, { attributes: true });
+
     this.render();
     lucide.createIcons();
   }
+
   attributeChangedCallback(name, oldValue, newValue) {
     this[name] = newValue;
     this.render();
     lucide.createIcons();
   }
+
   render() {
     const theme = this.theme || 'primary'; // Default theme
     let backgroundColor, textColor, borderColor;
@@ -67,17 +92,17 @@ export class WebButton extends HTMLElement {
         }
       </style>
     `;
+
+    let btn = this.querySelector("button");
+    Object.keys(this.passthroughAttributes).forEach((k)=>{
+        console.log("setting", k, "to", this.passthroughAttributes[k])
+        btn.setAttribute(k, this.passthroughAttributes[k]);
+    })
+
     this.innerHTML = `
       ${buttonStyle}
       <a href="${this.link || ''}" style="text-decoration: none;">
         <button
-        ${this.hxget ? `hx-get="${this.hxget}"` : ""}
-        ${this.hxpost ? `hx-post="${this.hxpost}"` : ""}
-        ${this.hxput ? `hx-put="${this.hxput}"` : ""}
-        ${this.hxpatch ? `hx-patch="${this.hxpatch}"` : ""}
-        ${this.hxdelete ? `hx-delete="${this.hxdelete}"` : ""}
-        ${this.hxtrigger ? `hx-trigger="${this.hxtrigger}"` : ""}
-        ${this.hxtarget ? `hx-target="${this.hxtarget}"` : ""}
         style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};" >
           ${this.lefticon ? `<i style="color: ${textColor}; width: 24px;  height: 24px; " data-lucide="${this.lefticon}"></i>` : ''}
           ${this.label || ""}
@@ -87,4 +112,5 @@ export class WebButton extends HTMLElement {
     `;
   }
 }
+
 customElements.define('web-button', WebButton);
