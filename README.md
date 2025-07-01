@@ -1,22 +1,27 @@
-# pscompose
+# pSCompose
+
 A graphical interface for composing perfSONAR configurations
 
 ## API & General Development
+
 We'll be targeting a vagrant VM image. The image will have a running pScheduler instance, and will spin up a running pSCompose instance (eventually).
 
 To get the development environment running:
 
 ```
+make docker-build
 make docker
 ```
 
 from the top-level directory. You should then be able to point your browser to:
 
 ```
-[TBD]
+http://localhost:8888/docs
 ```
 
-## Frontend / HTML Mockup Development
+Another method is to run `docker compose up --build` which will rebuild the images for the services defined in docker-compose.yml that have a build section and then start the containers using those images.
+
+## Fronend / HTML Mockup Development
 
 While we are working on the initial HTML mockups, there will be two steps required to run tailwindcss to watch for changes to the HTML files. These steps should be run in separate shells.
 
@@ -41,8 +46,8 @@ This will update the output CSS file in `pscompose/frontend/css/pscompose.css`. 
 This will start a simple HTTP Server that just serves the files under pscompose/frontend
 
 ```
-make run-mockups
+make run-frontend
 ```
 
-You should be able to see the mockups at: `http://localhost:8000/mockups/`
+You should be able to see the frontend at: `http://localhost:5001/`
 

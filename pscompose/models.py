@@ -12,9 +12,20 @@ from pscompose.settings import POSTGRES_USER_NAME, POSTGRES_DB_NAME, TOKEN_SCOPE
 # Pydantic Validation Model subclasses will model input and output types from the API.
 # SQLAlchemy Storage subclasses will model data as stored in the DB.
 
-engine = create_engine(
-    "postgresql://%s@/%s" % (POSTGRES_USER_NAME, POSTGRES_DB_NAME)
-)
+DB_HOST = "localhost"  # For local development
+# DB_HOST = "postgres"  # Service name from docker-compose.yml
+DB_PORT = 5432
+DB_USER = POSTGRES_USER_NAME
+DB_NAME = POSTGRES_DB_NAME
+DB_PASSWORD = "password"  # Fetch securely in production
+
+DATABASE_URL = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+engine = create_engine(DATABASE_URL)
+
+# engine = create_engine(
+#     "postgresql+psycopg://%s@/%s" % (POSTGRES_USER_NAME, POSTGRES_DB_NAME)
+# )
 
 SQLAlchemyStorage = declarative_base()
 

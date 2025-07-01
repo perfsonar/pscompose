@@ -7,11 +7,11 @@ run_api:
 docker-build:
 	@echo "Building docker image..."
 	$(eval HASH := $(shell docker build -q .))
-	echo ${HASH}
+	@echo $(HASH)
 
 .PHONY: docker
 docker: docker-build
-	docker run -p "8080:80" -it ${HASH}
+	docker run -p "8080:80" -it $(HASH)
 
 .PHONY: css-watch
 css-watch:
@@ -20,5 +20,5 @@ css-watch:
 
 .PHONY: run-frontend
 run-frontend:
-	@echo "Starting simple HTTP server on http://localhost:8000/"
-	cd pscompose/frontend && python3 server.py
+	@echo "Starting simple HTTP server on http://localhost:5001/"
+	cd pscompose/frontend && python3 server.py --port=5001
