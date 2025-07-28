@@ -1,5 +1,5 @@
 export class WebButton extends HTMLElement {
-  static observedAttributes = ["link", "label", "theme", "backgroundcolor", "bordercolor", "textcolor", "lefticon", "righticon"];
+  static observedAttributes = ["link", "label", "theme", "backgroundcolor", "bordercolor", "textcolor", "lefticon", "righticon", "id"];
   passthroughAttributes = {};
   passthroughAttributeMatchers = [new RegExp(/hx-.*/), new RegExp(/data-.*/),]
 
@@ -69,6 +69,12 @@ export class WebButton extends HTMLElement {
         textColor = 'var(--copy-color)';
         borderColor = 'var(--error-color)';
         break;
+      case "warning":
+          // no border, yellow background, dark text
+        backgroundColor = 'var(--warning-color)';
+        textColor = 'var(--surface2-color)';
+        borderColor = 'var(--warning-color)';
+        break;
       case "custom":
         backgroundColor = this.backgroundcolor || 'var(--primary-color)';
         textColor = this.textcolor || 'white';
@@ -93,23 +99,24 @@ export class WebButton extends HTMLElement {
       </style>
     `;
 
-    let btn = this.querySelector("button");
-    Object.keys(this.passthroughAttributes).forEach((k)=>{
-        console.log("setting", k, "to", this.passthroughAttributes[k])
-        btn.setAttribute(k, this.passthroughAttributes[k]);
-    })
-
     this.innerHTML = `
       ${buttonStyle}
-      <a href="${this.link || ''}" style="text-decoration: none;">
-        <button
-        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};" >
+      ${this.link ? `<a href="${this.link}" style="text-decoration: none;">` : ''}
+        <button 
+        ${this.id ? `id="${this.id}"` : ''}
+        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};">
           ${this.lefticon ? `<i style="color: ${textColor}; width: 24px;  height: 24px; " data-lucide="${this.lefticon}"></i>` : ''}
           ${this.label || ""}
           ${this.righticon ? `<i style="color: ${textColor}; width: 24px;  height: 24px;" data-lucide="${this.righticon}"></i>` : ''}
         </button>
-      </a>
+      ${this.link ? `</a>` : ''}
     `;
+
+    let btn = this.querySelector("button");
+    Object.keys(this.passthroughAttributes).forEach((k)=>{
+        console.log("setting", k, "to", this.passthroughAttributes[k])
+        btn.setAttribute(k, this.passthroughAttributes[k]);
+    });
   }
 }
 
