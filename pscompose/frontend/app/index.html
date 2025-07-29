@@ -27,8 +27,8 @@
         <script src='/components/text-input.js' type="module"></script>
         <script src='/components/text-input-area.js' type="module"></script>
         <script src='/components/dropdown-list.js' type="module"></script>
-        <script src='/components/switch.js' type="module"></script>
         <script src='/components/checkbox.js' type="module"></script>
+        <script src='/components/progress-bar.js' type="module"></script>
 
         <script>
             document.addEventListener('htmx:afterRequest', function(evt) {
@@ -53,6 +53,8 @@
                     </div>
 
                 </main>
+                <div id='short' hx-get="/partials/recently_edited.html" hx-trigger="load">
+                </div>
             </div>
         </div>
         <script>
@@ -299,11 +301,12 @@
             }
 
             let target = document.getElementById("router-target");
-
             target.innerHTML = `<div
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'>
-            </div>`;
+            </div>`; 
+
         </script>
     </body>
+
     </html>
