@@ -1,29 +1,26 @@
-<h2>New Template</h2>
-
-<div class="progress-bar">
-  <web-button link="/wizard/5/tests/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
-  <progress-bar step="6"></progress-bar>
-  <web-button link="/wizard/7/create_template/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
-</div>
-
-<h3>Step 6) Tasks</h3>
-<div class="step-section">
-<p class="step-text">Next, create tasks from all the components you’ve created so far. (Or make sure the ones you want to use are in the list)</p>
-<div class="step-box">
-  <div class="step-box-left">
-    <h4>Existing Tasks</h4>
-    <dropdown-list
-      placeholder="Search for Task"
-      label="ImportVia" 
-      options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'>
-      </dropdown-list>
-      <web-button link="" label="New Task" theme="shadow" lefticon='clipboard-list'></web-button>
-
+<div class="wizard-page">
+  <h2>New Template</h2>
+  <div class="progress-bar">
+    <web-button link="/wizard/5/tests/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+    <progress-bar step="6"></progress-bar>
+    <web-button link="/wizard/7/create_template/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
   </div>
-  <div class="step-box-right" >
-    <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='clipboard-list'></i>                  
+  <h3>Step 6) Tasks</h3>
+  <div class="step-section">
+    <p class="step-text">Next, create tasks from all the components you’ve created so far. (Or make sure the ones you want to use are in the list)</p>
+    <div class="step-box">
+      <div class="step-box-left">
+        <h4>Existing Tasks</h4>
+        <dropdown-list
+          placeholder="Search for Task"
+          label="ImportVia" 
+          options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'>
+          </dropdown-list>
+          <web-button link="" label="New Task" theme="shadow" lefticon='clipboard-list'></web-button>
+      </div>
+      <div class="step-box-right" >
+        <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='clipboard-list'></i>                  
+      </div>
+    </div>
   </div>
-</div>
-
-</div>
 </div>

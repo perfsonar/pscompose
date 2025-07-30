@@ -1,28 +1,26 @@
-<h2>New Template</h2>
-
-<div class="progress-bar">
-  <web-button link="/wizard/1/addresses/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
-  <progress-bar step="2"></progress-bar>
-  <web-button link="/wizard/3/archives/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
-</div>
-
-<h3>Step 2) Groups</h3>
-<div class="step-section">
-<p class="step-text"> Then you need to create host groups.Make sure all your group are in the list.  If not, add them now.</p>
-<div class="step-box">
-  <div class="step-box-left">
-    <h4>Existing Groups</h4>  
-    <dropdown-list
-    placeholder="Search for Groups"
-    label="ImportVia" 
-    options='[{"value": "option1", "label": "Group A"}, {"value": "option2", "label": "Group B"}, {"value": "option2", "label": "Group C"}]'>
-    </dropdown-list>
-
-    <web-button link="" label="New Group" theme="shadow" lefticon='group'></web-button>
+<div class="wizard-page">
+  <h2>New Template</h2>
+  <div class="progress-bar">
+    <web-button link="/wizard/1/addresses/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+    <progress-bar step="2"></progress-bar>
+    <web-button link="/wizard/3/archives/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
   </div>
-  <div class="step-box-right" >
-    <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='group'></i>                  
+  <h3>Step 2) Groups</h3>
+  <div class="step-section">
+  <p class="step-text"> Then you need to create host groups.Make sure all your group are in the list.  If not, add them now.</p>
+  <div class="step-box">
+    <div class="step-box-left">
+      <h4>Existing Groups</h4>  
+      <dropdown-list
+      placeholder="Search for Groups"
+      label="ImportVia" 
+      options='[{"value": "option1", "label": "Group A"}, {"value": "option2", "label": "Group B"}, {"value": "option2", "label": "Group C"}]'>
+      </dropdown-list>
+      <web-button link="" label="New Group" theme="shadow" lefticon='group'></web-button>
+    </div>
+    <div class="step-box-right" >
+      <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='group'></i>                  
+    </div>
   </div>
-</div>
-
+  </div>
 </div>
