@@ -1,26 +1,26 @@
-<h2>New Template</h2>
-
-<div class="progress-bar">
-  <web-button link="/wizard/4/schedules/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
-  <progress-bar step="5"></progress-bar>
-  <web-button link="/wizard/6/tasks/"  label="Next" theme="tertiary" righticon="arrow-right"></web-button>
-</div>
-
-<h3>Step 5) Tests</h3>
-<div class="step-section">
-  <p class="step-text">You also need schedules for how often the tests will run.</p>
-  <div class="step-box">
-    <div class="step-box-left">
-      <h4>Existing Tests</h4>
-      <dropdown-list
-        placeholder="Search for Test"
-        label="ImportVia" 
-        options='[{"value": "option1", "label": "Test A"}, {"value": "option2", "label": "Test B"}, {"value": "option2", "label": "Test C"}]'>
-        </dropdown-list>
-        <web-button link="" label="New Test" theme="shadow" lefticon='flask-conical'></web-button>   
-    </div>
-    <div class="step-box-right" >
-      <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='flask-conical'></i>                                 
+<div class="wizard-page">
+  <h2>New Template</h2>
+  <div class="progress-bar">
+    <web-button link="/wizard/4/schedules/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+    <progress-bar step="5"></progress-bar>
+    <web-button link="/wizard/6/tasks/"  label="Next" theme="tertiary" righticon="arrow-right"></web-button>
+  </div>
+  <h3>Step 5) Tests</h3>
+  <div class="step-section">
+    <p class="step-text">You also need schedules for how often the tests will run.</p>
+    <div class="step-box">
+      <div class="step-box-left">
+        <h4>Existing Tests</h4>
+        <dropdown-list
+          placeholder="Search for Test"
+          label="ImportVia" 
+          options='[{"value": "option1", "label": "Test A"}, {"value": "option2", "label": "Test B"}, {"value": "option2", "label": "Test C"}]'>
+          </dropdown-list>
+          <web-button link="" label="New Test" theme="shadow" lefticon='flask-conical'></web-button>   
+      </div>
+      <div class="step-box-right" >
+        <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='flask-conical'></i>                                 
+      </div>
     </div>
   </div>
 </div>

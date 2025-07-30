@@ -1,26 +1,26 @@
-<h2>New Template</h2>
-
-<div class="progress-bar">
-    <web-button link="/wizard/3/archives/" label="Previous" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
-    <progress-bar step="4"></progress-bar>
-    <web-button link="/wizard/5/tests/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
-</div>
-
-<h3>Step 4) Schedules</h3>
-<div class="step-section">
-<p class="step-text">You also need schedules for how often the tests will run.</p>
-<div class="step-box">
-    <div class="step-box-left">
-    <h4>Schedule List</h4>
-    <dropdown-list
-    placeholder="Search for Schedule"
-    label="ImportVia" 
-    options='[{"value": "option1", "label": "Schedule A"}, {"value": "option2", "label": "Schedule B"}, {"value": "option2", "label": "Schedule C"}]'>
-    </dropdown-list>
-    <web-button link="" label="New Schedule" theme="shadow" lefticon='calendar-check'></web-button>
+<div class="wizard-page">
+    <h2>New Template</h2>
+    <div class="progress-bar">
+        <web-button link="/wizard/3/archives/" label="Previous" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+        <progress-bar step="4"></progress-bar>
+        <web-button link="/wizard/5/tests/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
     </div>
-    <div class="step-box-right" >
-    <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='calendar-check'></i>                   
+    <h3>Step 4) Schedules</h3>
+    <div class="step-section">
+        <p class="step-text">You also need schedules for how often the tests will run.</p>
+        <div class="step-box">
+            <div class="step-box-left">
+                <h4>Schedule List</h4>
+                <dropdown-list
+                placeholder="Search for Schedule"
+                label="ImportVia" 
+                options='[{"value": "option1", "label": "Schedule A"}, {"value": "option2", "label": "Schedule B"}, {"value": "option2", "label": "Schedule C"}]'>
+                </dropdown-list>
+                <web-button link="" label="New Schedule" theme="shadow" lefticon='calendar-check'></web-button>
+            </div>
+            <div class="step-box-right" >
+                <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='calendar-check'></i>                   
+            </div>
+        </div>
     </div>
-</div>
 </div>
