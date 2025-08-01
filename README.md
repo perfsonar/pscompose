@@ -41,7 +41,7 @@ This will update the output CSS file in `pscompose/frontend/css/pscompose.css`. 
 This will start a simple HTTP Server that just serves the files under pscompose/frontend
 
 ```
-make run-mockups
+make run-frontend
 ```
 
 You should be able to see the mockups at: `http://localhost:8000/mockups/`
