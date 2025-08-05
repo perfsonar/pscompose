@@ -76,7 +76,7 @@ nav {
 }
 
 .top-nav {
-  @apply flex flex-row h-16 w-full bg-surface_1 p-medium gap-medium text-copy border-b border-copy font-sans;
+  @apply flex flex-row h-16 w-full bg-surface_1 p-md gap-md text-copy border-b border-copy font-sans;
 }
 
 .top-left {
@@ -96,7 +96,7 @@ nav {
 }
 
 .top-right {
-  @apply flex flex-row items-center ml-auto gap-medium;
+  @apply flex flex-row items-center ml-auto gap-md;
 }
 
 .readme {
@@ -104,15 +104,15 @@ nav {
 }
 
 .left-nav {
-  @apply w-[7.5rem] h-full bg-surface_1 items-center py-medium px-xsmall;
+  @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
 
 .left-nav ul{
-  @apply flex flex-col items-center gap-medium;
+  @apply flex flex-col items-center gap-md;
 }
 
 .left-nav-item {
-  @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsmall;
+  @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm;
 }
 
 .left-nav-item p {
@@ -142,11 +142,11 @@ nav {
 }
 
 .submenu.show {
-  @apply flex flex-col py-medium px-xlarge gap-medium font-sans bg-surface_2 w-[20vw];
+  @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw];
 }
 
 .submenu h1 {
-  @apply font-sans font-bold py-medium text-[2.25rem] flex items-center text-success;
+  @apply font-sans font-bold py-md text-[2.25rem] flex items-center text-success;
 }
 
 .submenu ul {
@@ -176,11 +176,11 @@ nav {
 }
 
 .getting-started-boxes {
-  @apply flex flex-row gap-medium;
+  @apply flex flex-row gap-md;
 }
 
 .table-container {
-  @apply px-large;
+  @apply px-lg;
 }
 
 table {
@@ -188,7 +188,7 @@ table {
 }
 
 th, td {
-  @apply py-xsmall px-medium text-left border-b border-copy;
+  @apply py-md px-md text-left border-b border-copy;
 }
 
 th {
@@ -196,7 +196,7 @@ th {
 }
 
 .th-content {
-  @apply flex flex-row text-h5_sans font-sans items-center gap-xsmall;
+  @apply flex flex-row text-h5_sans font-sans items-center gap-xsm;
 }
 
 .td-content {
@@ -204,23 +204,23 @@ th {
 }
 
 .action-icons {
-  @apply flex flex-row gap-xxsmall;
+  @apply flex flex-row gap-xxsm;
 }
 
 /* SHORT CUT PANEL  */
 
 .short-cuts {
-  @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-large px-medium gap-xsmall;
+  @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-lg px-md gap-xsm;
 }
 
 /* BOX */
 
 .list-box {
-  @apply flex flex-col p-medium gap-xsmall w-full bg-surface_2 shadow-mediumInset rounded-2xl;
+  @apply flex flex-col p-md gap-xsm w-full bg-surface_2 shadow-mediumInset rounded-2xl;
 }
 
 .box-header {
-  @apply flex items-center flex-row gap-xsmall;
+  @apply flex items-center flex-row gap-xsm;
 }
 
 .box-name {
@@ -234,7 +234,7 @@ th {
 /* WIZARD  */
 
 .wizard-page {
-  @apply flex flex-col gap-large items-center;
+  @apply flex flex-col gap-lg items-center;
 }
 
 .progress-bar {
@@ -242,7 +242,7 @@ th {
 }
 
 .step-section {
-  @apply flex flex-col justify-center py-medium gap-large flex-1 min-h-[24rem] w-[50vw];
+  @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[50vw];
 }
 
 .step-text {
@@ -254,24 +254,24 @@ th {
 }
 
 .step-box-left {
-  @apply flex flex-col py-medium px-large gap-medium rounded-l-xxl flex-[0.4];
+  @apply flex flex-col py-md px-lg gap-md rounded-l-xxl flex-[0.4];
 }
 
 .step-box-right {
-  @apply flex justify-center items-center py-medium px-large gap-xsmall rounded-r-xxl flex-[0.6];
+  @apply flex justify-center items-center py-md px-lg gap-xsm rounded-r-xxl flex-[0.6];
 }
 
 .step-box-column {
-  @apply flex flex-col bg-surface_1 border-md border-shadow rounded-xl w-full flex-1 py-medium px-large gap-large;
+  @apply flex flex-col bg-surface_1 border-md border-shadow rounded-xl w-full flex-1 py-md px-lg gap-lg;
 }
 
 /* HOST EDIT FORM */
 .host.edit-form .page{
-  @apply flex flex-col justify-start items-center p-none m-none gap-medium;
+  @apply flex flex-col justify-start items-center p-none m-none gap-md;
 }
 
 .host.edit-form .content {
-  @apply flex flex-col gap-large w-[50vw];
+  @apply flex flex-col gap-lg w-[50vw];
 }
 
 .host.edit-form text-input {
@@ -313,7 +313,7 @@ th {
 }
 
 #modal > .modal-content {
-  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[600px] border-sm rounded-xl shadow-medium py-medium px-xlarge gap-xsmall bg-surface_1 border-copy;
+  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[600px] border-sm rounded-xl shadow-medium py-md px-xlg gap-xsm bg-surface_1 border-copy;
 
 	/* Animate when opening */
 	animation-name:zoomIn;
