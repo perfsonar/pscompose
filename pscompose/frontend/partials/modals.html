@@ -1,0 +1,39 @@
+<div id="modal">
+    <div class="modal-underlay"></div>
+
+    <!-- NEED TO UPDATE MODAL-CONTENT LOGIC TO BE PULLED FROM WIZARD'S TEMPLATE  -->
+    <div class="modal-content">
+        <i style="color: var(--warning-color); width: 24px;  height: 24px;" data-lucide="alert-triangle"></i>
+        <h4>Are you sure you want to save?</h4>
+        Saving changes to newy-pt1.es.net will impact the following:
+        <ul>
+            <li>Group B</li>
+            <li>Test A</li>
+            <li>Test B</li>
+            <li>Task Z</li>
+            <li>Template A</li>
+        </ul>
+        <div class="save-cancel">
+            <web-button id="modal-close-btn" label="Cancel" theme="primary"></web-button>          
+            <web-button link="/wizard/8/template/" label="Save" theme="warning"></web-button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.body.addEventListener('click', function(event) {
+    if (
+        event.target.classList.contains('modal-underlay') ||
+        event.target.id === 'modal-close-btn'
+    ) {
+        const modal = document.getElementById('modal');
+        if (modal && !modal.classList.contains('closing')) {
+            modal.classList.add('closing');
+            modal.addEventListener('animationend', function handler() {
+                modal.remove();
+                modal.removeEventListener('animationend', handler);
+            });
+        }
+    }
+});
+</script>
