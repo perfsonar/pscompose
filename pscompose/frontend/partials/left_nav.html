@@ -2,45 +2,44 @@
 
   <div class="left-nav">
   <ul>
-
     <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
-        <i data-lucide="locate" style="width: 2.3rem; height: 2.3rem;"></i>
-        Templates
+        <i data-lucide="locate" style="width: 2rem; height: 2rem;"></i>
+        <p>Templates</p>
     </li>
 
     <li class="parent-item left-nav-item" id="tasks" data-submenu="tasks">
-        <i data-lucide="clipboard-list" style="width: 2.3rem; height: 2.3rem;"></i>
-        Tasks
+        <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem;"></i>
+        <p>Tasks</p>
     </li>
 
     <li class="parent-item left-nav-item" id="contexts" data-submenu="contexts">
-        <i data-lucide="file-question" style="width: 2.3rem; height: 2.3rem;"></i>
-        Contexts
+        <i data-lucide="file-question" style="width: 2rem; height: 2rem;"></i>
+        <p>Contexts</p>
     </li>
 
     <li class="parent-item left-nav-item" id="tests" data-submenu="tests">
-        <i data-lucide="flask-conical" style="width: 2.3rem; height: 2.3rem;"></i>
-        Tests
+        <i data-lucide="flask-conical" style="width: 2rem; height: 2rem;"></i>
+        <p>Tests</p>
     </li>
 
     <li class="parent-item left-nav-item" id="archives" data-submenu="archives">
-        <i data-lucide="database" style="width: 2.3rem; height: 2.3rem;"></i>
-        Archives
+        <i data-lucide="database" style="width: 2rem; height: 2rem;"></i>
+        <p>Archives</p>
     </li>
 
     <li class="parent-item left-nav-item" id="schedules" data-submenu="schedules">
-        <i data-lucide="calendar-check" style="width: 2.3rem; height: 2.3rem;"></i>
-        Schedules
+        <i data-lucide="calendar-check" style="width: 2rem; height: 2rem;"></i>
+        <p>Schedules</p>
     </li>
 
     <li class="parent-item left-nav-item" id="groups" data-submenu="groups">
-        <i data-lucide="group" style="width: 2.3rem; height: 2.3rem;"></i>
-        Groups
+        <i data-lucide="group" style="width: 2rem; height: 2rem;"></i>
+        <p>Groups</p>
     </li>
 
     <li class="parent-item left-nav-item" id="addresses" data-submenu="addresses">
-        <i data-lucide="hard-drive-download" style="width: 2.3rem; height: 2.3rem;"></i>
-        Addresses
+        <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem;"></i>
+        <p>Addresses</p>
     </li>
 
   </ul>
@@ -56,13 +55,13 @@
         <li>
           <i data-lucide="plus"></i>
           <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
-            New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}
+            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
           </a>
         </li>
         {% for item in data %}
           <li>
             <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
-            <a href="#">{{item.name}}</a>
+            <a href="#"><h4>{{item.name}}</h4></a>
           </li>
         {% endfor %}
       </ul>
