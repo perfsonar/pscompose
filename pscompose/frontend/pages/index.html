@@ -74,11 +74,39 @@
             </div>
           </th>
         </tr>
+        <!-- 
+        {% if published_template_list %}
+          {% for item in published_template_list %}
+            <tr>
+              <td class="td-content">{{item.name}</td>
+              <td class="td-content">{{item.tasks}}</td>
+              <td class="td-content">{{item.interval}}</td>
+              <td class="td-content">{{item.host_members}}</td>
+              <td>
+                {% if item.enabled? %}
+                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
+                {% else %}
+                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--copyAlt-color)"></i>
+                {% endif %}
+              </td>
+              <td> 
+                <div class="action-icons">
+                  <i class="lucide" data-lucide="settings" style="height: 24;"></i>
+                  <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
+                </div>
+              </td>
+            </tr> 
+          {% endfor %}
+          <p> No published templates </p>
+          {% else %}
+        {% endif %}
+        -->
+        <!-- EXAMPLE PLACEHOLDER PUBLISHED TEMPLATE TABLE -->
         <tr>
-          <td>My First Template</td>
-          <td>Task A, Task B</td>
-          <td>6 hours</td>
-          <td>1 host</td>
+          <td class="td-content">My First Template</td>
+          <td class="td-content">Task A, Task B</td>
+          <td class="td-content">6 hours</td>
+          <td class="td-content">1 host</td>
           <td>
             <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
           </td>
@@ -90,10 +118,10 @@
           </td>
         </tr>
         <tr>
-          <td>My Next Template</td>
-          <td>Throughput - TCP</td>
-          <td>6 hours</td>
-          <td>1 host</td>
+          <td class="td-content">My Next Template</td>
+          <td class="td-content">Throughput - TCP</td>
+          <td class="td-content">6 hours</td>
+          <td class="td-content">1 host</td>
           <td>
             <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
           </td>
