@@ -87,7 +87,7 @@ export class WebButton extends HTMLElement {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          padding: 8px 16px;
+          padding: 0.5rem 1rem;
           border-radius: 18px;
           /* packets/button/1/sans */
           font-family: 'Source Sans 3';
@@ -105,9 +105,9 @@ export class WebButton extends HTMLElement {
         <button 
         ${this.id ? `id="${this.id}"` : ''}
         style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};">
-          ${this.lefticon ? `<i style="color: ${textColor}; width: 24px;  height: 24px; " data-lucide="${this.lefticon}"></i>` : ''}
+          ${this.lefticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem; " data-lucide="${this.lefticon}"></i>` : ''}
           ${this.label || ""}
-          ${this.righticon ? `<i style="color: ${textColor}; width: 24px;  height: 24px;" data-lucide="${this.righticon}"></i>` : ''}
+          ${this.righticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem;" data-lucide="${this.righticon}"></i>` : ''}
         </button>
       ${this.link ? `</a>` : ''}
     `;
