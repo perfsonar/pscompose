@@ -1,67 +1,140 @@
+/* CSS for JSONFORMS */
 
+:where(.packets-ui .vertical-layout) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+:where(.packets-ui .horizontal-layout) {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+}
+
+:where(.packets-ui .vertical-layout-item) {
+    display: flex;
+    width: 100%;
+}
+
+:where(.packets-ui .horizontal-layout-item) {
+    display: flex;
+    flex: 1 1 0; 
+}
 
 :where(.packets-ui .control) {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
-    width: 1fr;
+    flex: 1 1 0;
 }
 
+/* INPUT */
+
 :where(.packets-ui .control) label {
-    color: #FFFFFF;
+    color: var(--copy-color);
 
     font-family: 'Source Sans 3';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 120%;
+    line-height: 100%;
     display: flex;
     align-items: center;
 }
 
-:where(.packets-ui .control .wrapper) input {
-    background-color: #000000;
-    color: #FFFFFF;
+:where(.packets-ui .control .wrapper) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 0;
+    height: 40px;
+}
+
+:where(.packets-ui .control .wrapper) input, select, textarea {
+    background-color: var(--surface2-color);
+    color: var(--copy-color);
     box-sizing: border-box;
   
     padding: 8px 64px 8px 8px;
   
-    width: 100%;
+    flex: 1 1 0; 
     height: 40px;
   
-    border: 1px solid #C3C7D9;
+    border: 1px solid #3F424D;
     border-radius: 0px;
     font-size: 16px;
-  }
-  
-  
-:where(.packets-ui .control .wrapper) input:focus {
-    outline: none;
-    border-color: var(--success-color);
 }
 
+:where(.packets-ui .control .description) {
+    display: none;
+    color: var(--shadow-color);;
+    font-size: 16px;
+}
+  
+  
+:where(.packets-ui .control .wrapper) input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--success-color);
+    outline-offset: -1px;
+}
+
+/* SELECT */
+
+:where(.packets-ui .control .wrapper) select {
+
+}
+
+
+/* TEXTAREA */
+
+:where(.packets-ui .control .wrapper) textarea {
+
+}
+
+
+/* CHECKBOX */
+
 :where(.packets-ui .control .wrapper) input[type=checkbox] {
-    /* Checkbox */
-
     box-sizing: border-box;
-
-    /* Auto layout */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     padding: 1px;
 
     width: 24px;
     height: 24px;
+    flex: 0 0 auto;
 
-    background: #19191A;
-    border: 4px solid #C2C2C2;
-    border-radius: 16px;
+    appearance: none;
+    border: 2px solid var(--copyAlt-color);
+    border-radius: 5px;
+    background-color: transparent;
+    position: relative; /* Needed for pseudo-element positioning */
 }
 
-:where(.packets-ui .control .wrapper) input[type=checkbox]:checked{
-    accent-color: var(--success-color);
+:where(.packets-ui .control .wrapper) input[type=checkbox]:checked::after {
+    content: '\2713'; /* Unicode checkmark */
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: var(--copy-color);
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 100%;
 }
+
+/* ADDRESS FORM SPECIFIC */
+
+:where(.packets-ui .horizontal-layout-item):has(#\#\/properties\/no-agent,
+                                                #\#\/properties\/disabled) {
+    display: flex;
+    flex: 0 0 auto;
+    padding-top: 20px;
+}
+
+#\#\/properties\/no-agent, #\#\/properties\/disabled {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;    
+    align-items: center;
+}
+
   
