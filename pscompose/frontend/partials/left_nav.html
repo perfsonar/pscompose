@@ -85,17 +85,22 @@
   }
 
   function untoggleSubmenu() {
-    let container = document.querySelector(".submenu-container");
-    container.innerHTML = `
-      <div
-        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
-        hx-trigger='load'
-        hx-target="submenu-template"
-        nunjucks-array-template='.submenu-container'
-        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
-      </div>`;
-    htmx.process(container);
+      let container = document.querySelector(".submenu-container");
+      if (!psCompose.menu[psCompose.activeMenuItem]) {
+        container.innerHTML = ""; 
+        return;
+      }
+      container.innerHTML = `
+        <div
+          hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+          hx-trigger='load'
+          hx-target="submenu-template"
+          nunjucks-array-template='.submenu-container'
+          hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+        </div>`;
+      htmx.process(container);
   }
+
   function renderHighlight(){
     let activeMenuItem = psCompose.activeMenuItem;
     let activeElement = document.querySelector(`.left-nav #${activeMenuItem}`);
@@ -103,20 +108,25 @@
   }
   renderHighlight();
 
-  document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
+  document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
     elem.classList.remove("active");
-    elem.addEventListener("click", function(){
-      if (elem?.classList.contains("active")) {
-        elem?.classList.remove("active");
-        untoggleSubmenu();
+    elem.addEventListener("click", function () {
+      const clickedMenu = elem.getAttribute('data-submenu');
+      if (psCompose.activeMenuItem === clickedMenu && elem.classList.contains("active")) {
+        // If clicking the already active item, untoggle
+        elem.classList.remove("active");
         psCompose.activeMenuItem = 'None';
+        untoggleSubmenu();
         updateShortCutsVisibility();
       } else {
-        psCompose.activeMenuItem = elem.getAttribute('data-submenu');
+        // Remove active from all, set new active, and show submenu
+        document.querySelectorAll(`.left-nav .parent-item`).forEach(e => e.classList.remove("active"));
+        elem.classList.add("active");
+        psCompose.activeMenuItem = clickedMenu;
         updateShortCutsVisibility();
         toggleSubmenu();
         renderHighlight();
       }
     });
-  })
+  });
 </script>
