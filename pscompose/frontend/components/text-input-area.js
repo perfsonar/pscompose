@@ -49,7 +49,10 @@ export class TextInputArea extends HTMLElement {
             gap: 16px;
   
             width: 100%;
-            min-height: 224px;
+            max-width: 100%;
+            min-height: 15vh;
+            max-height: 35vh;
+            resize: vertical;
   
             border: 1px solid #C3C7D9;
             border-radius: 0px;

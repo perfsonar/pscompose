@@ -20,7 +20,7 @@
         <script src="/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- JSON Forms Web Component Library -->
-        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta4/dist/jsonforms.esm.js' type="module"></script>
+        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta6/dist/jsonforms.esm.js' type="module"></script>
 
         <!-- Dynamic URL Extension (dynamic-url) for HTMX -->
         <!-- For production -->
@@ -32,8 +32,9 @@
         <script src='/components/text-input.js' type="module"></script>
         <script src='/components/text-input-area.js' type="module"></script>
         <script src='/components/dropdown-list.js' type="module"></script>
-        <script src='/components/switch.js' type="module"></script>
         <script src='/components/checkbox.js' type="module"></script>
+        <script src='/components/progress-bar.js' type="module"></script>
+        <script src='/components/DummyCustomComponent.js' type="module"></script>
 
         <script>
             document.addEventListener('htmx:afterRequest', function(evt) {
@@ -49,18 +50,18 @@
         <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
-        <div class="bg-surface-bg">
-            <nav hx-get="/partials/top_nav.html" hx-trigger="load">
+        <nav hx-get="/partials/top_nav.html" hx-trigger="load">
+        </nav>
+        <div class="backdrop">
+            <nav hx-get="/partials/left_nav.html" hx-trigger="load">
             </nav>
-            <div class="backdrop">
-                <nav hx-get="/partials/left_nav.html" hx-trigger="load">
-                </nav>
-                <main id='page-content'>
+            <main id='page-content'>
 
-                    <div id='router-target' class="page">
-                    </div>
+                <div id='router-target' class="page">
+                </div>
 
-                </main>
+            </main>
+            <div id='short' hx-get="/partials/recently_edited.html" hx-trigger="load">
             </div>
         </div>
         <script>
@@ -322,11 +323,12 @@
             htmx.config.dynamicUrlResolver = myResolver;
 
             let target = document.getElementById("router-target");
-
             target.innerHTML = `<div
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'>
-            </div>`;
+            </div>`; 
+
         </script>
     </body>
+
     </html>

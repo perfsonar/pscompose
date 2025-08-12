@@ -2,338 +2,357 @@
 @tailwind components;
 @tailwind utilities;
 
+/* COLOR -  FOR WEBCOMPONENTS */
 
-/* Components */
-.backdrop {
-  @apply w-full;
+:root {
+  --background-color: #252526;
+  --copy-color: #ffffff;
+  --copyAlt-color: #C2C2C2;
+  --surface1-color: #19191A;
+  --surface2-color: #000000;
+  --error-color: #A6111B;
+  --success-color: #31B63F;
+  --shadow-color: #5C5F6B;
+  --warning-color: #E6C500;
 }
 
-.top-nav {
-  @apply w-full h-12 bg-surface-1 text-white-100 border-b-white-100 font-sans;
+/* TYPOGRAPHY - SANS */
+
+p {
+  @apply text-copy_1_sans font-sans;
 }
 
-.left-nav {
-  @apply w-32 bg-surface-1 font-mono;
+h1 {
+  @apply text-h1_sans font-sans text-center;
 }
 
-.left-nav-item {
-  @apply font-mono text-white-100 h-24 p-3 items-center;
+h2 {
+  @apply text-h2_sans font-sans font-semibold text-center ;
 }
 
-.logo-section {
-  @apply w-32 bg-surface-1 font-mono
+h3 {
+  @apply text-h3_sans font-sans font-semibold text-center ;
 }
 
-/* COMPONENTS */
+h4 {
+  @apply text-h4_sans font-sans;
+}
+
+h5 {
+  @apply text-h5_sans font-sans;
+}
+
+h6 {
+  @apply text-h6_sans font-sans;
+}
+
+/* PAGE SETUP */
 
 html, body {
-  height: 100%;
-  margin: 0; /* Important: Remove default margin */
+  @apply flex min-h-full m-none text-copy;
+  font-size: 16px;
 }
 
+.packets-ui {
+  @apply flex flex-col bg-background min-h-full flex-grow;
+}
 
-/* NAVIGATION */
-
-main {
-  min-width: calc(100vw - 100px);
+.page {
+  @apply flex justify-start items-center flex-col py-8 px-[5.5rem] gap-5;
 }
 
 .backdrop {
-  display: flex;
-  flex-direction: row; 
-  justify-content: flex-start;
-  width: 100%; 
-  flex-grow: 1;
-}
-
-.pscompose {
-  color: var(--copy, #FFF);
-  font-family: "Source Sans 3";
-  font-size: 36px;
-  font-weight: 700;
-}
-
-.readme {
-  font-family: "Source Sans 3";
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.top-nav {
-  display: flex;
-  flex-direction: row;
-  height: 3rem;
-  width: 100%;
-  --tw-border-opacity: 1;
-  border-bottom-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
-  font-family: Source Sans 3, Open Sans, sans-serif;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-  padding: 32px 16px;
-  background: var(--surface1-color);
-  border-bottom: 1px solid var(--copy-color);
-}
-
-.Logo {
-  height: 4rem;
-}
-
-.top-left a{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: auto;
-}
-
-.top-left {
-  display: flex;
-  align-items: center;
-}
-
-.top-right{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: auto;
-  gap: 10px;
-}
-
-.left-nav {
-  width: 100px;
-  --tw-bg-opacity: 1;
-  background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
-  font-family: Source Code Pro, monospace;
-  min-height: calc(100vh - 3rem);
-}
-
-.left-nav-item {
-  height: 6rem;
-  align-items: center;
-  padding: 0.75rem;
-  font-family: Source Code Pro, monospace;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-}
-
-    /* Submenu Styles */
-.parent-item {
-  position: relative;
-}
-
-.submenu-container {
-  flex: 1;
-  background-color: var(--surface2-color);
-}
-
-.submenu {
-  display: none;
-  transition: opacity 0.3s ease-in-out;
-  flex: 1;
-}
-
-.submenu.show {
-  display: flex;
-  flex-direction: column;
-  left: 100%; /* Aligns the submenu to the right side of the parent */
-  top: 0; /* Aligns the submenu to the top of the parent */
-  background-color: var(--surface2-color); /* Matches the background color of the left nav */
-  color: var(--copy-color);
-  padding: 32px 32px;
-  gap: 16px;
-  font-family: 'Source Sans 3';
-  background-color: var(--surface2-color);
-
-  width: 300px;
-}
-
-.submenu li {
-  display: flex;
-  flex-direction: row;
-  /* packets/header/4/sans */
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 140%;
-  align-items: center;
-  gap: 12px;
-}
-.submenu h1 {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 36px;
-  line-height: 130%;
-  display: flex;
-  align-items: center;
-
-  color: var(--success-color);
+  @apply flex flex-row justify-start w-full flex-grow;
 }
 
 #page-content {
-  flex-grow: 1; /* Make the content area grow to fill available space */
+  @apply flex-grow;
 }
 
+/* NAVIGATIONs */
 
-/* ICONS */
-
-.lucide {
-  width: 48px; 
-  height: 48px;
-  color: var(--copy-color);
+nav {
+  @apply flex;
 }
 
-
-
-
-
-/* PAGES */
-.page {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  padding: 88px;
-  gap: 20px;
+.top-nav {
+  @apply flex flex-row h-16 w-full bg-surface_1 p-md gap-md text-copy border-b border-copy font-sans;
 }
 
-.page h2 {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 64px;
-  line-height: 110%;
-  color: var(--copy-color);
+.top-left {
+  @apply flex items-center;
 }
 
-.page h3 {
-  color: var(--copy-color);
-  font-family: "Source Sans 3";
-  font-size: 36px;
+.top-left a{
+  @apply flex flex-row items-center mr-auto;
 }
 
-.page h4 {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-size: 20px;
-  color: var(--copy-color);
-  text-align: left;
+.pscompose {
+  @apply text-copy font-sans text-[2.25rem] font-bold leading-[2.925rem] not-italic;
 }
 
-.page p {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 120%;
-  color: var(--copy-color);
+.Logo {
+  @apply h-16;
 }
 
-/* PAGES - WIZARD */
-
-.progress-bar { 
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
+.top-right {
+  @apply flex flex-row items-center ml-auto gap-md;
 }
 
-.progress-bar svg {
-  width: 100%;
-  height: auto;
-  margin: '0 50px 0 50px'
+.readme {
+  @apply font-mono text-h4_mono
+}
+
+.left-nav {
+  @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
+}
+
+.left-nav ul{
+  @apply flex flex-col items-center gap-md;
+}
+
+.left-nav-item {
+  @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm;
+}
+
+.left-nav-item p {
+  @apply text-h6_mono font-mono;
+}
+
+.left-nav .active { 
+  @apply text-success;
+}
+
+.left-nav .active svg{ 
+  @apply text-success;
+}
+
+/* SUB NAVIGATION */
+
+.parent-item {
+  @apply relative;
+}
+
+.submenu-container {
+  @apply flex-1 bg-surface_2;
+}
+
+.submenu {
+ @apply hidden transition-opacity duration-300 ease-in-out flex-1;
+}
+
+.submenu.show {
+  @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw];
+}
+
+.submenu h1 {
+  @apply font-sans font-bold py-md text-[2.25rem] flex items-center text-success;
+}
+
+.submenu ul {
+  @apply flex flex-col gap-4;
+}
+
+.submenu li {
+  @apply flex flex-row items-center gap-4 font-sans not-italic font-normal text-[1.1rem];
+}
+
+.submenu svg {
+  @apply w-[1.2rem] h-[1.2rem];
+}
+
+/* HOME PAGE / INDEX */
+
+.homepage {
+  @apply flex flex-row justify-start;
+}
+
+.getting-started-container {
+   @apply flex flex-col flex-1 gap-8 items-center;
+}
+
+.getting-started-p {
+  @apply text-center;
+}
+
+.getting-started-boxes {
+  @apply flex flex-row gap-md;
+}
+
+.table-container {
+  @apply px-lg;
+}
+
+table {
+  @apply table-fixed w-full border-collapse;
+}
+
+th, td {
+  @apply py-md px-md text-left border-b border-copy;
+}
+
+th {
+  @apply bg-surface_1;
+}
+
+.th-content {
+  @apply flex flex-row text-h5_sans font-sans items-center gap-xsm;
+}
+
+.td-content {
+  @apply text-copyAlt text-h6_sans font-sans
+}
+
+.action-icons {
+  @apply flex flex-row gap-xxsm;
+}
+
+/* SHORT CUT PANEL  */
+
+.short-cuts {
+  @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-lg px-md gap-xsm;
+}
+
+/* BOX */
+
+.list-box {
+  @apply flex flex-col p-md gap-xsm w-full bg-surface_2 shadow-mediumInset rounded-2xl;
+}
+
+.box-header {
+  @apply flex items-center flex-row gap-xsm;
+}
+
+.box-name {
+  @apply flex-grow;
+}
+
+.box-text {
+  @apply font-[0.8rem];
+}
+
+/* WIZARD  */
+
+.wizard-page {
+  @apply flex flex-col gap-lg items-center;
+}
+
+.progress-bar {
+  @apply flex flex-row w-full justify-center;
 }
 
 .step-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 16px 172px 0px;
-  gap: 32px;
-  flex: 1;
-  min-height: 447px;
-  width: 80vw;
+  @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[50vw];
 }
 
 .step-text {
-  color: var(--copy-color);
-  font-family: "Source Sans 3";
-  font-size: 18px;
-  text-align: left;
+  @apply text-copy_2_sans;
 }
 
 .step-box {
-  display: flex;
-  background: var(--surface1-color);
-  border: 4px solid #5C5F6B;
-  border-radius: 12px;
-  width: 100%;
-  flex: 1;
+  @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1;
 }
 
 .step-box-left {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 43px;
-  gap: 8px;
-  border-radius: 12px 0px 0px 12px;
-  flex: 0.4;
+  @apply flex flex-col py-md px-lg gap-md rounded-l-xxl flex-[0.4];
 }
 
 .step-box-right {
-  display: flex; 
-  justify-content: center;
-  align-items: center;
-  padding: 16px 32px;
-  gap: 16px;
-  border-radius: 0px 12px 12px 0px;
-  flex: 0.6;
+  @apply flex justify-center items-center py-md px-lg gap-xsm rounded-r-xxl flex-[0.6];
 }
 
-/* TEMPLATE-SPECIFIC styling */
-
+.step-box-column {
+  @apply flex flex-col bg-surface_1 border-md border-shadow rounded-xl w-full flex-1 py-md px-lg gap-lg;
+}
 
 /* HOST EDIT FORM */
-
-.host.edit-form .content {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 100%;
-  padding: 0 88px 0 88px;
+.host.edit-form .page{
+  @apply flex flex-col justify-start items-center p-none m-none gap-md;
 }
 
-.host.edit-form .contentdiv {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 24px;
+.host.edit-form .content {
+  @apply flex flex-col gap-lg w-[50vw];
 }
 
 .host.edit-form text-input {
-  flex-grow: 1;
+  @apply flex-grow;
 }
 
 .host.edit-form dropdown-list {
-  flex-grow: 1;
+  @apply flex-grow;
 }
 
-.host.edit-form .save-cancel {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 12px 0px;
-  gap: 10px;
-
-  width: 100%;
-  height: 64px;
+.save-cancel {
+  @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9
 }
+
+.copy-json {
+  @apply flex flex-row justify-start items-start py-3 gap-[10px];
+}
+
+/* MODAL HTMX (from HTMX Modal Example) */ 
+#modal {
+	/* Underlay covers entire screen. */
+  @apply fixed inset-0 z-[1000] flex flex-col items-center bg-surface_2 bg-opacity-50;
+
+	/* Animate when opening */
+	animation-name: fadeIn;
+	animation-duration:150ms;
+	animation-timing-function: ease;
+}
+
+#modal > .modal-underlay {
+	/* underlay takes up the entire viewport. This is only
+	required if you want to click to dismiss the popup */
+	position: absolute;
+	z-index: -1;
+	top:0px;
+	bottom:0px;
+	left: 0px;
+	right: 0px;
+}
+
+#modal > .modal-content {
+  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[600px] border-sm rounded-xl shadow-medium py-md px-xlg gap-xsm bg-surface_1 border-copy;
+
+	/* Animate when opening */
+	animation-name:zoomIn;
+	animation-duration:150ms;
+	animation-timing-function: ease;
+}
+
+
+#modal.closing {
+	/* Animate when closing */
+	animation-name: fadeOut;
+	animation-duration:150ms;
+	animation-timing-function: ease;
+}
+
+#modal.closing > .modal-content {
+	/* Animate when closing */
+	animation-name: zoomOut;
+	animation-duration:150ms;
+	animation-timing-function: ease;
+}
+
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes fadeOut {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+@keyframes zoomIn {
+	0% {transform: scale(0.9);}
+	100% {transform: scale(1);}
+}
+
+@keyframes zoomOut {
+	0% {transform: scale(1);}
+	100% {transform: scale(0.9);}
+}
+
