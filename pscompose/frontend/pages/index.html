@@ -1,149 +1,138 @@
 <div class="homepage" >
-    <div class="getting-started-container">
-      <h3 class="getting-started-title">Welcome to pSCompose!</h3>
-      <p class="getting-started-p">
-        Are you starting a template from scratch?  Start by entering hosts.
-        <br/>
-        Do you need to import an existing template?
-      </p>
-      <div class="getting-started-boxes">
-        <div class="list-box">
-          <div class="box-header">
-            <i class="lucide" style="color: var(--copy-color)" data-lucide="locate"></i>                  
-            <p class="box-name">Import Template</p>
-            <web-button link="/import/1/import_template/" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
-          </div>
-          <p class="box-text">
-            Import an existing template json by uploading the file or copying and pasting the json directly.
-            <br/>
-            You can make edits as needed once imported
-          </p>
+  <div class="getting-started-container">
+    <h1 class="getting-started-title">Getting Started</h1>
+    <p class="getting-started-p">
+      Welcome to pSCompose!
+      <br/>
+      Are you starting a template from scratch?  Start by entering hosts.
+      <br/>
+      Do you need to import an existing template?
+    </p>
+    <div class="getting-started-boxes">
+      <div class="list-box">
+        <div class="box-header">
+          <i class="lucide" style="color: var(--copy-color)" data-lucide="locate"></i>                  
+          <h4 class="box-name">Import Template</h4>
+          <web-button link="/import/1/import_template/" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
         </div>
-        <div class="list-box">
-          <div class="box-header">
-            <i class="lucide" data-lucide="plus"></i>          
-            <p class="box-name">Create New Template</p>
-            <web-button link="wizard/1/addresses/" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
-          </div>
-          <p class="box-text">
-            This will walk you through creating a new template from scratch
-          </p>
-        </div>
+        <p class="box-text">
+          Import an existing template json by uploading the file or copying and pasting the json directly.
+          <br/>
+          You can make edits as needed once imported
+        </p>
       </div>
+      <div class="list-box">
+        <div class="box-header">
+          <i class="lucide" data-lucide="plus"></i>          
+          <h4 class="box-name">Create New Template</h4>
+          <web-button link="wizard/1/addresses/" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
+        </div>
+        <p class="box-text">
+          This will walk you through creating a new template from scratch
+        </p>
+      </div>
+    </div>
 
     <h3 class="getting-started-title">Published Templates</h3>
     <div class="table-container">
-    <table>
-      <tr>
-        <th> 
-          <div class="th-content">
-            <i class="lucide" data-lucide="locate" style="height: 36"></i> 
-            Name
-          </div>
-        </th>
-        <th>
-          <div class="th-content">
-            <i class="lucide" data-lucide="clipboard-list" style="height: 36"></i>                  
-            Tasks
-          </div>
-        </th>
-        <th>
-          <div class="th-content">
-            <i class="lucide" data-lucide="timer-reset" style="height: 36"></i>               
-            Interval
-          </div>
-        </th>
-        <th>
-          <div class="th-content">
-            <i class="lucide" data-lucide="hard-drive-download" style="height: 36"></i>                
-            Test Members
-          </div>
-        </th>
-        <th>
-          <div class="th-content">
-            <i class="lucide" data-lucide="check-circle-2" style="height: 36"></i>              
-            Enabled
-          </div>
-        </th>
-        <th>
-          <div class="th-content">
-            <i class="lucide" data-lucide="file-edit" style="height: 36"></i>            
-            Actions
-          </div>
-        </th>
-      </tr>
-      <tr>
-        <td>My First Template</td>
-        <td>Task A, Task B</td>
-        <td>6 hours</td>
-        <td>1 host</td>
-        <td>
-          <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
-        </td>
-        <td> 
-          <div class="action-icons">
-            <i class="lucide" data-lucide="settings" style="height: 24;"></i>
-            <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>My Next Template</td>
-        <td>Throughput - TCP</td>
-        <td>6 hours</td>
-        <td>1 host</td>
-        <td>
-          <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
-        </td>
-        <td> 
-          <div class="action-icons">
-            <i class="lucide" data-lucide="settings" style="height: 24;"></i>
-            <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
-          </div>
-        </td>
-      </tr>
-      
-    </table>
+      <table>
+        <tr>
+          <th> 
+            <div class="th-content">
+              <i class="lucide" data-lucide="locate" style="height: 36"></i> 
+              Name
+            </div>
+          </th>
+          <th>
+            <div class="th-content">
+              <i class="lucide" data-lucide="clipboard-list" style="height: 36"></i>                  
+              Tasks
+            </div>
+          </th>
+          <th>
+            <div class="th-content">
+              <i class="lucide" data-lucide="timer-reset" style="height: 36"></i>               
+              Interval
+            </div>
+          </th>
+          <th>
+            <div class="th-content">
+              <i class="lucide" data-lucide="hard-drive-download" style="height: 36"></i>                
+              Test Members
+            </div>
+          </th>
+          <th>
+            <div class="th-content">
+              <i class="lucide" data-lucide="check-circle-2" style="height: 36"></i>              
+              Enabled
+            </div>
+          </th>
+          <th>
+            <div class="th-content">
+              <i class="lucide" data-lucide="file-edit" style="height: 36"></i>            
+              Actions
+            </div>
+          </th>
+        </tr>
+        <!-- 
+        {% if published_template_list %}
+          {% for item in published_template_list %}
+            <tr>
+              <td class="td-content">{{item.name}</td>
+              <td class="td-content">{{item.tasks}}</td>
+              <td class="td-content">{{item.interval}}</td>
+              <td class="td-content">{{item.host_members}}</td>
+              <td>
+                {% if item.enabled? %}
+                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
+                {% else %}
+                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--copyAlt-color)"></i>
+                {% endif %}
+              </td>
+              <td> 
+                <div class="action-icons">
+                  <i class="lucide" data-lucide="settings" style="height: 24;"></i>
+                  <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
+                </div>
+              </td>
+            </tr> 
+          {% endfor %}
+          <p> No published templates </p>
+          {% else %}
+        {% endif %}
+        -->
+        <!-- EXAMPLE PLACEHOLDER PUBLISHED TEMPLATE TABLE -->
+        <tr>
+          <td class="td-content">My First Template</td>
+          <td class="td-content">Task A, Task B</td>
+          <td class="td-content">6 hours</td>
+          <td class="td-content">1 host</td>
+          <td>
+            <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
+          </td>
+          <td> 
+            <div class="action-icons">
+              <i class="lucide" data-lucide="settings" style="height: 24;"></i>
+              <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-content">My Next Template</td>
+          <td class="td-content">Throughput - TCP</td>
+          <td class="td-content">6 hours</td>
+          <td class="td-content">1 host</td>
+          <td>
+            <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
+          </td>
+          <td> 
+            <div class="action-icons">
+              <i class="lucide" data-lucide="settings" style="height: 24;"></i>
+              <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
-
-    </div>
-
-    <!-- <div class="short-cuts">
-      <h3 class="short-cut-title">Recently Edited</h3>
-      <div class="list-box">
-        <div class="box-header">
-          <i class="lucide" data-lucide="locate" style="height: 32;"></i>           
-          <p class="box-name">Test Template</p>
-        </div>
-        <p class="box-text">September 7, 2024 08:50</p>
-      </div>
-
-      <div class="list-box">
-        <div class="box-header">
-          <i class="lucide" data-lucide="group" style="height: 32;"></i>                          
-          <p class="box-name">ESnet Test Group</p>
-        </div>
-        <p class="box-text">September 6, 2024 09:15</p>
-      </div>
-
-      <div class="list-box">
-        <div class="box-header">
-          <i class="lucide" data-lucide="locate" style="height: 32;"></i>                 
-          <p class="box-name">Andy’s Template</p>
-        </div>
-        <p class="box-text">September 6, 2024 00:23</p>
-      </div>-
-
-      <h3 class="short-cut-title">Favorites</h3>
-
-
-      <div class="list-box">
-        <div class="box-header">
-          <i class="lucide" data-lucide="flask-conical" style="height: 32;"></i>               
-          <p class="box-name">My Favorite Test</p>
-        </div>
-        <p class="box-text">September 6, 2024 00:23</p>
-      </div>
-
-    </div> -->
   </div>
+</div>

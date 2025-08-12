@@ -2,45 +2,44 @@
 
   <div class="left-nav">
   <ul>
-
     <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
-        <i data-lucide="locate" style="width: 48px; height: 48px;"></i>
-        Templates
+        <i data-lucide="locate" style="width: 2rem; height: 2rem;"></i>
+        <p>Templates</p>
     </li>
 
     <li class="parent-item left-nav-item" id="tasks" data-submenu="tasks">
-        <i data-lucide="clipboard-list" style="width: 48px; height: 48px;"></i>
-        Tasks
+        <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem;"></i>
+        <p>Tasks</p>
     </li>
 
     <li class="parent-item left-nav-item" id="contexts" data-submenu="contexts">
-        <i data-lucide="file-question" style="width: 48px; height: 48px;"></i>
-        Contexts
+        <i data-lucide="file-question" style="width: 2rem; height: 2rem;"></i>
+        <p>Contexts</p>
     </li>
 
     <li class="parent-item left-nav-item" id="tests" data-submenu="tests">
-        <i data-lucide="flask-conical" style="width: 48px; height: 48px;"></i>
-        Tests
+        <i data-lucide="flask-conical" style="width: 2rem; height: 2rem;"></i>
+        <p>Tests</p>
     </li>
 
     <li class="parent-item left-nav-item" id="archives" data-submenu="archives">
-        <i data-lucide="database" style="width: 48px; height: 48px;"></i>
-        Archives
+        <i data-lucide="database" style="width: 2rem; height: 2rem;"></i>
+        <p>Archives</p>
     </li>
 
     <li class="parent-item left-nav-item" id="schedules" data-submenu="schedules">
-        <i data-lucide="calendar-check" style="width: 48px; height: 48px;"></i>
-        Schedules
+        <i data-lucide="calendar-check" style="width: 2rem; height: 2rem;"></i>
+        <p>Schedules</p>
     </li>
 
     <li class="parent-item left-nav-item" id="groups" data-submenu="groups">
-        <i data-lucide="group" style="width: 48px; height: 48px;"></i>
-        Groups
+        <i data-lucide="group" style="width: 2rem; height: 2rem;"></i>
+        <p>Groups</p>
     </li>
 
     <li class="parent-item left-nav-item" id="addresses" data-submenu="addresses">
-        <i data-lucide="hard-drive-download" style="width: 48px; height: 48px;"></i>
-        Addresses
+        <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem;"></i>
+        <p>Addresses</p>
     </li>
 
   </ul>
@@ -54,15 +53,19 @@
       <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
       <ul>
         <li>
-          <i data-lucide="plus" style="width: 36px; height: 36px;"></i>
+          <i data-lucide="plus"></i>
           <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '/new'}}">
-            New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}
+            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
           </a>
+          <!-- <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
+            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
+          </a> -->
         </li>
         {% for item in data %}
           <li>
-            <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}" style="width: 36px; height: 36px;"></i>
-            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">{{item.name}}</a>
+            <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
+            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}"><h4>{{item.name}}</h4></a>
+            <!-- <a href="#"><h4>{{item.name}}</h4></a> -->
           </li>
         {% endfor %}
       </ul>
@@ -105,14 +108,18 @@
   }
 
   renderHighlight();
+
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
     elem.classList.remove("active");
     elem.addEventListener("click", function(){
       if (elem?.classList.contains("active")) {
         elem?.classList.remove("active");
         untoggleSubmenu();
+        psCompose.activeMenuItem = 'None';
+        updateShortCutsVisibility();
       } else {
         psCompose.activeMenuItem = elem.getAttribute('data-submenu');
+        updateShortCutsVisibility();
         toggleSubmenu();
         renderHighlight();
       }
