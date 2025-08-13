@@ -142,7 +142,7 @@ nav {
 }
 
 .submenu.show {
-  @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw];
+  @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px];
 }
 
 .submenu h1 {
@@ -154,11 +154,11 @@ nav {
 }
 
 .submenu li {
-  @apply flex flex-row items-center gap-4 font-sans not-italic font-normal text-[1.1rem];
+  @apply flex flex-row items-start gap-4;
 }
 
 .submenu svg {
-  @apply w-[1.2rem] h-[1.2rem];
+  @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xsm;
 }
 
 /* HOME PAGE / INDEX */
