@@ -1,11 +1,11 @@
 <div class="host edit-form">
   <div class="page">
-    <h2>New Address</h2>
+    <h2>New Group</h2>
     <div class="content">
       <form id="my-form">
         <fieldset
           id="content"
-          hx-get="http://0.0.0.0:8000/api/address/new/form"
+          hx-get="http://0.0.0.0:8000/api/group/new/form"
           hx-trigger="load"
           nunjucks-template="example-template">
           Loading Form...
@@ -46,7 +46,7 @@
     // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
     const data = {
       ref_set: [],
-      type: "address",
+      type: "group",
       json: rest,
       name: name,
       created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
@@ -54,18 +54,19 @@
     }
 
     try {
-      const response = await fetch("http://0.0.0.0:8000/api/address", {
+      // TODO: This URL should be updated
+      const response = await fetch("http://0.0.0.0:8000/api/group", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
       });
-
-      // TODO: Check if this works as expected
+      
       if (response.ok) {
         const result = await response.json();
-        document.getElementById("response-container").innerText = "Address saved successfully!";
+        console.log("Success:", result);
+        document.getElementById("response-container").innerText = "New group saved successfully!";
       } else {
         // Try to parse error message from response
         let errorMsg = "Something went wrong.";

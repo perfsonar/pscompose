@@ -309,7 +309,7 @@ class AddressSpecification(BaseModel):
     no_agent: Optional[bool] = Field(None, alias='no-agent')
     field_meta: Optional[AnyJSON] = Field(None, alias='_meta')
 
-# TODO : I think it shouldn't be Dict[constr(regex=....), ]
+# TODO: I think it shouldn't be Dict[constr(regex=....), ]
 # because the key in the dict is going to be the uuid. So, it should be Dict[str, ...]?
 # This will be useful only for templates and when retrieving the json, it'll be generated in the API endpoint
 class pSConfigSchema(BaseModel):

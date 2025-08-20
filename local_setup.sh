@@ -33,7 +33,7 @@ createuser -s postgres
 
 # Create the user if it doesn't exist
 echo "Creating pscompose_user..."
-# TODO : CHECK this line?
+# TODO: CHECK this line?
 psql -U postgres -c "DO \$\$ BEGIN CREATE ROLE pscompose_user WITH LOGIN PASSWORD 'password'; EXCEPTION WHEN duplicate_object THEN null; END \$\$;"
 
 # Create the database if it doesn't already exist

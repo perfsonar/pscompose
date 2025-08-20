@@ -54,18 +54,26 @@
       <ul>
         <li>
           <i data-lucide="plus"></i>
-          <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '/new'}}">
-            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
-          </a>
-          <!-- <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
-            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
-          </a> -->
+          {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' %}
+            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
+              <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
+            </a>
+          {% else %}
+            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
+              <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
+            </a>
+          {% endif %}
         </li>
         {% for item in data %}
           <li>
             <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
-            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}"><h4>{{item.name}}</h4></a>
-            <!-- <a href="#"><h4>{{item.name}}</h4></a> -->
+            {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/'%}
+              <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
+                <h4>{{item.name}}</h4>
+              </a>
+            {% else %}
+              <a href="#"><h4>{{item.name}}</h4></a>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
@@ -90,6 +98,10 @@
 
   function untoggleSubmenu() {
     let container = document.querySelector(".submenu-container");
+    if (!psCompose.menu[psCompose.activeMenuItem]) {
+      container.innerHTML = ""; // Clear submenu if nothing is active
+      return;
+    }
     container.innerHTML = `
       <div
         hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
@@ -109,20 +121,25 @@
 
   renderHighlight();
 
-  document.querySelectorAll(`.left-nav .parent-item`).forEach((elem)=>{
+  document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
     elem.classList.remove("active");
-    elem.addEventListener("click", function(){
-      if (elem?.classList.contains("active")) {
-        elem?.classList.remove("active");
-        untoggleSubmenu();
+    elem.addEventListener("click", function () {
+      const clickedMenu = elem.getAttribute('data-submenu');
+      if (psCompose.activeMenuItem === clickedMenu && elem.classList.contains("active")) {
+        // If clicking the already active item, untoggle
+        elem.classList.remove("active");
         psCompose.activeMenuItem = 'None';
+        untoggleSubmenu();
         updateShortCutsVisibility();
       } else {
-        psCompose.activeMenuItem = elem.getAttribute('data-submenu');
+        // Remove active from all, set new active, and show submenu
+        document.querySelectorAll(`.left-nav .parent-item`).forEach(e => e.classList.remove("active"));
+        elem.classList.add("active");
+        psCompose.activeMenuItem = clickedMenu;
         updateShortCutsVisibility();
         toggleSubmenu();
         renderHighlight();
       }
     });
-  })
+  });
 </script>

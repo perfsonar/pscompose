@@ -1,11 +1,11 @@
 <div class="host edit-form" hx-ext="dynamic-url">
   <div class="page">
-    <h2>Edit Address</h2>
+    <h2>Edit Group</h2>
     <div class="content">
       <form id="my-form">
         <fieldset
           id="content"
-          hx-get="http://0.0.0.0:8000/api/address/{id}/form"
+          hx-get="http://0.0.0.0:8000/api/group/{id}/form"
           hx-trigger="load"
           nunjucks-template="example-template"
         >
@@ -27,7 +27,7 @@
             label="Delete"
             theme="error"
             righticon="trash-2"
-            hx-delete="http://0.0.0.0:8000/api/address/{id}"
+            hx-delete="http://0.0.0.0:8000/api/group/{id}"
             hx-trigger="click"
             hx-target="#response-container"
             hx-confirm="Are you sure you want to delete this address?">
@@ -67,7 +67,7 @@
 <script>
   document.getElementById("my-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // stop default form submission
-
+    
     const elem = document.querySelector("json-form");
     const form_data = JSON.parse(elem.serializeForm())
     const { name, ...rest } = form_data; // Need to remove name from the form

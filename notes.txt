@@ -1,0 +1,62 @@
+ImportError: no pq wrapper available.
+Attempts made:
+- couldn't import psycopg 'c' implementation: No module named 'psycopg_c'
+- couldn't import psycopg 'binary' implementation: No module named 'psycopg_binary'
+- couldn't import psycopg 'python' implementation: dlopen(/usr/local/lib/postgresql@14/libpq.dylib, 0x0006): tried: '/usr/local/lib/postgresql@14/libpq.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/usr/local/lib/postgresql@14/libpq.dylib' (no such file), '/usr/local/lib/postgresql@14/libpq.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64')), '/usr/local/Cellar/postgresql@14/14.17_1/lib/postgresql@14/libpq.5.14.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/usr/local/Cellar/postgresql@14/14.17_1/lib/postgresql@14/libpq.5.14.dylib' (no such file), '/usr/local/Cellar/postgresql@14/14.17_1/lib/postgresql@14/libpq.5.14.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64'))
+
+To fix, run
+
+brew uninstall postgresql
+arch -arm64 brew install postgresql
+
+postgresql 14
+
+pip uninstall psycopg
+pip install psycopg
+
+brew services start postgresql
+
+(venv) ➜  pscompose git:(api) ✗ 
+uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000
+
+sudo mkdir -p /etc/pscompose
+sudo vi settings.yml
+Copy paste EXAMPLE_CONFIG.yml
+
+chmod +x local_setup.sh
+./local_setup.sh
+
+This script will:
+- Start PostgreSQL if needed
+- Create the pscompose_user with password 'password'
+- Create the database with pscompose_user as the owner
+- Grant all necessary permissions
+- Set up the Python environment
+- Create the tables
+
+python3 pscompose/seed_data.py
+
+This script will add dummy data to postgres
+
+psql -U postgres
+\l
+\c pscompose
+\dt
+SELECT * FROM data;
+\q
+
+======
+
+assumes
+- postgres v14 installed
+- user = pscompose_user
+- tables = User and DataTable
+- pscompose database
+
+======
+
+frontend
+
+- use tailwind v3.x
+- use node v16 / v18 or higher
+- 

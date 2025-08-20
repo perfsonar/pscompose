@@ -19,8 +19,6 @@ router = generate_router("address")
 @router.get("/api/address/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    # Talk to pScheduler API
-    # In case we want to render static forms, do this
     payload = {
         "ui_schema": ADDRESS_UI_SCHEMA,
         "json_schema": ADDRESS_SCHEMA,
@@ -44,8 +42,8 @@ def get_existing_form(item_id: str):
     }
     return JSONResponse(content=payload)
 
-# TODO : Test this
-# @router.get("/address/{addressId}/change")
+# TODO: Test this
+# @router.get("/api/address/{addressId}/change")
 # @version(1)
 # def get_updated_entries(addressId: str):
 #     '''

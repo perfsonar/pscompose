@@ -1,7 +1,7 @@
 
-.PHONY: run_api
-run_api:
-	fastapi run pscompose/api/api.py
+.PHONY: run-api
+run-api:
+	uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000
 
 .PHONY: docker-build
 docker-build:

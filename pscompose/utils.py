@@ -28,8 +28,6 @@ def generate_router(datatype: str):
     @version(1)
     def list_items():
         rows = backend.get_results(datatype=datatype)
-        if not rows:
-            raise HTTPException(status_code=404, detail=f"No {datatype}s found")
         return rows
 
     # Endpoint for CREATING a new record
@@ -52,18 +50,19 @@ def generate_router(datatype: str):
                 # last_edited_by=user.name,
             )
 
-            # TODO : See comment below?
+            # TODO: See comment below?
             # Do we need to update on each of the child objects when a new type is created?
-
+    
             return {
                 "message": f"{datatype} created successfully", 
-                "id": response.id
+                "id": response["id"]
             }
         except IntegrityError as e:
-            backend.session.rollback()  # Roll back transaction in case of failure
+            # backend.session.rollback()  # Roll back transaction in case of failure
             raise HTTPException(status_code=400, detail=f"Integrity error: {str(e)}")
         except Exception as e:
-            backend.session.rollback()
+            # backend.session.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
 
     # Endpoint for UPDATING an existing record
     # Update endpoint (e.g., PUT /api/template/uuid-slug)
@@ -78,11 +77,12 @@ def generate_router(datatype: str):
         if not existing_result:
             raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
 
-        # TODO : In this, how will ref_set be updated?
+        # TODO: In this, how will ref_set be updated?
         response = backend.update_datatype(
             existing_result=existing_result,
             updated_data=updated_data
         )
+        print("update response:", response)
         return response
 
     # Endpoint for DELETING an existing record
@@ -93,12 +93,15 @@ def generate_router(datatype: str):
         item_id: str,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        print("Deleting item with ID:", item_id)
         existing_item = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_item:
             raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
 
         response = backend.delete_datatype(existing_item)
+        print("Delete response:", response)
         # Return success response with redirect
+        # TODO: This isn't working
         return Response(
             status_code=200,
             headers={"HX-Redirect": "http://localhost:5001"}  # Redirect after success

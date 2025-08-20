@@ -47,7 +47,7 @@ python3 /app/pscompose/create_tables.py
 # DB_NAME=$(python3 -c "from pscompose.settings import POSTGRES_DB_NAME; print(POSTGRES_DB_NAME)")
 # sudo -u postgres createdb "$DB_NAME"
 
-# TODO : Run FastAPI
+# TODO: Run FastAPI
 # exec = pass process control to child process
 # exec fastapi run /app/pscompose/api/api.py --port 80
 # for now, don't exec it

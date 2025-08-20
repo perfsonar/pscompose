@@ -14,3 +14,6 @@ node_modules
 
 # mac annoyance
 .DS_Store
+pscompose/psconfig-schema.json
+pscompose/schemas-codegen.py
+pscompose/schemas-manual.py

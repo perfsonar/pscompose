@@ -39,7 +39,6 @@ def normalize_path(path, root):
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def translate_path(self, path):
         """translate path given routes"""
-
         # set default root to cwd
         root = os.getcwd()
 

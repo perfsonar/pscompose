@@ -20,7 +20,7 @@
         <script src="/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- JSON Forms Web Component Library -->
-        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta6/dist/jsonforms.esm.js' type="module"></script>
+        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta9/dist/jsonforms.esm.js' type="module"></script>
 
         <!-- Dynamic URL Extension (dynamic-url) for HTMX -->
         <!-- For production -->
@@ -34,7 +34,7 @@
         <script src='/components/dropdown-list.js' type="module"></script>
         <script src='/components/checkbox.js' type="module"></script>
         <script src='/components/progress-bar.js' type="module"></script>
-        <script src='/components/DummyCustomComponent.js' type="module"></script>
+        <!-- <script src='/components/DummyCustomComponent.js' type="module"></script> -->
 
         <script>
             document.addEventListener('htmx:afterRequest', function(evt) {
@@ -185,7 +185,7 @@
                     "addresses": {
                         "singular": "Address",
                         "plural": "Addresses",
-                        "page_url": "/addresses",
+                        "page_url": "/addresses/",
                         "page_template": "/pages/addresses/addresses.html",
                         "list_endpoint": "http://localhost:8000/api/address/",
                         "detail_endpoint": "/dummy_api/address_${id}.json",
@@ -214,9 +214,9 @@
                         "plural": "Groups",
                         "page_url": "/groups/",
                         "page_template": "/pages/groups/groups.html",
-                        "list_endpoint": "/dummy_api/group_list.json",
-                        "detail_endpoint": "/dummy_api/group_${id}.json",
-                        "icon": "group",
+                        "list_endpoint": "http://localhost:8000/api/group/",
+                        "detail_endpoint": "/dummy_api/group_${id}.json", // This is unused, can be removed
+                        "icon": "hard-drive-download",
                     },
                     "schedules": {
                         "singular": "Schedule",
@@ -277,10 +277,13 @@
                 "/wizard/8/template/": psCompose.metadata["wizard"][7],
                 "/import/1/import_template/": psCompose.metadata["import"][0],
                 "/import/2/import_template_saved/": psCompose.metadata["import"][1],
+                // TODO: add trailing slashes to all paths
                 "/addresses/": psCompose.metadata["addresses"],
+                "/addresses/new/": psCompose.metadata["addresses"], // TODO: Perhaps want to avoid this pattern of duplication since /addresses is defined above
                 "/archives/": psCompose.metadata["archives"],
                 "/contexts/": psCompose.metadata["contexts"],
                 "/groups/": psCompose.metadata["groups"],
+                "/groups/new/": psCompose.metadata["groups"],
                 "/schedules/": psCompose.metadata["schedules"],
                 "/tasks/": psCompose.metadata["tasks"],
                 "/templates/": psCompose.metadata["templates"],
@@ -293,19 +296,15 @@
                 if (path == "/"){
                     return "/pages/index.html";
                 }
-                let pathParts = path.split("/").filter(p => p); // removes empty strings
-                psCompose.activeMenuItem = pathParts[0];
-                psCompose.subsection = pathParts[1];
-                psCompose.pathParts = pathParts;
+                psCompose.activeRoute = psCompose.router[path];
+                psCompose.activeMenuItem = path.split("/")[1];
+                psCompose.subsection = path.split("/")[2];
+                psCompose.pathParts = path.split("/");
 
-                // Build base path for route lookup: e.g., "/addresses/"
-                let basePath = `/${psCompose.activeMenuItem}/`;
-                psCompose.activeRoute = psCompose.router[basePath];
                 let getParams = new URLSearchParams(searchString);
                 getParams.keys().forEach((k)=>{
                     psCompose.activeRoute[k] = getParams.get(k);
                 })
-
                 return `${psCompose.activeRoute.page_template}`;
             }
 
