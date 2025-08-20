@@ -97,20 +97,20 @@
   }
 
   function untoggleSubmenu() {
-    let container = document.querySelector(".submenu-container");
-    if (!psCompose.menu[psCompose.activeMenuItem]) {
-      container.innerHTML = ""; // Clear submenu if nothing is active
-      return;
-    }
-    container.innerHTML = `
-      <div
-        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
-        hx-trigger='load'
-        hx-target="submenu-template"
-        nunjucks-array-template='.submenu-container'
-        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
-      </div>`;
-    htmx.process(container);
+      let container = document.querySelector(".submenu-container");
+      if (!psCompose.menu[psCompose.activeMenuItem]) {
+        container.innerHTML = ""; 
+        return;
+      }
+      container.innerHTML = `
+        <div
+          hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+          hx-trigger='load'
+          hx-target="submenu-template"
+          nunjucks-array-template='.submenu-container'
+          hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+        </div>`;
+      htmx.process(container);
   }
 
   function renderHighlight(){
