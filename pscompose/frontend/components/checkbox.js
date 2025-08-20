@@ -1,100 +1,87 @@
-export class CheckboxComponent extends HTMLElement {
-    static observedAttributes = ["label", "checked", "color", "size", "labelcolor"];
-  
-    constructor() {
-      super();
-      this.shadow = this.attachShadow({ mode: 'open' });
-      this._checked = false;
-    }
-  
-    connectedCallback() {
-      this.render();
-      this.shadow.querySelector('input').addEventListener('change', (e) => {
-        this._checked = e.target.checked;
-        this.dispatchEvent(new CustomEvent('on-check', {
-          detail: { checked: this._checked }
-        }));
-      });
-    }
-  
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'checked') {
-        this._checked = newValue !== null;
-      }
-      this[name] = newValue;
-      this.render();
-    }
-  
-    get checked() {
-      return this._checked;
-    }
-  
-    set checked(value) {
-      this._checked = Boolean(value);
-      this.render();
-    }
-  
-    render() {
-      const checkboxSize = this.size || '20px';
-      const checkmarkColor = this.color || '#000000';
-      const labelColor = this.labelcolor || 'var(--copy-color)';
-  
-      const style = `
-        <style>
-          .checkbox-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-          }
-  
-          .custom-checkbox {
-            width: ${checkboxSize};
-            height: ${checkboxSize};
-            border: 2px solid ${checkmarkColor};
-            position: relative;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-          }
-  
-          .custom-checkbox:checked {
-            background: ${checkmarkColor}20;
-          }
-  
-          .custom-checkbox:checked::before {
-            content: "✓";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: ${checkmarkColor};
-            font-size: calc(${checkboxSize} * 0.8);
-          }
-  
-          label {
-            color: ${labelColor};
-            font-family: 'Source Sans 3';
-            font-size: 16px;
-            cursor: pointer;
-            user-select: none;
-          }
-        </style>
-      `;
-  
-      this.shadow.innerHTML = `
-        ${style}
-        <label class="checkbox-container">
-          <input 
-            type="checkbox" 
-            class="custom-checkbox"
-            ${this._checked ? 'checked' : ''}
-          />
-          ${this.label ? `<span>${this.label}</span>` : ''}
-        </label>
-      `;
-    }
+class SimpleCheckbox extends HTMLElement {
+  static observedAttributes = ['label', 'checked'];
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
   }
-  
-  customElements.define('custom-checkbox', CheckboxComponent);
-  
+
+  connectedCallback() {
+    this.render();
+    this.shadowRoot.querySelector('input').addEventListener('change', (e) => {
+      this.dispatchEvent(new CustomEvent('on-check', {
+        detail: { checked: e.target.checked }
+      }));
+    });
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+  render() {
+    const label = this.getAttribute('label') || '';
+    const checked = this.getAttribute('checked');
+
+    const checkboxStyle = `
+      <style>
+        :host {
+          display: flex;
+          height: 100%;
+          padding-top: 24px;
+        }
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex: 1;
+        }
+        label {
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          font-weight: 600;
+        }
+        .checkbox {
+          width: 24px;
+          height: 24px;
+          background: var(--surface1-color);
+          accent-color: var(--success-color);
+          border: 2px solid var(--copyAlt-color);
+          border-radius: 8px;
+          cursor: pointer;
+          -webkit-appearance: none;
+          appearance: none;
+          position: relative;
+          outline: none;
+        }
+        .checkbox:checked {
+          background: var(--success-color);
+        }
+        .checkbox:checked::after {
+          content: '';
+          position: absolute;
+          left: 5px;
+          top: 0px;
+          width: 7px;
+          height: 12px;
+          border: solid white;
+          border-width: 0 3px 3px 0;
+          transform: rotate(45deg);
+          pointer-events: none;
+          display: block;
+        }
+      </style>
+    `;
+
+    this.shadowRoot.innerHTML = `
+      ${checkboxStyle}
+      <label class="checkbox-container">
+      <input type="checkbox" class="checkbox" ${checked === 'true' ? 'checked' : ''}>
+      <span>${label}</span>
+      </label>
+    `;
+  }
+
+}
+
+customElements.define('simple-checkbox', SimpleCheckbox);

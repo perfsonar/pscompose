@@ -3,10 +3,10 @@
 
 <script>
     let elem = document.createElement("div");
-    let url = "/partials/address_edit_form.html";
+    let url = "/partials/data_forms/addresses/address_edit_form.html";
     if(psCompose.subsection == "new"){
-        url = "/partials/address_new_form.html";
-    }
+        url = "/partials/data_forms/addresses/address_new_form.html";
+    } 
     elem.setAttribute("hx-get", url);
     elem.setAttribute("hx-trigger", "load");
     let container = document.getElementById("address-form-container");
