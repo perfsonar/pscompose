@@ -44,8 +44,6 @@ class DataTypes:
     ADDRESS = "address"
 
 PARENT_CHILD_RELATIONSHIP = {
-    # TODO : Is it hosts or addresses?
-    # "template": ["archive", "host", "group", "schedule", "test", "task", "context"],
     "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
     "archive": [],
     "context": [],

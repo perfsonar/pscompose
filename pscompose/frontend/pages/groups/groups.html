@@ -1,1 +1,14 @@
-<h2>groups.html</h2>
+<div id='group-form-container'></div>
+
+<script>
+    let elem = document.createElement("div");
+    let url = "/partials/group_edit_form.html";
+    if(psCompose.subsection == "new"){
+        url = "/partials/group_new_form.html";
+    }
+    elem.setAttribute("hx-get", url);
+    elem.setAttribute("hx-trigger", "load");
+    let container = document.getElementById("group-form-container");
+    container.appendChild(elem);
+    htmx.process(container);
+</script>

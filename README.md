@@ -2,14 +2,59 @@
 
 A graphical interface for composing perfSONAR configurations
 
-## API & General Development
+## General Instructions
+
+Create a virtualenv, activate it and install packages
+
+```
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## API
+
+To setup postgres locally, do the following
+This script will:
+- Start PostgreSQL if needed
+- Create the pscompose_user with password 'password'
+- Create the database with pscompose_user as the owner
+- Grant all necessary permissions
+- Set up the Python environment
+- Create the tables
+
+`local_setup.sh` is similar to the docker script `start.sh`
+
+```
+sudo mkdir -p /etc/pscompose
+sudo vi settings.yml 
+    --> Copy paste the EXAMPLE_CONFIG.yml
+
+chmod +x local_setup.sh
+./local_setup.sh
+```
+
+To start the API locally, 
+
+```
+make run-api
+```
+
+You should then be able to point your browser to:
+
+```
+http://0.0.0.0:8000/docs
+```
+
+## (In progress, ignore for now) API & General Development
 
 We'll be targeting a vagrant VM image. The image will have a running pScheduler instance, and will spin up a running pSCompose instance (eventually).
 
 To get the development environment running:
 
+**Note**: This will run the start.sh script in docker/start.sh
+
 ```
-make docker-build
 make docker
 ```
 
