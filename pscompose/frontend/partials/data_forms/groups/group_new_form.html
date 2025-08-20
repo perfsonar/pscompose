@@ -1,9 +1,8 @@
 <div class="host edit-form">
   <div class="page">
-    <h2>Edit Address</h2>
+    <h2>Edit Group</h2>
     <div class="content">
-      <form action="/dummy_api/address/response.json" method="POST">
-
+      <form action="/dummy_api/group/response.json" method="POST">
 
         <!--
 
@@ -26,11 +25,14 @@
         -->
 
         <fieldset id="content"
-                hx-get="/dummy_api/address/uuid-slug/form/response.json"
+                hx-get="/dummy_api/group/uuid-slug/form/response.json"
                 hx-trigger="load"
                 nunjucks-template="example-template">
           Loading Form...
         </fieldset>
+
+        <!-- CUSTOM COMPONENT -->
+        <script src="/partials/customRenderer.js" type="module"></script>
 
         <script id="example-template" type="nunjucks">
           <json-form
@@ -39,7 +41,6 @@
             layout-data='{{ ui_schema | dump }}'
           ></json-form>
         </script>
-
 
         <div class="save-cancel">
           <web-button link="import_template_2.html" label="Delete" theme="error" righticon='trash-2'></web-button>

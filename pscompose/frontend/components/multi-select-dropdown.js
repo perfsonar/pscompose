@@ -1,0 +1,139 @@
+export class MultiSelectDropdown extends HTMLElement {
+  static observedAttributes = ["label", "options", "selected"];
+
+  constructor() {
+    super();
+    this.selectedValues = [];
+  }
+
+  connectedCallback() {
+    this.selectedSetUp();
+    this.render();
+    this.attachListeners();
+    lucide.createIcons();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
+    this.render();
+    this.attachListeners();
+    lucide.createIcons();
+  }
+
+  selectedSetUp() {
+    const selected = this.getAttribute("selected") ? JSON.parse(this.getAttribute("selected")) : [];
+    this.selectedValues = selected.map(item => (typeof item === 'object' ? item.value : item));
+  }
+
+  attachListeners() {
+    const select = this.querySelector('select');
+    if (select) {
+      select.addEventListener('change', () => {
+        const value = select.value.trim();
+        if (value && !this.selectedValues.includes(value)) {
+          this.selectedValues.unshift(value);
+          this.render();
+          this.attachListeners();
+          lucide.createIcons();
+        }
+        select.value = '';
+      });
+    }
+
+    this.querySelectorAll('.tag .remove-tag').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = btn.getAttribute('data-value');
+        this.selectedValues = this.selectedValues.filter(v => v !== value);
+        this.render();
+        this.attachListeners();
+        lucide.createIcons();
+      });
+    });
+  }
+
+  render() {
+    const dropdownStyle = `
+      <style>
+      .dropdown-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1 1 auto;
+      }
+      label {
+        font-weight: 600;
+      }
+      .input-row {
+        border: 1px solid #C3C7D9;
+        background-color: var(--surface2-color);
+        padding: 8px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 16px;
+        padding: 4px 8px 4px 12px;
+        border: 1px solid #454547;
+        background: var(--success-color);
+        color: var(--copy-color);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .remove-tag {
+        display: flex;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: 0;
+      }
+      select {
+        background-color: transparent;
+        border: none;
+        color: var(--copyAlt-color);
+        font-size: 16px;
+        flex: 1;
+        width: 100%;
+      }
+      </style>
+    `;
+
+    const options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
+    const availableOptions = options.filter(opt => !this.selectedValues.includes(opt.value));
+
+    const optionsHTML = availableOptions.map(option =>
+      `<option value="${option.value}">${option.label}</option>`
+    ).join('');
+
+    const tagsHTML = this.selectedValues.map(val => {
+      const label = options.find(opt => opt.value === val)?.label || val;
+      return `<span class="tag">
+                ${label}
+                <button class="remove-tag" data-value="${val}">
+                  <i style="width: 16px; height: 16px; color: white;" data-lucide="x"></i>
+                </button>
+              </span>`;
+    }).join('');
+
+    this.innerHTML = `
+      ${dropdownStyle}
+      <div class="dropdown-container">
+        <label>${this.getAttribute("label")}</label>
+        <div class="input-row">
+          <select>
+            <option value="">Select Context(s)</option>
+            ${optionsHTML}
+          </select>
+        </div>
+        <div class="tags">${tagsHTML}</div>
+      </div>
+    `;
+  }
+}
+
+customElements.define('multi-select-dropdown', MultiSelectDropdown);
