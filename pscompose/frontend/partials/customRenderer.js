@@ -88,7 +88,9 @@ function checkBoxCustomTester(uischema, schema, context){
 
   // List of scope that require text input
   if (uischema.scope.endsWith("disabled") ||
-      uischema.scope.endsWith("no-agent")
+      uischema.scope.endsWith("no-agent") ||
+      uischema.scope.endsWith("unidirectional") ||
+      uischema.scope.endsWith("excludes-self")
       ) return HIGH_RANK;
   return LOWEST_RANK;
 }
