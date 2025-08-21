@@ -1,5 +1,5 @@
 export class TextInputArea extends HTMLElement {
-    static observedAttributes = ["label", "placeholder","backgroundcolor", "labelcolor", "textcolor"];
+    static observedAttributes = ["label", "placeholder","backgroundcolor", "labelcolor", "textcolor", "value"];
   
     constructor() {
       super();
@@ -70,9 +70,12 @@ export class TextInputArea extends HTMLElement {
         ${inputStyle}
         <div class="input-container">
           ${this.label ? `<label for="myInput">${this.label}</label>` : ''}
-            <textarea type="text" id="myInput" placeholder="${this.placeholder || ''}"></textarea>
+            <textarea type="text" id="myInput" placeholder="${this.placeholder || ''}">${this.value}</textarea>
         </div>
       `;
+      this.shadow.querySelector("textarea").addEventListener("change", ()=>{
+        this.dispatchEvent(new Event("change", {bubbles: true}));
+      });
     }
   }
   
