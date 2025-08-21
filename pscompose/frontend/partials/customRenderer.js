@@ -3,12 +3,36 @@ const LOWEST_RANK = -1;
 
 /* TEXT INPUT */
 
+function textInputCustomTester(uischema, schema, context){
+  if(!uischema.scope) return LOWEST_RANK;
+
+  // List of scope that require text input
+  if (uischema.scope.endsWith("name") ||
+      uischema.scope.endsWith("address") ||
+      uischema.scope.endsWith("lead-bind-address") ||
+      uischema.scope.endsWith("pschedular-address")
+      ) return HIGH_RANK;
+  return LOWEST_RANK;
+}
+
 function textInputCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "text-input", "props": {} }
-  elemToReturn.props.id = schema.uischema.scope; 
+  elemToReturn.props.id = schema.uischema.scope;
   elemToReturn.props.value = data;
   elemToReturn.props.path = path; //is this needed?
-  elemToReturn.props.onChange = (value) => { handleChange(value); };
+  elemToReturn.props.onChange = (event) => {
+    let target = event.target
+    if(event.target.tagName != "INPUT"){
+      // target is a webcomponent with shadow root
+      if(target.shadowRoot){
+        target = target.shadowRoot.querySelector("input");
+      // target is anything else...
+      } else {
+        target = target.querySelector("input");
+      }
+    }
+    handleChange(path, target.value);
+  };
 
   // Text Input Specific
   if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
@@ -17,33 +41,8 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
   return elemToReturn
 }
 
-function textInputCustomTester(uischema, schema, context){
-  if(!uischema.scope) return LOWEST_RANK;
-
-  // List of scope that require text input
-  if (uischema.scope.endsWith("name") || 
-      uischema.scope.endsWith("address") ||
-      uischema.scope.endsWith("lead-bind-address") ||
-      uischema.scope.endsWith("pschedular-address") 
-      ) return HIGH_RANK;
-  return LOWEST_RANK;
-}
 
 /* TEXT INPUT AREA */
-
-function textInputAreaCustomRenderer(data, handleChange, path, schema) {
-  let elemToReturn = { "tag": "text-input-area", "props": {} }
-  elemToReturn.props.id = schema.uischema.scope; 
-  elemToReturn.props.value = data;
-  elemToReturn.props.path = path; //is this needed?
-  elemToReturn.props.onChange = (value) => { handleChange(value); };
-
-  // Text Input Area Specific
-  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
-  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
-
-  return elemToReturn
-}
 
 function textInputAreaCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
@@ -54,12 +53,50 @@ function textInputAreaCustomTester(uischema, schema, context){
   return LOWEST_RANK;
 }
 
+function textInputAreaCustomRenderer(data, handleChange, path, schema) {
+  let elemToReturn = { "tag": "text-input-area", "props": {} }
+  elemToReturn.props.id = schema.uischema.scope;
+  elemToReturn.props.value = data;
+  elemToReturn.props.path = path; //is this needed?
+  elemToReturn.props.onChange =   elemToReturn.props.onChange = (event) => {
+    let target = event.target
+    if(event.target.tagName != "TEXTAREA"){
+      // target is a webcomponent with shadow root
+      if(target.shadowRoot){
+        target = target.shadowRoot.querySelector("textarea");
+      // target is anything else...
+      } else {
+        target = target.querySelector("textarea");
+      }
+    }
+    handleChange(path, target.value);
+  };
+
+
+  // Text Input Area Specific
+  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
+  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
+
+  return elemToReturn
+}
+
+
 /* CHECK BOX */
+
+function checkBoxCustomTester(uischema, schema, context){
+  if(!uischema.scope) return LOWEST_RANK;
+
+  // List of scope that require text input
+  if (uischema.scope.endsWith("disabled") ||
+      uischema.scope.endsWith("no-agent")
+      ) return HIGH_RANK;
+  return LOWEST_RANK;
+}
 
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "simple-checkbox", "props": {} }
 
-  elemToReturn.props.id = schema.uischema.scope; 
+  elemToReturn.props.id = schema.uischema.scope;
   elemToReturn.props.checked = data;
   elemToReturn.props.path = path;
   elemToReturn.props.onChange = (value) => { handleChange(value); };
@@ -70,21 +107,19 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
   return elemToReturn
 }
 
-function checkBoxCustomTester(uischema, schema, context){
+/* MULTI SELECT DROPDOWN */
+
+function multiSelectDropdownCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require text input
-  if (uischema.scope.endsWith("disabled") || 
-      uischema.scope.endsWith("no-agent")
-      ) return HIGH_RANK;
+  // List of scope that require multiselect drop down
+  if(uischema.scope.endsWith("contexts")) return HIGH_RANK;
   return LOWEST_RANK;
 }
 
-/* MULTI SELECT DROPDOWN */
-
 function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "multi-select-dropdown", "props": {} }
-  elemToReturn.props.id = schema.uischema.scope; 
+  elemToReturn.props.id = schema.uischema.scope;
   elemToReturn.props.selected = data;
   elemToReturn.props.path = path; //is this needed?
   elemToReturn.props.onChange = (value) => { handleChange(value); };
@@ -96,14 +131,6 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   return elemToReturn
 }
 
-function multiSelectDropdownCustomTester(uischema, schema, context){
-  if(!uischema.scope) return LOWEST_RANK;
-
-  // List of scope that require multiselect drop down
-  if(uischema.scope.endsWith("contexts")) return HIGH_RANK;
-  return LOWEST_RANK;
-}
-
 /* REGISTER RENDERERS */
 
 document.body.addEventListener('json-form:beforeMount', (event) => {
@@ -113,7 +140,7 @@ document.body.addEventListener('json-form:beforeMount', (event) => {
     elem.appendRenderer({ tester: checkBoxCustomTester, renderer: checkBoxCustomRenderer });
     elem.appendRenderer({ tester: textInputAreaCustomTester, renderer: textInputAreaCustomRenderer });
     elem.appendRenderer({ tester: multiSelectDropdownCustomTester, renderer: multiSelectDropdownCustomRenderer });
-  } 
+  }
 });
 
 
