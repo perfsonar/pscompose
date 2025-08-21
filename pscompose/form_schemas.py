@@ -45,6 +45,7 @@ ADDRESS_SCHEMA = {
         },
         "contexts": {
             "type": "object",
+            "title": "Contexts",
             "properties": {
                 "languages": {
                     "type": "array",
