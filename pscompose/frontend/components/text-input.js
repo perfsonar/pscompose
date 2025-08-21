@@ -59,7 +59,7 @@ export class TextInput extends HTMLElement {
         <input type="text" placeholder="${this.getAttribute("placeholder") || ''}" value="${this.getAttribute("value") || ''}" />
       </div>
     `;
-    this.shadow.querySelector("textarea").addEventListener("change", ()=>{
+    this.shadow.querySelector("input").addEventListener("change", ()=>{
       this.dispatchEvent(new Event("change", {bubbles: true}));
     });
   }
