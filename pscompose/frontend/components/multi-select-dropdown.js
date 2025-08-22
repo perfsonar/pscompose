@@ -1,5 +1,5 @@
 export class MultiSelectDropdown extends HTMLElement {
-  static observedAttributes = ["label", "options", "selected"];
+  static observedAttributes = ["label", "options", "selected", "placeholder"];
 
   constructor() {
     super();
@@ -63,10 +63,18 @@ export class MultiSelectDropdown extends HTMLElement {
       label {
         font-weight: 600;
       }
-      .input-row {
+      select {
         border: 1px solid #C3C7D9;
         background-color: var(--surface2-color);
         padding: 8px;
+        color: var(--copy-color);
+        font-size: 16px;
+        flex: 1;
+        width: 100%;
+      }
+      select:focus {
+        outline: none;
+        border-color: var(--success-color);
       }
       .tags {
         display: flex;
@@ -92,14 +100,6 @@ export class MultiSelectDropdown extends HTMLElement {
         border: none;
         padding: 0;
       }
-      select {
-        background-color: transparent;
-        border: none;
-        color: var(--copyAlt-color);
-        font-size: 16px;
-        flex: 1;
-        width: 100%;
-      }
       </style>
     `;
 
@@ -124,12 +124,10 @@ export class MultiSelectDropdown extends HTMLElement {
       ${dropdownStyle}
       <div class="dropdown-container">
         <label>${this.getAttribute("label")}</label>
-        <div class="input-row">
           <select>
-            <option value="">Select Context(s)</option>
+            <option value="">${this.getAttribute("placeholder")}</option>
             ${optionsHTML}
           </select>
-        </div>
         <div class="tags">${tagsHTML}</div>
       </div>
     `;
