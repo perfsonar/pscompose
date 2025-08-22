@@ -6,7 +6,7 @@
 
 :root {
   --background-color: #252526;
-  --copy-color: #ffffff;
+  --copy-color: #FFFFFF;
   --copyAlt-color: #C2C2C2;
   --surface1-color: #19191A;
   --surface2-color: #000000;
@@ -119,11 +119,11 @@ nav {
   @apply text-h6_mono font-mono;
 }
 
-.left-nav .active { 
+.left-nav .active {
   @apply text-success;
 }
 
-.left-nav .active svg{ 
+.left-nav .active svg{
   @apply text-success;
 }
 
@@ -271,15 +271,27 @@ th {
 }
 
 .host.edit-form .content {
-  @apply flex flex-col gap-lg w-[50vw];
+  @apply flex flex-col gap-lg w-[50vw] pb-xxlg;
 }
 
-.host.edit-form text-input {
-  @apply flex-grow;
+:where(.packets-ui .vertical-layout) {
+    @apply flex flex-col gap-md;
 }
 
-.host.edit-form dropdown-list {
-  @apply flex-grow;
+:where(.packets-ui .horizontal-layout) {
+    @apply flex flex-row gap-md w-full;
+}
+
+:where(.packets-ui .vertical-layout-item) {
+    @apply w-full;
+}
+
+:where(.packets-ui .horizontal-layout-item) {
+    @apply w-auto;
+}
+
+:where(.packets-ui .horizontal-layout-item):has(text-input) {
+    @apply w-full;
 }
 
 .save-cancel {
@@ -290,69 +302,68 @@ th {
   @apply flex flex-row justify-start items-start py-3 gap-[10px];
 }
 
-/* MODAL HTMX (from HTMX Modal Example) */ 
+/* MODAL HTMX (from HTMX Modal Example) */
 #modal {
-	/* Underlay covers entire screen. */
+  /* Underlay covers entire screen. */
   @apply fixed inset-0 z-[1000] flex flex-col items-center bg-surface_2 bg-opacity-50;
 
-	/* Animate when opening */
-	animation-name: fadeIn;
-	animation-duration:150ms;
-	animation-timing-function: ease;
+  /* Animate when opening */
+  animation-name: fadeIn;
+  animation-duration:150ms;
+  animation-timing-function: ease;
 }
 
 #modal > .modal-underlay {
-	/* underlay takes up the entire viewport. This is only
-	required if you want to click to dismiss the popup */
-	position: absolute;
-	z-index: -1;
-	top:0px;
-	bottom:0px;
-	left: 0px;
-	right: 0px;
+  /* underlay takes up the entire viewport. This is only
+  required if you want to click to dismiss the popup */
+  position: absolute;
+  z-index: -1;
+  top:0px;
+  bottom:0px;
+  left: 0px;
+  right: 0px;
 }
 
 #modal > .modal-content {
   @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[600px] border-sm rounded-xl shadow-medium py-md px-xlg gap-xsm bg-surface_1 border-copy;
 
-	/* Animate when opening */
-	animation-name:zoomIn;
-	animation-duration:150ms;
-	animation-timing-function: ease;
+  /* Animate when opening */
+  animation-name:zoomIn;
+  animation-duration:150ms;
+  animation-timing-function: ease;
 }
 
 
 #modal.closing {
-	/* Animate when closing */
-	animation-name: fadeOut;
-	animation-duration:150ms;
-	animation-timing-function: ease;
+  /* Animate when closing */
+  animation-name: fadeOut;
+  animation-duration:150ms;
+  animation-timing-function: ease;
 }
 
 #modal.closing > .modal-content {
-	/* Animate when closing */
-	animation-name: zoomOut;
-	animation-duration:150ms;
-	animation-timing-function: ease;
+  /* Animate when closing */
+  animation-name: zoomOut;
+  animation-duration:150ms;
+  animation-timing-function: ease;
 }
 
 @keyframes fadeIn {
-	0% {opacity: 0;}
-	100% {opacity: 1;}
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }
 
 @keyframes fadeOut {
-	0% {opacity: 1;}
-	100% {opacity: 0;}
+  0% {opacity: 1;}
+  100% {opacity: 0;}
 }
 
 @keyframes zoomIn {
-	0% {transform: scale(0.9);}
-	100% {transform: scale(1);}
+  0% {transform: scale(0.9);}
+  100% {transform: scale(1);}
 }
 
 @keyframes zoomOut {
-	0% {transform: scale(1);}
-	100% {transform: scale(0.9);}
+  0% {transform: scale(1);}
+  100% {transform: scale(0.9);}
 }
-
