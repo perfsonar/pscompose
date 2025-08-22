@@ -301,9 +301,9 @@
                 psCompose.pathParts = path.split("/");
 
                 let getParams = new URLSearchParams(searchString);
-                getParams.keys().forEach((k)=>{
+                for (const k of getParams.keys()){
                     psCompose.activeRoute[k] = getParams.get(k);
-                })
+                }
                 return `${psCompose.activeRoute.page_template}`;
             }
 
