@@ -71,6 +71,8 @@ export class MultiSelectDropdown extends HTMLElement {
         font-size: 16px;
         flex: 1;
         width: 100%;
+        min-height: 40px;
+        max-height: 40px;
       }
       select:focus {
         outline: none;
