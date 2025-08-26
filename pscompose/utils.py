@@ -55,7 +55,7 @@ def generate_router(datatype: str):
     
             return {
                 "message": f"{datatype} created successfully", 
-                "id": response["id"]
+                "id": response.id
             }
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
