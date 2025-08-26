@@ -3,19 +3,15 @@ class SimpleCheckbox extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: 'open' });
   }
 
   connectedCallback() {
     this.render();
-    this.shadowRoot.querySelector('input').addEventListener('change', (e) => {
-      this.dispatchEvent(new CustomEvent('on-check', {
-        detail: { checked: e.target.checked }
-      }));
-    });
   }
 
-  attributeChangedCallback() {
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
     this.render();
   }
   render() {
@@ -35,7 +31,7 @@ class SimpleCheckbox extends HTMLElement {
           gap: 4px;
           flex: 1;
         }
-        label {
+        span {
           white-space: nowrap;
           display: flex;
           align-items: center;
@@ -73,13 +69,16 @@ class SimpleCheckbox extends HTMLElement {
       </style>
     `;
 
-    this.shadowRoot.innerHTML = `
+    this.shadow.innerHTML = `
       ${checkboxStyle}
-      <label class="checkbox-container">
-      <input type="checkbox" class="checkbox" ${checked === 'true' ? 'checked' : ''}>
-      <span>${label}</span>
-      </label>
+      <div class="checkbox-container">
+        <input type="checkbox" class="checkbox" ${checked === 'true' ? 'checked' : ''}>
+        <span>${label}</span>
+      </div>
     `;
+    this.shadow.querySelector("input").addEventListener("change", ()=>{
+      this.dispatchEvent(new Event("change", {bubbles: true}));
+    });
   }
 
 }
