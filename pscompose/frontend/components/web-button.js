@@ -91,7 +91,7 @@ export class WebButton extends HTMLElement {
       ${this.link ? `<a href="${this.link}" style="text-decoration: none;">` : ''}
         <button 
         ${this.id ? `id="${this.id}"` : ''}
-        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};" hx-ignore>
+        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};">
           ${this.lefticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem; " data-lucide="${this.lefticon}"></i>` : ''}
           ${this.label || ""}
           ${this.righticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem;" data-lucide="${this.righticon}"></i>` : ''}
