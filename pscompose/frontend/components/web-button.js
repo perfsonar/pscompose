@@ -8,22 +8,9 @@ export class WebButton extends HTMLElement {
         this.passthroughAttributeMatchers.forEach((re)=>{
             if(re.test(attr.name)){
                 this.passthroughAttributes[attr.name] = this.getAttribute(attr.name);
-                console.log("observed!", attr.name, this.getAttribute(attr.name), this.htmxAttributes);
             }
         })
     })
-
-    const observer = new MutationObserver((mutationRecords) => {
-      mutationRecords.forEach(record => {
-        this.passthroughAttributeMatchers.forEach((re)=>{
-            if(re.test(record.attributeName)){
-              this.passthroughAttributes[record.attributeName] = this.getAttribute(record.attributeName)
-                console.log("observed!", record.attributeName, this.getAttribute(record.attributeName), this.htmxAttributes);
-                this.render();
-            }
-        }
-      )});
-    }).observe(this, { attributes: true });
 
     this.render();
     lucide.createIcons();
@@ -104,7 +91,7 @@ export class WebButton extends HTMLElement {
       ${this.link ? `<a href="${this.link}" style="text-decoration: none;">` : ''}
         <button 
         ${this.id ? `id="${this.id}"` : ''}
-        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};">
+        style="background-color: ${backgroundColor}; color: ${textColor}; border: 2px solid ${borderColor};" hx-ignore>
           ${this.lefticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem; " data-lucide="${this.lefticon}"></i>` : ''}
           ${this.label || ""}
           ${this.righticon ? `<i style="color: ${textColor}; width: 1.5rem;  height: 1.5rem;" data-lucide="${this.righticon}"></i>` : ''}
@@ -114,8 +101,8 @@ export class WebButton extends HTMLElement {
 
     let btn = this.querySelector("button");
     Object.keys(this.passthroughAttributes).forEach((k)=>{
-        console.log("setting", k, "to", this.passthroughAttributes[k])
         btn.setAttribute(k, this.passthroughAttributes[k]);
+        this.removeAttribute(k);
     });
   }
 }
