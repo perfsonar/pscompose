@@ -30,10 +30,10 @@
         <script src='/components/web-button.js' type="module"></script>
         <script src='/components/text-input.js' type="module"></script>
         <script src='/components/text-input-area.js' type="module"></script>
-        <script src='/components/dropdown-list.js' type="module"></script>
         <script src='/components/checkbox.js' type="module"></script>
         <script src='/components/progress-bar.js' type="module"></script>
         <script src='/components/multi-select-dropdown.js' type="module"></script>
+        <script src='/components/single-select-dropdown.js' type="module"></script>
 
         <script>
             document.addEventListener('htmx:afterRequest', function(evt) {
@@ -301,9 +301,9 @@
                 psCompose.pathParts = path.split("/");
 
                 let getParams = new URLSearchParams(searchString);
-                getParams.keys().forEach((k)=>{
+                for (const k of getParams.keys()){
                     psCompose.activeRoute[k] = getParams.get(k);
-                })
+                }
                 return `${psCompose.activeRoute.page_template}`;
             }
 
