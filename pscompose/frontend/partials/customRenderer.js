@@ -1,4 +1,5 @@
-const HIGH_RANK = 3;
+const HIGH_RANK = 6;
+const MID_RANK = 3;
 const LOWEST_RANK = -1;
 
 /* TEXT INPUT */
@@ -6,37 +7,31 @@ const LOWEST_RANK = -1;
 function textInputCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require text input
   if (uischema.scope.endsWith("name") ||
       uischema.scope.endsWith("address") ||
       uischema.scope.endsWith("lead-bind-address") ||
       uischema.scope.endsWith("pschedular-address")
-      ) return HIGH_RANK;
+      ) return MID_RANK;
   return LOWEST_RANK;
 }
 
 function textInputCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "text-input", "props": {} }
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.value = data;
-  elemToReturn.props.path = path; //is this needed?
+  elemToReturn.props.value = data == null ? schema.schema.default : data;
+  elemToReturn.props.path = path;
+  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; } 
   elemToReturn.props.onChange = (event) => {
-    let target = event.target
+    let target = event.target;
     if(event.target.tagName != "INPUT"){
-      // target is a webcomponent with shadow root
       if(target.shadowRoot){
         target = target.shadowRoot.querySelector("input");
-      // target is anything else...
       } else {
         target = target.querySelector("input");
       }
     }
     handleChange(path, target.value);
   };
-
-  // Text Input Specific
-  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
-  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
 
   return elemToReturn
 }
@@ -47,9 +42,8 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
 function textInputAreaCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require text input
   if (uischema.scope.endsWith("_meta")
-      ) return HIGH_RANK;
+      ) return MID_RANK;
   return LOWEST_RANK;
 }
 
@@ -57,26 +51,20 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "text-input-area", "props": {} }
 
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.value = data == null ? "" : data;
+  elemToReturn.props.value = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path; 
+  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
   elemToReturn.props.onChange = (event) => {
-    let target = event.target
+    let target = event.target;
     if(event.target.tagName != "TEXTAREA"){
-      // target is a webcomponent with shadow root
       if(target.shadowRoot){
         target = target.shadowRoot.querySelector("textarea");
-      // target is anything else...
       } else {
         target = target.querySelector("textarea");
       }
     }
     handleChange(path, target.value);
   };
-
-
-  // Text Input Area Specific
-  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
-  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
 
   return elemToReturn
 }
@@ -87,12 +75,11 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
 function checkBoxCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require text input
   if (uischema.scope.endsWith("disabled") ||
       uischema.scope.endsWith("no-agent") ||
       uischema.scope.endsWith("unidirectional") ||
       uischema.scope.endsWith("excludes-self")
-      ) return HIGH_RANK;
+      ) return MID_RANK;
   return LOWEST_RANK;
 }
 
@@ -100,10 +87,11 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "simple-checkbox", "props": {} }
 
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.checked = data == null ? "" : data;
+  elemToReturn.props.checked = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path;
+  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
   elemToReturn.props.onChange = (event) => {
-    let target = event.target
+    let target = event.target;
     if(event.target.tagName != "INPUT"){
       if(target.shadowRoot){
         target = target.shadowRoot.querySelector("input");
@@ -113,10 +101,6 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
     }
     handleChange(path, target.checked);
   };
-
-  // Check box Specific
-  if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
-
   return elemToReturn
 }
 
@@ -125,8 +109,11 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
 function singleSelectDropdownCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require multiselect drop down
-  if(uischema.scope.endsWith("type")) return HIGH_RANK;
+  if(uischema.scope.endsWith("type") ||
+     uischema.scope.endsWith("addresses") ||
+     uischema.scope.endsWith("a-addresses") || 
+     uischema.scope.endsWith("b-addresses")
+      ) return HIGH_RANK;
   return LOWEST_RANK;
 }
 
@@ -134,14 +121,16 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "single-select-dropdown", "props": {} }
 
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.selected = data;
+  elemToReturn.props.selected = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path; 
-  elemToReturn.props.onChange = (value) => { handleChange(value); };
   if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
+  elemToReturn.props.onChange = (event) => {
+    handleChange(path, event.target.selected);
+  };
 
-  // Multi Select Specific
-  if (schema.schema.options) { elemToReturn.props.options = schema.schema.options; }
-  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
+  // Single Select Dropdown Specific 
+  if (schema.schema.enum) { elemToReturn.props.options = JSON.stringify(schema.schema.enum); }
+  // NOTE: NEED TO ADD GROUP SPECIFIC SCHEMA SCOPE
 
   return elemToReturn
 }
@@ -151,7 +140,6 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
 function multiSelectDropdownCustomTester(uischema, schema, context){
   if(!uischema.scope) return LOWEST_RANK;
 
-  // List of scope that require multiselect drop down
   if(uischema.scope.endsWith("contexts")) return HIGH_RANK;
   return LOWEST_RANK;
 }
@@ -160,14 +148,15 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "multi-select-dropdown", "props": {} }
 
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.selected = data;
+  elemToReturn.props.selected = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path; 
-  elemToReturn.props.onChange = (value) => { handleChange(value); };
   if (schema.schema.title) { elemToReturn.props.label = schema.schema.title; }
+  elemToReturn.props.onChange = (event) => {
+    handleChange(path, event.target.selected);
+  };
 
-  // Multi Select Specific
-  if (schema.schema.options) { elemToReturn.props.options = schema.schema.options; }
-  if (schema.schema.placeholder) { elemToReturn.props.placeholder = schema.schema.placeholder; }
+  // Multi Select Dropdown Specific
+  if (schema.schema.oneOf) { elemToReturn.props.options = JSON.stringify(schema.schema.oneOf); }
 
   return elemToReturn
 }
