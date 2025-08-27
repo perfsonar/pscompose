@@ -1,5 +1,5 @@
 export class TextInput extends HTMLElement {
-  static observedAttributes = ["label", "placeholder", "value"];
+  static observedAttributes = ["label", "value"];
 
   constructor() {
     super();
@@ -55,8 +55,8 @@ export class TextInput extends HTMLElement {
     this.shadow.innerHTML = `
       ${inputStyle}
       <div class="input-container">
-        ${this.getAttribute("label") ? `<label> ${this.getAttribute("label")} </label>` : ''}
-        <input type="text" placeholder="${this.getAttribute("placeholder") || ''}" value="${this.getAttribute("value") || ''}" />
+        <label>${this.getAttribute("label")}</label>
+        <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${this.getAttribute("value") || ''}" />
       </div>
     `;
     this.shadow.querySelector("input").addEventListener("change", ()=>{
