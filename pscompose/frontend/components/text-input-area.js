@@ -1,5 +1,5 @@
 export class TextInputArea extends HTMLElement {
-    static observedAttributes = ["label", "placeholder","backgroundcolor", "labelcolor", "textcolor", "value"];
+    static observedAttributes = ["label", "value"];
   
     constructor() {
       super();
@@ -25,21 +25,11 @@ export class TextInputArea extends HTMLElement {
             flex: 1;
           }
           label {
-            color: ${this.labelcolor || '#FFFFFF'};
-  
-            /* packets/label/1/large */
-            font-family: 'Source Sans 3';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 120%;
-            display: flex;
-            align-items: center;
+            font-weight: 600;
           }
-  
           textarea  {
-            background-color: ${this.backgroundcolor || '#000000'};
-            color: ${this.textcolor || '#FFFFFF'};
+            background-color: var(--surface2-color);
+            color: var(--copy-color);
             box-sizing: border-box;
   
             display: flex;
@@ -57,20 +47,19 @@ export class TextInputArea extends HTMLElement {
             border: 1px solid #C3C7D9;
             border-radius: 0px;
           }
-  
+
           textarea:focus {
             outline: none;
             border-color: #31B63F;
-          }
-            
+          }   
         </style>
       `;
   
       this.shadow.innerHTML = `
         ${inputStyle}
         <div class="input-container">
-          ${this.label ? `<label for="myInput">${this.label}</label>` : ''}
-            <textarea type="text" id="myInput" placeholder="${this.placeholder || ''}">${this.value}</textarea>
+          <label>${this.getAttribute("label")}</label>
+          <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${this.getAttribute("value") || ''}</textarea>
         </div>
       `;
       this.shadow.querySelector("textarea").addEventListener("change", ()=>{
