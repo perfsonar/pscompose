@@ -275,7 +275,7 @@ th {
 }
 
 :where(.packets-ui .vertical-layout) {
-    @apply flex flex-col gap-md;
+    @apply flex flex-col;
 }
 
 :where(.packets-ui .horizontal-layout) {
@@ -283,7 +283,11 @@ th {
 }
 
 :where(.packets-ui .vertical-layout-item) {
-    @apply w-full;
+    @apply w-full mb-md;
+}
+
+:where(.packets-ui .vertical-layout-item):empty {
+    @apply hidden;
 }
 
 :where(.packets-ui .horizontal-layout-item) {
@@ -292,6 +296,10 @@ th {
 
 :where(.packets-ui .horizontal-layout-item):has(text-input) {
     @apply w-full;
+}
+
+:where(.packets-ui fieldset) {
+    @apply flex flex-col gap-md;
 }
 
 .save-cancel {
