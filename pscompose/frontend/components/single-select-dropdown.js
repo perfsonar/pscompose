@@ -1,5 +1,5 @@
 export class SingleSelectDropdown extends HTMLElement {
-  static observedAttributes = ["label", "placeholder", "options", "selected"];
+  static observedAttributes = ["label", "options", "selected"];
 
   constructor() {
     super();
@@ -46,20 +46,40 @@ export class SingleSelectDropdown extends HTMLElement {
     `;
 
     const options = this.options ? JSON.parse(this.options) : [];
-    const optionsHTML = options.map(option =>
+
+    // TAKES ON BOTH ARRAY OF STRINGS AND ARRAY OF OBJECTS
+    const processedOptions = options.map(item => {
+      if (typeof(item) === "string") {
+        return { value: item, label: item };
+      } else if (typeof(item) === "object") {
+        return {value: item.const, label: item.title};
+      } else {
+        console.log("error in passed on options for single-select-dropdown");
+        return { value: "", label: "" };
+      }
+    });
+
+    const optionsHTML = processedOptions.map(option =>
       `<option value="${option.value}">${option.label}</option>`
     ).join('');
 
     this.shadow.innerHTML = `
       ${dropdownStyle}
       <div class="dropdown-container">
-        <label for="myDropdown">${this.getAttribute("label")}</label>
-        <select id="myDropdown">
-          <option value="">${this.getAttribute("placeholder")}</option>
+        <label>${this.getAttribute("label")}</label>
+        <select>
+          <option>Choose ${this.getAttribute("label")}</option>
           ${optionsHTML}
         </select>
       </div>
     `;
+
+    if (this.getAttribute("selected") != null) { this.shadow.querySelector("select").value = this.getAttribute("selected") }
+
+    this.shadow.querySelector("select").addEventListener("change", (event) => {
+      this.selected = event.target.value;
+      this.dispatchEvent(new Event("change", {bubbless: true}));
+    });
   }
 }
 
