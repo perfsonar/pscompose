@@ -73,7 +73,7 @@ class PostgresBackend:
             # Query to find records where target_id is in ref_set
             query = self.session.query(DataTable).filter(
                 target_id == func.any(DataTable.ref_set)
-            )
+            ).order_by(DataTable.created_at.desc())
             results = query.all()
             if not results:
                 raise HTTPException(status_code=422, detail=f"No records found with {target_id} in ref_set")
@@ -83,7 +83,7 @@ class PostgresBackend:
             raise HTTPException(status_code=500, detail=f"An error occurred while querying the database: {str(e)}")
 
     def get_results(self, datatype):
-        query = self.session.query(DataTable).filter_by(type=datatype)
+        query = self.session.query(DataTable).filter_by(type=datatype).order_by(DataTable.created_at.desc())
         rows = query.all()
         return [row for row in rows]
     
