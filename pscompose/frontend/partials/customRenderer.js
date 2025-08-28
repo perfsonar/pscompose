@@ -121,7 +121,9 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    handleChange(path, event.target.selected);
+    if (event.target.tagName == "SINGLE-SELECT-DROPDOWN") {
+      handleChange(path, event.target.selected);
+    }
   };
 
   // Single Select Dropdown Specific 
@@ -149,11 +151,13 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   let elemToReturn = { "tag": "multi-select-dropdown", "props": {} }
 
   elemToReturn.props.id = schema.uischema.scope;
-  elemToReturn.props.selected = data == null ? schema.schema.default : data;
+  elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    handleChange(path, event.target.selected);
+    if (event.target.tagName == "MULTI-SELECT-DROPDOWN" && event.target.selected) {
+      handleChange(path, event.target.selected.split(',').map(s => s.trim()));
+    }
   };
 
   // Multi Select Dropdown Specific
