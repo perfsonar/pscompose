@@ -35,13 +35,11 @@ ADDRESS_SCHEMA = {
             "type": "string",
             "title": "Lead Bind Address",
             "description": "This property must be an IP or hostname",
-            "default": ""
         },
         "pscheduler-address": {
             "type": "string",
             "title": "pScheduler Address",
             "description": "This property is an IP or hostname with an optional port specification",
-            "default": ""
         },
         "contexts": {
             "type": "object",
@@ -115,9 +113,6 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/_meta",
-            "options": {
-                "multi": True
-            }
         }
     ]
 }
@@ -149,9 +144,7 @@ GROUP_SCHEMA = {
                         "type": "array",
                         "title": "Addresses",
                         "items": {
-                            "oneOf": [
-                                {"const": "all", "title": "All Addresses"},
-                            ]
+                            "oneOf": []
                         }
                     },
                     "_meta": {
