@@ -45,21 +45,8 @@ export class SingleSelectDropdown extends HTMLElement {
     `;
 
     const options = this.options ? JSON.parse(this.options) : [];
-
-    // TAKES ON BOTH ARRAY OF STRINGS AND ARRAY OF OBJECTS
-    const processedOptions = options.map(item => {
-      if (typeof(item) === "string") {
-        return { value: item, label: item };
-      } else if (typeof(item) === "object") {
-        return {value: item.const, label: item.title};
-      } else {
-        console.log("error in passed on options for single-select-dropdown");
-        return { value: "", label: "" };
-      }
-    });
-
-    const optionsHTML = processedOptions.map(option =>
-      `<option value="${option.value}">${option.label}</option>`
+    const optionsHTML = options.map(option =>
+      `<option value="${option.const}">${option.title}</option>`
     ).join('');
 
     this.innerHTML = `
