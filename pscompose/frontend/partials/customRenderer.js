@@ -125,7 +125,7 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   };
 
   // Single Select Dropdown Specific 
-  if (schema.schema.oneOf) { elemToReturn.props.options = JSON.stringify(schema.schema.oneOf); }
+  if (schema?.schema?.oneOf) { elemToReturn.props.options = JSON.stringify(schema.schema.oneOf); }
 
   // NOTE: NEED TO ADD GROUP SPECIFIC SCHEMA SCOPE
 
@@ -157,7 +157,7 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   };
 
   // Multi Select Dropdown Specific
-  if (schema.schema.items.oneOf ) { elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf); }
+  if (schema?.schema?.items?.oneOf ) { elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf); }
 
   return elemToReturn
 }

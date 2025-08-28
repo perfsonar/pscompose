@@ -17,7 +17,10 @@
         <script id="example-template" type="nunjucks">
           <json-form
             id="my-json-form"
-            form-data='{{ form_data | dump }}'
+            form-data='{{ form_data |
+                logger("logging form-data:") |
+                escape_property("_meta") |
+                dump }}'
             schema-data='{{ json_schema | dump }}'
             layout-data='{{ ui_schema | dump }}'
           ></json-form>
