@@ -1,5 +1,5 @@
 export class MultiSelectDropdown extends HTMLElement {
-  static observedAttributes = ["label", "options", "selected", "placeholder"];
+  static observedAttributes = ["label", "options", "selected"];
 
   constructor() {
     super();
@@ -22,16 +22,18 @@ export class MultiSelectDropdown extends HTMLElement {
 
   selectedSetUp() {
     const selected = this.getAttribute("selected") ? JSON.parse(this.getAttribute("selected")) : [];
-    this.selectedValues = selected.map(item => (typeof item === 'object' ? item.value : item));
+    this.selectedValues = selected.map(item => (typeof item === 'object' ? item.const : item));
   }
 
   attachListeners() {
     const select = this.querySelector('select');
+
     if (select) {
       select.addEventListener('change', () => {
         const value = select.value.trim();
         if (value && !this.selectedValues.includes(value)) {
           this.selectedValues.unshift(value);
+          this.setAttribute("selected", this.selectedValues);
           this.render();
           this.attachListeners();
           lucide.createIcons();
@@ -44,11 +46,13 @@ export class MultiSelectDropdown extends HTMLElement {
       btn.addEventListener('click', () => {
         const value = btn.getAttribute('data-value');
         this.selectedValues = this.selectedValues.filter(v => v !== value);
+        this.setAttribute("selected", this.selectedValues);
         this.render();
         this.attachListeners();
         lucide.createIcons();
       });
     });
+    this.dispatchEvent(new Event("change", {bubbles: true}));
   }
 
   render() {
@@ -106,14 +110,14 @@ export class MultiSelectDropdown extends HTMLElement {
     `;
 
     const options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
-    const availableOptions = options.filter(opt => !this.selectedValues.includes(opt.value));
+    const availableOptions = options.filter(opt => !this.selectedValues.includes(opt.const));
 
     const optionsHTML = availableOptions.map(option =>
-      `<option value="${option.value}">${option.label}</option>`
+      `<option value="${option.const}">${option.title}</option>`
     ).join('');
 
     const tagsHTML = this.selectedValues.map(val => {
-      const label = options.find(opt => opt.value === val)?.label || val;
+      const label = options.find(opt => opt.const === val)?.title || val;
       return `<span class="tag">
                 ${label}
                 <button class="remove-tag" data-value="${val}">
@@ -127,7 +131,7 @@ export class MultiSelectDropdown extends HTMLElement {
       <div class="dropdown-container">
         <label>${this.getAttribute("label")}</label>
           <select>
-            <option value="">${this.getAttribute("placeholder")}</option>
+            <option>Choose ${this.getAttribute("label")}</option>
             ${optionsHTML}
           </select>
         <div class="tags">${tagsHTML}</div>
