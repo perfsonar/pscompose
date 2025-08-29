@@ -106,6 +106,15 @@ export class MultiSelectDropdown extends HTMLElement {
         border: none;
         padding: 0;
       }
+      select:disabled {
+        display: none;
+      }
+      .dropdown-container:has(select:disabled) .tag {
+        padding: 4px 12px 4px 12px;
+      }
+      .dropdown-container:has(select:disabled) .remove-tag {
+        display: none;
+      }
       </style>
     `;
 
