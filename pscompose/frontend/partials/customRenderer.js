@@ -22,15 +22,9 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.path = path;
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    let target = event.target;
     if(event.target.tagName != "INPUT"){
-      if(target.shadowRoot){
-        target = target.shadowRoot.querySelector("input");
-      } else {
-        target = target.querySelector("input");
-      }
+      handleChange(path, event.target.querySelector("input").value);
     }
-    handleChange(path, target.value);
   };
 
   return elemToReturn
@@ -55,15 +49,9 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    let target = event.target;
     if(event.target.tagName != "TEXTAREA"){
-      if(target.shadowRoot){
-        target = target.shadowRoot.querySelector("textarea");
-      } else {
-        target = target.querySelector("textarea");
-      }
+      handleChange(path, event.target.querySelector("textarea").value);
     }
-    handleChange(path, target.value);
   };
 
   return elemToReturn
@@ -91,15 +79,9 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.path = path;
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    let target = event.target;
-    if(event.target.tagName != "INPUT"){
-      if(target.shadowRoot){
-        target = target.shadowRoot.querySelector("input");
-      } else {
-        target = target.querySelector("input");
-      }
+    if(event.target.tagName != "INPUT") {
+      handleChange(path, event.target.querySelector("input").checked == true);
     }
-    handleChange(path, target.checked);
   };
   return elemToReturn
 }
@@ -155,8 +137,8 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
   elemToReturn.props.onChange = (event) => {
-    if (event.target.tagName == "MULTI-SELECT-DROPDOWN" && event.target.selected) {
-      handleChange(path, event.target.selected.split(',').map(s => s.trim()));
+    if (event.target.tagName == "MULTI-SELECT-DROPDOWN") {
+      handleChange(path, JSON.parse(event.target.selected));
     }
   };
 
