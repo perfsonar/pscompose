@@ -57,7 +57,6 @@ export class TextInput extends HTMLElement {
         padding: 0;
         height: 24px;
       }
-
       </style>
     `;
 
