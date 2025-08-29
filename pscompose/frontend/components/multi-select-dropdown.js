@@ -46,7 +46,7 @@ export class MultiSelectDropdown extends HTMLElement {
       btn.addEventListener('click', () => {
         const value = btn.getAttribute('data-value');
         this.selectedValues = this.selectedValues.filter(v => v !== value);
-        this.setAttribute("selected", this.selectedValues);
+        this.setAttribute("selected", JSON.stringify(this.selectedValues));
         this.render();
         this.attachListeners();
         lucide.createIcons();
