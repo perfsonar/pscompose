@@ -33,7 +33,7 @@ export class MultiSelectDropdown extends HTMLElement {
         const value = select.value.trim();
         if (value && !this.selectedValues.includes(value)) {
           this.selectedValues.unshift(value);
-          this.setAttribute("selected", this.selectedValues);
+          this.setAttribute("selected", JSON.stringify(this.selectedValues));
           this.render();
           this.attachListeners();
           lucide.createIcons();
