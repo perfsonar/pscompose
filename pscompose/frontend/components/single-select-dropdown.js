@@ -15,48 +15,25 @@ export class SingleSelectDropdown extends HTMLElement {
   }
 
   render() {
-    const dropdownStyle = `
-      <style>
-        .dropdown-container {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          flex: 1;
-        }
-        label {
-          font-weight: 600;
-        }
-        select {
-          border: 1px solid #C3C7D9;
-          background-color: var(--surface2-color);
-          padding: 8px;
-          color: var(--copy-color);
-          font-size: 16px;
-          flex: 1;
-          width: 100%;
-          min-height: 40px;
-          max-height: 40px;
-        }
-        select:focus {
-          outline: none;
-          border-color: #31B63F;
-        }
-      </style>
-    `;
-
     const options = this.options ? JSON.parse(this.options) : [];
     const optionsHTML = options.map(option =>
       `<option value="${option.const}">${option.title}</option>`
     ).join('');
 
     this.innerHTML = `
-      ${dropdownStyle}
-      <div class="dropdown-container">
-        <label>${this.getAttribute("label")}</label>
+      <div class="container">
+        <label>
+          ${this.getAttribute("label")}
+          ${this.getAttribute("description") ?
+          `<i data-lucide="info"></i>
+          <div class="tool-tip"> ${this.getAttribute("description")} </div>
+          ` : ""}
+        </label>
         <select>
           <option>Choose ${this.getAttribute("label")}</option>
           ${optionsHTML}
         </select>
+        ${this.getAttribute("required") == 'true' ? `<required>Required<required>` : ""}
       </div>
     `;
 

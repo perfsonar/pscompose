@@ -56,68 +56,6 @@ export class MultiSelectDropdown extends HTMLElement {
   }
 
   render() {
-    const dropdownStyle = `
-      <style>
-      .dropdown-container {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        flex: 1 1 auto;
-      }
-      label {
-        font-weight: 600;
-      }
-      select {
-        border: 1px solid #C3C7D9;
-        background-color: var(--surface2-color);
-        padding: 8px;
-        color: var(--copy-color);
-        font-size: 16px;
-        flex: 1;
-        width: 100%;
-        min-height: 40px;
-        max-height: 40px;
-      }
-      select:focus {
-        outline: none;
-        border-color: var(--success-color);
-      }
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .tag {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border-radius: 16px;
-        padding: 4px 8px 4px 12px;
-        border: 1px solid #454547;
-        background: var(--success-color);
-        color: var(--copy-color);
-        font-size: 14px;
-        font-weight: 600;
-      }
-      .remove-tag {
-        display: flex;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        padding: 0;
-      }
-      select:disabled {
-        display: none;
-      }
-      .dropdown-container:has(select:disabled) .tag {
-        padding: 4px 12px 4px 12px;
-      }
-      .dropdown-container:has(select:disabled) .remove-tag {
-        display: none;
-      }
-      </style>
-    `;
-
     const options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
     const availableOptions = options.filter(opt => !this.selectedValues.includes(opt.const));
 
@@ -136,13 +74,19 @@ export class MultiSelectDropdown extends HTMLElement {
     }).join('');
 
     this.innerHTML = `
-      ${dropdownStyle}
-      <div class="dropdown-container">
-        <label>${this.getAttribute("label")}</label>
-          <select>
-            <option>Choose ${this.getAttribute("label")}</option>
-            ${optionsHTML}
-          </select>
+      <div class="container">
+        <label>
+          ${this.getAttribute("label")}
+          ${this.getAttribute("description") ?
+          `<i data-lucide="info"></i>
+          <div class="tool-tip"> ${this.getAttribute("description")} </div>
+          ` : ""}
+        </label>
+        <select>
+          <option>Choose ${this.getAttribute("label")}</option>
+          ${optionsHTML}
+        </select>
+        ${this.getAttribute("required") == 'true' ? `<required>Required<required>` : ""}
         <div class="tags">${tagsHTML}</div>
       </div>
     `;

@@ -22,7 +22,6 @@ class SimpleCheckbox extends HTMLElement {
         simple-checkbox {
           display: flex;
           height: 100%;
-          padding-top: 24px;
         }
         .checkbox-container {
           display: flex;
