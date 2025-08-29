@@ -3,7 +3,6 @@ export class TextInputArea extends HTMLElement {
   
     constructor() {
       super();
-      this.shadow = this.attachShadow({ mode: 'open' });
     }
   
     connectedCallback() {
@@ -16,18 +15,18 @@ export class TextInputArea extends HTMLElement {
     }
   
     render() {
-      const inputStyle = `
+      const textAreaStyle = `
         <style>
-          .input-container {
+          .textArea-container {
             display: flex;
             flex-direction: column;
             gap: 8px;
             flex: 1;
           }
-          label {
+          .textArea-containerlabel {
             font-weight: 600;
           }
-          textarea  {
+          .textArea-container textarea  {
             background-color: var(--surface2-color);
             color: var(--copy-color);
             box-sizing: border-box;
@@ -47,22 +46,30 @@ export class TextInputArea extends HTMLElement {
             border: 1px solid #C3C7D9;
             border-radius: 0px;
           }
-
-          textarea:focus {
+          .textArea-container textarea:focus {
             outline: none;
             border-color: #31B63F;
           }   
+          .textArea-container textarea:disabled {
+            background-color: transparent;
+            font-family: "Source Code Pro";
+            color: var(--copyAlt-color);
+            border: none;
+            cursor: not-allowed;
+            padding: 0;
+            height: 24px;
+          }
         </style>
       `;
   
-      this.shadow.innerHTML = `
-        ${inputStyle}
-        <div class="input-container">
+      this.innerHTML = `
+        ${textAreaStyle}
+        <div class="textArea-container">
           <label>${this.getAttribute("label")}</label>
           <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${this.getAttribute("value") || ''}</textarea>
         </div>
       `;
-      this.shadow.querySelector("textarea").addEventListener("change", ()=>{
+      this.querySelector("textarea").addEventListener("change", ()=>{
         this.dispatchEvent(new Event("change", {bubbles: true}));
       });
     }
