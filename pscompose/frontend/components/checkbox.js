@@ -106,7 +106,8 @@ class SimpleCheckbox extends HTMLElement {
         <p>${checked}</p>
       </div>
     `;
-    this.querySelector("input").addEventListener("change", ()=>{
+    this.querySelector("input").addEventListener("change", (event) => {
+      this.setAttribute('checked', event.target.checked ? 'true' : 'false');
       this.dispatchEvent(new Event("change", {bubbles: true}));
     });
   }
