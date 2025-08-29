@@ -3,7 +3,6 @@ class SimpleCheckbox extends HTMLElement {
 
   constructor() {
     super();
-    this.shadow = this.attachShadow({ mode: 'open' });
   }
 
   connectedCallback() {
@@ -20,7 +19,7 @@ class SimpleCheckbox extends HTMLElement {
 
     const checkboxStyle = `
       <style>
-        :host {
+        simple-checkbox {
           display: flex;
           height: 100%;
           padding-top: 24px;
@@ -29,15 +28,18 @@ class SimpleCheckbox extends HTMLElement {
           display: flex;
           align-items: center;
           gap: 4px;
-          flex: 1;
+          flex: 1 1 auto;
         }
-        span {
+        .checkbox-container-disabled {
+          display: none;
+        }
+        .checkbox-container label {
           white-space: nowrap;
           display: flex;
           align-items: center;
           font-weight: 600;
         }
-        .checkbox {
+        .checkbox-container .checkbox {
           width: 24px;
           height: 24px;
           background: var(--surface1-color);
@@ -50,14 +52,14 @@ class SimpleCheckbox extends HTMLElement {
           position: relative;
           outline: none;
         }
-        .checkbox:checked {
+        .checkbox-container .checkbox:checked {
           background: var(--success-color);
         }
-        .checkbox:checked::after {
+        .checkbox-container .checkbox:checked::after {
           content: '';
           position: absolute;
-          left: 5px;
-          top: 0px;
+          left: 6px;
+          top: 2px;
           width: 7px;
           height: 12px;
           border: solid white;
@@ -66,17 +68,45 @@ class SimpleCheckbox extends HTMLElement {
           pointer-events: none;
           display: block;
         }
+        simple-checkbox:has(input:disabled) {
+          display: flex;
+          height: 100%;
+          padding-top: 0;
+        }
+        .checkbox-container:has(input:disabled) {
+          display: none;
+        }
+        simple-checkbox:has(input:disabled) .checkbox-container-disabled {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          flex: 1 1 auto;
+        }
+        simple-checkbox:has(input:disabled) .checkbox-container-disabled label {
+          white-space: nowrap;
+          font-weight: 600;
+        }
+        simple-checkbox:has(input:disabled) .checkbox-container-disabled p {
+          font-family: "Source Code Pro";
+          color: var(--copyAlt-color);
+          height: 24px;
+        }
       </style>
     `;
 
-    this.shadow.innerHTML = `
+    this.innerHTML = `
       ${checkboxStyle}
       <div class="checkbox-container">
-        <input type="checkbox" class="checkbox" ${checked === 'true' ? 'checked' : ''}>
-        <span>${label}</span>
+        <input type="checkbox" class="checkbox" ${checked === 'true' ? 'checked' : ''}></input>
+        <label>${label}</label>
+      </div>
+
+      <div class="checkbox-container-disabled">
+        <label>${label}</label>        
+        <p>${checked}</p>
       </div>
     `;
-    this.shadow.querySelector("input").addEventListener("change", ()=>{
+    this.querySelector("input").addEventListener("change", ()=>{
       this.dispatchEvent(new Event("change", {bubbles: true}));
     });
   }
