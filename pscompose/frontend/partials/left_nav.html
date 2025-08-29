@@ -91,7 +91,7 @@
         hx-trigger='load'
         hx-target='.submenu-container'
         nunjucks-array-template="submenu-template"
-        hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+        hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
       </div>`;
     htmx.process(container);
   }
@@ -108,7 +108,7 @@
           hx-trigger='load'
           hx-target="submenu-template"
           nunjucks-array-template='.submenu-container'
-          hx-vals='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+          hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
         </div>`;
       htmx.process(container);
   }
