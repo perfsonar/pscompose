@@ -21,11 +21,13 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.value = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path;
   elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.required = schema.required;
   elemToReturn.props.onChange = (event) => {
     if(event.target.tagName != "INPUT"){
       handleChange(path, event.target.querySelector("input").value);
     }
   };
+  if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
 
   return elemToReturn
 }
@@ -48,11 +50,14 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.value = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.required = schema.required;
   elemToReturn.props.onChange = (event) => {
     if(event.target.tagName != "TEXTAREA"){
       handleChange(path, event.target.querySelector("textarea").value);
     }
   };
+  if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
+
 
   return elemToReturn
 }
@@ -78,6 +83,7 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.checked = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path;
   elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.required = schema.required;
   elemToReturn.props.onChange = (event) => {
     if(event.target.tagName != "INPUT") {
       handleChange(path, event.target.querySelector("input").checked == true);
@@ -101,17 +107,18 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.id = schema.uischema.scope;
   elemToReturn.props.selected = data == null ? schema.schema.default : data;
   elemToReturn.props.path = path; 
-  elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.label = schema.schema.title;
+  elemToReturn.props.required = schema.required;  
   elemToReturn.props.onChange = (event) => {
     if (event.target.tagName == "SINGLE-SELECT-DROPDOWN") {
       handleChange(path, event.target.selected);
     }
   };
+  if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
+
 
   // Single Select Dropdown Specific 
   if (schema?.schema?.oneOf) { elemToReturn.props.options = JSON.stringify(schema.schema.oneOf); }
-
-  // NOTE: NEED TO ADD GROUP SPECIFIC SCHEMA SCOPE
 
   return elemToReturn
 }
@@ -136,11 +143,14 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
   elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
   elemToReturn.props.path = path; 
   elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.required = schema.required;
   elemToReturn.props.onChange = (event) => {
-    if (event.target.tagName == "MULTI-SELECT-DROPDOWN") {
+    if (event.target.tagName == "MULTI-SELECT-DROPDOWN" && event.target.selected) {
       handleChange(path, JSON.parse(event.target.selected));
     }
   };
+  if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
+
 
   // Multi Select Dropdown Specific
   if (schema?.schema?.items?.oneOf ) { elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf); }
