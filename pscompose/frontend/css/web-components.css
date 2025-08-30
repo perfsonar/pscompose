@@ -47,6 +47,7 @@
     border: none;
     cursor: not-allowed;
     padding: 0;
+    resize: none;
 }
 .container:has(:disabled) required {
     display: none;
@@ -114,6 +115,7 @@
 
 .container .tag {
     display: flex;
+    align-items: center;
     gap: 8px;
     border-radius: 16px;
     padding: 4px 8px 4px 12px;
