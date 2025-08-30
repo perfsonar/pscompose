@@ -181,3 +181,16 @@ document.body.addEventListener('json-form:mounted', (event) => {
     inputs.forEach(el => el.disabled = true);
   }
 });
+
+document.body.addEventListener('json-form:updated', (event) => {
+  let elem = event.detail[0].target;
+
+  if (elem.readonly == 'true') {
+    const inputs = document.querySelectorAll("input, select, textarea");
+    inputs.forEach(el => el.disabled = true);
+  }
+  if (elem.readonly == 'false') {
+    const inputs = document.querySelectorAll("input, select, textarea");
+    inputs.forEach(el => el.disabled = false);
+  }
+});
