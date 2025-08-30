@@ -1,6 +1,9 @@
 <div class="host edit-form" hx-ext="dynamic-url">
   <div class="page">
-    <h2>Edit Address</h2>
+    <div class="header">
+      <h2 id="data-name"></h2>
+      <div id="edit-icon"><i style="width: 20px; height: 20px; margin-left: auto;" data-lucide="edit"></i></div>
+    </div>
     <div class="content">
       <form id="my-form">
         <fieldset
@@ -23,12 +26,12 @@
                 dump }}'
             schema-data='{{ json_schema | dump }}'
             layout-data='{{ ui_schema | dump }}'
+            readonly='true'
           ></json-form>
         </script>
 
-        <div class="save-cancel">
+        <div class="edit-save-cancel">
           <web-button
-            link="import_template_2.html"
             label="Delete"
             theme="error"
             righticon="trash-2"
@@ -37,30 +40,16 @@
             hx-target="#response-container"
             hx-confirm="Are you sure you want to delete this address?">
           </web-button>
-
           <web-button
-            link="import_template_2.html"
             label="Save"
             theme="secondary"
             righticon='save'>
           </web-button>
-
           <web-button
             label="Cancel"
             theme="primary"
             righticon='x'>
           </web-button>
-
-          <!-- <button
-            type="button"
-            id="delete-button"
-            class="btn btn-danger"
-            hx-delete="http://0.0.0.0:8000/api/address/{id}"
-            hx-trigger="click"
-            hx-target="#response-container"
-            hx-confirm="Are you sure you want to delete this address?">
-            🗑️ Delete Record
-          </button> -->
         </div>
       </form>
       <!-- Response container -->
@@ -70,10 +59,31 @@
 </div>
 
 <script>
+  // SET ADDRESS NAME AS HEADER
+  document.body.addEventListener('json-form:mounted', (event) => {
+    let elem = event.detail[0].target;
+    if (elem?.data?.name) { document.getElementById("data-name").textContent = elem?.data?.name; }
+  })
+
+  // READONLY TO EDIT STATE
+  document.getElementById("edit-icon").addEventListener("click", async () => {
+    const jsonForm = document.querySelector("json-form");
+    if (jsonForm.getAttribute("readonly") === "true") { jsonForm.setAttribute("readonly", "false"); }
+    document.querySelector(".edit-save-cancel").style = "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
+    document.getElementById("edit-icon").style.display = "none";
+  });
+
+
+  // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
   document.getElementById("my-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // stop default form submission
 
     const elem = document.querySelector("json-form");
+
+    if (elem.getAttribute("readonly") === "false") { elem.setAttribute("readonly", "true"); }
+    document.querySelector(".edit-save-cancel").style = "none";
+    document.getElementById("edit-icon").style.display = "block";
+
     const form_data = JSON.parse(elem.serializeForm())
     const { name, ...rest } = form_data; // Need to remove name from the form
 

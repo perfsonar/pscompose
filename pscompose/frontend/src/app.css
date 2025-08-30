@@ -266,6 +266,19 @@ th {
 }
 
 /* HOST EDIT FORM */
+
+.header {
+  @apply flex flex-row items-center w-full;
+}
+
+.header #data-name {
+  @apply flex-1 text-center;
+}
+
+.header #edit-icon {
+  @apply flex w-[20px] h-[20px] ml-auto cursor-pointer;
+}
+
 .host.edit-form .page{
   @apply flex flex-col justify-start items-center p-none m-none gap-md;
 }
@@ -302,8 +315,12 @@ th {
     @apply flex flex-col gap-md;
 }
 
+.edit-save-cancel {
+  @apply hidden;
+}
+
 .save-cancel {
-  @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9
+  @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
 }
 
 .copy-json {
