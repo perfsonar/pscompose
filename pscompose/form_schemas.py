@@ -42,17 +42,23 @@ ADDRESS_SCHEMA = {
             "description": "This property is an IP or hostname with an optional port specification",
         },
         "contexts": {
-            "type": "object",
+            "type": "array",
             "title": "Contexts",
-            "properties": {
-                "languages": {
-                    "type": "array",
-                    "uniqueItems": True, # This makes it into a multi select rather than a dropdown
-                    "items": {
-                        "type": "string",
-                        "enum": ["English", "Spanish", "French", "German"]
+            "items": {
+                "oneOf": [
+                    {
+                    "const": "male",
+                    "title": "Male"
+                    },
+                    {
+                    "const": "female",
+                    "title": "Female"
+                    },
+                    {
+                    "const": "other",
+                    "title": "Diverse"
                     }
-                }
+                ] 
             }
         },
         "_meta": {
@@ -64,7 +70,7 @@ ADDRESS_SCHEMA = {
     },
     "required": [
         "name",
-        "address"
+        "address",
     ],
     "renderers": {}
 }
@@ -128,7 +134,20 @@ GROUP_SCHEMA = {
         "type": {
             "type": "string",
             "title": "Type",
-            "enum": ["list", "disjoint", "mesh"]
+             "oneOf": [
+                    {
+                    "const": "list",
+                    "title": "List"
+                    },
+                    {
+                    "const": "disjoint",
+                    "title": "Disjoint"
+                    },
+                    {
+                    "const": "mesh",
+                    "title": "Mesh"
+                    }
+                ] 
         }
     },
     "required": ["name", "type"],
@@ -144,7 +163,8 @@ GROUP_SCHEMA = {
                         "type": "array",
                         "title": "Addresses",
                         "items": {
-                            "oneOf": []
+                            "oneOf": [
+                            ]
                         }
                     },
                     "_meta": {
@@ -191,7 +211,7 @@ GROUP_SCHEMA = {
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": { "type": "string" }
+                        "items": { "type": "object" }
                     },
                     "_meta": {
                         "type": "string",
@@ -227,7 +247,7 @@ GROUP_SCHEMA = {
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": { "type": "string" }
+                        "items": { "type": "object" }
                     },
                     "_meta": {
                         "type": "string",
@@ -285,8 +305,17 @@ GROUP_UI_SCHEMA = {
             },
             "elements": [
                 {
-                    "type": "Control",
-                    "scope": "#/properties/unidirectional"
+                    "type": "HorizontalLayout",
+                    "elements": [
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/unidirectional"
+                        },
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/excludes-self"
+                        },
+                    ]
                 },
                 {
                     "type": "Control",
@@ -295,10 +324,6 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/b-addresses"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes-self"
                 },
                 {
                     "type": "Control",
