@@ -32,23 +32,26 @@
 
         <div class="edit-save-cancel">
           <web-button
-            label="Delete"
-            theme="error"
-            righticon="trash-2"
+            data-label="Delete"
+            data-theme="Error"
+            data-redirect="/addresses/"
+            data-righticon="trash-2"
             hx-delete="http://0.0.0.0:8000/api/address/{id}"
-            hx-trigger="click"
-            hx-target="#response-container"
-            hx-confirm="Are you sure you want to delete this address?">
+            hx-confirm="Are you sure you want to delete this address?"
+            >
           </web-button>
+
           <web-button
-            label="Save"
-            theme="secondary"
-            righticon='save'>
+            type="submit"
+            data-label="Save"
+            data-theme="Secondary"
+            data-righticon='save'>
           </web-button>
+
           <web-button
-            label="Cancel"
-            theme="primary"
-            righticon='x'>
+            data-label="Cancel"
+            data-theme="Primary"
+            data-righticon='x'>
           </web-button>
         </div>
       </form>

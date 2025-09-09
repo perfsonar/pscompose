@@ -6,7 +6,9 @@
     let url = "/partials/data_forms/addresses/address_edit_form.html";
     if(psCompose.subsection == "new"){
         url = "/partials/data_forms/addresses/address_new_form.html";
-    } 
+    } else if (psCompose.subsection == "" && window.location.search =="") {
+        url = "/partials/data_forms/addresses/address_error.html";
+    }
     elem.setAttribute("hx-get", url);
     elem.setAttribute("hx-trigger", "load");
     let container = document.getElementById("address-form-container");
