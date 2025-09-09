@@ -328,7 +328,7 @@ th {
 }
 
 /* MODAL HTMX (from HTMX Modal Example) */
-#modal {
+#confirm-modal {
   /* Underlay covers entire screen. */
   @apply fixed inset-0 z-[1000] flex flex-col items-center bg-surface_2 bg-opacity-50;
 
@@ -338,7 +338,7 @@ th {
   animation-timing-function: ease;
 }
 
-#modal > .modal-underlay {
+#confirm-modal > .modal-underlay {
   /* underlay takes up the entire viewport. This is only
   required if you want to click to dismiss the popup */
   position: absolute;
@@ -349,8 +349,8 @@ th {
   right: 0px;
 }
 
-#modal > .modal-content {
-  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[600px] border-sm rounded-xl shadow-medium py-md px-xlg gap-xsm bg-surface_1 border-copy;
+#confirm-modal > .modal-content {
+  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[900px] border-sm rounded-xl shadow-medium py-lg px-xlg gap-md bg-surface_1 border-copy;
 
   /* Animate when opening */
   animation-name:zoomIn;
@@ -359,14 +359,14 @@ th {
 }
 
 
-#modal.closing {
+#confirm-modal.closing {
   /* Animate when closing */
   animation-name: fadeOut;
   animation-duration:150ms;
   animation-timing-function: ease;
 }
 
-#modal.closing > .modal-content {
+#confirm-modal.closing > .modal-content {
   /* Animate when closing */
   animation-name: zoomOut;
   animation-duration:150ms;

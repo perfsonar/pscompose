@@ -141,3 +141,56 @@ multi-select-dropdown .container select:disabled {
 .container:has(select:disabled) .remove-tag {
     display: none;
 }
+
+/* BUTTON */
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 18px;
+
+    background-color: var(--surface1-color);
+    color: var(--copy-color);
+    border: 2px solid var(--success-color);
+
+    font-weight: 700;
+}
+
+web-button[data-theme="Primary"] button {
+    background-color: var(--surface1-color);
+    color: var(--copy-color);
+    border: 2px solid var(--success-color);
+}
+
+web-button[data-theme="Secondary"] button {
+    background-color: var(--success-color);
+    color: var(--copy-color);
+    border: 2px solid var(--success-color);
+}
+
+web-button[data-theme="Tertiary"] button {
+    background-color: var(--success-color);
+    color: var(--copy-color);
+    border: 2px solid var(--copyAlt-color);
+}
+
+web-button[data-theme="Shadow"] button {
+    background-color: var(--shadow-color);
+    color: var(--copy-color);
+    border: 2px solid var(--shadow-color);
+}
+
+web-button[data-theme="Error"] button {
+  background-color: var(--error-color);
+  color: var(--copy-color);
+  border: 2px solid var(--error-color);
+}
+
+web-button[data-theme="Warning"] button {
+  background-color: var(--warning-color);
+  color: var(--surface2-color);
+  border: 2px solid var(--warning-color);
+}

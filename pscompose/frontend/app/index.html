@@ -105,6 +105,7 @@
 
             window.psCompose = {
                 "activeMenuItem": null,
+                "toggledMenuItem": null,
                 "activeRoute": null,
                 "menu": null,
                 "router": null,
@@ -339,6 +340,7 @@
                 psCompose.subsection = path.split("/")[2];
                 psCompose.pathParts = path.split("/");
 
+
                 let getParams = new URLSearchParams(searchString);
                 for (const k of getParams.keys()){
                     psCompose.activeRoute[k] = getParams.get(k);
@@ -364,6 +366,27 @@
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'>
             </div>`; 
+
+            // Modal Confirmation
+            document.body.addEventListener('htmx:confirm', function(event) {
+                if (!event.detail.question) return
+                event.preventDefault();
+                htmx.ajax('GET', '/partials/modals.html', { target: '#response-container', swap: 'innerHTML' })
+
+                document.body.addEventListener('htmx:afterSwap', function(e) {
+                    if (e.target.id === 'response-container') {
+                        document.getElementById("confirm-question").textContent = event.detail.question; // Confirmation Message
+                        document.getElementById("confirm-yes").setAttribute("data-label",  event.detail.elt.getAttribute("data-label")); 
+                        document.getElementById("confirm-yes").setAttribute("data-theme",  event.detail.elt.getAttribute("data-theme"));
+                        document.getElementById("confirm-yes").setAttribute("data-link",  event.detail.elt.getAttribute("data-redirect")); 
+                    }
+                });
+;
+                document.body.addEventListener('confirm-yes-clicked', function(evt) {
+                    event.detail.issueRequest(true);
+                });
+            });
+
 
         </script>
     </body>

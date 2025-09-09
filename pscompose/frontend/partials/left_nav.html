@@ -85,6 +85,7 @@
 <script>
   function toggleSubmenu(){
     let container = document.querySelector(".submenu-container");
+    psCompose.toggledMenuItem = psCompose.activeMenuItem;
     container.innerHTML = `
       <div
         hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
@@ -98,6 +99,7 @@
 
   function untoggleSubmenu() {
       let container = document.querySelector(".submenu-container");
+      psCompose.toggledMenuItem = null;
       if (!psCompose.menu[psCompose.activeMenuItem]) {
         container.innerHTML = ""; 
         return;
@@ -122,15 +124,21 @@
   renderHighlight();
 
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
-    elem.classList.remove("active");
     elem.addEventListener("click", function () {
       const clickedMenu = elem.getAttribute('data-submenu');
-      if (psCompose.activeMenuItem === clickedMenu && elem.classList.contains("active")) {
+     
+      if (psCompose.toggledMenuItem === clickedMenu && elem.classList.contains("active")) {
         // If clicking the already active item, untoggle
         elem.classList.remove("active");
-        psCompose.activeMenuItem = 'None';
+        if (!psCompose.activeRoute) {
+          psCompose.activeMenuItem = 'None';
+        } else if(psCompose.activeRoute?.page_url?.split("/")[1]) {
+          psCompose.activeMenuItem = psCompose.activeRoute.page_url.split("/")[1];
+        } 
+        
         untoggleSubmenu();
         updateShortCutsVisibility();
+        renderHighlight();
       } else {
         // Remove active from all, set new active, and show submenu
         document.querySelectorAll(`.left-nav .parent-item`).forEach(e => e.classList.remove("active"));
