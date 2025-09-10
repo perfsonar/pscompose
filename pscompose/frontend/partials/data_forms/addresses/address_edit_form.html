@@ -2,10 +2,10 @@
   <div class="page">
     <div class="header">
       <h2 id="data-name"></h2>
-      <div id="edit-icon"><i style="width: 20px; height: 20px; margin-left: auto;" data-lucide="edit"></i></div>
+      <a id="edit-icon"><i style="width: 20px; height: 20px; margin: auto;" data-lucide="edit"></i></a>
     </div>
     <div class="content">
-      <form id="my-form">
+      <form id="my-form" method="GET">
         <fieldset
           id="content"
           hx-get="http://0.0.0.0:8000/api/address/{id}/form"
@@ -32,13 +32,13 @@
 
         <div class="edit-save-cancel">
           <web-button
+            type="button"
             data-label="Delete"
             data-theme="Error"
             data-redirect="/addresses/"
             data-righticon="trash-2"
             hx-delete="http://0.0.0.0:8000/api/address/{id}"
-            hx-confirm="Are you sure you want to delete this address?"
-            >
+            hx-confirm="Are you sure you want to delete this address?">
           </web-button>
 
           <web-button
@@ -49,9 +49,11 @@
           </web-button>
 
           <web-button
+            type="button"
             data-label="Cancel"
             data-theme="Primary"
-            data-righticon='x'>
+            data-righticon='x'
+            data-link = "javascript:history.back()">
           </web-button>
         </div>
       </form>
@@ -62,19 +64,24 @@
 </div>
 
 <script>
-  // SET ADDRESS NAME AS HEADER
+  let editlink = new URLSearchParams(window.location.search);
+  editlink.append("edit", "true");
+  document.getElementById("edit-icon").setAttribute("href", window.location.pathname + "?" +  editlink);
+
+  // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT SGTATE
   document.body.addEventListener('json-form:mounted', (event) => {
     let elem = event.detail[0].target;
     if (elem?.data?.name) { document.getElementById("data-name").textContent = elem?.data?.name; }
-  })
 
-  // READONLY TO EDIT STATE
-  document.getElementById("edit-icon").addEventListener("click", async () => {
-    const jsonForm = document.querySelector("json-form");
-    if (jsonForm.getAttribute("readonly") === "true") { jsonForm.setAttribute("readonly", "false"); }
-    document.querySelector(".edit-save-cancel").style = "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
-    document.getElementById("edit-icon").style.display = "none";
-  });
+    let searchParams = new URLSearchParams(window.location.search);
+    let editMode = searchParams.get("edit");
+    if (!!editMode) { 
+      const jsonForm = document.querySelector("json-form");
+      jsonForm.setAttribute("readonly", "false"); 
+      document.querySelector(".edit-save-cancel").style = "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
+      document.getElementById("edit-icon").style.display = "none";
+    }
+  })
 
 
   // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
@@ -82,10 +89,6 @@
     event.preventDefault(); // stop default form submission
 
     const elem = document.querySelector("json-form");
-
-    if (elem.getAttribute("readonly") === "false") { elem.setAttribute("readonly", "true"); }
-    document.querySelector(".edit-save-cancel").style = "none";
-    document.getElementById("edit-icon").style.display = "block";
 
     const form_data = JSON.parse(elem.serializeForm())
     const { name, ...rest } = form_data; // Need to remove name from the form
@@ -113,7 +116,10 @@
 
       const result = await response.json();
       console.log("Success:", result);
+
       document.getElementById("response-container").innerText = "Address saved successfully!";
+      params.delete("edit")
+      window.location = window.location.pathname + "?" + params;
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("response-container").innerText = "Something went wrong.";
