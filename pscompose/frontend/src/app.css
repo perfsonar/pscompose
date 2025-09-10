@@ -14,6 +14,15 @@
   --success-color: #31B63F;
   --shadow-color: #5C5F6B;
   --warning-color: #E6C500;
+  --background-color-rgb: 37, 37, 38;    
+  --copy-color-rgb: 255, 255, 255;       
+  --copyAlt-color-rgb: 194, 194, 194;   
+  --surface1-color-rgb: 25, 25, 26;     
+  --surface2-color-rgb: 0, 0, 0;    
+  --error-color-rgb: 166, 17, 27;   
+  --success-color-rgb: 49, 182, 63;      
+  --shadow-color-rgb: 92, 95, 107;     
+  --warning-color-rgb: 230, 197, 0;   
 }
 
 /* TYPOGRAPHY - SANS */
@@ -273,14 +282,6 @@ th {
 
 .header #data-name {
   @apply flex-1 text-center;
-}
-
-.header #edit-icon {
-  @apply flex w-[40px] h-[40px] justify-center items-center;
-}
-
-.header #edit-icon:hover {
-  @apply flex cursor-pointer rounded-full bg-surface_1;
 }
 
 .host.edit-form .page{
