@@ -276,7 +276,11 @@ th {
 }
 
 .header #edit-icon {
-  @apply flex w-[20px] h-[20px] ml-auto cursor-pointer;
+  @apply flex w-[40px] h-[40px] justify-center items-center;
+}
+
+.header #edit-icon:hover {
+  @apply flex cursor-pointer rounded-full bg-surface_1;
 }
 
 .host.edit-form .page{

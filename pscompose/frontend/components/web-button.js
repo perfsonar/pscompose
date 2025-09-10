@@ -36,7 +36,7 @@ export class WebButton extends HTMLElement {
           ${this.getAttribute("data-label") || ""}
           ${this.getAttribute("data-righticon") ? `<i style="width: 1.5rem;  height: 1.5rem;" data-lucide="${this.getAttribute("data-righticon")}"></i>` : ''}
         </button>
-      ${this.getAttribute("data-redirect") ? `</a>` : ''}
+      ${this.getAttribute("data-link") ? `</a>` : ''}
     `;
 
     let btn = this.querySelector("button");
