@@ -2,7 +2,7 @@
   <div class="page">
     <div class="header">
       <h2 id="data-name"></h2>
-      <a id="edit-icon"><i style="width: 20px; height: 20px; margin: auto;" data-lucide="edit"></i></a>
+      <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
     </div>
     <div class="content">
       <form id="my-form" method="GET">
@@ -66,7 +66,7 @@
 <script>
   let editlink = new URLSearchParams(window.location.search);
   editlink.append("edit", "true");
-  document.getElementById("edit-icon").setAttribute("href", window.location.pathname + "?" +  editlink);
+  document.getElementById("edit-icon").setAttribute("data-link", window.location.pathname + "?" +  editlink);
 
   // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT SGTATE
   document.body.addEventListener('json-form:mounted', (event) => {
