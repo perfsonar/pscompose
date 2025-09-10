@@ -163,7 +163,11 @@ nav {
 }
 
 .submenu li {
-  @apply flex flex-row items-start gap-4;
+  @apply flex flex-row items-start gap-4 px-md;
+}
+
+.submenu .active { 
+  @apply bg-success/50 rounded-xl;
 }
 
 .submenu svg {

@@ -52,7 +52,7 @@
     <div class='submenu show'>
       <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
       <ul>
-        <li>
+        <li id="new">
           <i data-lucide="plus"></i>
           {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' %}
             <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
@@ -65,7 +65,7 @@
           {% endif %}
         </li>
         {% for item in data %}
-          <li>
+          <li id="{{item.id}}">
             <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
             {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/'%}
               <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
@@ -119,6 +119,20 @@
     let activeMenuItem = psCompose.activeMenuItem;
     let activeElement = document.querySelector(`.left-nav #${activeMenuItem}`);
     activeElement?.classList.add("active");
+
+    // Rendering Highlighted Submenu
+    document.body.addEventListener('htmx:afterSwap', function(e) {
+      if (e.target.classList.contains("submenu-container")) {
+        let activeSubMenu;
+        if (psCompose.subsection == "new") {
+          activeSubMenu = "new";
+        } else if (!!psCompose.activeRoute.id) {
+          activeSubMenu = psCompose.activeRoute.id;
+        }
+        activeElement = document.querySelector(`.submenu #${activeSubMenu}`);
+        activeElement?.classList.add("active");
+      }
+    });
   }
 
   renderHighlight();
