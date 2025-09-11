@@ -98,21 +98,21 @@
   }
 
   function untoggleSubmenu() {
-      let container = document.querySelector(".submenu-container");
-      psCompose.toggledMenuItem = null;
-      if (!psCompose.menu[psCompose.activeMenuItem]) {
-        container.innerHTML = ""; 
-        return;
-      }
-      container.innerHTML = `
-        <div
-          hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
-          hx-trigger='load'
-          hx-target="submenu-template"
-          nunjucks-array-template='.submenu-container'
-          hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
-        </div>`;
-      htmx.process(container);
+    let container = document.querySelector(".submenu-container");
+    psCompose.toggledMenuItem = null;
+    if (!psCompose.menu[psCompose.activeMenuItem]) {
+      container.innerHTML = "";
+      return;
+    }
+    container.innerHTML = `
+      <div
+        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+        hx-trigger='load'
+        hx-target="submenu-template"
+        nunjucks-array-template='.submenu-container'
+        hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+      </div>`;
+    htmx.process(container);
   }
 
   function renderHighlight(){
@@ -122,14 +122,14 @@
 
     // Rendering Highlighted Submenu
     document.body.addEventListener('htmx:afterSwap', function(e) {
-      if (e.target.classList.contains("submenu-container")) {
+      if (e.target.classList.contains("submenu-container") && psCompose.activeRoute) {
         let activeSubMenu;
         if (psCompose.subsection == "new") {
           activeSubMenu = "new";
         } else if (!!psCompose.activeRoute.id) {
           activeSubMenu = psCompose.activeRoute.id;
         }
-        activeElement = document.querySelector(`.submenu #${activeSubMenu}`);
+        activeElement = document.querySelector(`.submenu [id="${activeSubMenu}"]`);
         activeElement?.classList.add("active");
       }
     });
@@ -140,7 +140,6 @@
   document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
     elem.addEventListener("click", function () {
       const clickedMenu = elem.getAttribute('data-submenu');
-     
       if (psCompose.toggledMenuItem === clickedMenu && elem.classList.contains("active")) {
         // If clicking the already active item, untoggle
         elem.classList.remove("active");
