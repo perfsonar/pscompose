@@ -118,7 +118,6 @@
                         "plural": "Templates",
                         "page_template": "/pages/import/import_template.html",
                         "list_endpoint": "/dummy_api/test_list.json",
-                        "detail_endpoint": "/dummy_api/test_${id}.json",
                         "icon": "hard-drive-download",
                     },{
                         "section": "import",
@@ -128,7 +127,6 @@
                         "plural": "Templates",
                         "page_template": "/pages/import/import_template_saved.html",
                         "list_endpoint": "/dummy_api/test_list.json",
-                        "detail_endpoint": "/dummy_api/test_${id}.json",
                         "icon": "hard-drive-download",
                     }
                     ],
@@ -140,7 +138,6 @@
                             "plural": "Addresses",
                             "page_template": "/pages/wizard/addresses.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "hard-drive-download",
                         },
                         {
@@ -151,7 +148,6 @@
                             "plural": "Groups",
                             "page_template": "/pages/wizard/groups.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "group",
                         },
                         {
@@ -162,7 +158,6 @@
                             "plural": "Archives",
                             "page_template": "/pages/wizard/archives.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "database",
                         },
                         {
@@ -173,7 +168,6 @@
                             "plural": "Schedules",
                             "page_template": "/pages/wizard/schedules.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "calendar-check",
                         },
                         {
@@ -184,7 +178,6 @@
                             "plural": "Tests",
                             "page_template": "/pages/wizard/tests.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "flask-conical",
                         },
                         {
@@ -195,7 +188,6 @@
                             "plural": "Tasks",
                             "page_template": "/pages/wizard/tasks.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "clipboard-list",
                         },
                         {
@@ -206,7 +198,6 @@
                             "plural": "Templates",
                             "page_template": "/pages/wizard/create_template.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "locate",
                         },
                         {
@@ -217,7 +208,6 @@
                             "plural": "Templates",
                             "page_template": "/pages/wizard/template.html",
                             "list_endpoint": "/dummy_api/test_list.json",
-                            "detail_endpoint": "/dummy_api/test_${id}.json",
                             "icon": "locate",
                         }
                     ],
@@ -227,7 +217,6 @@
                         "page_url": "/addresses/",
                         "page_template": "/pages/addresses/addresses.html",
                         "list_endpoint": "http://localhost:8000/api/address/",
-                        "detail_endpoint": "/dummy_api/address_${id}.json",
                         "icon": "hard-drive-download",
                     },
                     "archives": {
@@ -236,7 +225,6 @@
                         "page_url": "/archives/",
                         "page_template": "/pages/archives/archives.html",
                         "list_endpoint": "/dummy_api/archive_list.json",
-                        "detail_endpoint": "/dummy_api/archive_${id}.json",
                         "icon": "database",
                     },
                     "contexts": {
@@ -245,7 +233,6 @@
                         "page_url": "/contexts/",
                         "page_template": "/pages/contexts/contexts.html",
                         "list_endpoint": "/dummy_api/context_list.json",
-                        "detail_endpoint": "/dummy_api/context_${id}.json",
                         "icon": "file-question",
                     },
                     "groups": {
@@ -254,7 +241,6 @@
                         "page_url": "/groups/",
                         "page_template": "/pages/groups/groups.html",
                         "list_endpoint": "http://localhost:8000/api/group/",
-                        "detail_endpoint": "/dummy_api/group_${id}.json", // This is unused, can be removed
                         "icon": "hard-drive-download",
                     },
                     "schedules": {
@@ -263,7 +249,6 @@
                         "page_url": "/schedules/",
                         "page_template": "/pages/schedules/schedules.html",
                         "list_endpoint": "/dummy_api/schedule_list.json",
-                        "detail_endpoint": "/dummy_api/schedule_${id}.json",
                         "icon": "calendar-check",
                     },
                     "tasks": {
@@ -272,7 +257,6 @@
                         "page_url": "/tasks/",
                         "page_template": "/pages/tasks/tasks.html",
                         "list_endpoint": "/dummy_api/task_list.json",
-                        "detail_endpoint": "/dummy_api/task_${id}.json",
                         "icon": "clipboard-list",
                     },
                     "templates": {
@@ -281,7 +265,6 @@
                         "page_url": "/templates/",
                         "page_template": "/pages/templates/templates.html",
                         "list_endpoint": "/dummy_api/template_list.json",
-                        "detail_endpoint": "/dummy_api/template_${id}.json",
                         "icon": "locate",
                     },
                     "tests": {
@@ -290,7 +273,6 @@
                         "page_url": "/tests/",
                         "page_template": "/pages/tests/tests.html",
                         "list_endpoint": "/dummy_api/test_list.json",
-                        "detail_endpoint": "/dummy_api/test_${id}.json",
                         "icon": "flask-conical",
                     }
                 }
@@ -340,7 +322,6 @@
                 psCompose.subsection = path.split("/")[2];
                 psCompose.pathParts = path.split("/");
 
-
                 let getParams = new URLSearchParams(searchString);
                 for (const k of getParams.keys()){
                     psCompose.activeRoute[k] = getParams.get(k);
@@ -381,13 +362,11 @@
                         document.getElementById("confirm-yes").setAttribute("data-link",  event.detail.elt.getAttribute("data-redirect")); 
                     }
                 });
-;
+
                 document.body.addEventListener('confirm-yes-clicked', function(evt) {
                     event.detail.issueRequest(true);
                 });
             });
-
-
         </script>
     </body>
     </html>
