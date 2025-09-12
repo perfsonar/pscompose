@@ -52,28 +52,18 @@
     <div class='submenu show'>
       <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
       <ul>
-        <li id="new">
+        <li id="new-{{ data.psCompose.activeMenuItem }}">
           <i data-lucide="plus"></i>
-          {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/schedules/' %}
-            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
-              <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
-            </a>
-          {% else %}
-            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url}}">
-              <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
-            </a>
-          {% endif %}
+          <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
+            <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
+          </a>
         </li>
         {% for item in data %}
           <li id="{{item.id}}">
             <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
-            {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/schedules/'%}
-              <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
-                <h4>{{item.name}}</h4>
-              </a>
-            {% else %}
-              <a href="#"><h4>{{item.name}}</h4></a>
-            {% endif %}
+            <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
+              <h4>{{item.name}}</h4>
+            </a>
           </li>
         {% endfor %}
       </ul>
@@ -124,13 +114,15 @@
     document.body.addEventListener('htmx:afterSwap', function(e) {
       if (e.target.classList.contains("submenu-container") && psCompose.activeRoute) {
         let activeSubMenu;
-        if (psCompose.subsection == "new") {
-          activeSubMenu = "new";
+        if (psCompose.subsection === "new" && psCompose.activeMenuItem === psCompose.pathParts[1]) {
+          activeSubMenu = `new-${activeMenuItem}`;
         } else if (!!psCompose.activeRoute.id) {
           activeSubMenu = psCompose.activeRoute.id;
         }
         activeElement = document.querySelector(`.submenu [id="${activeSubMenu}"]`);
-        activeElement?.classList.add("active");
+        if (activeElement) {
+          activeElement?.classList.add("active");
+        }
       }
     });
   }

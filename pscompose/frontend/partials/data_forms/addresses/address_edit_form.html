@@ -1,4 +1,4 @@
-<div class="host edit-form" hx-ext="dynamic-url">
+<div class="datatype edit-form" hx-ext="dynamic-url">
   <div class="page">
     <div class="header">
       <h2 id="data-name"></h2>
@@ -68,8 +68,9 @@
   editlink.append("edit", "true");
   document.getElementById("edit-icon").setAttribute("data-link", window.location.pathname + "?" +  editlink);
 
-  // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT SGTATE
+  // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT STATE
   document.body.addEventListener('json-form:mounted', (event) => {
+    console.log("json-form mounted event:", event);
     let elem = event.detail[0].target;
     if (elem?.data?.name) { document.getElementById("data-name").textContent = elem?.data?.name; }
 
@@ -116,7 +117,6 @@
 
       const result = await response.json();
       console.log("Success:", result);
-
       document.getElementById("response-container").innerText = "Address saved successfully!";
       params.delete("edit")
       window.location = window.location.pathname + "?" + params;

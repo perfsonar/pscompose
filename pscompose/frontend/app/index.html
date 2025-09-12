@@ -224,7 +224,7 @@
                         "plural": "Archives",
                         "page_url": "/archives/",
                         "page_template": "/pages/archives/archives.html",
-                        "list_endpoint": "/dummy_api/archive_list.json",
+                        "list_endpoint": "http://localhost:8000/api/archive/",
                         "icon": "database",
                     },
                     "contexts": {
@@ -232,7 +232,7 @@
                         "plural": "Contexts",
                         "page_url": "/contexts/",
                         "page_template": "/pages/contexts/contexts.html",
-                        "list_endpoint": "/dummy_api/context_list.json",
+                        "list_endpoint": "http://localhost:8000/api/context/",
                         "icon": "file-question",
                     },
                     "groups": {
@@ -256,7 +256,7 @@
                         "plural": "Tasks",
                         "page_url": "/tasks/",
                         "page_template": "/pages/tasks/tasks.html",
-                        "list_endpoint": "/dummy_api/task_list.json",
+                        "list_endpoint": "http://localhost:8000/api/task/",
                         "icon": "clipboard-list",
                     },
                     "templates": {
@@ -264,7 +264,7 @@
                         "plural": "Templates",
                         "page_url": "/templates/",
                         "page_template": "/pages/templates/templates.html",
-                        "list_endpoint": "/dummy_api/template_list.json",
+                        "list_endpoint": "http://localhost:8000/api/template/",
                         "icon": "locate",
                     },
                     "tests": {
@@ -272,7 +272,7 @@
                         "plural": "Tests",
                         "page_url": "/tests/",
                         "page_template": "/pages/tests/tests.html",
-                        "list_endpoint": "/dummy_api/test_list.json",
+                        "list_endpoint": "http://localhost:8000/api/test/",
                         "icon": "flask-conical",
                     }
                 }
@@ -301,14 +301,19 @@
                 "/addresses/": psCompose.metadata["addresses"],
                 "/addresses/new/": psCompose.metadata["addresses"], // TODO: Perhaps want to avoid this pattern of duplication since /addresses is defined above
                 "/archives/": psCompose.metadata["archives"],
+                "/archives/new/": psCompose.metadata["archives"],
                 "/contexts/": psCompose.metadata["contexts"],
+                "/contexts/new/": psCompose.metadata["contexts"],
                 "/groups/": psCompose.metadata["groups"],
                 "/groups/new/": psCompose.metadata["groups"],
                 "/schedules/": psCompose.metadata["schedules"],
                 "/schedules/new/": psCompose.metadata["schedules"],
                 "/tasks/": psCompose.metadata["tasks"],
+                "/tasks/new/": psCompose.metadata["tasks"],
                 "/templates/": psCompose.metadata["templates"],
+                "/templates/new/": psCompose.metadata["templates"],
                 "/tests/": psCompose.metadata["tests"],
+                "/tests/new/": psCompose.metadata["tests"],
             };
 
             // the actual URL router
