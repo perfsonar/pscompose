@@ -288,11 +288,14 @@ th {
   @apply flex-1 text-center;
 }
 
-.host.edit-form .page{
+.datatype.error-form .page,
+.datatype.edit-form .page,
+.datatype.new-form .page {
   @apply flex flex-col justify-start items-center p-none m-none gap-md;
 }
 
-.host.edit-form .content {
+.datatype.edit-form .content,
+.datatype.new-form .content {
   @apply flex flex-col gap-lg w-[50vw] pb-xxlg;
 }
 
