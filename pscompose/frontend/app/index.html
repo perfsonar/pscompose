@@ -248,7 +248,7 @@
                         "plural": "Schedules",
                         "page_url": "/schedules/",
                         "page_template": "/pages/schedules/schedules.html",
-                        "list_endpoint": "/dummy_api/schedule_list.json",
+                        "list_endpoint": "http://localhost:8000/api/schedule/",
                         "icon": "calendar-check",
                     },
                     "tasks": {
@@ -298,7 +298,6 @@
                 "/wizard/8/template/": psCompose.metadata["wizard"][7],
                 "/import/1/import_template/": psCompose.metadata["import"][0],
                 "/import/2/import_template_saved/": psCompose.metadata["import"][1],
-                // TODO: add trailing slashes to all paths
                 "/addresses/": psCompose.metadata["addresses"],
                 "/addresses/new/": psCompose.metadata["addresses"], // TODO: Perhaps want to avoid this pattern of duplication since /addresses is defined above
                 "/archives/": psCompose.metadata["archives"],
@@ -306,6 +305,7 @@
                 "/groups/": psCompose.metadata["groups"],
                 "/groups/new/": psCompose.metadata["groups"],
                 "/schedules/": psCompose.metadata["schedules"],
+                "/schedules/new/": psCompose.metadata["schedules"],
                 "/tasks/": psCompose.metadata["tasks"],
                 "/templates/": psCompose.metadata["templates"],
                 "/tests/": psCompose.metadata["tests"],

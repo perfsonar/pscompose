@@ -1,1 +1,16 @@
-<h2>schedules.html</h2>
+<div id='schedule-form-container'>
+</div>
+
+<script>
+    console.log("here")
+    let elem = document.createElement("div");
+    let url = "/partials/data_forms/schedules/schedule_edit_form.html";
+    if(psCompose.subsection == "new"){
+        url = "/partials/data_forms/schedules/schedule_new_form.html";
+    }
+    elem.setAttribute("hx-get", url);
+    elem.setAttribute("hx-trigger", "load");
+    let container = document.getElementById("schedule-form-container");
+    container.appendChild(elem);
+    htmx.process(container);
+</script>
