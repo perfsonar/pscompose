@@ -1,12 +1,11 @@
 ---
-
 postgres:
-  user_name: pscompose_user
-  password: password
-  db_name: pscompose
+    user_name: pscompose_user
+    password: password
+    db_name: pscompose
 
 auth:
-  read_scope: "pscompose:read"
-  write_scope: "pscompose:write"
-  publish_scope: "pscompose:publish"
-  admin_scope: "pscompose:admin"
+    read_scope: "pscompose:read"
+    write_scope: "pscompose:write"
+    publish_scope: "pscompose:publish"
+    admin_scope: "pscompose:admin"

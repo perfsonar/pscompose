@@ -1,81 +1,80 @@
 <div class="datatype new-form">
-  <div class="page">
-    <h2>New Group</h2>
-    <div class="content">
-      <form id="my-form">
-        <fieldset
-          id="content"
-          hx-get="http://0.0.0.0:8000/api/group/new/form"
-          hx-trigger="load"
-          nunjucks-template="example-template">
-          Loading Form...
-        </fieldset>
+    <div class="page">
+        <h2>New Group</h2>
+        <div class="content">
+            <form id="my-form">
+                <fieldset
+                    id="content"
+                    hx-get="http://0.0.0.0:8000/api/group/new/form"
+                    hx-trigger="load"
+                    nunjucks-template="example-template"
+                >
+                    Loading Form...
+                </fieldset>
 
-        <script src="/partials/customRenderer.js" type="module"></script>
-        <script id="example-template" type="nunjucks">
-          <json-form
-            id="my-json-form"
-            form-data='{{ form_data | dump }}'
-            schema-data='{{ json_schema | dump }}'
-            layout-data='{{ ui_schema | dump }}'
-          ></json-form>
-        </script>
+                <script src="/partials/customRenderer.js" type="module"></script>
+                <script id="example-template" type="nunjucks">
+                    <json-form
+                      id="my-json-form"
+                      form-data='{{ form_data | dump }}'
+                      schema-data='{{ json_schema | dump }}'
+                      layout-data='{{ ui_schema | dump }}'
+                    ></json-form>
+                </script>
 
-        <div class="save-cancel">
-          <web-button
-            data-label="Save"
-            data-theme="Secondary"
-            data-righticon='save'>
-          </web-button>
+                <div class="save-cancel">
+                    <web-button data-label="Save" data-theme="Secondary" data-righticon="save">
+                    </web-button>
+                </div>
+            </form>
+            <!-- Response container -->
+            <div id="response-container"></div>
         </div>
-      </form>
-      <!-- Response container -->
-      <div id="response-container"></div>
     </div>
-  </div>
 </div>
 
 <script>
-  document.getElementById("my-form").addEventListener("submit", async function (event) {
-    event.preventDefault(); // stop default form submission
+    document.getElementById("my-form").addEventListener("submit", async function (event) {
+        event.preventDefault(); // stop default form submission
 
-    const elem = document.querySelector("json-form");
-    const form_data = JSON.parse(elem.serializeForm())
-    const { name, ...rest } = form_data; // Need to remove name from the form
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const { name, ...rest } = form_data; // Need to remove name from the form
 
-    // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
-    const data = {
-      ref_set: [],
-      type: "group",
-      json: rest,
-      name: name,
-      created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-      last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-    }
+        // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
+        const data = {
+            ref_set: [],
+            type: "group",
+            json: rest,
+            name: name,
+            created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+        };
 
-    try {
-      // TODO: This URL should be updated
-      const response = await fetch("http://0.0.0.0:8000/api/group", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+        try {
+            // TODO: This URL should be updated
+            const response = await fetch("http://0.0.0.0:8000/api/group", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Success:", result);
-        document.getElementById("response-container").innerText = "New group saved successfully!";
-      } else {
-        // Try to parse error message from response
-        let errorMsg = "Something went wrong.";
-        alert(errorMsg);
-        console.error("Error:", errorMsg);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      document.getElementById("response-container").innerText = "Something went wrong.";
-    }
-  });
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Success:", result);
+                document.getElementById("response-container").innerText =
+                    "New group saved successfully!";
+            } else {
+                // Try to parse error message from response
+                let errorMsg = "Something went wrong.";
+                alert(errorMsg);
+                console.error("Error:", errorMsg);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById("response-container").innerText = "Something went wrong.";
+        }
+    });
 </script>

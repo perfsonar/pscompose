@@ -1,86 +1,101 @@
 <!doctype html>
 <html>
     <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Shoe Lace -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
-    <style>
-      .content {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-        width: 100%;
-        padding: 0 88px 0 88px;
-      }
-      .contentdiv {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        gap: 24px;
-      }
-      text-input {
-        flex-grow: 1;
-      }
-      dropdown-list {
-        flex-grow: 1;
-      }
-      .save-cancel {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: flex-end;
-        padding: 12px 0px;
-        gap: 10px;
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Shoe Lace -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css"
+        />
+        <script
+            type="module"
+            src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"
+        ></script>
+        <style>
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                width: 100%;
+                padding: 0 88px 0 88px;
+            }
+            .contentdiv {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                gap: 24px;
+            }
+            text-input {
+                flex-grow: 1;
+            }
+            dropdown-list {
+                flex-grow: 1;
+            }
+            .save-cancel {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: flex-end;
+                padding: 12px 0px;
+                gap: 10px;
 
-        width: 100%;
-        height: 64px;
-      }
-    </style>
-    <link rel="stylesheet" href="../../css/pscompose.css" />
-
+                width: 100%;
+                height: 64px;
+            }
+        </style>
+        <link rel="stylesheet" href="../../css/pscompose.css" />
     </head>
     <script src="../nav.js"></script>
-    <script src='../../components/web-button.js' type="module"></script>
-    <script src='../../components/text-input.js' type="module"></script>
-    <script src='../../components/text-input-area.js' type="module"></script>
-    <script src='../../components/dropdown-list.js' type="module"></script>
-    <script src='../../components/switch.js' type="module"></script>
-    <script src='../../components/checkbox.js' type="module"></script>
+    <script src="../../components/web-button.js" type="module"></script>
+    <script src="../../components/text-input.js" type="module"></script>
+    <script src="../../components/text-input-area.js" type="module"></script>
+    <script src="../../components/dropdown-list.js" type="module"></script>
+    <script src="../../components/switch.js" type="module"></script>
+    <script src="../../components/checkbox.js" type="module"></script>
     <body>
-      <div class="page" id="page-content">
-        <h2>New Host</h2>
-        <div class="content">
-            <div class="contentdiv">
-                <text-input label="Name" placeholder="Enter Host Name"></text-input>
-                <switch label="Disabled"></switch>
+        <div class="page" id="page-content">
+            <h2>New Host</h2>
+            <div class="content">
+                <div class="contentdiv">
+                    <text-input label="Name" placeholder="Enter Host Name"></text-input>
+                    <switch label="Disabled"></switch>
+                </div>
+                <text-input label="Description" placeholder="Host Description"></text-input>
+                <div class="contentdiv">
+                    <text-input label="Display Group" placeholder="Enter Display Name"></text-input>
+                    <checkbox label="No Agent"></checkbox>
+                </div>
+                <dropdown-list
+                    placeholder="Select Context"
+                    label="Context"
+                    options='[{"value": "option1", "label": "Context 1"}, {"value": "option2", "label": "Context 2"}, {"value": "option2", "label": "Context 3"}]'
+                >
+                </dropdown-list>
+                <text-input label="pScheduler Address" placeholder=""></text-input>
+                <text-input label="Lead Bind Address" placeholder=""></text-input>
+                <text-input-area label="Other Meta" placeholder="Enter JSON"></text-input-area>
+                <div class="save-cancel">
+                    <web-button
+                        link="import_template_2.html"
+                        label="Delete"
+                        theme="error"
+                        righticon="trash-2"
+                    ></web-button>
+                    <web-button
+                        link="import_template_2.html"
+                        label="Save"
+                        theme="secondary"
+                        righticon="save"
+                    ></web-button>
+                    <web-button label="Cancel" theme="primary" righticon="x"></web-button>
+                </div>
             </div>
-            <text-input label="Description" placeholder="Host Description"></text-input>
-            <div class="contentdiv">
-                <text-input label="Display Group" placeholder="Enter Display Name"></text-input>
-                <checkbox label="No Agent"></checkbox>
-            </div>
-            <dropdown-list
-                placeholder="Select Context"
-                label="Context" 
-                options='[{"value": "option1", "label": "Context 1"}, {"value": "option2", "label": "Context 2"}, {"value": "option2", "label": "Context 3"}]'>
-            </dropdown-list>
-            <text-input label="pScheduler Address" placeholder=""></text-input>
-            <text-input label="Lead Bind Address" placeholder=""></text-input>
-            <text-input-area label="Other Meta" placeholder="Enter JSON"></text-input-area>
-          <div class="save-cancel">
-            <web-button link="import_template_2.html" label="Delete" theme="error" righticon='trash-2'></web-button>
-            <web-button link="import_template_2.html" label="Save" theme="secondary" righticon='save'></web-button>
-            <web-button label="Cancel" theme="primary" righticon='x'></web-button>
-          </div>
         </div>
-
-      </div>
     </body>
-    </html>
+</html>

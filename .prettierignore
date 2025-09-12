@@ -1,0 +1,9 @@
+# ignore some config files:
+.pre-commit-config.yaml
+package-lock.json
+pscompose/package-lock.json
+pscompose/frontend/components/json_forms.esm.js
+docker-compose.yml
+pnpm-lock.yaml
+yarn.lock
+pscompose/frontend/tailwind.config.js

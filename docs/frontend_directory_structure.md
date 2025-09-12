@@ -6,8 +6,9 @@ We intended to create a scheme that leverages "standard HTTP" as well as possibl
 while also allowing for reuse.
 
 There are two main sections for the application:
-  -  `/templates/` which contains reusable HTML templates of discreen UI sections
-  -  `/app/` which contains the UI proper
+
+-   `/templates/` which contains reusable HTML templates of discreen UI sections
+-   `/app/` which contains the UI proper
 
 ## Concepts
 
@@ -18,7 +19,7 @@ We selected URLs such as `/tasks/` for the tasks section of the application.
 
 The `/tasks/` directory also contains `tasks.html`. `tasks.html` is then
 symbolically linked to the name `index.html` so that it can be accessed
-in a browser as `/tasks/`. This was intended to provide an easy editing 
+in a browser as `/tasks/`. This was intended to provide an easy editing
 experience as well as a more modern-looking url.
 
 ## Layout notes

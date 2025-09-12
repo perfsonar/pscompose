@@ -1,5 +1,5 @@
 function createLayout() {
-  const layoutHtml =  `
+    const layoutHtml = `
    <body class="packets-ui">
     <div class="bg-surface-bg">
       <div class="top-nav">
@@ -149,61 +149,59 @@ function createLayout() {
 }
 
 function initializePage() {
-  document.body.innerHTML = createLayout();
-  loadPageContent().then(() => {
-    lucide.createIcons();
-    
-    document.querySelectorAll('.parent-item').forEach(parent => {
-      parent.addEventListener('click', function(event) {
-        // Prevent default link behavior if needed
-        event.preventDefault();
-        
-        // Get the ID of the submenu to show
-        const submenuId = parent.getAttribute('data-submenu');
-        
-        // Get the submenu element
-        const submenuToShow = document.getElementById(submenuId);
-        
-        // Check if the submenu is already visible
-        if (submenuToShow.classList.contains('show')) {
-          // Hide the submenu
-          submenuToShow.classList.remove('show');
-        } else {
-          // Hide all submenus
-          document.querySelectorAll('.submenu').forEach(submenu => {
-            submenu.classList.remove('show');
-          });
-          
-          // Show the specific submenu
-          if (submenuToShow) {
-            submenuToShow.classList.add('show');
-          }
-        }
-      });
+    document.body.innerHTML = createLayout();
+    loadPageContent().then(() => {
+        lucide.createIcons();
+
+        document.querySelectorAll(".parent-item").forEach((parent) => {
+            parent.addEventListener("click", function (event) {
+                // Prevent default link behavior if needed
+                event.preventDefault();
+
+                // Get the ID of the submenu to show
+                const submenuId = parent.getAttribute("data-submenu");
+
+                // Get the submenu element
+                const submenuToShow = document.getElementById(submenuId);
+
+                // Check if the submenu is already visible
+                if (submenuToShow.classList.contains("show")) {
+                    // Hide the submenu
+                    submenuToShow.classList.remove("show");
+                } else {
+                    // Hide all submenus
+                    document.querySelectorAll(".submenu").forEach((submenu) => {
+                        submenu.classList.remove("show");
+                    });
+
+                    // Show the specific submenu
+                    if (submenuToShow) {
+                        submenuToShow.classList.add("show");
+                    }
+                }
+            });
+        });
     });
-    
-    
-  });
 }
 
 function loadPageContent() {
-  const pageContent = document.getElementById('page-content');
-  const currentPage = window.location.pathname.split("/").pop() || 'index.html';
-  return fetch(currentPage)
-    .then(response => response.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const content = doc.querySelector('body').innerHTML;
-      pageContent.innerHTML = content;
-    })
-    .catch(error => console.error('Error loading page content:', error));
+    const pageContent = document.getElementById("page-content");
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    return fetch(currentPage)
+        .then((response) => response.text())
+        .then((html) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const content = doc.querySelector("body").innerHTML;
+            pageContent.innerHTML = content;
+        })
+        .catch((error) => console.error("Error loading page content:", error));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Load Lucide script
-  const script = document.createElement('script');
-  script.src = "https://unpkg.com/lucide@latest";
-  script.onload = initializePage; 
-  document.head.appendChild(script);
+document.addEventListener("DOMContentLoaded", () => {
+    // Load Lucide script
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/lucide@latest";
+    script.onload = initializePage;
+    document.head.appendChild(script);
 });
