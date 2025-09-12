@@ -54,7 +54,7 @@
       <ul>
         <li id="new">
           <i data-lucide="plus"></i>
-          {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' %}
+          {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/schedules/' %}
             <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
               <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
             </a>
@@ -67,7 +67,7 @@
         {% for item in data %}
           <li id="{{item.id}}">
             <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
-            {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/'%}
+            {% if data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/addresses/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/groups/' or data.psCompose.menu[data.psCompose.activeMenuItem].page_url == '/schedules/'%}
               <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
                 <h4>{{item.name}}</h4>
               </a>
