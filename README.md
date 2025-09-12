@@ -4,7 +4,7 @@ A graphical interface for composing perfSONAR configurations
 
 ## General Instructions
 
-Create a virtualenv, activate it and install packages
+- Create a virtualenv, activate it and install packages
 
 **Note:** You want to be on Python3.11 or above. Check this by running `python3 --version`
 
@@ -13,6 +13,12 @@ python -m pip install --user virtualenv
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
+
+- Set up formatting / linting pre-commit hooks
+
+```
+(venv) > pre-commit install
 ```
 
 ## API
