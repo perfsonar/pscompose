@@ -1,296 +1,347 @@
 <!doctype html>
 <html>
     <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-      .homepage {
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-      }
-      .getting-started-container {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 32px 16px 16px;
-        gap: 32px;
-        align-items: center;
-      }
-      
-      .getting-started-title {
-        font-family: "Source Sans 3";
-        font-size: 40px;
-        color: var(--copy-color);
-        font-weight: 600;
-      }
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css"
+        />
+        <script
+            type="module"
+            src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"
+        ></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
 
-      .getting-started-p {
-        font-family: "Source Sans 3";
-        font-size: 16px;
-        color: var(--copy-color);
-        text-align: center;
-      }
-      .getting-started-boxes {
-        display: flex;
-        flex-direction: row;
-        gap: 16px;
-      }
+        <style>
+            .homepage {
+                display: flex;
+                justify-content: flex-start;
+                flex-direction: row;
+            }
+            .getting-started-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                padding: 32px 16px 16px;
+                gap: 32px;
+                align-items: center;
+            }
 
-      .table-container {
-        margin: 20px;
-      }
+            .getting-started-title {
+                font-family: "Source Sans 3";
+                font-size: 40px;
+                color: var(--copy-color);
+                font-weight: 600;
+            }
 
-      table {
-        table-layout: fixed;
-        width: 100%;
-        border-collapse: collapse;
-      }
+            .getting-started-p {
+                font-family: "Source Sans 3";
+                font-size: 16px;
+                color: var(--copy-color);
+                text-align: center;
+            }
+            .getting-started-boxes {
+                display: flex;
+                flex-direction: row;
+                gap: 16px;
+            }
 
-      th, td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-        font-family: "Source Sans 3";
-        color: var(--copy-color);
-      }
-      th {
-        background-color: var(--surface1-color);
-      }
-      .th-content {
-        display: flex;
-        flex-direction: row;
-        font-size: 16px;
-        font-weight: 400;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-      }
-      .action-icons{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-      }
+            .table-container {
+                margin: 20px;
+            }
 
-      .short-cuts {
-        width: 30%; /* or whatever width you prefer */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 32px 32px 16px;
-        gap: 32px;
-        background: var(--surface1-color);
-        min-height: calc(100vh - 3rem);
-      }
+            table {
+                table-layout: fixed;
+                width: 100%;
+                border-collapse: collapse;
+            }
 
-      .short-cut-title {
-        font-family: "Source Sans 3";
-        font-size: 36px;
-        color: var(--copy-color);
-      }
-      
-      .list-box{
-        display: flex;
-        flex-direction: column;
-        align-items: left;
-        padding: 16px;
-        gap: 10px;
-        width: 100%;
-        background: var(--surface2-color);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 12px;
-      }
-      
-      .box-header {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        gap: 10px;
-      }
+            th,
+            td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+                font-family: "Source Sans 3";
+                color: var(--copy-color);
+            }
+            th {
+                background-color: var(--surface1-color);
+            }
+            .th-content {
+                display: flex;
+                flex-direction: row;
+                font-size: 16px;
+                font-weight: 400;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+            }
+            .action-icons {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+            }
 
-      .box-name {
-        color: var(--copy-color);
-        font-family: "Source Sans 3";
-        font-size: 24px;
-        font-weight: 600;
-        flex: 1;
-      }
+            .short-cuts {
+                width: 30%; /* or whatever width you prefer */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 32px 32px 16px;
+                gap: 32px;
+                background: var(--surface1-color);
+                min-height: calc(100vh - 3rem);
+            }
 
-      .box-text {
-        color: var(--copy-color);
-        font-family: "Source Sans 3";
-        font-weight: 400;
-        font-size: 12px;
-      }
+            .short-cut-title {
+                font-family: "Source Sans 3";
+                font-size: 36px;
+                color: var(--copy-color);
+            }
 
-    </style>
-    <link rel="stylesheet" href="../css/pscompose.css" />
-    <script src="nav.js"></script>
-    <script src='../components/web-button.js' type="module"></script>
+            .list-box {
+                display: flex;
+                flex-direction: column;
+                align-items: left;
+                padding: 16px;
+                gap: 10px;
+                width: 100%;
+                background: var(--surface2-color);
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                border-radius: 12px;
+            }
+
+            .box-header {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .box-name {
+                color: var(--copy-color);
+                font-family: "Source Sans 3";
+                font-size: 24px;
+                font-weight: 600;
+                flex: 1;
+            }
+
+            .box-text {
+                color: var(--copy-color);
+                font-family: "Source Sans 3";
+                font-weight: 400;
+                font-size: 12px;
+            }
+        </style>
+        <link rel="stylesheet" href="../css/pscompose.css" />
+        <script src="nav.js"></script>
+        <script src="../components/web-button.js" type="module"></script>
     </head>
     <body>
         <div class="homepage" id="page-content">
-        <div class="getting-started-container">
-          <h3 class="getting-started-title">Getting Started</h3>
-          <p class="getting-started-p">
-            Welcome to pSCompose!
-            <br/>
-            Are you starting a template from scratch?  Start by entering hosts.
-            <br/>
-            Do you need to import an existing template?
-          </p>
-          <div class="getting-started-boxes">
-            <div class="list-box">
-              <div class="box-header">
-                <i class="lucide" style="color: var(--copy-color)" data-lucide="locate"></i>                  
-                <p class="box-name">Import Template</p>
-                <web-button link="imports/import_template_1.html" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
-              </div>
-              <p class="box-text">
-                Import an existing template json by uploading the file or copying and pasting the json directly.
-                <br/>
-                You can make edits as needed once imported
-              </p>
-            </div>
-            <div class="list-box">
-              <div class="box-header">
-                <i class="lucide" data-lucide="plus"></i>          
-                <p class="box-name">Create New Template</p>
-                <web-button link="pages/wizard/wizard-step1.html" theme="custom" backgroundcolor='#000000' bordercolor="#31B63F" textcolor="#31B63F" label="" righticon="arrow-right" ></web-button>
-              </div>
-              <p class="box-text">
-                This will walk you through creating a new template from scratch
-              </p>
-            </div>
-          </div>
+            <div class="getting-started-container">
+                <h3 class="getting-started-title">Getting Started</h3>
+                <p class="getting-started-p">
+                    Welcome to pSCompose!
+                    <br />
+                    Are you starting a template from scratch? Start by entering hosts.
+                    <br />
+                    Do you need to import an existing template?
+                </p>
+                <div class="getting-started-boxes">
+                    <div class="list-box">
+                        <div class="box-header">
+                            <i
+                                class="lucide"
+                                style="color: var(--copy-color)"
+                                data-lucide="locate"
+                            ></i>
+                            <p class="box-name">Import Template</p>
+                            <web-button
+                                link="imports/import_template_1.html"
+                                theme="custom"
+                                backgroundcolor="#000000"
+                                bordercolor="#31B63F"
+                                textcolor="#31B63F"
+                                label=""
+                                righticon="arrow-right"
+                            ></web-button>
+                        </div>
+                        <p class="box-text">
+                            Import an existing template json by uploading the file or copying and
+                            pasting the json directly.
+                            <br />
+                            You can make edits as needed once imported
+                        </p>
+                    </div>
+                    <div class="list-box">
+                        <div class="box-header">
+                            <i class="lucide" data-lucide="plus"></i>
+                            <p class="box-name">Create New Template</p>
+                            <web-button
+                                link="pages/wizard/wizard-step1.html"
+                                theme="custom"
+                                backgroundcolor="#000000"
+                                bordercolor="#31B63F"
+                                textcolor="#31B63F"
+                                label=""
+                                righticon="arrow-right"
+                            ></web-button>
+                        </div>
+                        <p class="box-text">
+                            This will walk you through creating a new template from scratch
+                        </p>
+                    </div>
+                </div>
 
-        <h3 class="getting-started-title">Published Templates</h3>
-        <div class="table-container">
-        <table>
-          <tr>
-            <th> 
-              <div class="th-content">
-                <i class="lucide" data-lucide="locate" style="height: 36"></i> 
-                Name
-              </div>
-            </th>
-            <th>
-              <div class="th-content">
-                <i class="lucide" data-lucide="clipboard-list" style="height: 36"></i>                  
-                Tasks
-              </div>
-            </th>
-            <th>
-              <div class="th-content">
-                <i class="lucide" data-lucide="timer-reset" style="height: 36"></i>               
-                Interval
-              </div>
-            </th>
-            <th>
-              <div class="th-content">
-                <i class="lucide" data-lucide="hard-drive-download" style="height: 36"></i>                
-                Test Members
-              </div>
-            </th>
-            <th>
-              <div class="th-content">
-                <i class="lucide" data-lucide="check-circle-2" style="height: 36"></i>              
-                Enabled
-              </div>
-            </th>
-            <th>
-              <div class="th-content">
-                <i class="lucide" data-lucide="file-edit" style="height: 36"></i>            
-                Actions
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <td>My First Template</td>
-            <td>Task A, Task B</td>
-            <td>6 hours</td>
-            <td>1 host</td>
-            <td>
-              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
-            </td>
-            <td> 
-              <div class="action-icons">
-                <i class="lucide" data-lucide="settings" style="height: 24;"></i>
-                <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>My Next Template</td>
-            <td>Throughput - TCP</td>
-            <td>6 hours</td>
-            <td>1 host</td>
-            <td>
-              <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)"></i>
-            </td>
-            <td> 
-              <div class="action-icons">
-                <i class="lucide" data-lucide="settings" style="height: 24;"></i>
-                <i class="lucide" data-lucide="trash-2" style="height: 24;"></i>
-              </div>
-            </td>
-          </tr>
-          
-        </table>
+                <h3 class="getting-started-title">Published Templates</h3>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>
+                                <div class="th-content">
+                                    <i class="lucide" data-lucide="locate" style="height: 36"></i>
+                                    Name
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i
+                                        class="lucide"
+                                        data-lucide="clipboard-list"
+                                        style="height: 36"
+                                    ></i>
+                                    Tasks
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i
+                                        class="lucide"
+                                        data-lucide="timer-reset"
+                                        style="height: 36"
+                                    ></i>
+                                    Interval
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i
+                                        class="lucide"
+                                        data-lucide="hard-drive-download"
+                                        style="height: 36"
+                                    ></i>
+                                    Test Members
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i
+                                        class="lucide"
+                                        data-lucide="check-circle-2"
+                                        style="height: 36"
+                                    ></i>
+                                    Enabled
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i
+                                        class="lucide"
+                                        data-lucide="file-edit"
+                                        style="height: 36"
+                                    ></i>
+                                    Actions
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>My First Template</td>
+                            <td>Task A, Task B</td>
+                            <td>6 hours</td>
+                            <td>1 host</td>
+                            <td>
+                                <i
+                                    class="lucide"
+                                    data-lucide="check-circle-2"
+                                    style="height: 24; color: var(--success-color)"
+                                ></i>
+                            </td>
+                            <td>
+                                <div class="action-icons">
+                                    <i class="lucide" data-lucide="settings" style="height: 24"></i>
+                                    <i class="lucide" data-lucide="trash-2" style="height: 24"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>My Next Template</td>
+                            <td>Throughput - TCP</td>
+                            <td>6 hours</td>
+                            <td>1 host</td>
+                            <td>
+                                <i
+                                    class="lucide"
+                                    data-lucide="check-circle-2"
+                                    style="height: 24; color: var(--success-color)"
+                                ></i>
+                            </td>
+                            <td>
+                                <div class="action-icons">
+                                    <i class="lucide" data-lucide="settings" style="height: 24"></i>
+                                    <i class="lucide" data-lucide="trash-2" style="height: 24"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="short-cuts">
+                <h3 class="short-cut-title">Recently Edited</h3>
+                <div class="list-box">
+                    <div class="box-header">
+                        <i class="lucide" data-lucide="locate" style="height: 32"></i>
+                        <p class="box-name">Test Template</p>
+                    </div>
+                    <p class="box-text">September 7, 2024 08:50</p>
+                </div>
+
+                <div class="list-box">
+                    <div class="box-header">
+                        <i class="lucide" data-lucide="group" style="height: 32"></i>
+                        <p class="box-name">ESnet Test Group</p>
+                    </div>
+                    <p class="box-text">September 6, 2024 09:15</p>
+                </div>
+
+                <div class="list-box">
+                    <div class="box-header">
+                        <i class="lucide" data-lucide="locate" style="height: 32"></i>
+                        <p class="box-name">Andy’s Template</p>
+                    </div>
+                    <p class="box-text">September 6, 2024 00:23</p>
+                </div>
+
+                <h3 class="short-cut-title">Favorites</h3>
+
+                <div class="list-box">
+                    <div class="box-header">
+                        <i class="lucide" data-lucide="flask-conical" style="height: 32"></i>
+                        <p class="box-name">My Favorite Test</p>
+                    </div>
+                    <p class="box-text">September 6, 2024 00:23</p>
+                </div>
+            </div>
         </div>
-
-        </div>
-
-        <div class="short-cuts">
-          <h3 class="short-cut-title">Recently Edited</h3>
-          <div class="list-box">
-            <div class="box-header">
-              <i class="lucide" data-lucide="locate" style="height: 32;"></i>           
-              <p class="box-name">Test Template</p>
-            </div>
-            <p class="box-text">September 7, 2024 08:50</p>
-          </div>
-
-          <div class="list-box">
-            <div class="box-header">
-              <i class="lucide" data-lucide="group" style="height: 32;"></i>                          
-              <p class="box-name">ESnet Test Group</p>
-            </div>
-            <p class="box-text">September 6, 2024 09:15</p>
-          </div>
-
-          <div class="list-box">
-            <div class="box-header">
-              <i class="lucide" data-lucide="locate" style="height: 32;"></i>                 
-              <p class="box-name">Andy’s Template</p>
-            </div>
-            <p class="box-text">September 6, 2024 00:23</p>
-          </div>
-
-          <h3 class="short-cut-title">Favorites</h3>
-
-
-          <div class="list-box">
-            <div class="box-header">
-              <i class="lucide" data-lucide="flask-conical" style="height: 32;"></i>               
-              <p class="box-name">My Favorite Test</p>
-            </div>
-            <p class="box-text">September 6, 2024 00:23</p>
-          </div>
-
-        </div>
-      </div>
-      <script>
-        lucide.createIcons();
-      </script>
+        <script>
+            lucide.createIcons();
+        </script>
     </body>
-    </html>
+</html>

@@ -5,14 +5,25 @@
         <text-input label="Name" placeholder="New Template"></text-input>
         <dropdown-list
             placeholder="Choose Import Method"
-            label="ImportVia" 
-            options='[{"value": "option1", "label": "Upload JSON file"}, {"value": "option2", "label": "URL"}, {"value": "option2", "label": "Paste JSON"}]'>
+            label="ImportVia"
+            options='[{"value": "option1", "label": "Upload JSON file"}, {"value": "option2", "label": "URL"}, {"value": "option2", "label": "Paste JSON"}]'
+        >
         </dropdown-list>
         <text-input-area label="JSON" placeholder="Enter Json"></text-input-area>
-                
+
         <div class="save-cancel">
-            <web-button data-link="/import/2/import_template_saved/" data-theme="Secondary" data-label="Save" data-righticon="save" ></web-button>
-            <web-button  data-link="/" data-label="Cancel" data-theme="Primary" data-righticon='x'></web-button>
+            <web-button
+                data-link="/import/2/import_template_saved/"
+                data-theme="Secondary"
+                data-label="Save"
+                data-righticon="save"
+            ></web-button>
+            <web-button
+                data-link="/"
+                data-label="Cancel"
+                data-theme="Primary"
+                data-righticon="x"
+            ></web-button>
         </div>
     </div>
 </div>

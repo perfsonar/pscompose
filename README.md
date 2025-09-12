@@ -4,7 +4,7 @@ A graphical interface for composing perfSONAR configurations
 
 ## General Instructions
 
-- Create a virtualenv, activate it and install packages
+-   Create a virtualenv, activate it and install packages
 
 **Note:** You want to be on Python3.11 or above. Check this by running `python3 --version`
 
@@ -15,7 +15,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Set up formatting / linting pre-commit hooks
+-   Set up formatting / linting pre-commit hooks
 
 ```
 (venv) > pre-commit install
@@ -26,29 +26,33 @@ pip install -r requirements.txt
 ### Step One: Setup
 
 Install postgresql 14
+
 ```
 brew install postgresql@14
 ```
 
 Now, run the following commands
+
 ```
 sudo mkdir -p /etc/pscompose
 cd /etc/pscompose
-sudo vi settings.yml 
+sudo vi settings.yml
     --> Copy paste the EXAMPLE_CONFIG.yml
 chmod +x local_setup.sh
 ./local_setup.sh
 ```
 
 The script (local_setup.sh) will:
-- Start PostgreSQL if needed
-- Create the pscompose_user with password 'password'
-- Create the database with pscompose_user as the owner
-- Grant all necessary permissions
-- Set up the Python environment
-- Create the tables
+
+-   Start PostgreSQL if needed
+-   Create the pscompose_user with password 'password'
+-   Create the database with pscompose_user as the owner
+-   Grant all necessary permissions
+-   Set up the Python environment
+-   Create the tables
 
 Next, check if postgresql is running. If not, start it manually
+
 ```
 brew services info postgresql
 brew services start postgresql
@@ -65,7 +69,7 @@ SELECT * FROM data;
 
 ### Step Two: Run the API
 
-To start the API locally, 
+To start the API locally,
 
 ```
 make run-api

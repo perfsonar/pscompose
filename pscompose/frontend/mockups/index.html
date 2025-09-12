@@ -1,75 +1,79 @@
 <!doctype html>
 <html>
-  <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src='../components/text-input.js' type="module"></script>
-    <script src='../components/text-input-password.js' type="module"></script>
-    <script src='../components/web-button.js' type="module"></script>
-    <style>
-      /* Login Page */
-      .login-container {
-        display: flex;
-        width: 100vw;
-        height: 100vh;
-      }
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../components/text-input.js" type="module"></script>
+        <script src="../components/text-input-password.js" type="module"></script>
+        <script src="../components/web-button.js" type="module"></script>
+        <style>
+            /* Login Page */
+            .login-container {
+                display: flex;
+                width: 100vw;
+                height: 100vh;
+            }
 
-      .login-sect, .logo-sect {
-        width: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      }
+            .login-sect,
+            .logo-sect {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
 
-      .login-sect {
-        background: var(--surface-1, #19191A);
-      }
+            .login-sect {
+                background: var(--surface-1, #19191a);
+            }
 
-      .logo-sect {
-        background: var(--background, #252526);
-      }
+            .logo-sect {
+                background: var(--background, #252526);
+            }
 
-      .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 2vh;
-      }
+            .login-form {
+                display: flex;
+                flex-direction: column;
+                gap: 2vh;
+            }
 
-      .login-title {
-        color: var(--copy, #FFF);
-        font-family: Signika;
-        font-size: 48px;
-        font-weight: 600;
-      }
+            .login-title {
+                color: var(--copy, #fff);
+                font-family: Signika;
+                font-size: 48px;
+                font-weight: 600;
+            }
 
-      .login-form button {
-        width: 100%;
-      }
-    </style>
+            .login-form button {
+                width: 100%;
+            }
+        </style>
 
-    <link rel="stylesheet" href="../css/pscompose.css" />
-
-  </head>
-  <body>
-    <div class="login-container">
-      <div class="login-sect">
-        <h1 class="login-title">Login</h1>
-        <div class="login-form">
-          <text-input label="Username" placeholder="Email"></text-input>
-          <text-input-pw label="Password" placeholder="Enter Password"></text-input-pw>
-          <web-button label="Login" link="/mockups/home.html" theme="secondary"></web-button>
-          <web-button label="Create Account" theme="secondary"></web-button>
+        <link rel="stylesheet" href="../css/pscompose.css" />
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="login-sect">
+                <h1 class="login-title">Login</h1>
+                <div class="login-form">
+                    <text-input label="Username" placeholder="Email"></text-input>
+                    <text-input-pw label="Password" placeholder="Enter Password"></text-input-pw>
+                    <web-button
+                        label="Login"
+                        link="/mockups/home.html"
+                        theme="secondary"
+                    ></web-button>
+                    <web-button label="Create Account" theme="secondary"></web-button>
+                </div>
+            </div>
+            <div class="logo-sect">
+                <img src="/mockups/static/perfsonar-icon.png" alt="Project Logo" class="logo" />
+            </div>
         </div>
-      </div>
-      <div class="logo-sect">
-        <img src="/mockups/static/perfsonar-icon.png" alt="Project Logo" class="logo">
-      </div>
-    </div>
-</body>
+    </body>
 </html>

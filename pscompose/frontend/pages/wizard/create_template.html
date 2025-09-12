@@ -1,37 +1,54 @@
 <div class="wizard-page">
-  <h1>New Template</h1>
-  <div class="progress-bar">
-    <web-button data-link="/wizard/6/tasks/" data-label="Previous" data-theme="Primary" data-leftIcon='arrow-left'></web-button>
-    <progress-bar step="7"></progress-bar>
-    <web-button 
-      data-label="Save" data-theme="Tertiary" data-righticon="save"
-      data-redirect="/wizard/8/template/"
-      hx-post=""
-      hx-confirm="Are you sure you want to save this template?">
-    </web-button>
-  </div>
-  <h2 class="step-title">Step 7) Create Template</h2>
-  <div class="step-section">
-    <p class="step-text">You’ve reached the final step!  Name your template and select which tasks to include!</p>
-    <div class="step-box-column">
-      <text-input label="Name" placeholder="New Template"></text-input>
-      <dropdown-list
-        placeholder="Add Task"
-        label="ImportVia" 
-        options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'>
-      </dropdown-list>
-      <text-input-area label="Other Meta" placeholder="Enter Json"></text-input-area>
-      <div class="save-cancel">
-        <web-button 
-          data-label="Save" data-theme="Tertiary" data-righticon="save"
-          data-redirect="/wizard/8/template/"
-          hx-post=""
-          hx-confirm="Are you sure you want to save this template?">
+    <h1>New Template</h1>
+    <div class="progress-bar">
+        <web-button
+            data-link="/wizard/6/tasks/"
+            data-label="Previous"
+            data-theme="Primary"
+            data-leftIcon="arrow-left"
+        ></web-button>
+        <progress-bar step="7"></progress-bar>
+        <web-button
+            data-label="Save"
+            data-theme="Tertiary"
+            data-righticon="save"
+            data-redirect="/wizard/8/template/"
+            hx-post=""
+            hx-confirm="Are you sure you want to save this template?"
+        >
         </web-button>
-        <web-button data-label="Cancel" data-theme="Primary" data-righticon="x"></web-button>
-      </div>
     </div>
-  </div>
-  <div id="modal-container"></div>
+    <h2 class="step-title">Step 7) Create Template</h2>
+    <div class="step-section">
+        <p class="step-text">
+            You’ve reached the final step! Name your template and select which tasks to include!
+        </p>
+        <div class="step-box-column">
+            <text-input label="Name" placeholder="New Template"></text-input>
+            <dropdown-list
+                placeholder="Add Task"
+                label="ImportVia"
+                options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'
+            >
+            </dropdown-list>
+            <text-input-area label="Other Meta" placeholder="Enter Json"></text-input-area>
+            <div class="save-cancel">
+                <web-button
+                    data-label="Save"
+                    data-theme="Tertiary"
+                    data-righticon="save"
+                    data-redirect="/wizard/8/template/"
+                    hx-post=""
+                    hx-confirm="Are you sure you want to save this template?"
+                >
+                </web-button>
+                <web-button
+                    data-label="Cancel"
+                    data-theme="Primary"
+                    data-righticon="x"
+                ></web-button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-container"></div>
 </div>
-

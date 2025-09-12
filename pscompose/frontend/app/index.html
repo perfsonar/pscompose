@@ -3,10 +3,7 @@
     <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-          href="/css/google-fonts-signika-and-source-sans.css"
-          rel="stylesheet"
-        />
+        <link href="/css/google-fonts-signika-and-source-sans.css" rel="stylesheet" />
         <!-- psCompose -->
         <link rel="stylesheet" href="/css/pscompose.css" />
         <link rel="stylesheet" href="/css/web-components.css" />
@@ -20,24 +17,35 @@
         <script src="/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- JSON Forms Web Component Library -->
-        <script src='https://unpkg.com/jsonforms-esm@3.5.1-beta10/dist/jsonforms.esm.js' type="module"></script>
+        <script
+            src="https://unpkg.com/jsonforms-esm@3.5.1-beta10/dist/jsonforms.esm.js"
+            type="module"
+        ></script>
 
         <!-- Dynamic URL Extension (dynamic-url) for HTMX -->
         <!-- For production -->
-        <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/gh/FumingPower3925/htmx-dynamic-url@main/dist/dynamic-url.min.js" integrity="sha384-xzJhFGTvjMySqCy1UJ/W3aBlfKC2xvFn/cxc0+VcRaJSL3HLvWX622kBDyi0c5Ro" crossorigin="anonymous"></script>
+        <script
+            src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"
+            integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/gh/FumingPower3925/htmx-dynamic-url@main/dist/dynamic-url.min.js"
+            integrity="sha384-xzJhFGTvjMySqCy1UJ/W3aBlfKC2xvFn/cxc0+VcRaJSL3HLvWX622kBDyi0c5Ro"
+            crossorigin="anonymous"
+        ></script>
 
         <!-- Web Components -->
-        <script src='/components/web-button.js' type="module"></script>
-        <script src='/components/text-input.js' type="module"></script>
-        <script src='/components/text-input-area.js' type="module"></script>
-        <script src='/components/checkbox.js' type="module"></script>
-        <script src='/components/progress-bar.js' type="module"></script>
-        <script src='/components/multi-select-dropdown.js' type="module"></script>
-        <script src='/components/single-select-dropdown.js' type="module"></script>
+        <script src="/components/web-button.js" type="module"></script>
+        <script src="/components/text-input.js" type="module"></script>
+        <script src="/components/text-input-area.js" type="module"></script>
+        <script src="/components/checkbox.js" type="module"></script>
+        <script src="/components/progress-bar.js" type="module"></script>
+        <script src="/components/multi-select-dropdown.js" type="module"></script>
+        <script src="/components/single-select-dropdown.js" type="module"></script>
 
         <script>
-            document.addEventListener('htmx:afterRequest', function(evt) {
+            document.addEventListener("htmx:afterRequest", function (evt) {
                 lucide.createIcons();
             });
             // probably we'll need something like this too:
@@ -50,33 +58,27 @@
         <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
-        <nav hx-get="/partials/top_nav.html" hx-trigger="load">
-        </nav>
+        <nav hx-get="/partials/top_nav.html" hx-trigger="load"></nav>
         <div class="backdrop">
-            <nav hx-get="/partials/left_nav.html" hx-trigger="load">
-            </nav>
-            <main id='page-content'>
-
-                <div id='router-target' class="page">
-                </div>
-
+            <nav hx-get="/partials/left_nav.html" hx-trigger="load"></nav>
+            <main id="page-content">
+                <div id="router-target" class="page"></div>
             </main>
-            <div id='short' hx-get="/partials/recently_edited.html" hx-trigger="load">
-            </div>
+            <div id="short" hx-get="/partials/recently_edited.html" hx-trigger="load"></div>
         </div>
         <script>
             // nunjucks environment setup: add 'logger' and 'escape_property' filters
-            document.addEventListener("htmx:nunjucks-environment", (event)=>{
+            document.addEventListener("htmx:nunjucks-environment", (event) => {
                 let env = event.detail.environment;
 
-                env.addFilter("logger", function(value, label){
-                  if(label){
-                    console.log(label, value)
-                  } else {
-                    console.log(value);
-                  }
-                  return value;
-                })
+                env.addFilter("logger", function (value, label) {
+                    if (label) {
+                        console.log(label, value);
+                    } else {
+                        console.log(value);
+                    }
+                    return value;
+                });
 
                 function resolvePath(object, path, defaultValue = null) {
                     return path
@@ -93,199 +95,201 @@
                     });
                     o[lastItem] = newValue;
                 }
-                env.addFilter("escape_property", function(object, path){
-                  let value = resolvePath(object, path);
-                  if(typeof(value) != "string"){
-                    setPath(object, path, JSON.stringify(value));
-                  }
-                  return object;
-                })
-
-            })
+                env.addFilter("escape_property", function (object, path) {
+                    let value = resolvePath(object, path);
+                    if (typeof value != "string") {
+                        setPath(object, path, JSON.stringify(value));
+                    }
+                    return object;
+                });
+            });
 
             window.psCompose = {
-                "activeMenuItem": null,
-                "toggledMenuItem": null,
-                "activeRoute": null,
-                "menu": null,
-                "router": null,
-                "metadata": {
-                    "import": [{
-                        "section": "import",
-                        "step": 1,
-                        "datatype": "template",
-                        "singular": "Template",
-                        "plural": "Templates",
-                        "page_template": "/pages/import/import_template.html",
-                        "list_endpoint": "/dummy_api/test_list.json",
-                        "icon": "hard-drive-download",
-                    },{
-                        "section": "import",
-                        "step": 2,
-                        "datatype": "template",
-                        "singular": "Template",
-                        "plural": "Templates",
-                        "page_template": "/pages/import/import_template_saved.html",
-                        "list_endpoint": "/dummy_api/test_list.json",
-                        "icon": "hard-drive-download",
-                    }
+                activeMenuItem: null,
+                toggledMenuItem: null,
+                activeRoute: null,
+                menu: null,
+                router: null,
+                metadata: {
+                    import: [
+                        {
+                            section: "import",
+                            step: 1,
+                            datatype: "template",
+                            singular: "Template",
+                            plural: "Templates",
+                            page_template: "/pages/import/import_template.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "hard-drive-download",
+                        },
+                        {
+                            section: "import",
+                            step: 2,
+                            datatype: "template",
+                            singular: "Template",
+                            plural: "Templates",
+                            page_template: "/pages/import/import_template_saved.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "hard-drive-download",
+                        },
                     ],
-                    "wizard": [{
-                            "section": "wizard",
-                            "step": 1,
-                            "datatype": "addresses",
-                            "singular": "Address",
-                            "plural": "Addresses",
-                            "page_template": "/pages/wizard/addresses.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "hard-drive-download",
+                    wizard: [
+                        {
+                            section: "wizard",
+                            step: 1,
+                            datatype: "addresses",
+                            singular: "Address",
+                            plural: "Addresses",
+                            page_template: "/pages/wizard/addresses.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "hard-drive-download",
                         },
                         {
-                            "section": "wizard",
-                            "step": 2,
-                            "datatype": "groups",
-                            "singular": "Group",
-                            "plural": "Groups",
-                            "page_template": "/pages/wizard/groups.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "group",
+                            section: "wizard",
+                            step: 2,
+                            datatype: "groups",
+                            singular: "Group",
+                            plural: "Groups",
+                            page_template: "/pages/wizard/groups.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "group",
                         },
                         {
-                            "section": "wizard",
-                            "step": 3,
-                            "datatype": "archives",
-                            "singular": "Archive",
-                            "plural": "Archives",
-                            "page_template": "/pages/wizard/archives.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "database",
+                            section: "wizard",
+                            step: 3,
+                            datatype: "archives",
+                            singular: "Archive",
+                            plural: "Archives",
+                            page_template: "/pages/wizard/archives.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "database",
                         },
                         {
-                            "section": "wizard",
-                            "step": 4,
-                            "datatype": "schedules",
-                            "singular": "Schedule",
-                            "plural": "Schedules",
-                            "page_template": "/pages/wizard/schedules.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "calendar-check",
+                            section: "wizard",
+                            step: 4,
+                            datatype: "schedules",
+                            singular: "Schedule",
+                            plural: "Schedules",
+                            page_template: "/pages/wizard/schedules.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "calendar-check",
                         },
                         {
-                            "section": "wizard",
-                            "step": 5,
-                            "datatype": "tests",
-                            "singular": "Test",
-                            "plural": "Tests",
-                            "page_template": "/pages/wizard/tests.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "flask-conical",
+                            section: "wizard",
+                            step: 5,
+                            datatype: "tests",
+                            singular: "Test",
+                            plural: "Tests",
+                            page_template: "/pages/wizard/tests.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "flask-conical",
                         },
                         {
-                            "section": "wizard",
-                            "step": 6,
-                            "datatype": "tasks",
-                            "singular": "Task",
-                            "plural": "Tasks",
-                            "page_template": "/pages/wizard/tasks.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "clipboard-list",
+                            section: "wizard",
+                            step: 6,
+                            datatype: "tasks",
+                            singular: "Task",
+                            plural: "Tasks",
+                            page_template: "/pages/wizard/tasks.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "clipboard-list",
                         },
                         {
-                            "section": "wizard",
-                            "step": 7,
-                            "datatype": "templates",
-                            "singular": "Template",
-                            "plural": "Templates",
-                            "page_template": "/pages/wizard/create_template.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "locate",
+                            section: "wizard",
+                            step: 7,
+                            datatype: "templates",
+                            singular: "Template",
+                            plural: "Templates",
+                            page_template: "/pages/wizard/create_template.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "locate",
                         },
                         {
-                            "section": "wizard",
-                            "step": 8,
-                            "datatype": "templates",
-                            "singular": "Template",
-                            "plural": "Templates",
-                            "page_template": "/pages/wizard/template.html",
-                            "list_endpoint": "/dummy_api/test_list.json",
-                            "icon": "locate",
-                        }
+                            section: "wizard",
+                            step: 8,
+                            datatype: "templates",
+                            singular: "Template",
+                            plural: "Templates",
+                            page_template: "/pages/wizard/template.html",
+                            list_endpoint: "/dummy_api/test_list.json",
+                            icon: "locate",
+                        },
                     ],
-                    "addresses": {
-                        "singular": "Address",
-                        "plural": "Addresses",
-                        "page_url": "/addresses/",
-                        "page_template": "/pages/addresses/addresses.html",
-                        "list_endpoint": "http://localhost:8000/api/address/",
-                        "icon": "hard-drive-download",
+                    addresses: {
+                        singular: "Address",
+                        plural: "Addresses",
+                        page_url: "/addresses/",
+                        page_template: "/pages/addresses/addresses.html",
+                        list_endpoint: "http://localhost:8000/api/address/",
+                        icon: "hard-drive-download",
                     },
-                    "archives": {
-                        "singular": "Archive",
-                        "plural": "Archives",
-                        "page_url": "/archives/",
-                        "page_template": "/pages/archives/archives.html",
-                        "list_endpoint": "http://localhost:8000/api/archive/",
-                        "icon": "database",
+                    archives: {
+                        singular: "Archive",
+                        plural: "Archives",
+                        page_url: "/archives/",
+                        page_template: "/pages/archives/archives.html",
+                        list_endpoint: "http://localhost:8000/api/archive/",
+                        icon: "database",
                     },
-                    "contexts": {
-                        "singular": "Context",
-                        "plural": "Contexts",
-                        "page_url": "/contexts/",
-                        "page_template": "/pages/contexts/contexts.html",
-                        "list_endpoint": "http://localhost:8000/api/context/",
-                        "icon": "file-question",
+                    contexts: {
+                        singular: "Context",
+                        plural: "Contexts",
+                        page_url: "/contexts/",
+                        page_template: "/pages/contexts/contexts.html",
+                        list_endpoint: "http://localhost:8000/api/context/",
+                        icon: "file-question",
                     },
-                    "groups": {
-                        "singular": "Group",
-                        "plural": "Groups",
-                        "page_url": "/groups/",
-                        "page_template": "/pages/groups/groups.html",
-                        "list_endpoint": "http://localhost:8000/api/group/",
-                        "icon": "hard-drive-download",
+                    groups: {
+                        singular: "Group",
+                        plural: "Groups",
+                        page_url: "/groups/",
+                        page_template: "/pages/groups/groups.html",
+                        list_endpoint: "http://localhost:8000/api/group/",
+                        icon: "hard-drive-download",
                     },
-                    "schedules": {
-                        "singular": "Schedule",
-                        "plural": "Schedules",
-                        "page_url": "/schedules/",
-                        "page_template": "/pages/schedules/schedules.html",
-                        "list_endpoint": "http://localhost:8000/api/schedule/",
-                        "icon": "calendar-check",
+                    schedules: {
+                        singular: "Schedule",
+                        plural: "Schedules",
+                        page_url: "/schedules/",
+                        page_template: "/pages/schedules/schedules.html",
+                        list_endpoint: "http://localhost:8000/api/schedule/",
+                        icon: "calendar-check",
                     },
-                    "tasks": {
-                        "singular": "Task",
-                        "plural": "Tasks",
-                        "page_url": "/tasks/",
-                        "page_template": "/pages/tasks/tasks.html",
-                        "list_endpoint": "http://localhost:8000/api/task/",
-                        "icon": "clipboard-list",
+                    tasks: {
+                        singular: "Task",
+                        plural: "Tasks",
+                        page_url: "/tasks/",
+                        page_template: "/pages/tasks/tasks.html",
+                        list_endpoint: "http://localhost:8000/api/task/",
+                        icon: "clipboard-list",
                     },
-                    "templates": {
-                        "singular": "Template",
-                        "plural": "Templates",
-                        "page_url": "/templates/",
-                        "page_template": "/pages/templates/templates.html",
-                        "list_endpoint": "http://localhost:8000/api/template/",
-                        "icon": "locate",
+                    templates: {
+                        singular: "Template",
+                        plural: "Templates",
+                        page_url: "/templates/",
+                        page_template: "/pages/templates/templates.html",
+                        list_endpoint: "http://localhost:8000/api/template/",
+                        icon: "locate",
                     },
-                    "tests": {
-                        "singular": "Test",
-                        "plural": "Tests",
-                        "page_url": "/tests/",
-                        "page_template": "/pages/tests/tests.html",
-                        "list_endpoint": "http://localhost:8000/api/test/",
-                        "icon": "flask-conical",
-                    }
-                }
+                    tests: {
+                        singular: "Test",
+                        plural: "Tests",
+                        page_url: "/tests/",
+                        page_template: "/pages/tests/tests.html",
+                        list_endpoint: "http://localhost:8000/api/test/",
+                        icon: "flask-conical",
+                    },
+                },
             };
             psCompose.menu = {
-                "addresses": psCompose.metadata["addresses"],
-                "archives": psCompose.metadata["archives"],
-                "contexts": psCompose.metadata["contexts"],
-                "groups": psCompose.metadata["groups"],
-                "schedules": psCompose.metadata["schedules"],
-                "tasks": psCompose.metadata["tasks"],
-                "templates": psCompose.metadata["templates"],
-                "tests": psCompose.metadata["tests"],
+                addresses: psCompose.metadata["addresses"],
+                archives: psCompose.metadata["archives"],
+                contexts: psCompose.metadata["contexts"],
+                groups: psCompose.metadata["groups"],
+                schedules: psCompose.metadata["schedules"],
+                tasks: psCompose.metadata["tasks"],
+                templates: psCompose.metadata["templates"],
+                tests: psCompose.metadata["tests"],
             };
             psCompose.router = {
                 "/wizard/1/addresses/": psCompose.metadata["wizard"][0],
@@ -317,9 +321,9 @@
             };
 
             // the actual URL router
-            function urlRouter(path, searchString){
+            function urlRouter(path, searchString) {
                 path = path.replace("/app", "");
-                if (path == "/"){
+                if (path == "/") {
                     return "/pages/index.html";
                 }
                 psCompose.activeRoute = psCompose.router[path];
@@ -328,7 +332,7 @@
                 psCompose.pathParts = path.split("/");
 
                 let getParams = new URLSearchParams(searchString);
-                for (const k of getParams.keys()){
+                for (const k of getParams.keys()) {
                     psCompose.activeRoute[k] = getParams.get(k);
                 }
                 return `${psCompose.activeRoute.page_template}`;
@@ -338,7 +342,7 @@
                 console.log(`[Resolver] Looking for: {${varName}}`);
                 // Check if the variable exists in our state object
                 if (varName in psCompose.activeRoute) {
-                  return psCompose.activeRoute[varName]; // Return the value
+                    return psCompose.activeRoute[varName]; // Return the value
                 }
                 // IMPORTANT: Return undefined for unhandled variables
                 return undefined;
@@ -351,27 +355,46 @@
             target.innerHTML = `<div
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'>
-            </div>`; 
+            </div>`;
 
             // Modal Confirmation
-            document.body.addEventListener('htmx:confirm', function(event) {
-                if (!event.detail.question) return
+            document.body.addEventListener("htmx:confirm", function (event) {
+                if (!event.detail.question) return;
                 event.preventDefault();
-                htmx.ajax('GET', '/partials/modals.html', { target: '#response-container', swap: 'innerHTML' })
+                htmx.ajax("GET", "/partials/modals.html", {
+                    target: "#response-container",
+                    swap: "innerHTML",
+                });
 
-                document.body.addEventListener('htmx:afterSwap', function(e) {
-                    if (e.target.id === 'response-container') {
-                        document.getElementById("confirm-question").textContent = event.detail.question; // Confirmation Message
-                        document.getElementById("confirm-yes").setAttribute("data-label",  event.detail.elt.getAttribute("data-label")); 
-                        document.getElementById("confirm-yes").setAttribute("data-theme",  event.detail.elt.getAttribute("data-theme"));
-                        document.getElementById("confirm-yes").setAttribute("data-link",  event.detail.elt.getAttribute("data-redirect")); 
+                document.body.addEventListener("htmx:afterSwap", function (e) {
+                    if (e.target.id === "response-container") {
+                        document.getElementById("confirm-question").textContent =
+                            event.detail.question; // Confirmation Message
+                        document
+                            .getElementById("confirm-yes")
+                            .setAttribute(
+                                "data-label",
+                                event.detail.elt.getAttribute("data-label"),
+                            );
+                        document
+                            .getElementById("confirm-yes")
+                            .setAttribute(
+                                "data-theme",
+                                event.detail.elt.getAttribute("data-theme"),
+                            );
+                        document
+                            .getElementById("confirm-yes")
+                            .setAttribute(
+                                "data-link",
+                                event.detail.elt.getAttribute("data-redirect"),
+                            );
                     }
                 });
 
-                document.body.addEventListener('confirm-yes-clicked', function(evt) {
+                document.body.addEventListener("confirm-yes-clicked", function (evt) {
                     event.detail.issueRequest(true);
                 });
             });
         </script>
     </body>
-    </html>
+</html>

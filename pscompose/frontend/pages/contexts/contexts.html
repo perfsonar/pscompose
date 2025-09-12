@@ -1,12 +1,11 @@
-<div id='context-form-container'>
-</div>
+<div id="context-form-container"></div>
 
 <script>
     let elem = document.createElement("div");
     let url = "/partials/data_forms/contexts/context_edit_form.html";
-    if(psCompose.subsection == "new"){
+    if (psCompose.subsection == "new") {
         url = "/partials/data_forms/contexts/context_new_form.html";
-    } else if (psCompose.subsection == "" && window.location.search =="") {
+    } else if (psCompose.subsection == "" && window.location.search == "") {
         url = "/partials/data_forms/contexts/context_error.html";
     }
     elem.setAttribute("hx-get", url);

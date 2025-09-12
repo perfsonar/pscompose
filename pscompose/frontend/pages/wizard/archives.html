@@ -1,26 +1,47 @@
 <div class="wizard-page">
-  <h1>New Template</h1>
-  <div class="progress-bar">
-    <web-button data-link="/wizard/2/groups/" data-label="Previous" data-theme="Primary" data-leftIcon='arrow-left'></web-button>
-    <progress-bar step="3"></progress-bar>
-    <web-button data-link="/wizard/4/schedules/" data-label="Next" data-theme="Tertiary" data-righticon="arrow-right"></web-button>
-  </div>
-  <h2>Step 3) Archives</h2>
-  <div class="step-section">
-    <p class="step-text">Next is Archives. Archives are where the test results are stored.  If your archive is listed, move to the next step.  If not, create it now.</p>
-    <div class="step-box">
-      <div class="step-box-left">
-        <h4> Existing Archives</h4>
-        <dropdown-list
-        placeholder="Search for Archives"
-        label="ImportVia" 
-        options='[{"value": "option1", "label": "Archive A"}, {"value": "option2", "label": "Archive B"}, {"value": "option2", "label": "Archive C"}]'>
-        </dropdown-list>
-        <web-button data-label="New Archive" data-theme="Shadow" data-lefticon='database'></web-button>
-      </div>
-      <div class="step-box-right" >
-        <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='database'></i>                  
-      </div>
+    <h1>New Template</h1>
+    <div class="progress-bar">
+        <web-button
+            data-link="/wizard/2/groups/"
+            data-label="Previous"
+            data-theme="Primary"
+            data-leftIcon="arrow-left"
+        ></web-button>
+        <progress-bar step="3"></progress-bar>
+        <web-button
+            data-link="/wizard/4/schedules/"
+            data-label="Next"
+            data-theme="Tertiary"
+            data-righticon="arrow-right"
+        ></web-button>
     </div>
-  </div>
+    <h2>Step 3) Archives</h2>
+    <div class="step-section">
+        <p class="step-text">
+            Next is Archives. Archives are where the test results are stored. If your archive is
+            listed, move to the next step. If not, create it now.
+        </p>
+        <div class="step-box">
+            <div class="step-box-left">
+                <h4>Existing Archives</h4>
+                <dropdown-list
+                    placeholder="Search for Archives"
+                    label="ImportVia"
+                    options='[{"value": "option1", "label": "Archive A"}, {"value": "option2", "label": "Archive B"}, {"value": "option2", "label": "Archive C"}]'
+                >
+                </dropdown-list>
+                <web-button
+                    data-label="New Archive"
+                    data-theme="Shadow"
+                    data-lefticon="database"
+                ></web-button>
+            </div>
+            <div class="step-box-right">
+                <i
+                    style="color: var(--shadow-color); width: 150; height: 150"
+                    data-lucide="database"
+                ></i>
+            </div>
+        </div>
+    </div>
 </div>

@@ -5,298 +5,300 @@
 /* COLOR -  FOR WEBCOMPONENTS */
 
 :root {
-  --background-color: #252526;
-  --copy-color: #FFFFFF;
-  --copyAlt-color: #C2C2C2;
-  --surface1-color: #19191A;
-  --surface2-color: #000000;
-  --error-color: #A6111B;
-  --success-color: #31B63F;
-  --shadow-color: #5C5F6B;
-  --warning-color: #E6C500;
-  --background-color-rgb: 37, 37, 38;    
-  --copy-color-rgb: 255, 255, 255;       
-  --copyAlt-color-rgb: 194, 194, 194;   
-  --surface1-color-rgb: 25, 25, 26;     
-  --surface2-color-rgb: 0, 0, 0;    
-  --error-color-rgb: 166, 17, 27;   
-  --success-color-rgb: 49, 182, 63;      
-  --shadow-color-rgb: 92, 95, 107;     
-  --warning-color-rgb: 230, 197, 0;   
+    --background-color: #252526;
+    --copy-color: #ffffff;
+    --copyAlt-color: #c2c2c2;
+    --surface1-color: #19191a;
+    --surface2-color: #000000;
+    --error-color: #a6111b;
+    --success-color: #31b63f;
+    --shadow-color: #5c5f6b;
+    --warning-color: #e6c500;
+    --background-color-rgb: 37, 37, 38;
+    --copy-color-rgb: 255, 255, 255;
+    --copyAlt-color-rgb: 194, 194, 194;
+    --surface1-color-rgb: 25, 25, 26;
+    --surface2-color-rgb: 0, 0, 0;
+    --error-color-rgb: 166, 17, 27;
+    --success-color-rgb: 49, 182, 63;
+    --shadow-color-rgb: 92, 95, 107;
+    --warning-color-rgb: 230, 197, 0;
 }
 
 /* TYPOGRAPHY - SANS */
 
 p {
-  @apply text-copy_1_sans font-sans;
+    @apply text-copy_1_sans font-sans;
 }
 
 h1 {
-  @apply text-h1_sans font-sans text-center;
+    @apply text-h1_sans font-sans text-center;
 }
 
 h2 {
-  @apply text-h2_sans font-sans font-semibold text-center ;
+    @apply text-h2_sans font-sans font-semibold text-center;
 }
 
 h3 {
-  @apply text-h3_sans font-sans font-semibold text-center ;
+    @apply text-h3_sans font-sans font-semibold text-center;
 }
 
 h4 {
-  @apply text-h4_sans font-sans;
+    @apply text-h4_sans font-sans;
 }
 
 h5 {
-  @apply text-h5_sans font-sans;
+    @apply text-h5_sans font-sans;
 }
 
 h6 {
-  @apply text-h6_sans font-sans;
+    @apply text-h6_sans font-sans;
 }
 
 /* PAGE SETUP */
 
-html, body {
-  @apply flex min-h-full m-none text-copy;
-  font-size: 16px;
+html,
+body {
+    @apply flex min-h-full m-none text-copy;
+    font-size: 16px;
 }
 
 .packets-ui {
-  @apply flex flex-col bg-background min-h-full flex-grow;
+    @apply flex flex-col bg-background min-h-full flex-grow;
 }
 
 .page {
-  @apply flex justify-start items-center flex-col py-8 px-[5.5rem] gap-5;
+    @apply flex justify-start items-center flex-col py-8 px-[5.5rem] gap-5;
 }
 
 .backdrop {
-  @apply flex flex-row justify-start w-full flex-grow;
+    @apply flex flex-row justify-start w-full flex-grow;
 }
 
 #page-content {
-  @apply flex-grow;
+    @apply flex-grow;
 }
 
 /* NAVIGATIONs */
 
 nav {
-  @apply flex;
+    @apply flex;
 }
 
 .top-nav {
-  @apply flex flex-row h-16 w-full bg-surface_1 p-md gap-md text-copy border-b border-copy font-sans;
+    @apply flex flex-row h-16 w-full bg-surface_1 p-md gap-md text-copy border-b border-copy font-sans;
 }
 
 .top-left {
-  @apply flex items-center;
+    @apply flex items-center;
 }
 
-.top-left a{
-  @apply flex flex-row items-center mr-auto;
+.top-left a {
+    @apply flex flex-row items-center mr-auto;
 }
 
 .pscompose {
-  @apply text-copy font-sans text-[2.25rem] font-bold leading-[2.925rem] not-italic;
+    @apply text-copy font-sans text-[2.25rem] font-bold leading-[2.925rem] not-italic;
 }
 
 .Logo {
-  @apply h-16;
+    @apply h-16;
 }
 
 .top-right {
-  @apply flex flex-row items-center ml-auto gap-md;
+    @apply flex flex-row items-center ml-auto gap-md;
 }
 
 .readme {
-  @apply font-mono text-h4_mono
+    @apply font-mono text-h4_mono;
 }
 
 .left-nav {
-  @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
+    @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
 
-.left-nav ul{
-  @apply flex flex-col items-center gap-md;
+.left-nav ul {
+    @apply flex flex-col items-center gap-md;
 }
 
 .left-nav-item {
-  @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm;
+    @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm;
 }
 
 .left-nav-item p {
-  @apply text-h6_mono font-mono;
+    @apply text-h6_mono font-mono;
 }
 
 .left-nav .active {
-  @apply text-success;
+    @apply text-success;
 }
 
-.left-nav .active svg{
-  @apply text-success;
+.left-nav .active svg {
+    @apply text-success;
 }
 
 /* SUB NAVIGATION */
 
 .parent-item {
-  @apply relative;
+    @apply relative;
 }
 
 .submenu-container {
-  @apply flex-1 bg-surface_2;
+    @apply flex-1 bg-surface_2;
 }
 
 .submenu {
- @apply hidden transition-opacity duration-300 ease-in-out flex-1;
+    @apply hidden transition-opacity duration-300 ease-in-out flex-1;
 }
 
 .submenu.show {
-  @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px];
+    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px];
 }
 
 .submenu h1 {
-  @apply font-sans font-bold py-md text-[2.25rem] flex items-center text-success;
+    @apply font-sans font-bold py-md text-[2.25rem] flex items-center text-success;
 }
 
 .submenu ul {
-  @apply flex flex-col gap-4;
+    @apply flex flex-col gap-4;
 }
 
 .submenu li {
-  @apply flex flex-row items-start gap-4 px-md;
+    @apply flex flex-row items-start gap-4 px-md;
 }
 
-.submenu .active { 
-  @apply bg-success/50 rounded-xl;
+.submenu .active {
+    @apply bg-success/50 rounded-xl;
 }
 
 .submenu svg {
-  @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xsm;
+    @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xsm;
 }
 
 /* HOME PAGE / INDEX */
 
 .homepage {
-  @apply flex flex-row justify-start;
+    @apply flex flex-row justify-start;
 }
 
 .getting-started-container {
-   @apply flex flex-col flex-1 gap-8 items-center;
+    @apply flex flex-col flex-1 gap-8 items-center;
 }
 
 .getting-started-p {
-  @apply text-center;
+    @apply text-center;
 }
 
 .getting-started-boxes {
-  @apply flex flex-row gap-md;
+    @apply flex flex-row gap-md;
 }
 
 .table-container {
-  @apply px-lg;
+    @apply px-lg;
 }
 
 table {
-  @apply table-fixed w-full border-collapse;
+    @apply table-fixed w-full border-collapse;
 }
 
-th, td {
-  @apply py-md px-md text-left border-b border-copy;
+th,
+td {
+    @apply py-md px-md text-left border-b border-copy;
 }
 
 th {
-  @apply bg-surface_1;
+    @apply bg-surface_1;
 }
 
 .th-content {
-  @apply flex flex-row text-h5_sans font-sans items-center gap-xsm;
+    @apply flex flex-row text-h5_sans font-sans items-center gap-xsm;
 }
 
 .td-content {
-  @apply text-copyAlt text-h6_sans font-sans
+    @apply text-copyAlt text-h6_sans font-sans;
 }
 
 .action-icons {
-  @apply flex flex-row gap-xxsm;
+    @apply flex flex-row gap-xxsm;
 }
 
 /* SHORT CUT PANEL  */
 
 .short-cuts {
-  @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-lg px-md gap-xsm;
+    @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-lg px-md gap-xsm;
 }
 
 /* BOX */
 
 .list-box {
-  @apply flex flex-col p-md gap-xsm w-full bg-surface_2 shadow-mediumInset rounded-2xl;
+    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 shadow-mediumInset rounded-2xl;
 }
 
 .box-header {
-  @apply flex items-center flex-row gap-xsm;
+    @apply flex items-center flex-row gap-xsm;
 }
 
 .box-name {
-  @apply flex-grow;
+    @apply flex-grow;
 }
 
 .box-text {
-  @apply font-[0.8rem];
+    @apply font-[0.8rem];
 }
 
 /* WIZARD  */
 
 .wizard-page {
-  @apply flex flex-col gap-lg items-center;
+    @apply flex flex-col gap-lg items-center;
 }
 
 .progress-bar {
-  @apply flex flex-row w-full justify-center;
+    @apply flex flex-row w-full justify-center;
 }
 
 .step-section {
-  @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[50vw];
+    @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[50vw];
 }
 
 .step-text {
-  @apply text-copy_2_sans;
+    @apply text-copy_2_sans;
 }
 
 .step-box {
-  @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1;
+    @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1;
 }
 
 .step-box-left {
-  @apply flex flex-col py-md px-lg gap-md rounded-l-xxl flex-[0.4];
+    @apply flex flex-col py-md px-lg gap-md rounded-l-xxl flex-[0.4];
 }
 
 .step-box-right {
-  @apply flex justify-center items-center py-md px-lg gap-xsm rounded-r-xxl flex-[0.6];
+    @apply flex justify-center items-center py-md px-lg gap-xsm rounded-r-xxl flex-[0.6];
 }
 
 .step-box-column {
-  @apply flex flex-col bg-surface_1 border-md border-shadow rounded-xl w-full flex-1 py-md px-lg gap-lg;
+    @apply flex flex-col bg-surface_1 border-md border-shadow rounded-xl w-full flex-1 py-md px-lg gap-lg;
 }
 
 /* HOST EDIT FORM */
 
 .header {
-  @apply flex flex-row items-center w-full;
+    @apply flex flex-row items-center w-full;
 }
 
 .header #data-name {
-  @apply flex-1 text-center;
+    @apply flex-1 text-center;
 }
 
 .datatype.error-form .page,
 .datatype.edit-form .page,
 .datatype.new-form .page {
-  @apply flex flex-col justify-start items-center p-none m-none gap-md;
+    @apply flex flex-col justify-start items-center p-none m-none gap-md;
 }
 
 .datatype.edit-form .content,
 .datatype.new-form .content {
-  @apply flex flex-col gap-lg w-[50vw] pb-xxlg;
+    @apply flex flex-col gap-lg w-[50vw] pb-xxlg;
 }
 
 :where(.packets-ui .vertical-layout) {
@@ -328,79 +330,94 @@ th {
 }
 
 .edit-save-cancel {
-  @apply hidden;
+    @apply hidden;
 }
 
 .save-cancel {
-  @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
+    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
 }
 
 .copy-json {
-  @apply flex flex-row justify-start items-start py-3 gap-[10px];
+    @apply flex flex-row justify-start items-start py-3 gap-[10px];
 }
 
 /* MODAL HTMX (from HTMX Modal Example) */
 #confirm-modal {
-  /* Underlay covers entire screen. */
-  @apply fixed inset-0 z-[1000] flex flex-col items-center bg-surface_2 bg-opacity-50;
+    /* Underlay covers entire screen. */
+    @apply fixed inset-0 z-[1000] flex flex-col items-center bg-surface_2 bg-opacity-50;
 
-  /* Animate when opening */
-  animation-name: fadeIn;
-  animation-duration:150ms;
-  animation-timing-function: ease;
+    /* Animate when opening */
+    animation-name: fadeIn;
+    animation-duration: 150ms;
+    animation-timing-function: ease;
 }
 
 #confirm-modal > .modal-underlay {
-  /* underlay takes up the entire viewport. This is only
+    /* underlay takes up the entire viewport. This is only
   required if you want to click to dismiss the popup */
-  position: absolute;
-  z-index: -1;
-  top:0px;
-  bottom:0px;
-  left: 0px;
-  right: 0px;
+    position: absolute;
+    z-index: -1;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
 
 #confirm-modal > .modal-content {
-  @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[900px] border-sm rounded-xl shadow-medium py-lg px-xlg gap-md bg-surface_1 border-copy;
+    @apply flex flex-col items-center mt-[30vh] w-4/5 max-w-[900px] border-sm rounded-xl shadow-medium py-lg px-xlg gap-md bg-surface_1 border-copy;
 
-  /* Animate when opening */
-  animation-name:zoomIn;
-  animation-duration:150ms;
-  animation-timing-function: ease;
+    /* Animate when opening */
+    animation-name: zoomIn;
+    animation-duration: 150ms;
+    animation-timing-function: ease;
 }
 
-
 #confirm-modal.closing {
-  /* Animate when closing */
-  animation-name: fadeOut;
-  animation-duration:150ms;
-  animation-timing-function: ease;
+    /* Animate when closing */
+    animation-name: fadeOut;
+    animation-duration: 150ms;
+    animation-timing-function: ease;
 }
 
 #confirm-modal.closing > .modal-content {
-  /* Animate when closing */
-  animation-name: zoomOut;
-  animation-duration:150ms;
-  animation-timing-function: ease;
+    /* Animate when closing */
+    animation-name: zoomOut;
+    animation-duration: 150ms;
+    animation-timing-function: ease;
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeOut {
-  0% {opacity: 1;}
-  100% {opacity: 0;}
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes zoomIn {
-  0% {transform: scale(0.9);}
-  100% {transform: scale(1);}
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes zoomOut {
-  0% {transform: scale(1);}
-  100% {transform: scale(0.9);}
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.9);
+    }
 }

@@ -1,19 +1,19 @@
 {
-  "name": "pscompose",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
-  "scripts": {
-    "css-watch": "npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch"
-  },
-  "dependencies": {
-    "@esnet/esnet-tokens": "^1.1.0",
-    "lucide": "^0.503.0"
-  },
-  "keywords": [],
-  "author": "Katrina Turner <khturner2@es.net>",
-  "license": "ISC",
-  "devDependencies": {
-    "tailwindcss": "^3.4.17"
-  }
+    "name": "pscompose",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.html",
+    "scripts": {
+        "css-watch": "npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch"
+    },
+    "dependencies": {
+        "@esnet/esnet-tokens": "^1.1.0",
+        "lucide": "^0.503.0"
+    },
+    "keywords": [],
+    "author": "Katrina Turner <khturner2@es.net>",
+    "license": "ISC",
+    "devDependencies": {
+        "tailwindcss": "^3.4.17"
+    }
 }

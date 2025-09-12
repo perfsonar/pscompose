@@ -17,3 +17,6 @@ node_modules
 pscompose/psconfig-schema.json
 pscompose/schemas-codegen.py
 pscompose/schemas-manual.py
+
+# TODO: remove this later, closer to production
+pscompose/frontend/css/pscompose.css

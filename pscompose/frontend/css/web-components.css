@@ -22,7 +22,7 @@
 .container label svg:hover + .tool-tip {
     display: flex;
     border-radius: 8px;
-    border: 1px solid #3D3D3D;
+    border: 1px solid #3d3d3d;
     background-color: var(--surface1-color);
     font-size: 12px;
     padding: 2px 8px;
@@ -67,7 +67,7 @@
     width: 100%;
     height: 40px;
 
-    border: 1px solid #C3C7D9;
+    border: 1px solid #c3c7d9;
 }
 .container input:disabled {
     height: 24px;
@@ -75,7 +75,7 @@
 
 /* TEXT-INPUT-AREA */
 
-.container textarea  {
+.container textarea {
     padding: 8px;
 
     background-color: var(--surface2-color);
@@ -87,7 +87,7 @@
     max-height: 35vh;
     resize: vertical;
 
-    border: 1px solid #C3C7D9;
+    border: 1px solid #c3c7d9;
 }
 
 /* SELECT DROPDOWN */
@@ -102,7 +102,7 @@
     min-height: 40px;
     max-height: 40px;
 
-    border: 1px solid #C3C7D9;
+    border: 1px solid #c3c7d9;
 }
 
 /* MULTI SELECT DROPDOWN */
@@ -145,12 +145,13 @@ multi-select-dropdown .container select:disabled {
 /* EXCLUDES DROPDOWD */
 
 .container .excludes-container {
-    display:flex;
+    display: flex;
     flex-direction: row;
     gap: 1rem;
 }
 
-.container .excludes-container single-select-dropdown, multi-select-dropdown {
+.container .excludes-container single-select-dropdown,
+multi-select-dropdown {
     flex: 1;
 }
 
@@ -160,7 +161,7 @@ multi-select-dropdown .container select:disabled {
 }
 
 .container .button-container {
-    display:flex;
+    display: flex;
     flex-direction: row;
     gap: 1rem;
 }
@@ -199,7 +200,7 @@ web-button[data-theme="Secondary"] button {
 }
 
 web-button[data-theme="Secondary"] button:hover {
-    background-color: rgba(var(--success-color-rgb), 0.50);
+    background-color: rgba(var(--success-color-rgb), 0.5);
 }
 
 web-button[data-theme="Tertiary"] button {
@@ -221,7 +222,7 @@ web-button[data-theme="Error"] button {
 }
 
 web-button[data-theme="Error"] button:hover {
-    background-color: rgba(var(--error-color-rgb), 0.50);
+    background-color: rgba(var(--error-color-rgb), 0.5);
 }
 
 web-button[data-theme="Warning"] button {
@@ -231,7 +232,7 @@ web-button[data-theme="Warning"] button {
 }
 
 web-button[data-theme="Warning"] button:hover {
-    background-color: rgba(var(--warning-color-rgb), 0.50);
+    background-color: rgba(var(--warning-color-rgb), 0.5);
 }
 
 web-button[data-theme="Icon"] button {

@@ -1,30 +1,44 @@
 <div class="wizard-page">
-  <h1>New Template</h1>
-  <div class="progress-bar">
-    <web-button data-link="/" data-label="Cancel" data-theme="Primary"></web-button>
-    <progress-bar step="1"></progress-bar>
-    <web-button data-link="/wizard/2/groups/" data-label="Next" data-theme="Tertiary" data-righticon="arrow-right"></web-button>
-  </div>
-  <h2>Step 1) Addresses</h2>
-  <div class="step-section">
-    <p class="step-text"> 
-      First you need hosts. Hosts are a single remote or local computer.  These run the tests between them. Formerly known as address.
-      Make sure all your hosts are in the list.  If not, add them now.
-    </p>
-    <div class="step-box">
-      <div class="step-box-left">
-        <h4>Existing Hosts</h4>
-        <dropdown-list
-        placeholder="Search for Host"
-        label="ImportVia" 
-        options='[{"value": "option1", "label": "Host A"}, {"value": "option2", "label": "Host B"}, {"value": "option2", "label": "Host C"}]'>
-        </dropdown-list>
-        <web-button data-label="New Host" data-theme="Shadow" data-lefticon='hard-drive-download'></web-button>
-      </div>
-      <div class="step-box-right" >
-        <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='hard-drive-download'></i>          
-      </div>
+    <h1>New Template</h1>
+    <div class="progress-bar">
+        <web-button data-link="/" data-label="Cancel" data-theme="Primary"></web-button>
+        <progress-bar step="1"></progress-bar>
+        <web-button
+            data-link="/wizard/2/groups/"
+            data-label="Next"
+            data-theme="Tertiary"
+            data-righticon="arrow-right"
+        ></web-button>
     </div>
-    <p class="step-text">Once all your hosts are imported, move on to the next step.</p>
-  </div>
+    <h2>Step 1) Addresses</h2>
+    <div class="step-section">
+        <p class="step-text">
+            First you need hosts. Hosts are a single remote or local computer. These run the tests
+            between them. Formerly known as address. Make sure all your hosts are in the list. If
+            not, add them now.
+        </p>
+        <div class="step-box">
+            <div class="step-box-left">
+                <h4>Existing Hosts</h4>
+                <dropdown-list
+                    placeholder="Search for Host"
+                    label="ImportVia"
+                    options='[{"value": "option1", "label": "Host A"}, {"value": "option2", "label": "Host B"}, {"value": "option2", "label": "Host C"}]'
+                >
+                </dropdown-list>
+                <web-button
+                    data-label="New Host"
+                    data-theme="Shadow"
+                    data-lefticon="hard-drive-download"
+                ></web-button>
+            </div>
+            <div class="step-box-right">
+                <i
+                    style="color: var(--shadow-color); width: 150; height: 150"
+                    data-lucide="hard-drive-download"
+                ></i>
+            </div>
+        </div>
+        <p class="step-text">Once all your hosts are imported, move on to the next step.</p>
+    </div>
 </div>

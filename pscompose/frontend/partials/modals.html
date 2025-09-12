@@ -2,37 +2,42 @@
     <div class="modal-underlay"></div>
 
     <div class="modal-content">
-        <i id="alert-triangle" style="width: 2rem;  height: 2rem;" data-lucide="alert-triangle"></i>
+        <i id="alert-triangle" style="width: 2rem; height: 2rem" data-lucide="alert-triangle"></i>
         <h4 id="confirm-question"></h4>
         <div class="save-cancel">
-            <web-button id="confirm-no" data-label="Cancel" data-theme="Primary"></web-button>          
-            <web-button id="confirm-yes" data-link="/" data-label="Confirm" data-theme="Secondary"></web-button>
+            <web-button id="confirm-no" data-label="Cancel" data-theme="Primary"></web-button>
+            <web-button
+                id="confirm-yes"
+                data-link="/"
+                data-label="Confirm"
+                data-theme="Secondary"
+            ></web-button>
         </div>
     </div>
 </div>
 
 <script>
-    document.body.addEventListener('htmx:afterSwap', function(e) {
-      if (e.target.id === 'response-container') {
-        // Button handlers
-        const yes = document.getElementById("confirm-yes");
-        const no = document.getElementById("confirm-no");
+    document.body.addEventListener("htmx:afterSwap", function (e) {
+        if (e.target.id === "response-container") {
+            // Button handlers
+            const yes = document.getElementById("confirm-yes");
+            const no = document.getElementById("confirm-no");
 
-        // Clean up previous listeners
-        yes.onclick = null;
-        no.onclick = null;
+            // Clean up previous listeners
+            yes.onclick = null;
+            no.onclick = null;
 
-        yes.onclick = function() {
-            document.getElementById("confirm-modal").style.display = "none";
-            const confirmEvent = new CustomEvent('confirm-yes-clicked', {
-                bubbles: true,
-                detail: { originalEventDetail: event.detail }
-            }); 
-            document.body.dispatchEvent(confirmEvent);
-        };
-        no.onclick = function() {
-            document.getElementById("confirm-modal").style.display = "none";
-        };
-      }
+            yes.onclick = function () {
+                document.getElementById("confirm-modal").style.display = "none";
+                const confirmEvent = new CustomEvent("confirm-yes-clicked", {
+                    bubbles: true,
+                    detail: { originalEventDetail: event.detail },
+                });
+                document.body.dispatchEvent(confirmEvent);
+            };
+            no.onclick = function () {
+                document.getElementById("confirm-modal").style.display = "none";
+            };
+        }
     });
 </script>
