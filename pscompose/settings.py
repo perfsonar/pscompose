@@ -1,8 +1,6 @@
-import yaml
 import os
 import sys
-import random
-import string
+import yaml
 
 DEFAULT_CONFIG_FILE = "/etc/pscompose/settings.yml"
 
@@ -33,6 +31,7 @@ TOKEN_SCOPES = {
     "admin": AUTH.get("admin_scope", "pscompose:admin"),
 }
 
+
 class DataTypes:
     TEMPLATE = "template"
     TASK = "task"
@@ -43,6 +42,7 @@ class DataTypes:
     TEST = "test"
     ADDRESS = "address"
 
+
 PARENT_CHILD_RELATIONSHIP = {
     "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
     "archive": [],
@@ -52,5 +52,5 @@ PARENT_CHILD_RELATIONSHIP = {
     # "host": ["address", "context"],
     "schedule": [],
     "task": ["group", "test", "schedule", "archive"],
-    "test": []
+    "test": [],
 }

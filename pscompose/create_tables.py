@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
 from pscompose.models import SQLAlchemyStorage
-from pscompose.models import UserTable, DataTable  # import your models
 from pscompose.settings import POSTGRES_USER_NAME, POSTGRES_DB_NAME
 
 # Use the same DATABASE_URL defined in your models.py or environment variable
