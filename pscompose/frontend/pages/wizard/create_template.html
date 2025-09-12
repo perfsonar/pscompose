@@ -1,13 +1,13 @@
 <div class="wizard-page">
   <h1>New Template</h1>
   <div class="progress-bar">
-    <web-button link="/wizard/6/tasks/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+    <web-button data-link="/wizard/6/tasks/" data-label="Previous" data-theme="Primary" data-leftIcon='arrow-left'></web-button>
     <progress-bar step="7"></progress-bar>
     <web-button 
-      hx-get="/partials/modals.html" 
-      hx-target="#modal-container" 
-      hx-swap="innerHTML"
-      label="Save" theme="tertiary" righticon="save">
+      data-label="Save" data-theme="Tertiary" data-righticon="save"
+      data-redirect="/wizard/8/template/"
+      hx-post=""
+      hx-confirm="Are you sure you want to save this template?">
     </web-button>
   </div>
   <h2 class="step-title">Step 7) Create Template</h2>
@@ -23,12 +23,12 @@
       <text-input-area label="Other Meta" placeholder="Enter Json"></text-input-area>
       <div class="save-cancel">
         <web-button 
-          hx-get="/partials/modals.html" 
-          hx-target="#modal-container" 
-          hx-swap="innerHTML"
-          label="Save" theme="tertiary" righticon="save">
+          data-label="Save" data-theme="Tertiary" data-righticon="save"
+          data-redirect="/wizard/8/template/"
+          hx-post=""
+          hx-confirm="Are you sure you want to save this template?">
         </web-button>
-        <web-button label="Cancel" theme="primary" righticon="x"></web-button>
+        <web-button data-label="Cancel" data-theme="Primary" data-righticon="x"></web-button>
       </div>
     </div>
   </div>
