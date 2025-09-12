@@ -1,9 +1,9 @@
 <div class="wizard-page">
   <h1>New Template</h1>
   <div class="progress-bar">
-    <web-button link="/wizard/1/addresses/" label="Previous" theme="primary" leftIcon='arrow-left'></web-button>
+    <web-button data-link="/wizard/1/addresses/" data-label="Previous" data-theme="Primary" data-leftIcon='arrow-left'></web-button>
     <progress-bar step="2"></progress-bar>
-    <web-button link="/wizard/3/archives/" label="Next" theme="tertiary" righticon="arrow-right"></web-button>
+    <web-button data-link="/wizard/3/archives/" data-label="Next" data-theme="Tertiary" data-righticon="arrow-right"></web-button>
   </div>
   <h2>Step 2) Groups</h2>
   <div class="step-section">
@@ -16,7 +16,7 @@
       label="ImportVia" 
       options='[{"value": "option1", "label": "Group A"}, {"value": "option2", "label": "Group B"}, {"value": "option2", "label": "Group C"}]'>
       </dropdown-list>
-      <web-button link="" label="New Group" theme="shadow" lefticon='group'></web-button>
+      <web-button data-label="New Group" data-theme="Shadow" data-lefticon='group'></web-button>
     </div>
     <div class="step-box-right" >
       <i style="color: var(--shadow-color); width: 150; height: 150;" data-lucide='group'></i>                  
