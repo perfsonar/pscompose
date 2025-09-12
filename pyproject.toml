@@ -1,0 +1,13 @@
+[tool.black]
+line-length = 99
+extend-exclude = '''
+/(
+  | pscompose/schemas.py
+  | pscompose/form_schemas.py
+)/
+'''
+
+# call using pflake8
+[tool.flake8]
+max-line-length = 99
+exclude = 'pscompose/schemas.py, pscompose/form_schemas.py'

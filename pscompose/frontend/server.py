@@ -17,7 +17,7 @@ STATIC_ROUTES = (
     "/components",
     "/css",
     "/mockups",
-    "/dummy_api"
+    "/dummy_api",
 )
 
 
@@ -56,13 +56,14 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 break
         print("reading file from %s" % output_path)
         return output_path
+
     def do_POST(self, *args, **kwargs):
         self.do_GET(*args, **kwargs)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=8000)
+    parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
 
     HOST = "127.0.0.1"

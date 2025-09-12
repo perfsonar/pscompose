@@ -1,9 +1,11 @@
-from fastapi.security import HTTPBasic, HTTPBasicCredentials, SecurityScopes
-from pscompose.models import User, UserTable, engine
-from pscompose.settings import TOKEN_SCOPES
-from sqlalchemy.orm import sessionmaker, declarative_base
 import bcrypt
+
+from sqlalchemy.orm import sessionmaker
 from fastapi import Depends, HTTPException
+from pscompose.settings import TOKEN_SCOPES
+from pscompose.models import User, UserTable, engine
+from fastapi.security import HTTPBasic, HTTPBasicCredentials, SecurityScopes
+
 
 class BasicBackend:
     def __init__(self):
@@ -71,7 +73,7 @@ class BasicBackend:
         if password:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode(), salt)
-            db_user.password = hashed_password.decode('utf8')
+            db_user.password = hashed_password.decode("utf8")
         self.session.commit()
         return User(
             username=db_user.username,

@@ -1,6 +1,6 @@
-from fastapi_versioning import version
-# from pscompose.form_schemas import TEMPLATE_SCHEMA, TEMPLATE_UI_SCHEMA
 from pscompose.utils import generate_router
+
+# from pscompose.form_schemas import TEMPLATE_SCHEMA, TEMPLATE_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("template")

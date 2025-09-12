@@ -1,9 +1,11 @@
-from pscompose.models import DataTable, engine
-from pscompose.schemas import DataTableUpdate
-from sqlalchemy.orm import sessionmaker, declarative_base
-from pscompose.settings import DataTypes
-from fastapi import Depends, HTTPException
 from sqlalchemy import func
+from fastapi import HTTPException
+from sqlalchemy.orm import sessionmaker
+from pscompose.models import DataTable, engine
+
+# from pscompose.schemas import DataTableUpdate
+# from pscompose.settings import DataTypes
+
 
 class PostgresBackend:
     """
@@ -18,12 +20,12 @@ class PostgresBackend:
     def create_datatype(self, ref_set, datatype, json, name, created_by, last_edited_by):
         try:
             new_type = DataTable(
-                ref_set = ref_set,
-                type = datatype,
-                json = json,
-                name = name,
-                created_by = created_by,
-                last_edited_by = last_edited_by,
+                ref_set=ref_set,
+                type=datatype,
+                json=json,
+                name=name,
+                created_by=created_by,
+                last_edited_by=last_edited_by,
                 # created_at = created_at,
                 # last_edited_at = last_edited_at,
                 # url = url
@@ -31,7 +33,7 @@ class PostgresBackend:
             self.session.add(new_type)
             self.session.commit()
             return new_type
-        except Exception as e:
+        except Exception:
             self.session.rollback()
             raise HTTPException(status_code=422, detail=f"Could not create the {type}")
 
@@ -50,12 +52,12 @@ class PostgresBackend:
                 "json": existing_result.json,
                 "ref_set": existing_result.ref_set,
                 "last_edited_by": existing_result.last_edited_by,
-                "last_edited_at": existing_result.last_edited_at
+                "last_edited_at": existing_result.last_edited_at,
             }
         except Exception as e:
             self.session.rollback()
             raise HTTPException(status_code=500, detail=f"Failed to update record: {str(e)}")
-    
+
     def delete_datatype(self, res):
         try:
             self.session.delete(res)
@@ -64,29 +66,39 @@ class PostgresBackend:
         except Exception as e:
             self.session.rollback()
             raise HTTPException(status_code=500, detail=f"Failed to delete record: {str(e)}")
-    
+
     def find_records(self, target_id):
         """
         Find all records in the database where the ref_set contains the given target_id.
         """
         try:
             # Query to find records where target_id is in ref_set
-            query = self.session.query(DataTable).filter(
-                target_id == func.any(DataTable.ref_set)
-            ).order_by(DataTable.created_at.desc())
+            query = (
+                self.session.query(DataTable)
+                .filter(target_id == func.any(DataTable.ref_set))
+                .order_by(DataTable.created_at.desc())
+            )
             results = query.all()
             if not results:
-                raise HTTPException(status_code=422, detail=f"No records found with {target_id} in ref_set")
+                raise HTTPException(
+                    status_code=422, detail=f"No records found with {target_id} in ref_set"
+                )
             return results
         except Exception as e:
             self.session.rollback()
-            raise HTTPException(status_code=500, detail=f"An error occurred while querying the database: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"An error occurred while querying the database: {str(e)}"
+            )
 
     def get_results(self, datatype):
-        query = self.session.query(DataTable).filter_by(type=datatype).order_by(DataTable.created_at.desc())
+        query = (
+            self.session.query(DataTable)
+            .filter_by(type=datatype)
+            .order_by(DataTable.created_at.desc())
+        )
         rows = query.all()
         return [row for row in rows]
-    
+
     def get_datatype(self, datatype, item_id):
         query = self.session.query(DataTable).filter_by(type=datatype)
         if item_id:

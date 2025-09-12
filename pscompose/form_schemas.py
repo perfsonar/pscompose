@@ -2,7 +2,7 @@
 # Each DataType will have it's own schema and UI Schema
 
 # TODO: Should the properties be named as how they appear in the config JSON?
-# Eg: using display-name instead of name 
+# Eg: using display-name instead of name
 ADDRESS_SCHEMA = {
     "title": "Schema for creating a new host form",
     "type": "object",
@@ -11,25 +11,25 @@ ADDRESS_SCHEMA = {
             "type": "string",
             "title": "Host Name",
             "description": "A string to identify this host",
-            "default": ""
+            "default": "",
         },
         "address": {
             "type": "string",
             "title": "Address",
             "description": "The host address",
-            "default": ""
+            "default": "",
         },
         "no-agent": {
             "type": "boolean",
             "title": "No Agent",
             "description": "Check this box if no agent is required",
-            "default": False
+            "default": False,
         },
         "disabled": {
             "type": "boolean",
             "title": "Disabled",
             "description": "Check this box if address is disabled. Set to False by default",
-            "default": False
+            "default": False,
         },
         "lead-bind-address": {
             "type": "string",
@@ -46,33 +46,24 @@ ADDRESS_SCHEMA = {
             "title": "Contexts",
             "items": {
                 "oneOf": [
-                    {
-                    "const": "male",
-                    "title": "Male"
-                    },
-                    {
-                    "const": "female",
-                    "title": "Female"
-                    },
-                    {
-                    "const": "other",
-                    "title": "Diverse"
-                    }
-                ] 
-            }
+                    {"const": "male", "title": "Male"},
+                    {"const": "female", "title": "Female"},
+                    {"const": "other", "title": "Diverse"},
+                ]
+            },
         },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": ""
+            "default": "",
         },
     },
     "required": [
         "name",
         "address",
     ],
-    "renderers": {}
+    "renderers": {},
 }
 
 ADDRESS_UI_SCHEMA = {
@@ -81,33 +72,21 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {
-                    "type": "Control",
-                    "scope": "#/properties/name"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/disabled"
-                }
-            ]
+                {"type": "Control", "scope": "#/properties/name"},
+                {"type": "Control", "scope": "#/properties/disabled"},
+            ],
         },
         {
             "type": "HorizontalLayout",
             "elements": [
-                {
-                    "type": "Control",
-                    "scope": "#/properties/address"
-                },
+                {"type": "Control", "scope": "#/properties/address"},
                 {
                     "type": "Control",
                     "scope": "#/properties/no-agent",
-                }
-            ]
+                },
+            ],
         },
-        {
-            "type": "Control",
-            "scope": "#/properties/lead-bind-address"
-        },
+        {"type": "Control", "scope": "#/properties/lead-bind-address"},
         {
             "type": "Control",
             "scope": "#/properties/pscheduler-address",
@@ -119,251 +98,161 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/_meta",
-        }
-    ]
+        },
+    ],
 }
 
 GROUP_SCHEMA = {
     "title": "Schema for creating a new group",
     "type": "object",
     "properties": {
-        "name": {
-            "type": "string",
-            "title": "Name"
-        },
+        "name": {"type": "string", "title": "Name"},
         "type": {
             "type": "string",
             "title": "Type",
-             "oneOf": [
-                    {
-                    "const": "list",
-                    "title": "List"
-                    },
-                    {
-                    "const": "disjoint",
-                    "title": "Disjoint"
-                    },
-                    {
-                    "const": "mesh",
-                    "title": "Mesh"
-                    }
-                ] 
-        }
+            "oneOf": [
+                {"const": "list", "title": "List"},
+                {"const": "disjoint", "title": "Disjoint"},
+                {"const": "mesh", "title": "Mesh"},
+            ],
+        },
     },
     "required": ["name", "type"],
     "allOf": [
         {
-            "if": {
-                "properties": { "type": { "const": "list" } }
-            },
+            "if": {"properties": {"type": {"const": "list"}}},
             "then": {
                 "properties": {
-                    "type": { "const": "list" },
-                    "addresses": {
-                        "type": "array",
-                        "title": "Addresses",
-                        "items": {
-                            "oneOf": [
-                            ]
-                        }
-                    },
+                    "type": {"const": "list"},
+                    "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
                     "_meta": {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": ""
-                    }
+                        "default": "",
+                    },
                 },
-                "required": ["addresses"]
-            }
+                "required": ["addresses"],
+            },
         },
         {
-            "if": {
-                "properties": { "type": { "const": "disjoint" } }
-            },
+            "if": {"properties": {"type": {"const": "disjoint"}}},
             "then": {
                 "properties": {
-                    "type": { "const": "disjoint" },
+                    "type": {"const": "disjoint"},
                     "unidirectional": {
                         "type": "boolean",
                         "title": "Unidirectional",
                         "description": "Check this box if it's unidirectional",
-                        "default": False
+                        "default": False,
                     },
                     "a-addresses": {
                         "type": "array",
                         "title": "A-Addresses",
-                        "items": {
-                            "oneOf": []
-                        }
+                        "items": {"oneOf": []},
                     },
                     "b-addresses": {
                         "type": "array",
                         "title": "B-Addresses",
-                        "items": {
-                            "oneOf": []
-                        }
+                        "items": {"oneOf": []},
                     },
-                    "excludes-self": {
-                        "type": "boolean",
-                        "title": "Excludes Self"
-                    },
+                    "excludes-self": {"type": "boolean", "title": "Excludes Self"},
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": { "type": "object" }
+                        "items": {"type": "object"},
                     },
                     "_meta": {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": ""
-                    }
+                        "default": "",
+                    },
                 },
-                "required": [
-                    "a-addresses",
-                    "b-addresses"
-                ]
-            }
+                "required": ["a-addresses", "b-addresses"],
+            },
         },
         {
-            "if": {
-                "properties": { "type": { "const": "mesh" } }
-            },
+            "if": {"properties": {"type": {"const": "mesh"}}},
             "then": {
                 "properties": {
-                    "type": { "const": "mesh" },
-                    "addresses": {
-                        "type": "array",
-                        "title": "Addresses",
-                        "items": {
-                            "oneOf": []
-                        }
-                    },
-                    "excludes-self": {
-                        "type": "boolean",
-                        "title": "Excludes Self"
-                    },
+                    "type": {"const": "mesh"},
+                    "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
+                    "excludes-self": {"type": "boolean", "title": "Excludes Self"},
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": { "type": "object" }
+                        "items": {"type": "object"},
                     },
                     "_meta": {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": ""
-                    }
+                        "default": "",
+                    },
                 },
-                "required": ["addresses"]
-            }
-        }
-    ]
+                "required": ["addresses"],
+            },
+        },
+    ],
 }
 
 GROUP_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {
-            "type": "Control",
-            "scope": "#/properties/name"
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/type"
-        },
+        {"type": "Control", "scope": "#/properties/name"},
+        {"type": "Control", "scope": "#/properties/type"},
         {
             "type": "Group",
             "rule": {
                 "effect": "SHOW",
-                "condition": {
-                    "scope": "#/properties/type",
-                    "schema": { "const": "list" }
-                }
+                "condition": {"scope": "#/properties/type", "schema": {"const": "list"}},
             },
             "elements": [
                 {
                     "type": "Control",
                     "scope": "#/properties/addresses",
-                    "options": {"format": "select"}
+                    "options": {"format": "select"},
                 },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/_meta"
-                }
-            ]
+                {"type": "Control", "scope": "#/properties/_meta"},
+            ],
         },
         {
             "type": "Group",
             "rule": {
                 "effect": "SHOW",
-                "condition": {
-                    "scope": "#/properties/type",
-                    "schema": { "const": "disjoint" }
-                }
+                "condition": {"scope": "#/properties/type", "schema": {"const": "disjoint"}},
             },
             "elements": [
                 {
                     "type": "HorizontalLayout",
                     "elements": [
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/unidirectional"
-                        },
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/excludes-self"
-                        },
-                    ]
+                        {"type": "Control", "scope": "#/properties/unidirectional"},
+                        {"type": "Control", "scope": "#/properties/excludes-self"},
+                    ],
                 },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/a-addresses"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/b-addresses"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/_meta"
-                }
-            ]
+                {"type": "Control", "scope": "#/properties/a-addresses"},
+                {"type": "Control", "scope": "#/properties/b-addresses"},
+                {"type": "Control", "scope": "#/properties/excludes"},
+                {"type": "Control", "scope": "#/properties/_meta"},
+            ],
         },
         {
             "type": "Group",
             "rule": {
                 "effect": "SHOW",
-                "condition": {
-                    "scope": "#/properties/type",
-                    "schema": { "const": "mesh" }
-                }
+                "condition": {"scope": "#/properties/type", "schema": {"const": "mesh"}},
             },
             "elements": [
                 {
                     "type": "Control",
                     "scope": "#/properties/addresses",
-                    "options": {"format": "select"}
+                    "options": {"format": "select"},
                 },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes-self"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes"
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/_meta",
-                    "options": { "multi": True }
-                }
-            ]
-        }
-    ]
+                {"type": "Control", "scope": "#/properties/excludes-self"},
+                {"type": "Control", "scope": "#/properties/excludes"},
+                {"type": "Control", "scope": "#/properties/_meta", "options": {"multi": True}},
+            ],
+        },
+    ],
 }

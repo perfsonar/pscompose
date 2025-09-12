@@ -1,21 +1,15 @@
-from fastapi import APIRouter, HTTPException, Security, Request, Form, Body
 from fastapi_versioning import version
-from fastapi.responses import HTMLResponse, Response
-
+from fastapi.responses import Response
+from sqlalchemy.exc import IntegrityError
+from fastapi import APIRouter, HTTPException
 from pscompose.backends.postgres import backend
-from pscompose.settings import DataTypes
-from pscompose.models import User, DataTable
-from pscompose.auth import auth_check
-from pscompose.backends.postgres import backend
-from pscompose.settings import DataTypes, TOKEN_SCOPES, PARENT_CHILD_RELATIONSHIP
 from pscompose.schemas import DataTableBase, DataTableUpdate
 
-from sqlalchemy.exc import IntegrityError
 
 def generate_router(datatype: str):
     """
     Generates a FastAPI router with list and item-specific endpoints for a given datatype.
-    
+
     :param datatype: The name of the datatype (e.g., "template", "host").
     :return: A FastAPI router.
     """
@@ -38,6 +32,7 @@ def generate_router(datatype: str):
         data: DataTableBase,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        print("Create item data:", data)
         try:
             response = backend.create_datatype(
                 ref_set=data.ref_set,
@@ -52,16 +47,15 @@ def generate_router(datatype: str):
 
             # TODO: See comment below?
             # Do we need to update on each of the child objects when a new type is created?
-    
-            return {
-                "message": f"{datatype} created successfully", 
-                "id": response.id
-            }
+
+            return {"message": f"{datatype} created successfully", "id": response.id}
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
+            print("Integrity error:", str(e))
             raise HTTPException(status_code=400, detail=f"Integrity error: {str(e)}")
         except Exception as e:
             # backend.session.rollback()
+            print("Error creating datatype:", str(e))
             raise HTTPException(status_code=500, detail=str(e))
 
     # Endpoint for UPDATING an existing record
@@ -75,12 +69,13 @@ def generate_router(datatype: str):
     ):
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
-            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found"
+            )
 
         # TODO: In this, how will ref_set be updated?
         response = backend.update_datatype(
-            existing_result=existing_result,
-            updated_data=updated_data
+            existing_result=existing_result, updated_data=updated_data
         )
         print("update response:", response)
         return response
@@ -96,7 +91,9 @@ def generate_router(datatype: str):
         print("Deleting item with ID:", item_id)
         existing_item = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_item:
-            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found"
+            )
 
         response = backend.delete_datatype(existing_item)
         print("Delete response:", response)
@@ -104,26 +101,35 @@ def generate_router(datatype: str):
         # TODO: This isn't working
         return Response(
             status_code=200,
-            headers={"HX-Redirect": "http://localhost:5001"}  # Redirect after success
+            headers={"HX-Redirect": "http://localhost:5001"},  # Redirect after success
         )
 
     # Endpoint for retrieving a specific item by ID
-    @router.get(f"/api/{datatype}/{{item_id}}", summary=f"Retrieve a specific {datatype} record by its ID")
+    @router.get(
+        f"/api/{datatype}/{{item_id}}", summary=f"Retrieve a specific {datatype} record by its ID"
+    )
     def get_item(item_id: str):
         try:
             response = backend.get_datatype(datatype=datatype, item_id=item_id)
-        except HTTPException as e:
-            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found")
+        except HTTPException:
+            raise HTTPException(
+                status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found"
+            )
         return response
 
     # Endpoint for retrieving a specific item's json
-    @router.get(f"/api/{datatype}/{{item_id}}/json", summary=f"Retrieve the JSON of a specific {datatype} record")
+    @router.get(
+        f"/api/{datatype}/{{item_id}}/json",
+        summary=f"Retrieve the JSON of a specific {datatype} record",
+    )
     def get_item_json(item_id: str):
         try:
             response = backend.get_datatype(datatype=datatype, item_id=item_id)
             response_json = response.json
-        except HTTPException as e:
-            raise HTTPException(status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found")
+        except HTTPException:
+            raise HTTPException(
+                status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found"
+            )
         return response_json
 
     return router

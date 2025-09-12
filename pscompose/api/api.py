@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Request
-from fastapi_versioning import version
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from pscompose.api.routers import basic_auth, templates, tests, addresses, groups, schedules
@@ -18,6 +17,7 @@ app.add_middleware(
 # include submodule routers
 for lib in [basic_auth, templates, tests, addresses, groups, schedules]:
     app.include_router(lib.router)
+
 
 # include our hello_world route
 @app.get("/")
