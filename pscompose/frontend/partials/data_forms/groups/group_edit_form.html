@@ -1,4 +1,4 @@
-<div class="host edit-form" hx-ext="dynamic-url">
+<div class="datatype edit-form" hx-ext="dynamic-url">
   <div class="page">
     <h2>Edit Group</h2>
     <div class="content">
@@ -19,6 +19,7 @@
             form-data='{{ form_data | dump }}'
             schema-data='{{ json_schema | dump }}'
             layout-data='{{ ui_schema | dump }}'
+            readonly='true'
           ></json-form>
         </script>
 

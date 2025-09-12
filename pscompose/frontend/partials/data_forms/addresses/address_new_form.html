@@ -1,5 +1,4 @@
-<div class="host edit-form">
-
+<div class="datatype new-form">
   <div class="page">
     <h2>New Address</h2>
     <div class="content">
@@ -24,9 +23,10 @@
 
         <div class="save-cancel">
           <web-button
-            data-label="Save"
-            data-theme="Secondary"
-            data-righticon='save'>
+            link="import_template_2.html"
+            label="Save"
+            theme="secondary"
+            righticon='save'>
           </web-button>
         </div>
       </form>
@@ -38,6 +38,7 @@
 
 <script>
   document.getElementById("my-form").addEventListener("submit", async function (event) {
+    console.log("Form submission triggered");
     event.preventDefault(); // stop default form submission
 
     const elem = document.querySelector("json-form");
@@ -54,6 +55,7 @@
       last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
     }
 
+    console.log("Submitting data:", data);
     try {
       const response = await fetch("http://0.0.0.0:8000/api/address", {
         method: "POST",
@@ -64,6 +66,7 @@
       });
 
       // TODO: Check if this works as expected
+      console.log("Response: ", response);
       if (response.ok) {
         const result = await response.json();
         document.getElementById("response-container").innerText = "Address saved successfully!";
