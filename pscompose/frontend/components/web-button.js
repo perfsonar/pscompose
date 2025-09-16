@@ -47,16 +47,14 @@ export class WebButton extends HTMLElement {
                 
                 ${
                     this.getAttribute("data-lefticon")
-                        ? `<i style="width: 1.5rem;  height: 1.5rem; " data-lucide="${this.getAttribute(
-                              "data-lefticon",
+                        ? `<i data-lucide="${this.getAttribute("data-lefticon",
                           )}"></i>`
                         : ""
                 }
                 ${this.getAttribute("data-label") || ""}
                 ${
                     this.getAttribute("data-righticon")
-                        ? `<i style="width: 1.5rem;  height: 1.5rem;" data-lucide="${this.getAttribute(
-                              "data-righticon",
+                        ? `<i data-lucide="${this.getAttribute("data-righticon",
                           )}"></i>`
                         : ""
                 }
