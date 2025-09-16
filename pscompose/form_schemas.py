@@ -160,7 +160,9 @@ GROUP_SCHEMA = {
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": {"type": "object"},
+                        "items": {
+                            "oneOf": []
+                        }
                     },
                     "_meta": {
                         "type": "string",
@@ -182,7 +184,9 @@ GROUP_SCHEMA = {
                     "excludes": {
                         "type": "array",
                         "title": "Excludes",
-                        "items": {"type": "object"},
+                        "items": {
+                            "oneOf": []
+                        }
                     },
                     "_meta": {
                         "type": "string",

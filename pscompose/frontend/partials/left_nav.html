@@ -52,14 +52,14 @@
             <li id="new-{{ data.psCompose.activeMenuItem }}">
               <i data-lucide="plus"></i>
               <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
-                <h4>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h4>
+                <h5>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h5>
               </a>
             </li>
             {% for item in data %}
               <li id="{{item.id}}">
                 <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
                 <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
-                  <h4>{{item.name}}</h4>
+                  <h5>{{item.name}}</h5>
                 </a>
               </li>
             {% endfor %}

@@ -163,6 +163,37 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     }
 
     // Multi Select Dropdown Specific
+    if (schema?.schema?.items?.oneOf ) { elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf); }
+
+    return elemToReturn
+}
+
+/* MULTI SELECT DROPDOWN */
+
+function excludesCustomTester(uischema, schema, context){
+  if(!uischema.scope) return LOWEST_RANK;
+
+  if(uischema.scope.endsWith("excludes")) return HIGH_RANK;
+  return LOWEST_RANK;
+}
+
+function excludesCustomRenderer(data, handleChange, path, schema) {
+  let elemToReturn = { "tag": "excludes-dropdown", "props": {} }
+
+  elemToReturn.props.id = schema.uischema.scope;
+  elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
+  elemToReturn.props.path = path; 
+  elemToReturn.props.label = schema.schema.title;  
+  elemToReturn.props.required = schema.required;
+  elemToReturn.props.onChange = (event) => {
+    if (event.target.tagName == "EXCLUDES-DROPDOWN" && event.target.selected) {
+      handleChange(path, JSON.parse(event.target.selected));
+    }
+  };
+  if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
+
+
+    // Multi Select Dropdown Specific
     if (schema?.schema?.items?.oneOf) {
         elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
     }

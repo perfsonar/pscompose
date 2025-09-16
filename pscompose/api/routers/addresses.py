@@ -42,6 +42,7 @@ def get_existing_form(item_id: str):
         "json_schema": ADDRESS_SCHEMA,
         "form_data": response_json,
     }
+
     return JSONResponse(content=payload)
 
 
