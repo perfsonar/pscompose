@@ -17,9 +17,9 @@ export class SingleSelectDropdown extends HTMLElement {
     render() {
         const options = this.options ? JSON.parse(this.options) : [];
         const optionsHTML = options
-            .map((option) => `<option value="${option.const}">${option.title}</option>`)
+            .map((option) => `<option value="${option.const}">${option.title}</option>a`)
             .join("");
-
+        
         this.innerHTML = `
             <div class="container">
                 <label>
@@ -33,20 +33,20 @@ export class SingleSelectDropdown extends HTMLElement {
                     }
                 </label>
                 <select>
-                    <option>Choose ${this.getAttribute("label")}</option>
+                    <option value="">Choose ${this.getAttribute("label")}</option>
                     ${optionsHTML}
                 </select>
                 ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
             </div>
         `;
 
-        if (this.getAttribute("selected") != null) {
-            this.shadow.querySelector("select").value = this.getAttribute("selected");
+        if (this.getAttribute("selected")) {
+            this.querySelector("select").value = this.getAttribute("selected");
         }
 
         this.querySelector("select").addEventListener("change", (event) => {
             this.selected = event.target.value;
-            this.dispatchEvent(new Event("change", { bubbless: true }));
+            this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
 }
