@@ -306,7 +306,7 @@ th {
 }
 
 :where(.packets-ui .horizontal-layout) {
-    @apply flex flex-row gap-md w-full;
+    @apply flex flex-row gap-lg w-full;
 }
 
 :where(.packets-ui .vertical-layout-item) {
@@ -326,7 +326,7 @@ th {
 }
 
 :where(.packets-ui fieldset) {
-    @apply flex flex-col gap-md;
+    @apply flex flex-col gap-lg;
 }
 
 .edit-save-cancel {
