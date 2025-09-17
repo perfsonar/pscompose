@@ -274,13 +274,13 @@ multi-select-dropdown .container select:disabled {
     color: transparent;
 }
 
-multi-select-dropdown .container:has(.tags .tag) select:disabled {
+multi-select-dropdown .container:has(select:disabled) select:disabled {
     display: none;
 }
 
 .container:has(select:disabled) .tags {
     display: flex;
-    height: 40px;
+    height: 24px;
 }
 
 .container:has(select:disabled) .tag {
