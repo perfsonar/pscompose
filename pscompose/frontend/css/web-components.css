@@ -87,7 +87,7 @@
     display: none;
 }
 
-.container input {
+.container .input-wrapper input {
     border: none;
     appearance: none;
     outline: none;
@@ -112,7 +112,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* TEXT-INPUT-NUMBER */
 
-.container .input[type="number"] .buttons {
+.container input[type="number"] .buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -120,14 +120,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* TEXT-INPUT-CHECKBOX */
-
-/* .container .input[type="checkbox"] {
+/* .container:has(input[type="checkbox"]){
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    gap: 12px;
 }
-.container .input[type="checkbox"] {
+.container input[type="checkbox"] {
     width: 24px;
     height: 24px;
     background: var(--surface1-color);
@@ -140,10 +139,11 @@ input[type="number"]::-webkit-outer-spin-button {
     position: relative;
     outline: none;
 }
-.container .input[type="checkbox"]:checked {
+
+.container input[type="checkbox"]:checked {
     background: var(--success-color);
 }
-.container .input[type="checkbox"]:checked::after {
+.container input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 6px;
