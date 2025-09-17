@@ -40,15 +40,6 @@
     text-align: right;
     font-size: 12px;
 }
-.container :disabled {
-    background-color: transparent;
-    font-family: "Source Code Pro";
-    color: var(--copyAlt-color);
-    border: none;
-    cursor: not-allowed;
-    padding: 0;
-    resize: none;
-}
 .container:has(:disabled) required {
     display: none;
 }
@@ -58,8 +49,10 @@
 
 /* TEXT-INPUT */
 
-.container input {
-    padding: 8px;
+.container .input-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
     background-color: var(--surface2-color);
     color: var(--copy-color);
@@ -69,8 +62,53 @@
 
     border: 1px solid #c3c7d9;
 }
-.container input:disabled {
-    height: 24px;
+
+.container .input-wrapper:has(input:focus) {
+    border: 1.5px solid var(--success-color);
+}
+
+.container .input-wrapper:has(:disabled) {
+    background-color: transparent;
+    border: none;
+    font-family: "Source Code Pro";
+    cursor: not-allowed;
+    color: var(--copyAlt-color);
+}
+
+.container .input-wrapper:has(:disabled) input {
+    padding: 0;
+}
+
+.container .input-wrapper:has(:disabled) .buttons {
+    display: none;
+}
+
+.container input {
+    border: none;
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+
+    width: 100%;
+    flex: 1 1 auto;
+    padding: 0 12px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    /* Removing Default Spinner */
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+
+/* TEXT-INPUT-NUMBER */
+
+.container .input-wrapper .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 /* TEXT-INPUT-AREA */
@@ -90,6 +128,19 @@
     border: 1px solid #c3c7d9;
 }
 
+.container textarea:focus {
+    border: 1.5px solid var(--success-color);
+}
+
+.container textarea:disabled {
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
+    padding: 0;
+    resize: none;
+    color: var(--copyAlt-color);
+}
+
 /* SELECT DROPDOWN */
 
 .container select {
@@ -103,6 +154,10 @@
     max-height: 40px;
 
     border: 1px solid #c3c7d9;
+}
+
+.container select:focus {
+    border: 1.5px solid var(--success-color);
 }
 
 /* MULTI SELECT DROPDOWN */
@@ -133,11 +188,27 @@
     padding: 0;
 }
 multi-select-dropdown .container select:disabled {
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
+    padding: 0;
+    color: transparent;
+}
+
+multi-select-dropdown .container:has(.tags .tag) select:disabled {
     display: none;
 }
-.container:has(select:disabled) .tag {
-    padding: 4px 12px 4px 12px;
+
+.container:has(select:disabled) .tags {
+    display: flex;
+    height: 40px;
 }
+
+.container:has(select:disabled) .tag {
+    padding: 4px 12px;
+    align-self: flex-start;
+}
+
 .container:has(select:disabled) .remove-tag {
     display: none;
 }
@@ -159,7 +230,8 @@ multi-select-dropdown .container select:disabled {
     flex: 1;
 }
 
-.container .excludes-container .dropdown-container single-select-dropdown, multi-select-dropdown {
+.container .excludes-container .dropdown-container single-select-dropdown,
+multi-select-dropdown {
     flex: 1;
 }
 
@@ -171,7 +243,6 @@ multi-select-dropdown .container select:disabled {
 .container .excludes-container web-button {
     margin-top: 26px;
 }
-
 
 /* BUTTON */
 
@@ -192,7 +263,7 @@ web-button button {
 
 web-button button svg {
     width: 24px;
-    height: 24px;   
+    height: 24px;
 }
 
 web-button[data-theme="Primary"] button {
@@ -256,7 +327,7 @@ web-button[data-theme="Icon"] button {
 
 web-button[data-theme="Icon"] button:hover {
     background-color: var(--surface1-color);
-    padding: 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
 
 web-button[data-theme="Icon-Success"] button {
@@ -284,7 +355,7 @@ web-button[data-theme="Small"] button {
 
 web-button[data-theme="Small"] button svg {
     width: 16px;
-    height: 16px;   
+    height: 16px;
 }
 
 web-button[data-theme="Small"] button:hover {

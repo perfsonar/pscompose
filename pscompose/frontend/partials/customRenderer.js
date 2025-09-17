@@ -36,6 +36,48 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
     return elemToReturn;
 }
 
+/* TEXT INPUT NUMBER */
+
+function textInputNumberCustomTester(uischema, schema, context) {
+    if (!uischema.scope) return LOWEST_RANK;
+
+    // NOTE: Add scope for input number here
+    // if (
+    //     uischema.scope.endsWith("")
+    // )
+    //     return HIGH_RANK;
+    return LOWEST_RANK;
+}
+
+function textInputNumberCustomRenderer(data, handleChange, path, schema) {
+    let elemToReturn = { tag: "text-input-number", props: {} };
+    elemToReturn.props.id = schema.uischema.scope;
+    elemToReturn.props.value = data == null ? schema.schema.default : data; // Might not have default?
+    elemToReturn.props.path = path;
+    elemToReturn.props.label = schema.schema.title;
+    elemToReturn.props.required = schema.required;
+    elemToReturn.props.onChange = (event) => {
+        if (event.target.tagName != "INPUT") {
+            handleChange(path, event.target.querySelector("input").value);
+        }
+    };
+    if (schema?.schema?.description) {
+        elemToReturn.props.description = schema.schema.description;
+    }
+    // Number specific - Might have to double check schema labels
+    if (schema?.schema?.minimum) {
+        elemToReturn.props.min = schema.schema.minimum;
+    }
+    if (schema?.schema?.maximum) {
+        elemToReturn.props.max = schema.schema.maximum;
+    }
+    if (schema?.schema?.maximum) {
+        elemToReturn.props.step = schema.schema.multipleOf;
+    }
+
+    return elemToReturn;
+}
+
 /* TEXT INPUT AREA */
 
 function textInputAreaCustomTester(uischema, schema, context) {
@@ -163,35 +205,38 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     }
 
     // Multi Select Dropdown Specific
-    if (schema?.schema?.items?.oneOf ) { elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf); }
+    if (schema?.schema?.items?.oneOf) {
+        elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
+    }
 
-    return elemToReturn
+    return elemToReturn;
 }
 
 /* EXCLUDES DROPDOWN */
 
-function excludesCustomTester(uischema, schema, context){
-    if(!uischema.scope) return LOWEST_RANK;
+function excludesCustomTester(uischema, schema, context) {
+    if (!uischema.scope) return LOWEST_RANK;
 
-    if(uischema.scope.endsWith("excludes")) return HIGH_RANK;
+    if (uischema.scope.endsWith("excludes")) return HIGH_RANK;
     return LOWEST_RANK;
 }
 
 function excludesCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { "tag": "excludes-dropdown", "props": {} }
+    let elemToReturn = { tag: "excludes-dropdown", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path; 
-    elemToReturn.props.label = schema.schema.title;  
+    elemToReturn.props.path = path;
+    elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "EXCLUDES-DROPDOWN" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
         }
     };
-    if (schema?.schema?.description) {elemToReturn.props.description = schema.schema.description}
-
+    if (schema?.schema?.description) {
+        elemToReturn.props.description = schema.schema.description;
+    }
 
     // Excludes Dropdown Specific
     if (schema?.schema?.items?.oneOf) {
@@ -208,6 +253,10 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
     if (elem) {
         elem.appendRenderer({ tester: textInputCustomTester, renderer: textInputCustomRenderer });
+        elem.appendRenderer({
+            tester: textInputNumberCustomTester,
+            renderer: textInputNumberCustomRenderer,
+        });
         elem.appendRenderer({ tester: checkBoxCustomTester, renderer: checkBoxCustomRenderer });
         elem.appendRenderer({
             tester: textInputAreaCustomTester,

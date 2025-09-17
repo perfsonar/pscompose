@@ -27,9 +27,11 @@ export class TextInput extends HTMLElement {
                             : ""
                     }
                 </label>
-                <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
-                    this.getAttribute("value") || ""
-                }" />
+                <div class="input-wrapper">
+                    <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
+                        this.getAttribute("value") || ""
+                    }" />
+                </div>
                 ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
             </div>
         `;
