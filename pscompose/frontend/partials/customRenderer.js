@@ -107,7 +107,7 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     return elemToReturn;
 }
 
-/* CHECK BOX */
+/* TEXT INPUT CHECK BOX */
 
 function checkBoxCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
@@ -123,7 +123,7 @@ function checkBoxCustomTester(uischema, schema, context) {
 }
 
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "simple-checkbox", props: {} };
+    let elemToReturn = { tag: "text-input-checkbox", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.checked = data == null ? schema.schema.default : data;
@@ -135,6 +135,9 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
             handleChange(path, event.target.querySelector("input").checked == true);
         }
     };
+    if (schema?.schema?.description) {
+        elemToReturn.props.description = schema.schema.description;
+    }
     return elemToReturn;
 }
 

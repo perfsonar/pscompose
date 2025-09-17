@@ -310,7 +310,7 @@ th {
 }
 
 :where(.packets-ui .vertical-layout-item) {
-    @apply w-full mb-md;
+    @apply w-full mb-lg;
 }
 
 :where(.packets-ui .vertical-layout-item):empty {
