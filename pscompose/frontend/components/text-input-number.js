@@ -1,11 +1,9 @@
 export class TextInputNum extends HTMLElement {
-    static observedAttributes = [
-        "label",
-        "placeholder",
-        "backgroundcolor",
-        "labelcolor",
-        "textcolor",
-    ];
+    static observedAttributes = ["label", "value", "step", "min", "max", "description"];
+
+    constructor() {
+        super();
+    }
 
     connectedCallback() {
         this.render();
@@ -18,76 +16,56 @@ export class TextInputNum extends HTMLElement {
         lucide.createIcons();
     }
 
+    onPlusClick() {
+        const input = document.querySelector('input[type="number"]');
+        input.stepUp();
+        this.setAttribute("value", input.value);
+        this.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    onMinusClick() {
+        const input = document.querySelector('input[type="number"]');
+        input.stepDown();
+        this.setAttribute("value", input.value);
+        this.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
     render() {
-        const inputStyle = `
-            <style>
-                .input-container {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    flex: 1;
-                }
-
-                label {
-                    color: ${this.labelcolor || "var(--copy-color)"};
-
-                    font-family: 'Source Sans 3';
-                    font-style: normal;
-                    font-weight: 400;
-                    font-size: 16px;
-                    line-height: 120%;
-                    display: flex;
-                    align-items: center;
-                }
-
-                input {
-                    background-color: ${this.backgroundcolor || "#000000"};
-                    color: ${this.textcolor || "#FFFFFF"};
-                    box-sizing: border-box;
-
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    padding: 8px 64px 8px 8px;
-                    gap: 16px;
-
-                    width: 100%;
-                    height: 40px;
-
-                    border: 1px solid #C3C7D9;
-                    border-radius: 0px;
-                    font-size: 16px;
-                }
-
-                ::placeholder {
-                    font-size: 16px;
-                    padding: 8px 64px 8px 8px;
-                }
-
-                input:focus {
-                    outline: none;
-                    border-color: 'var(--success-color)';
-                }
-
-                .icon {
-                    position: absolute;
-                    right: 16px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-            </style>
-        `;
-
         this.innerHTML = `
-            ${inputStyle}
-            <div class="input-container">
-                ${this.label ? `<label for="myInput">${this.label}</label>` : ""}
-                <input type="text" id="myInput" placeholder="${this.placeholder || ""}" />
-                <i style="width: 24px;  height: 24px;" data-lucide="plus"></i>
-                <i style="width: 24px;  height: 24px;" data-lucide="minus"></i>
+            <div class="container">
+                <label>
+                    ${this.getAttribute("label")}
+                    ${
+                        this.getAttribute("description")
+                            ? `<i data-lucide="info"></i><div class="tool-tip"> ${this.getAttribute(
+                                  "description",
+                              )} </div>`
+                            : ""
+                    }
+                </label>
+                <div class="input-wrapper">
+                    <input  type="number" 
+                            placeholder="Enter ${this.getAttribute("label")}" 
+                            value="${this.getAttribute("value") || ""}" 
+                            step="${this.getAttribute("step") || 1}"
+                            min="${this.getAttribute("min") || 0}"
+                            max="${this.getAttribute("max") || 100}"
+                            />
+                    <div class="buttons">
+                        <web-button type="button" id="plus-btn" data-theme="Icon" data-righticon="plus"></web-button>
+                        <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
+                    </div>
+                </div>
+                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
             </div>
         `;
+
+        this.querySelector("#plus-btn").addEventListener("click", this.onPlusClick);
+        this.querySelector("#minus-btn").addEventListener("click", this.onMinusClick);
+        this.querySelector("input").addEventListener("change", () => {
+            this.dispatchEvent(new Event("change", { bubbles: true }));
+        });
     }
 }
 
-customElements.define("text-input-num", TextInputNum);
+customElements.define("text-input-number", TextInputNum);
