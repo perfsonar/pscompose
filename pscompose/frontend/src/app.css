@@ -172,7 +172,7 @@ nav {
 }
 
 .submenu svg {
-    @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xsm;
+    @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 
 /* HOME PAGE / INDEX */
@@ -287,7 +287,7 @@ th {
 }
 
 .header #data-name {
-    @apply flex-1 text-center;
+    @apply flex-1 text-left;
 }
 
 .datatype.error-form .page,
