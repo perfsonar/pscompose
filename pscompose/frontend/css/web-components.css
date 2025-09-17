@@ -11,6 +11,7 @@
     gap: 8px;
     align-items: center;
     font-weight: 600;
+    white-space: nowrap;
 }
 .container label svg {
     width: 16px;
@@ -30,10 +31,6 @@
 }
 .container ::placeholder {
     color: var(--copyAlt-color);
-}
-.container :focus {
-    outline: none;
-    border: 2px solid var(--success-color);
 }
 .container required {
     color: var(--copyAlt-color);
@@ -61,6 +58,13 @@
     height: 40px;
 
     border: 1px solid #c3c7d9;
+}
+
+.container .input-wrapper .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
 }
 
 .container .input-wrapper:has(input:focus) {
@@ -94,6 +98,10 @@
     padding: 0 12px;
 }
 
+.container .input-wrapper input:focus {
+    border: none;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     /* Removing Default Spinner */
@@ -104,12 +112,53 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* TEXT-INPUT-NUMBER */
 
-.container .input-wrapper .buttons {
+.container .input[type="number"] .buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
+
+/* TEXT-INPUT-CHECKBOX */
+
+/* .container .input[type="checkbox"] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.container .input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    background: var(--surface1-color);
+    accent-color: var(--success-color);
+    border: 2px solid var(--copyAlt-color);
+    border-radius: 8px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    outline: none;
+}
+.container .input[type="checkbox"]:checked {
+    background: var(--success-color);
+}
+.container .input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    pointer-events: none;
+    display: block;
+}
+.checkbox-container-disabled {
+    display: none;
+} */
 
 /* TEXT-INPUT-AREA */
 
@@ -129,6 +178,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .container textarea:focus {
+    outline: none;
     border: 1.5px solid var(--success-color);
 }
 
@@ -322,7 +372,7 @@ web-button[data-theme="Icon"] button {
     background-color: transparent;
     color: var(--copy-color);
     border: none;
-    padding: 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
 
 web-button[data-theme="Icon"] button:hover {
