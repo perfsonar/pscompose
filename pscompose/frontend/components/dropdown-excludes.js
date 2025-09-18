@@ -22,7 +22,7 @@ export class excludesDropdown extends HTMLElement {
 
     getSelectedLocalAddresses() {
         const containers = this.querySelectorAll(
-            ".container .excludes-container single-select-dropdown",
+            ".container .excludes-container dropdown-single-select",
         );
         return Array.from(containers).map((singledropdown) => singledropdown.selected);
     }
@@ -46,7 +46,7 @@ export class excludesDropdown extends HTMLElement {
     }
 
     attachDropdownListeners() {
-        this.querySelectorAll("single-select-dropdown, multi-select-dropdown").forEach((dropdown) =>
+        this.querySelectorAll("dropdown-single-select, dropdown-multi-select").forEach((dropdown) =>
             dropdown.addEventListener("change", () => {
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
@@ -56,7 +56,7 @@ export class excludesDropdown extends HTMLElement {
 
     // Update local address dropdown options to exclude already selected local addresses
     updateLocalAddressesOptions() {
-        this.querySelectorAll(".container .excludes-container single-select-dropdown").forEach(
+        this.querySelectorAll(".container .excludes-container dropdown-single-select").forEach(
             (singledropdown) => {
                 const currentSelectionValue = singledropdown.selected; // "const" value
                 const currentSelection = this.allAddresses.find(
@@ -64,7 +64,7 @@ export class excludesDropdown extends HTMLElement {
                 ); // {const, title} object
 
                 if (currentSelection) {
-                    const newOptions = [...getAvailableLocalAddresses(), currentSelection]; // Include current selection
+                    const newOptions = [...this.getAvailableLocalAddresses(), currentSelection]; // Include current selection
                     newOptions.sort((a, b) => a.title.localeCompare(b.title)); // Sort options alphabetically to keep order consistent
                     singledropdown.setAttribute("options", JSON.stringify(newOptions));
                     singledropdown.setAttribute("selected", currentSelectionValue);
@@ -77,8 +77,8 @@ export class excludesDropdown extends HTMLElement {
     updateSelectedValues() {
         this.selectedValues = Array.from(this.querySelectorAll(".excludes-container")).map(
             (container) => {
-                const localDropdown = container.querySelector("single-select-dropdown");
-                const targetDropdown = container.querySelector("multi-select-dropdown");
+                const localDropdown = container.querySelector("dropdown-single-select");
+                const targetDropdown = container.querySelector("dropdown-multi-select");
                 const localAddressName = localDropdown.hasAttribute("selected")
                     ? this.allAddresses.find(
                           (opt) => opt.const === localDropdown.getAttribute("selected"),
@@ -107,16 +107,16 @@ export class excludesDropdown extends HTMLElement {
         newContainer.classList.add("excludes-container");
         newContainer.innerHTML = `
             <div class="dropdown-container">
-                <single-select-dropdown
+                <dropdown-single-select
                     label="Local Addresses" 
-                    options=${JSON.stringify(getAvailableLocalAddresses())}
+                    options=${JSON.stringify(this.getAvailableLocalAddresses())}
                     >
-                </single-select-dropdown>
-                <multi-select-dropdown
+                </dropdown-single-select>
+                <dropdown-multi-select
                     label="Target Addresses" 
                     options=${this.getAttribute("options")}
                     >
-                </multi-select-dropdown>
+                </dropdown-multi-select>
             </div>
             <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
         `;
@@ -141,16 +141,16 @@ export class excludesDropdown extends HTMLElement {
             </label>
             <div class="excludes-container">
                 <div class="dropdown-container">
-                    <single-select-dropdown
+                    <dropdown-single-select
                         label="Local Addresses" 
                         options='${this.getAttribute("options")}'
                         >
-                    </single-select-dropdown>
-                    <multi-select-dropdown
+                    </dropdown-single-select>
+                    <dropdown-multi-select
                         label="Target Addresses" 
                         options='${this.getAttribute("options")}'
                     >
-                    </multi-select-dropdown>
+                    </dropdown-multi-select>
                 </div>
                 <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
             </div>
@@ -167,4 +167,4 @@ export class excludesDropdown extends HTMLElement {
     }
 }
 
-customElements.define("excludes-dropdown", excludesDropdown);
+customElements.define("dropdown-excludes", excludesDropdown);
