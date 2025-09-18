@@ -236,6 +236,7 @@ text-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-dis
 }
 
 .container select:focus {
+    outline: none;
     border: 1.5px solid var(--success-color);
 }
 
