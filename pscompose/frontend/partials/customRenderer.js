@@ -151,7 +151,7 @@ function singleSelectDropdownCustomTester(uischema, schema, context) {
 }
 
 function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "single-select-dropdown", props: {} };
+    let elemToReturn = { tag: "dropdown-single-select", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : data;
@@ -159,7 +159,7 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "SINGLE-SELECT-DROPDOWN") {
+        if (event.target.tagName == "DROPDOWN-SINGLE-SELECT") {
             handleChange(path, event.target.selected);
         }
     };
@@ -191,7 +191,7 @@ function multiSelectDropdownCustomTester(uischema, schema, context) {
 }
 
 function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "multi-select-dropdown", props: {} };
+    let elemToReturn = { tag: "dropdown-multi-select", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
@@ -199,7 +199,7 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "MULTI-SELECT-DROPDOWN" && event.target.selected) {
+        if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
         }
     };
@@ -225,7 +225,7 @@ function excludesCustomTester(uischema, schema, context) {
 }
 
 function excludesCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "excludes-dropdown", props: {} };
+    let elemToReturn = { tag: "dropdown-excludes", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
@@ -233,7 +233,7 @@ function excludesCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "EXCLUDES-DROPDOWN" && event.target.selected) {
+        if (event.target.tagName == "DROPDOWN-EXCLUDES" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
         }
     };
