@@ -78,7 +78,7 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     return elemToReturn;
 }
 
-/* TEXT INPUT AREA */
+/* INPUT TEXT AREA */
 
 function textInputAreaCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
@@ -88,7 +88,7 @@ function textInputAreaCustomTester(uischema, schema, context) {
 }
 
 function textInputAreaCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "text-input-area", props: {} };
+    let elemToReturn = { tag: "input-text-area", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.value = data == null ? schema.schema.default : data;
@@ -123,7 +123,7 @@ function checkBoxCustomTester(uischema, schema, context) {
 }
 
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "text-input-checkbox", props: {} };
+    let elemToReturn = { tag: "input-checkbox", props: {} };
 
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.checked = data == null ? schema.schema.default : data;
