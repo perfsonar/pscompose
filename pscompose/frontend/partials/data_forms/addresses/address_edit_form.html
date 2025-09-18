@@ -68,7 +68,7 @@
 
 <script>
     // TOGGLED SUBMENU BY DEFAULT
-    toggleSubmenu();
+    showSubmenu();
 
     let editlink = new URLSearchParams(window.location.search);
     editlink.append("edit", "true");
@@ -93,8 +93,9 @@
                 "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
             document.getElementById("edit-icon").style.display = "none";
 
-            // Untoggle submenu when in edit mode
-            untoggleSubmenu();
+            // Hide submenu when in edit mode
+            let submenu = document.querySelector(".submenu-container");
+            hideSubmenu();
         }
     });
 

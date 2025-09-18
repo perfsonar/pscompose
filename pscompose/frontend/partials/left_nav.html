@@ -46,7 +46,7 @@
     <div class="submenu-container"></div>
 
     <script id="submenu-template" type="nunjucks">
-        <div class='submenu show'>
+        <div class='submenu show' id='submenu-content'>
           <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
           <ul>
             <li id="new-{{ data.psCompose.activeMenuItem }}">
@@ -69,25 +69,25 @@
 </nav>
 
 <script>
-    function toggleSubmenu() {
+    function showSubmenu() {
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = psCompose.activeMenuItem;
+        container.classList.remove("hidden");
         container.innerHTML = `
-      <div
-        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
-        hx-trigger='load'
-        hx-target='.submenu-container'
-        nunjucks-array-template="submenu-template"
-        hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
-      </div>`;
+          <div
+            hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+            hx-trigger='load'
+            hx-target='.submenu-container'
+            nunjucks-array-template="submenu-template"
+            hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+          </div>`;
         htmx.process(container);
     }
 
-    function untoggleSubmenu() {
+    function hideSubmenu() {
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = null;
-        container.innerHTML = "";
-        htmx.process(container);
+        container.classList.add("hidden");
     }
 
     function renderHighlight() {
@@ -129,7 +129,7 @@
                     psCompose.activeMenuItem = psCompose.activeRoute.page_url.split("/")[1];
                 }
 
-                untoggleSubmenu();
+                hideSubmenu();
                 updateShortCutsVisibility();
                 renderHighlight();
             } else {
@@ -140,7 +140,7 @@
                 elem.classList.add("active");
                 psCompose.activeMenuItem = clickedMenu;
                 updateShortCutsVisibility();
-                toggleSubmenu();
+                showSubmenu();
                 renderHighlight();
             }
         });
