@@ -39,4 +39,4 @@ export class TextInputArea extends HTMLElement {
     }
 }
 
-customElements.define("text-input-area", TextInputArea);
+customElements.define("input-text-area", TextInputArea);
