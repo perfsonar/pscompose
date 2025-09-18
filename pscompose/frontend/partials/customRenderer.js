@@ -50,7 +50,7 @@ function textInputNumberCustomTester(uischema, schema, context) {
 }
 
 function textInputNumberCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "text-input-number", props: {} };
+    let elemToReturn = { tag: "input-number", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.value = data == null ? schema.schema.default : data; // Might not have default?
     elemToReturn.props.path = path;
