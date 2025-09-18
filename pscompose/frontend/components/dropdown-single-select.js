@@ -17,9 +17,11 @@ export class SingleSelectDropdown extends HTMLElement {
     render() {
         const options = this.options ? JSON.parse(this.options) : [];
         const optionsHTML = options
-            .map((option) => `<option value="${option.const}">${option.title}</option>a`)
-            .join("");
-        
+            ? options
+                  .map((option) => `<option value="${option.const}">${option.title}</option>a`)
+                  .join("")
+            : "";
+
         this.innerHTML = `
             <div class="container">
                 <label>
@@ -51,4 +53,4 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 }
 
-customElements.define("single-select-dropdown", SingleSelectDropdown);
+customElements.define("dropdown-single-select", SingleSelectDropdown);

@@ -63,7 +63,9 @@ export class MultiSelectDropdown extends HTMLElement {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
             : [];
-        const availableOptions = options.filter((opt) => !this.selectedValues.includes(opt.const));
+        const availableOptions = options
+            ? options.filter((opt) => !this.selectedValues.includes(opt.const))
+            : [];
 
         const optionsHTML = availableOptions
             .map((option) => `<option value="${option.const}">${option.title}</option>`)
@@ -105,4 +107,4 @@ export class MultiSelectDropdown extends HTMLElement {
     }
 }
 
-customElements.define("multi-select-dropdown", MultiSelectDropdown);
+customElements.define("dropdown-multi-select", MultiSelectDropdown);
