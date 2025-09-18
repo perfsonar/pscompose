@@ -6,6 +6,7 @@ module.exports = {
     "./mockups/**/*.html",
     "./app/**/*.html",
     "./pages/**/*.html",
+    "./partials/**/*.html",
   ],
   theme: {
     fontFamily: {
