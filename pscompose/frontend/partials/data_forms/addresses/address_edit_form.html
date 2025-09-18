@@ -50,22 +50,26 @@
                     >
                     </web-button>
 
-          <web-button
-            type="button"
-            data-label="Cancel"
-            data-theme="Primary"
-            data-righticon='x'
-            data-link = "javascript:history.back()">
-          </web-button>
+                    <web-button
+                        type="button"
+                        data-label="Cancel"
+                        data-theme="Primary"
+                        data-righticon="x"
+                        data-link="javascript:history.back()"
+                    >
+                    </web-button>
+                </div>
+            </form>
+            <!-- Response container -->
+            <div id="response-container"></div>
         </div>
-      </form>
-      <!-- Response container -->
-      <div id="response-container"></div>
     </div>
-  </div>
 </div>
 
 <script>
+    // TOGGLED SUBMENU BY DEFAULT
+    toggleSubmenu();
+
     let editlink = new URLSearchParams(window.location.search);
     editlink.append("edit", "true");
     document
@@ -88,6 +92,9 @@
             document.querySelector(".edit-save-cancel").style =
                 "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
             document.getElementById("edit-icon").style.display = "none";
+
+            // Untoggle submenu when in edit mode
+            untoggleSubmenu();
         }
     });
 
