@@ -325,8 +325,7 @@ th {
     @apply w-full;
 }
 
-:where(.packets-ui .horizontal-layout):has(text-input-checkbox):has(text-input)
-    .input-checkbox-wrapper {
+:where(.packets-ui .horizontal-layout):has(input-checkbox):has(text-input) .input-checkbox-wrapper {
     @apply mt-lg;
 }
 

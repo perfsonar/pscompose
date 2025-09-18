@@ -128,7 +128,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
 }
 
-/* TEXT-INPUT-CHECKBOX */
+/* INPUT-CHECKBOX */
 .container:has(input[type="checkbox"]) .input-checkbox-wrapper {
     display: flex;
     flex-direction: row;
@@ -173,23 +173,23 @@ input[type="number"]::-webkit-outer-spin-button {
 .container:has(input[type="checkbox"]:disabled) {
     display: none;
 }
-text-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled {
+input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled {
     display: flex;
     flex-direction: column;
     gap: 8px;
     flex: 1 1 auto;
 }
-text-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled label {
+input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled label {
     white-space: nowrap;
     font-weight: 600;
 }
-text-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled p {
+input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled p {
     font-family: "Source Code Pro";
     color: var(--copyAlt-color);
     height: 24px;
 }
 
-/* TEXT-INPUT-AREA */
+/* INPUT-TEXT-AREA */
 
 .container textarea {
     padding: 8px;

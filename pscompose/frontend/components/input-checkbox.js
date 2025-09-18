@@ -51,4 +51,4 @@ class TextInputCheckbox extends HTMLElement {
     }
 }
 
-customElements.define("text-input-checkbox", TextInputCheckbox);
+customElements.define("input-checkbox", TextInputCheckbox);
