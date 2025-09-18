@@ -37,6 +37,16 @@ def normalize_path(path, root):
 
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    def send_no_cache_headers(self):
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        pass
+
+    def end_headers(self):
+        self.send_no_cache_headers()
+        http.server.SimpleHTTPRequestHandler.end_headers(self)
+
     def translate_path(self, path):
         """translate path given routes"""
         # set default root to cwd
