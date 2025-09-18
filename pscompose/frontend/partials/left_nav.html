@@ -86,18 +86,7 @@
     function untoggleSubmenu() {
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = null;
-        if (!psCompose.menu[psCompose.activeMenuItem]) {
-            container.innerHTML = "";
-            return;
-        }
-        container.innerHTML = `
-      <div
-        hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
-        hx-trigger='load'
-        hx-target="submenu-template"
-        nunjucks-array-template='.submenu-container'
-        hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
-      </div>`;
+        container.innerHTML = "";
         htmx.process(container);
     }
 
