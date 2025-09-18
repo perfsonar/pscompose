@@ -325,9 +325,9 @@ th {
     @apply w-full;
 }
 
-:where(.packets-ui .horizontal-layout):has(text-input-checkbox):has(:not(text-input))
+:where(.packets-ui .horizontal-layout):has(text-input-checkbox):has(text-input)
     .input-checkbox-wrapper {
-    @apply mt-none;
+    @apply mt-lg;
 }
 
 :where(.packets-ui fieldset) {
