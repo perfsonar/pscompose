@@ -267,7 +267,7 @@ text-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-dis
     border: none;
     padding: 0;
 }
-multi-select-dropdown .container select:disabled {
+dropdown-multi-select .container select:disabled {
     background-color: transparent;
     border: none;
     cursor: not-allowed;
@@ -275,7 +275,7 @@ multi-select-dropdown .container select:disabled {
     color: transparent;
 }
 
-multi-select-dropdown .container:has(select:disabled) select:disabled {
+dropdown-multi-select .container:has(select:disabled) select:disabled {
     display: none;
 }
 
@@ -310,8 +310,8 @@ multi-select-dropdown .container:has(select:disabled) select:disabled {
     flex: 1;
 }
 
-.container .excludes-container .dropdown-container single-select-dropdown,
-multi-select-dropdown {
+.container .excludes-container .dropdown-container dropdown-single-select,
+dropdown-multi-select {
     flex: 1;
 }
 
