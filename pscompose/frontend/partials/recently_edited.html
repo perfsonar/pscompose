@@ -48,8 +48,7 @@
     function updateShortCutsVisibility() {
         const shortCuts = document.getElementById("shortCuts");
         if (window.location.pathname == "/") {
-            shortCuts.style.display = "";
-            if (psCompose.activeMenuItem == "None") {
+            if (psCompose.activeMenuItem == "None" || psCompose.activeMenuItem == null) {
                 shortCuts.style.display = "";
             } else {
                 shortCuts.style.display = "none";

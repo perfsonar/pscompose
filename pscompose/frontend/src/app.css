@@ -225,7 +225,7 @@ th {
 /* SHORT CUT PANEL  */
 
 .short-cuts {
-    @apply flex flex-col min-w-[20rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-lg px-md gap-xsm;
+    @apply flex flex-col min-w-[25rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-xlg px-lg gap-md;
 }
 
 /* BOX */
@@ -323,6 +323,11 @@ th {
 
 :where(.packets-ui .horizontal-layout-item):has(text-input, text-input-number) {
     @apply w-full;
+}
+
+:where(.packets-ui .horizontal-layout):has(text-input-checkbox):has(:not(text-input))
+    .input-checkbox-wrapper {
+    @apply mt-none;
 }
 
 :where(.packets-ui fieldset) {
