@@ -31,7 +31,7 @@
                 width: 100%;
                 gap: 24px;
             }
-            text-input {
+            input-text {
                 flex-grow: 1;
             }
             dropdown-list {
@@ -53,7 +53,7 @@
     </head>
     <script src="../nav.js"></script>
     <script src="../../components/web-button.js" type="module"></script>
-    <script src="../../components/text-input.js" type="module"></script>
+    <script src="../../components/input-text.js" type="module"></script>
     <script src="../../components/input-text-area.js" type="module"></script>
     <script src="../../components/dropdown-list.js" type="module"></script>
     <script src="../../components/switch.js" type="module"></script>
@@ -62,7 +62,7 @@
             <h2>New Task</h2>
             <div class="content">
                 <div class="contentdiv">
-                    <text-input label="Name" placeholder="New Template"></text-input>
+                    <input-text label="Name" placeholder="New Template"></input-text>
                     <switch label="Enabled"></switch>
                 </div>
                 <div class="contentdiv">
@@ -93,8 +93,8 @@
                     >
                     </dropdown-list>
                 </div>
-                <text-input label="Display Name" placeholder=""></text-input>
-                <text-input label="Display Group" placeholder="Press Enter to Add"></text-input>
+                <input-text label="Display Name" placeholder=""></input-text>
+                <input-text label="Display Group" placeholder="Press Enter to Add"></input-text>
                 <div class="save-cancel">
                     <web-button
                         link="import_template_2.html"

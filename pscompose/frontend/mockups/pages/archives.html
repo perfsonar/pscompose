@@ -31,7 +31,7 @@
                 width: 100%;
                 gap: 24px;
             }
-            text-input {
+            input-text {
                 flex-grow: 1;
             }
             dropdown-list {
@@ -53,7 +53,7 @@
     </head>
     <script src="../nav.js"></script>
     <script src="../../components/web-button.js" type="module"></script>
-    <script src="../../components/text-input.js" type="module"></script>
+    <script src="../../components/input-text.js" type="module"></script>
     <script src="../../components/input-text-area.js" type="module"></script>
     <script src="../../components/dropdown-list.js" type="module"></script>
     <script src="../../components/switch.js" type="module"></script>
@@ -69,11 +69,11 @@
                 >
                 </dropdown-list>
                 <div class="contentdiv">
-                    <text-input label="Schema" placeholder="Enter Schema"></text-input>
-                    <text-input label="Operation" placeholder="Enter Operation"></text-input>
+                    <input-text label="Schema" placeholder="Enter Schema"></input-text>
+                    <input-text label="Operation" placeholder="Enter Operation"></input-text>
                 </div>
                 <div class="contentdiv">
-                    <text-input label="Binder" placeholder="Enter Bind"></text-input>
+                    <input-text label="Binder" placeholder="Enter Bind"></input-text>
                     <checkbox label="Verify SSL"></checkbox>
                 </div>
                 <dropdown-list
@@ -83,7 +83,7 @@
                 >
                 </dropdown-list>
                 <div class="contentdiv">
-                    <text-input label="Binder" placeholder="Enter Bind"></text-input>
+                    <input-text label="Binder" placeholder="Enter Bind"></input-text>
                     <checkbox label="Output Raw"></checkbox>
                 </div>
                 <input-text-area label="Other Meta" placeholder="Enter JSON"></input-text-area>

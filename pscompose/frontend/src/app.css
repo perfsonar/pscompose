@@ -321,11 +321,11 @@ th {
     @apply w-auto;
 }
 
-:where(.packets-ui .horizontal-layout-item):has(text-input, input-number) {
+:where(.packets-ui .horizontal-layout-item):has(input-text, input-number) {
     @apply w-full;
 }
 
-:where(.packets-ui .horizontal-layout):has(input-checkbox):has(text-input) .input-checkbox-wrapper {
+:where(.packets-ui .horizontal-layout):has(input-checkbox):has(input-text) .input-checkbox-wrapper {
     @apply mt-lg;
 }
 
