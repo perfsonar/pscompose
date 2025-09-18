@@ -68,4 +68,4 @@ export class TextInputNum extends HTMLElement {
     }
 }
 
-customElements.define("text-input-number", TextInputNum);
+customElements.define("input-number", TextInputNum);

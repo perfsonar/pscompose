@@ -321,7 +321,7 @@ th {
     @apply w-auto;
 }
 
-:where(.packets-ui .horizontal-layout-item):has(text-input, text-input-number) {
+:where(.packets-ui .horizontal-layout-item):has(text-input, input-number) {
     @apply w-full;
 }
 
