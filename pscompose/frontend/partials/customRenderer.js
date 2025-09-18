@@ -18,7 +18,7 @@ function textInputCustomTester(uischema, schema, context) {
 }
 
 function textInputCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "text-input", props: {} };
+    let elemToReturn = { tag: "input-text", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.value = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;

@@ -41,4 +41,4 @@ export class TextInput extends HTMLElement {
     }
 }
 
-customElements.define("text-input", TextInput);
+customElements.define("input-text", TextInput);

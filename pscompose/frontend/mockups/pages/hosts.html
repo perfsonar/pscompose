@@ -31,7 +31,7 @@
                 width: 100%;
                 gap: 24px;
             }
-            text-input {
+            input-text {
                 flex-grow: 1;
             }
             dropdown-list {
@@ -53,7 +53,7 @@
     </head>
     <script src="../nav.js"></script>
     <script src="../../components/web-button.js" type="module"></script>
-    <script src="../../components/text-input.js" type="module"></script>
+    <script src="../../components/input-text.js" type="module"></script>
     <script src="../../components/input-text-area.js" type="module"></script>
     <script src="../../components/dropdown-list.js" type="module"></script>
     <script src="../../components/switch.js" type="module"></script>
@@ -63,12 +63,12 @@
             <h2>New Host</h2>
             <div class="content">
                 <div class="contentdiv">
-                    <text-input label="Name" placeholder="Enter Host Name"></text-input>
+                    <input-text label="Name" placeholder="Enter Host Name"></input-text>
                     <switch label="Disabled"></switch>
                 </div>
-                <text-input label="Description" placeholder="Host Description"></text-input>
+                <input-text label="Description" placeholder="Host Description"></input-text>
                 <div class="contentdiv">
-                    <text-input label="Display Group" placeholder="Enter Display Name"></text-input>
+                    <input-text label="Display Group" placeholder="Enter Display Name"></input-text>
                     <checkbox label="No Agent"></checkbox>
                 </div>
                 <dropdown-list
@@ -77,8 +77,8 @@
                     options='[{"value": "option1", "label": "Context 1"}, {"value": "option2", "label": "Context 2"}, {"value": "option2", "label": "Context 3"}]'
                 >
                 </dropdown-list>
-                <text-input label="pScheduler Address" placeholder=""></text-input>
-                <text-input label="Lead Bind Address" placeholder=""></text-input>
+                <input-text label="pScheduler Address" placeholder=""></input-text>
+                <input-text label="Lead Bind Address" placeholder=""></input-text>
                 <input-text-area label="Other Meta" placeholder="Enter JSON"></input-text-area>
                 <div class="save-cancel">
                     <web-button
