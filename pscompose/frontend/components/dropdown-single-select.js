@@ -24,14 +24,6 @@ export class SingleSelectDropdown extends HTMLElement {
         });
     }
 
-    closeDropdown() {
-        const dropdown = this.querySelector(".options");
-        if (dropdown) {
-            options.classList.remove("open");
-            this.querySelector(".dropdown").classList.remove("active");
-        }
-    }
-
     attachOptionListeners() {
         document.querySelectorAll(".option").forEach((item) => {
             item.onclick = () =>
@@ -43,7 +35,6 @@ export class SingleSelectDropdown extends HTMLElement {
         this.setAttribute("selected", value);
         this.render();
         this.dispatchEvent(new Event("change", { bubbles: true }));
-        this.closeDropdown();
     }
 
     render() {
