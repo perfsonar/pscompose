@@ -4,12 +4,12 @@ export class excludesDropdown extends HTMLElement {
     constructor() {
         super();
         this.selectedValues = [];
-        this.allAddresses = this.getAttribute("options")
-            ? JSON.parse(this.getAttribute("options"))
-            : [];
     }
 
     connectedCallback() {
+        this.allAddresses = this.getAttribute("options")
+            ? JSON.parse(this.getAttribute("options"))
+            : [];
         this.render();
         lucide.createIcons();
     }
@@ -79,6 +79,7 @@ export class excludesDropdown extends HTMLElement {
             (container) => {
                 const localDropdown = container.querySelector("dropdown-single-select");
                 const targetDropdown = container.querySelector("dropdown-multi-select");
+
                 const localAddressName = localDropdown.hasAttribute("selected")
                     ? this.allAddresses.find(
                           (opt) => opt.const === localDropdown.getAttribute("selected"),
