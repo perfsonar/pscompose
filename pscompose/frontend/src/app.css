@@ -311,6 +311,24 @@ th {
 
 :where(.packets-ui .vertical-layout-item) {
     @apply w-full mb-lg;
+    animation-name: jsonFormFadeIn;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes jsonFormFadeIn {
+    0% {
+        transform: translateY(-3%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 :where(.packets-ui .vertical-layout-item):empty {
