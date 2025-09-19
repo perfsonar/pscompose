@@ -52,7 +52,7 @@
     display: none;
 }
 
-/* TEXT-INPUT */
+/* INPUT-TEXT */
 
 .container .input-wrapper {
     display: flex;
@@ -119,7 +119,7 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
 }
 
-/* TEXT-INPUT-NUMBER */
+/* INPUT-NUMBER */
 
 .container input[type="number"] .buttons {
     display: flex;
@@ -222,22 +222,81 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
 
 /* SELECT DROPDOWN */
 
-.container select {
-    padding: 8px;
-
+.container .dropdown {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0px 8px;
     background-color: var(--surface2-color);
+    border: 1px solid #c3c7d9;
+}
+
+.container .dropdown .select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 8px;
+    gap: 16px;
+
     color: var(--copy-color);
 
     width: 100%;
     min-height: 40px;
     max-height: 40px;
-
-    border: 1px solid #c3c7d9;
 }
 
-.container select:focus {
+.container .dropdown.active {
     outline: none;
     border: 1.5px solid var(--success-color);
+}
+
+.container .dropdown .options {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-top: 1px solid var(--copy-color);
+    gap: 10px;
+    cursor: pointer;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+        max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container .dropdown .options.open {
+    max-height: 1000px;
+    opacity: 1;
+    padding: 8px;
+}
+
+.container .dropdown .option {
+    display: flex;
+    padding: 4px;
+}
+
+.container .dropdown .option.active {
+    background-color: rgba(var(--success-color-rgb), 0.5);
+}
+
+.container .dropdown.disabled {
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
+    padding: 0;
+    color: transparent;
+}
+
+.container .dropdown.disabled web-button {
+    display: none;
+}
+
+.container .dropdown.disabled p {
+    display: none;
 }
 
 /* MULTI SELECT DROPDOWN */
@@ -260,6 +319,7 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     font-size: 14px;
     font-weight: 600;
 }
+
 .container .remove-tag {
     display: flex;
     cursor: pointer;
@@ -275,25 +335,25 @@ dropdown-multi-select .container select:disabled {
     color: transparent;
 }
 
-dropdown-multi-select .container:has(select:disabled) select:disabled {
+dropdown-multi-select .container:has(.dropdown.disabled) .select {
     display: none;
 }
 
-.container:has(select:disabled) .tags {
+.container:has(.dropdown.disabled) .tags {
     display: flex;
     height: 24px;
 }
 
-.container:has(select:disabled) .tag {
+.container:has(.dropdown.disabled) .tag {
     padding: 4px 12px;
     align-self: flex-start;
 }
 
-.container:has(select:disabled) .remove-tag {
+.container:has(.dropdown.disabled) .remove-tag {
     display: none;
 }
 
-/* EXCLUDES DROPDOWD */
+/* EXCLUDES DROPDOWN */
 
 .container .excludes-container {
     display: flex;
@@ -318,10 +378,6 @@ dropdown-multi-select {
 .container .excludes-container .dropdown-container label {
     font-size: 14px;
     font-weight: 500;
-}
-
-.container .excludes-container web-button {
-    margin-top: 26px;
 }
 
 /* BUTTON */
