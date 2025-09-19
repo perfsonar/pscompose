@@ -9,15 +9,51 @@ export class MultiSelectDropdown extends HTMLElement {
     connectedCallback() {
         this.selectedSetUp();
         this.render();
-        this.attachListeners();
         lucide.createIcons();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         this[name] = newValue;
         this.render();
-        this.attachListeners();
         lucide.createIcons();
+    }
+
+    attachToggleDropdown() {
+        const options = this.querySelector(".options");
+        if (!options) return;
+        this.querySelector(".select").addEventListener("click", () => {
+            options.classList.toggle("open");
+            this.querySelector(".dropdown").classList.toggle("active");
+            this.attachOptionListeners();
+        });
+    }
+
+    attachOptionListeners() {
+        document.querySelectorAll(".option").forEach((item) => {
+            item.onclick = () => {
+                const value = item.getAttribute("data-value");
+                if (value && !this.selectedValues.includes(value)) {
+                    this.selectedValues.unshift(value); // Value to selectedValue array
+                    this.setAttribute("selected", JSON.stringify(this.selectedValues)); // set Attribute
+                    this.render();
+                    lucide.createIcons();
+                }
+            };
+        });
+        this.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    attachTagsListeners() {
+        this.querySelectorAll(".tag .remove-tag").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const value = btn.getAttribute("data-value");
+                this.selectedValues = this.selectedValues.filter((v) => v !== value);
+                this.setAttribute("selected", JSON.stringify(this.selectedValues));
+                this.render();
+                lucide.createIcons();
+            });
+        });
+        this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     selectedSetUp() {
@@ -29,36 +65,6 @@ export class MultiSelectDropdown extends HTMLElement {
         );
     }
 
-    attachListeners() {
-        const select = this.querySelector("select");
-
-        if (select) {
-            select.addEventListener("change", () => {
-                const value = select.value.trim();
-                if (value && !this.selectedValues.includes(value)) {
-                    this.selectedValues.unshift(value);
-                    this.setAttribute("selected", JSON.stringify(this.selectedValues));
-                    this.render();
-                    this.attachListeners();
-                    lucide.createIcons();
-                }
-                select.value = "";
-            });
-        }
-
-        this.querySelectorAll(".tag .remove-tag").forEach((btn) => {
-            btn.addEventListener("click", () => {
-                const value = btn.getAttribute("data-value");
-                this.selectedValues = this.selectedValues.filter((v) => v !== value);
-                this.setAttribute("selected", JSON.stringify(this.selectedValues));
-                this.render();
-                this.attachListeners();
-                lucide.createIcons();
-            });
-        });
-        this.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-
     render() {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
@@ -66,10 +72,6 @@ export class MultiSelectDropdown extends HTMLElement {
         const availableOptions = options
             ? options.filter((opt) => !this.selectedValues.includes(opt.const))
             : [];
-
-        const optionsHTML = availableOptions
-            .map((option) => `<option value="${option.const}">${option.title}</option>`)
-            .join("");
 
         const tagsHTML = this.selectedValues
             .map((val) => {
@@ -96,14 +98,37 @@ export class MultiSelectDropdown extends HTMLElement {
                         : ""
                 }
                 </label>
-                <select>
-                    <option>Choose ${this.getAttribute("label")}</option>
-                    ${optionsHTML}
-                </select>
+                <div class="dropdown">
+                    <div class="select">
+                        <p style="color: var(--copyAlt-color)">Select ${this.getAttribute(
+                            "label",
+                        )}</p>
+                        <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
+                    </div>
+                    <ul class="options">
+                        ${
+                            availableOptions
+                                ? availableOptions
+                                      .map(
+                                          (option) => `
+                            <li class="option"
+                            data-value="${option.const}">
+                            ${option.title}
+                            </li>
+                        `,
+                                      )
+                                      .join("")
+                                : ""
+                        }
+                    </ul>
+                </div>
                 ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;
+        this.attachToggleDropdown();
+        this.attachOptionListeners();
+        this.attachTagsListeners();
     }
 }
 
