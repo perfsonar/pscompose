@@ -285,7 +285,9 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 document.body.addEventListener("json-form:mounted", (event) => {
     let elem = event.detail[0].target;
     if (elem.readonly == "true") {
-        const inputs = document.querySelectorAll("input, select, textarea");
+        const inputs = document.querySelectorAll("input, textarea");
+        const dropdowns = document.querySelectorAll(".dropdown");
+
         inputs.forEach((el) => {
             el.disabled = true;
             // Save placeholder if not already saved
@@ -293,14 +295,20 @@ document.body.addEventListener("json-form:mounted", (event) => {
                 el.dataset.originalPlaceholder = el.placeholder;
             }
             el.placeholder = "";
+        });
+
+        dropdowns.forEach((dropdown) => {
+            dropdown.classList.add("disabled");
         });
     }
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
+    const inputs = document.querySelectorAll("input, textarea");
+    const dropdowns = document.querySelectorAll(".dropdown");
+
     let elem = event.detail[0].target;
     if (elem.readonly == "true") {
-        const inputs = document.querySelectorAll("input, select, textarea");
         inputs.forEach((el) => {
             el.disabled = true;
             // Save placeholder if not already saved
@@ -309,15 +317,22 @@ document.body.addEventListener("json-form:updated", (event) => {
             }
             el.placeholder = "";
         });
+
+        dropdowns.forEach((dropdown) => {
+            dropdown.classList.add("disabled");
+        });
     }
     if (elem.readonly == "false") {
-        const inputs = document.querySelectorAll("input, select, textarea");
         inputs.forEach((el) => {
             el.disabled = false;
             // Restore original placeholder if we have it
             if (el.dataset.originalPlaceholder !== undefined) {
                 el.placeholder = el.dataset.originalPlaceholder;
             }
+        });
+
+        dropdowns.forEach((dropdown) => {
+            dropdown.classList.remove("disabled");
         });
     }
 });
