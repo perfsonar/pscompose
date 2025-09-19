@@ -375,6 +375,10 @@ dropdown-multi-select {
     flex: 1;
 }
 
+.container .excludes-container #excludes-minus-btn {
+    margin-top: 16px;
+}
+
 .container .excludes-container .dropdown-container label {
     font-size: 14px;
     font-weight: 500;
