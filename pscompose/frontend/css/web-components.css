@@ -12,30 +12,6 @@
     align-items: center;
     font-weight: 600;
     white-space: nowrap;
-    position: relative;
-}
-.container label svg {
-    width: 16px;
-    height: 16px;
-}
-.container label .tool-tip {
-    display: none;
-}
-.container label svg:hover + .tool-tip {
-    position: absolute;
-    top: -36px;
-    left: 36px;
-    display: block;
-    border-radius: 8px;
-    border: 1px solid #3d3d3d;
-    background-color: var(--surface1-color);
-    color: var(--copyAlt-color);
-    padding: 4px 8px;
-    font-weight: 400;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-
-    width: 300px;
-    white-space: normal;
 }
 .container ::placeholder {
     color: var(--copyAlt-color);
@@ -46,9 +22,6 @@
     font-size: 12px;
 }
 .container:has(:disabled) required {
-    display: none;
-}
-.container:has(:disabled) label svg {
     display: none;
 }
 
@@ -220,7 +193,7 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     color: var(--copyAlt-color);
 }
 
-/* SELECT DROPDOWN */
+/* DROPDOWN-SELECT */
 
 .container .dropdown {
     display: flex;
@@ -299,7 +272,7 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     display: none;
 }
 
-/* MULTI SELECT DROPDOWN */
+/* DROPDOWN-MULTI-SELECT */
 
 .container .tags {
     display: flex;
@@ -384,7 +357,7 @@ dropdown-multi-select {
     font-weight: 500;
 }
 
-/* BUTTON */
+/* WEB-BUTTON */
 
 web-button button {
     display: flex;
@@ -500,4 +473,73 @@ web-button[data-theme="Small"] button svg {
 
 web-button[data-theme="Small"] button:hover {
     background-color: var(--surface1-color);
+}
+
+/* WEB-TOOLTIP */
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.tooltip-container .info-icon {
+    position: relative;
+    z-index: 20;
+}
+.tooltip-container .icon-wrapper svg {
+    width: 20px;
+    height: 20px;
+}
+.tooltip-container .tooltip-bubble {
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    z-index: 10;
+}
+.tooltip-container .tooltip-bubble.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.tooltip-container .tooltip.left {
+    background-color: #f2f2f2;
+    color: #3d3d3d;
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-width: 300px;
+    font-weight: 400;
+
+    position: relative;
+    z-index: 2;
+    left: -10px;
+    bottom: -4px;
+    white-space: normal;
+}
+.tooltip-container .tooltip.right {
+    background-color: #f2f2f2;
+    color: #3d3d3d;
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-width: 300px;
+    font-weight: 400;
+
+    position: relative;
+    z-index: 2;
+    left: -270px;
+    bottom: -4px;
+    white-space: normal;
+}
+.tooltip-container .indicator {
+    position: relative;
+    z-index: 1;
+    left: -140px;
+    bottom: 8px;
+}
+.container:has(:disabled) label svg {
+    display: none;
 }

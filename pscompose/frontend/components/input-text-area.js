@@ -21,9 +21,9 @@ export class TextInputArea extends HTMLElement {
                     ${this.getAttribute("label")}
                     ${
                         this.getAttribute("description")
-                            ? `<i data-lucide="info"></i><div class="tool-tip"> ${this.getAttribute(
+                            ? `<web-tooltip description="${this.getAttribute(
                                   "description",
-                              )} </div>`
+                              )}"> </web-tooltip>`
                             : ""
                     }
                 </label>
