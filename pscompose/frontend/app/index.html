@@ -38,6 +38,7 @@
         <!-- Web Components -->
         <script src="/components/web-button.js" type="module"></script>
         <script src="/components/web-tooltip.js" type="module"></script>
+        <script src="/components/web-modal.js" type="module"></script>
         <script src="/components/input-text.js" type="module"></script>
         <script src="/components/input-text-area.js" type="module"></script>
         <script src="/components/input-number.js" type="module"></script>
@@ -63,12 +64,11 @@
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
         <nav hx-get="/partials/top_nav.html" hx-trigger="load"></nav>
-        <div class="message-banner"></div>
         <div class="backdrop">
             <nav hx-get="/partials/left_nav.html" hx-trigger="load"></nav>
             <main id="page-content">
-                <div id="router-target" class="page"></div>
                 <div id="response-container"></div>
+                <div id="router-target" class="page"></div>
             </main>
             <div id="short" hx-get="/partials/recently_edited.html" hx-trigger="load"></div>
         </div>
@@ -362,45 +362,6 @@
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'>
             </div>`;
-
-            // Modal Confirmation
-            document.body.addEventListener("htmx:confirm", function (event) {
-                if (!event.detail.question) return;
-                event.preventDefault();
-                htmx.ajax("GET", "/partials/modals.html", {
-                    target: "#response-container",
-                    swap: "innerHTML",
-                });
-
-                document.body.addEventListener("htmx:afterSwap", function (e) {
-                    if (e.target.id === "response-container") {
-                        document.getElementById("confirm-question").textContent =
-                            event.detail.question; // Confirmation Message
-                        document
-                            .getElementById("confirm-yes")
-                            .setAttribute(
-                                "data-label",
-                                event.detail.elt.getAttribute("data-label"),
-                            );
-                        document
-                            .getElementById("confirm-yes")
-                            .setAttribute(
-                                "data-theme",
-                                event.detail.elt.getAttribute("data-theme"),
-                            );
-                        document
-                            .getElementById("confirm-yes")
-                            .setAttribute(
-                                "data-link",
-                                event.detail.elt.getAttribute("data-redirect"),
-                            );
-                    }
-                });
-
-                document.body.addEventListener("confirm-yes-clicked", function (evt) {
-                    event.detail.issueRequest(true);
-                });
-            });
         </script>
     </body>
 </html>
