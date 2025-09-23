@@ -24,25 +24,21 @@
 
                 <div class="save-cancel">
                     <web-button
-                        type="submit"
+                        type="button"
                         data-label="Save"
                         data-theme="Secondary"
                         data-righticon="save"
+                        data-modalconfirm="Are you sure you want to save this address?"
                     >
                     </web-button>
                 </div>
             </form>
-            <!-- Response container -->
-            <div id="response-container"></div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
-        console.log("Form submission triggered");
-        event.preventDefault(); // stop default form submission
-
+    document.body.addEventListener("confirm-yes-clicked", async function (event) {
         const elem = document.querySelector("json-form");
         const form_data = JSON.parse(elem.serializeForm());
         const { name, ...rest } = form_data; // Need to remove name from the form
