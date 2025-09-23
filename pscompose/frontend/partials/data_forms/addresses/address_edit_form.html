@@ -60,8 +60,6 @@
                     </web-button>
                 </div>
             </form>
-            <!-- Response container -->
-            <div id="response-container"></div>
         </div>
     </div>
 </div>
@@ -131,8 +129,10 @@
 
             const result = await response.json();
             console.log("Success:", result);
-            document.getElementById("response-container").innerText = "Address saved successfully!";
             params.delete("edit");
+
+            // Adding save message to sessionStorage
+            sessionStorage.setItem("lastMessage", "Address saved successfully!");
             window.location = window.location.pathname + "?" + params;
         } catch (error) {
             console.error("Error:", error);
