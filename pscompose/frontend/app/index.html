@@ -46,6 +46,7 @@
         <script src="/components/dropdown-multi-select.js" type="module"></script>
         <script src="/components/dropdown-single-select.js" type="module"></script>
         <script src="/components/dropdown-excludes.js" type="module"></script>
+        <script src="/components/message-banner.js" type="module"></script>
 
         <script>
             document.addEventListener("htmx:afterRequest", function (evt) {
@@ -62,10 +63,12 @@
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
         <nav hx-get="/partials/top_nav.html" hx-trigger="load"></nav>
+        <div class="message-banner"></div>
         <div class="backdrop">
             <nav hx-get="/partials/left_nav.html" hx-trigger="load"></nav>
             <main id="page-content">
                 <div id="router-target" class="page"></div>
+                <div id="response-container"></div>
             </main>
             <div id="short" hx-get="/partials/recently_edited.html" hx-trigger="load"></div>
         </div>

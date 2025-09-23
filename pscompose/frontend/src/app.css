@@ -79,6 +79,21 @@ body {
     @apply flex-grow;
 }
 
+/* MESSAGE BANNER */
+
+.message-banner {
+    @apply overflow-hidden max-h-0 pt-0 pb-0 opacity-0 bg-success text-copy text-center;
+    transition:
+        max-height 1.2s ease,
+        padding-top 1.2s ease,
+        padding-bottom 1.2s ease,
+        opacity 1.2s ease;
+}
+
+.message-banner.show {
+    @apply block w-full max-h-[200px] pt-md pb-md opacity-100 text-center z-[1000] bg-success text-copy;
+}
+
 /* NAVIGATIONs */
 
 nav {
