@@ -1,23 +1,23 @@
-function processLastMessage(bannerSelector, displayDuration = 3000) {
+function processLastMessage(responseContainer, displayDuration = 3000) {
     let key = "lastMessage";
     let lastMsg = sessionStorage.getItem(key);
-    const banner = document.querySelector(bannerSelector);
+    const container = document.querySelector(responseContainer);
 
     function showNext() {
         if (!lastMsg) {
-            banner.classList.remove("show");
+            container.classList.remove("show");
             return;
         }
-        banner.textContent = lastMsg;
-        banner.classList.add("show");
+        container.textContent = lastMsg;
+        container.classList.add("show");
         sessionStorage.removeItem(key);
         setTimeout(() => {
-            banner.classList.remove("show");
+            container.classList.remove("show");
         }, displayDuration);
     }
     if (lastMsg) showNext();
 }
 
 window.addEventListener("load", () => {
-    processLastMessage(".message-banner", 3000);
+    processLastMessage("#response-container", 3000);
 });
