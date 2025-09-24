@@ -43,7 +43,7 @@
                     </web-button>
 
                     <web-button
-                        type="button"
+                        type="submit"
                         data-label="Save"
                         data-theme="Secondary"
                         data-righticon="save"
@@ -99,43 +99,48 @@
     });
 
     // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
-    document.body.addEventListener("confirm-yes-clicked", async function (event) {
-        const elem = document.querySelector("json-form");
+    document.getElementById("my-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-        const form_data = JSON.parse(elem.serializeForm());
-        const { name, ...rest } = form_data; // Need to remove name from the form
+        document.body.addEventListener("confirm-yes-clicked", async function (event) {
+            console.log("Confirm yes clicked!");
+            const elem = document.querySelector("json-form");
 
-        const now = new Date();
+            const form_data = JSON.parse(elem.serializeForm());
+            const { name, ...rest } = form_data; // Need to remove name from the form
 
-        // TODO: How would ref_set be updated?
-        const updated_data = {
-            json: rest,
-            name: name,
-            last_edited_at: now.toISOString(),
-            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-        };
+            const now = new Date();
 
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        try {
-            const response = await fetch(`http://0.0.0.0:8000/api/address/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updated_data),
-            });
+            // TODO: How would ref_set be updated?
+            const updated_data = {
+                json: rest,
+                name: name,
+                last_edited_at: now.toISOString(),
+                last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            };
 
-            const result = await response.json();
-            console.log("Success:", result);
-            params.delete("edit");
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            try {
+                const response = await fetch(`http://0.0.0.0:8000/api/address/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updated_data),
+                });
 
-            // Adding save message to sessionStorage
-            sessionStorage.setItem("lastMessage", "Address saved successfully!");
-            window.location = window.location.pathname + "?" + params;
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById("response-container").innerText = "Something went wrong.";
-        }
+                const result = await response.json();
+                console.log("Success:", result);
+                params.delete("edit");
+
+                // Adding save message to sessionStorage
+                sessionStorage.setItem("lastMessage", "Address saved successfully!");
+                window.location = window.location.pathname + "?" + params;
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("response-container").innerText = "Something went wrong.";
+            }
+        });
     });
 </script>
