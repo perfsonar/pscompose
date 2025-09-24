@@ -72,8 +72,8 @@ export class WebButton extends HTMLElement {
             if (k.startsWith("hx-")) {
                 if (!hasModalConfirm) {
                     btn.setAttribute(k, this.passthroughAttributes[k]);
+                    this.removeAttribute(k);
                 }
-                this.removeAttribute(k);
             }
         });
 
@@ -95,11 +95,12 @@ export class WebButton extends HTMLElement {
                                 ? `icon=${this.getAttribute("data-lefticon")}`
                                 : ""
                         }
+                        ${hxAttrs ? `hxAttrs=${hxAttrs}` : ""}
 
                         theme="${this.getAttribute("data-theme")}"
                         message="${this.getAttribute("data-modalconfirm")}"
                         confirm-label = "${this.getAttribute("data-label")}"
-                        ${this.hxAttrs}
+                        ${hxAttrs}
                     ></web-modal>`;
 
                 const responseContainer = document.getElementById("response-container");
