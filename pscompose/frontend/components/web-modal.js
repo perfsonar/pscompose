@@ -1,5 +1,5 @@
 export class WebModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "message"];
+    static observedAttributes = ["confirm-label", "link", "theme", "message", "hxAttr"];
 
     constructor() {
         super();
@@ -70,6 +70,7 @@ export class WebModal extends HTMLElement {
                                     ? `data-righticon=${this.getAttribute("icon")}`
                                     : ""
                             }
+                            ${this.getAttribute("hxAttr") ? `${this.getAttribute("hxAttr")}` : ""}
                             data-label=${this.getAttribute("confirm-label")}
                             data-theme=${this.getAttribute("theme")}
                         ></web-button>
