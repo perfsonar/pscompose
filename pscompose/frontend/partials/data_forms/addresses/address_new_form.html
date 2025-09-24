@@ -24,7 +24,7 @@
 
                 <div class="save-cancel">
                     <web-button
-                        type="button"
+                        type="submit"
                         data-label="Save"
                         data-theme="Secondary"
                         data-righticon="save"
@@ -38,48 +38,52 @@
 </div>
 
 <script>
-    document.body.addEventListener("confirm-yes-clicked", async function (event) {
-        const elem = document.querySelector("json-form");
-        const form_data = JSON.parse(elem.serializeForm());
-        const { name, ...rest } = form_data; // Need to remove name from the form
+    document.getElementById("my-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-        // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
-        const data = {
-            ref_set: [],
-            type: "address",
-            json: rest,
-            name: name,
-            created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-        };
+        document.body.addEventListener("confirm-yes-clicked", async function (event) {
+            const elem = document.querySelector("json-form");
+            const form_data = JSON.parse(elem.serializeForm());
+            const { name, ...rest } = form_data; // Need to remove name from the form
 
-        console.log("Submitting data:", data);
-        try {
-            const response = await fetch("http://0.0.0.0:8000/api/address", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+            // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
+            const data = {
+                ref_set: [],
+                type: "address",
+                json: rest,
+                name: name,
+                created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            };
 
-            // TODO: Check if this works as expected
-            console.log("Response: ", response);
-            if (response.ok) {
-                const result = await response.json();
+            console.log("Submitting data:", data);
+            try {
+                const response = await fetch("http://0.0.0.0:8000/api/address", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
 
-                // Adding save message to sessionStorage
-                sessionStorage.setItem("lastMessage", "Address saved successfully!");
-                window.location = "/addresses/?id=" + result.id;
-            } else {
-                // Try to parse error message from response
-                let errorMsg = "Something went wrong.";
-                alert(errorMsg);
-                console.error("Error:", errorMsg);
+                // TODO: Check if this works as expected
+                console.log("Response: ", response);
+                if (response.ok) {
+                    const result = await response.json();
+
+                    // Adding save message to sessionStorage
+                    sessionStorage.setItem("lastMessage", "Address saved successfully!");
+                    window.location = "/addresses/?id=" + result.id;
+                } else {
+                    // Try to parse error message from response
+                    let errorMsg = "Something went wrong.";
+                    alert(errorMsg);
+                    console.error("Error:", errorMsg);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("response-container").innerText = "Something went wrong.";
             }
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById("response-container").innerText = "Something went wrong.";
-        }
+        });
     });
 </script>
