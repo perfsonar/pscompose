@@ -82,7 +82,7 @@ body {
 /* MESSAGE BANNER */
 
 #response-container:not(:has(#confirm-modal)) {
-    @apply overflow-hidden max-h-0 pt-0 pb-0 opacity-0 bg-success text-copy text-center;
+    @apply flex flex-row overflow-hidden w-full max-h-0 pt-0 pb-0 opacity-0 bg-copyAlt text-center text-copy justify-center items-center gap-xsm;
     transition:
         max-height 1.2s ease,
         padding-top 1.2s ease,
@@ -91,7 +91,7 @@ body {
 }
 
 #response-container:not(:has(#confirm-modal)).show {
-    @apply block w-full max-h-[200px] pt-md pb-md opacity-100 text-center z-[1000] bg-success text-copy;
+    @apply flex flex-row w-full max-h-[200px] pt-[0.8rem] pb-[0.8rem] opacity-100 text-center z-[1000] bg-copyAlt text-copy justify-center items-center gap-xsm;
 }
 
 /* NAVIGATIONs */
