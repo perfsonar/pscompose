@@ -32,6 +32,7 @@
 
                 <div class="edit-save-cancel">
                     <web-button
+                        id="delete-btn"
                         type="button"
                         data-label="Delete"
                         data-theme="Error"
@@ -103,7 +104,6 @@
         event.preventDefault();
 
         document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            console.log("Confirm yes clicked!");
             const elem = document.querySelector("json-form");
 
             const form_data = JSON.parse(elem.serializeForm());
@@ -135,12 +135,35 @@
                 params.delete("edit");
 
                 // Adding save message to sessionStorage
-                sessionStorage.setItem("lastMessage", "Address saved successfully!");
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify([
+                        "Address saved successfully!",
+                        "rgba(var(--success-color-rgb), 0.5)",
+                    ]),
+                );
                 window.location = window.location.pathname + "?" + params;
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById("response-container").innerText = "Something went wrong.";
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Something went wrong.", "rgba(var(--error-color-rgb), 0.5)"]),
+                );
+                // document.getElementById("response-container").innerText = "Something went wrong.";
             }
+        });
+    });
+
+    document.querySelector("#delete-btn").addEventListener("click", async function (event) {
+        document.body.addEventListener("confirm-yes-clicked", async function (event) {
+            // Adding delete message to sessionStorage
+            sessionStorage.setItem(
+                "confirmMessage",
+                JSON.stringify([
+                    "Address deleted successfully!",
+                    "rgba(var(--success-color-rgb), 0.5)",
+                ]),
+            );
         });
     });
 </script>
