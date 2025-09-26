@@ -190,6 +190,13 @@ nav {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 
+.submenu #submenu-search {
+    @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9] rounded-full;
+}
+.submenu #submenu-search:focus {
+    @apply outline-none border-[1.5px] border-success;
+}
+
 /* HOME PAGE / INDEX */
 
 .homepage {
