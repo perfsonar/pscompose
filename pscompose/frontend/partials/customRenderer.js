@@ -285,8 +285,8 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 document.body.addEventListener("json-form:mounted", (event) => {
     let elem = event.detail[0].target;
     if (elem.readonly == "true") {
-        const inputs = document.querySelectorAll("input, textarea");
-        const dropdowns = document.querySelectorAll(".dropdown");
+        const inputs = document.querySelector("form").querySelectorAll("input, textarea");
+        const dropdowns = document.querySelector("form").querySelectorAll(".dropdown");
 
         inputs.forEach((el) => {
             el.disabled = true;
@@ -304,8 +304,8 @@ document.body.addEventListener("json-form:mounted", (event) => {
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    const inputs = document.querySelectorAll("input, textarea");
-    const dropdowns = document.querySelectorAll(".dropdown");
+    const inputs = document.querySelector("form").querySelectorAll("input, textarea");
+    const dropdowns = document.querySelector("form").querySelectorAll(".dropdown");
 
     let elem = event.detail[0].target;
     if (elem.readonly == "true") {
