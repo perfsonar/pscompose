@@ -47,28 +47,48 @@
 
     <script id="submenu-template" type="nunjucks">
         <div class='submenu show' id='submenu-content'>
-          <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
-          <ul>
-            <li id="new-{{ data.psCompose.activeMenuItem }}">
-              <i data-lucide="plus"></i>
-              <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
-                <h5>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h5>
-              </a>
-            </li>
-            {% for item in data %}
-              <li id="{{item.id}}">
-                <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
-                <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
-                  <h5>{{item.name}}</h5>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
+            <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
+            <ul id="submenu-list">
+                <li id="new-{{ data.psCompose.activeMenuItem }}">
+                    <i data-lucide="plus"></i>
+                    <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}">
+                        <h5>New {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}</h5>
+                    </a>
+                </li>
+                <input
+                    type="text"
+                    id="submenu-search"
+                    placeholder="Search Address"
+                    oninput="filterSubmenuItems(this.value)"
+                />
+                {% for item in data %}
+                <li id="{{item.id}}">
+                    <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
+                    <a href="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ '?id=' ~ item.id}}">
+                    <h5>{{item.name}}</h5>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </script>
 </nav>
 
 <script>
+    function filterSubmenuItems(searchValue) {
+        const filter = searchValue.trim().toLowerCase();
+        const items = document.querySelectorAll("#submenu-list li");
+
+        items.forEach((li) => {
+            if (li.id.startsWith("new-")) {
+                li.style.display = "";
+                return;
+            }
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(filter) ? "" : "none";
+        });
+    }
+
     function showSubmenu() {
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = psCompose.activeMenuItem;
