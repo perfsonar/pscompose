@@ -1,21 +1,28 @@
 function processLastMessage(responseContainer, displayDuration = 3000) {
-    let key = "lastMessage";
-    let lastMsg = sessionStorage.getItem(key);
+    let key = "confirmMessage";
+    let confirmMsg, confirmCss;
+    if (sessionStorage.getItem(key)) {
+        let confirm = JSON.parse(sessionStorage.getItem(key));
+        confirmMsg = confirm[0];
+        confirmCss = confirm[1];
+    }
     const container = document.querySelector(responseContainer);
 
     function showNext() {
-        if (!lastMsg) {
+        if (!confirmMsg) {
             container.classList.remove("show");
             return;
         }
-        container.textContent = lastMsg;
+        container.innerHTML = `<i data-lucide="check-circle-2"></i> 
+                                <h6>${confirmMsg}</h6>`;
+        container.style.backgroundColor = confirmCss;
         container.classList.add("show");
         sessionStorage.removeItem(key);
         setTimeout(() => {
             container.classList.remove("show");
         }, displayDuration);
     }
-    if (lastMsg) showNext();
+    if (confirmMsg) showNext();
 }
 
 window.addEventListener("load", () => {
