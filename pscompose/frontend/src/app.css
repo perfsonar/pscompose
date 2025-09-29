@@ -175,15 +175,15 @@ nav {
 }
 
 .submenu ul {
-    @apply flex flex-col gap-4;
+    @apply flex flex-col gap-xsm;
 }
 
 .submenu li {
-    @apply flex flex-row items-start gap-4 px-md;
+    @apply flex flex-row items-start gap-4 px-md py-xxsm;
 }
 
 .submenu .active {
-    @apply bg-success/50 rounded-xl;
+    @apply bg-success/30 rounded-full;
 }
 
 .submenu svg {
@@ -191,7 +191,7 @@ nav {
 }
 
 .submenu #submenu-search {
-    @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9] rounded-full;
+    @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
 }
 .submenu #submenu-search:focus {
     @apply outline-none border-[1.5px] border-success;
