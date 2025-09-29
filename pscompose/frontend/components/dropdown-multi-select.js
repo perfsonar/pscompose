@@ -65,6 +65,20 @@ export class MultiSelectDropdown extends HTMLElement {
         );
     }
 
+    attachSearchHandler() {
+        const searchInput = this.querySelector("#dropdown-search");
+        const optionsList = this.querySelector(".options");
+        if (!searchInput || !optionsList) return;
+
+        searchInput.addEventListener("input", (event) => {
+            const filter = event.target.value.toLowerCase();
+            optionsList.querySelectorAll("li.option").forEach((option) => {
+                const text = option.textContent.toLowerCase();
+                option.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    }
+
     render() {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
@@ -100,9 +114,9 @@ export class MultiSelectDropdown extends HTMLElement {
                 </label>
                 <div class="dropdown">
                     <div class="select">
-                        <p style="color: var(--copyAlt-color)">Select ${this.getAttribute(
+                        <input type="search" id="dropdown-search" placeholder='Select ${this.getAttribute(
                             "label",
-                        )}</p>
+                        )}'/>
                         <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
                     </div>
                     <ul class="options">
@@ -129,6 +143,7 @@ export class MultiSelectDropdown extends HTMLElement {
         this.attachToggleDropdown();
         this.attachOptionListeners();
         this.attachTagsListeners();
+        this.attachSearchHandler();
     }
 }
 
