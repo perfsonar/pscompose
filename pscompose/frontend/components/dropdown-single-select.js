@@ -37,6 +37,20 @@ export class SingleSelectDropdown extends HTMLElement {
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
+    attachSearchHandler() {
+        const searchInput = this.querySelector("#dropdown-search");
+        const optionsList = this.querySelector(".options");
+        if (!searchInput || !optionsList) return;
+
+        searchInput.addEventListener("input", (event) => {
+            const filter = event.target.value.toLowerCase();
+            optionsList.querySelectorAll("li.option").forEach((option) => {
+                const text = option.textContent.toLowerCase();
+                option.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    }
+
     render() {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
@@ -58,15 +72,16 @@ export class SingleSelectDropdown extends HTMLElement {
                 </label>
                 <div class="dropdown">
                     <div class="select">
+                        <input type="search" id="dropdown-search"
                         ${
                             selectedOption
-                                ? selectedOption.title
-                                : `<p style="color: var(--copyAlt-color)">Select ${this.getAttribute(
-                                      "label",
-                                  )}</p>`
+                                ? `value="${selectedOption.title}"`
+                                : `placeholder="Select ${this.getAttribute("label")}"`
                         }
+                        />
                         <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
                     </div>
+
                     <ul class="options">
                         ${
                             options
@@ -92,6 +107,7 @@ export class SingleSelectDropdown extends HTMLElement {
             </div>
         `;
         this.attachToggleDropdown();
+        this.attachSearchHandler();
     }
 }
 
