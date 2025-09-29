@@ -36,7 +36,7 @@ export class excludesDropdown extends HTMLElement {
         this.querySelectorAll("#excludes-minus-btn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 const container = e.target.closest(".excludes-container");
-                if (this.querySelectorAll(".excludes-container").length > 1) {
+                if (this.querySelectorAll(".excludes-container").length > 0) {
                     container.remove();
                     this.updateLocalAddressesOptions();
                     this.updateSelectedValues();
@@ -141,21 +141,6 @@ export class excludesDropdown extends HTMLElement {
                         : ""
                 }
             </label>
-            <div class="excludes-container">
-                <div class="dropdown-container">
-                    <dropdown-single-select
-                        label="Local Addresses" 
-                        options='${this.getAttribute("options")}'
-                        >
-                    </dropdown-single-select>
-                    <dropdown-multi-select
-                        label="Target Addresses" 
-                        options='${this.getAttribute("options")}'
-                    >
-                    </dropdown-multi-select>
-                </div>
-                <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
-            </div>
         </div>
         <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
     `;
