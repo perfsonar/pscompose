@@ -67,8 +67,8 @@ body {
     @apply flex flex-col bg-background min-h-full flex-grow;
 }
 
-.page {
-    @apply flex justify-start items-center flex-col py-8 px-[5.5rem] gap-5;
+#router-target {
+    @apply flex justify-start items-center flex-col p-xxlg gap-5;
 }
 
 .backdrop {
