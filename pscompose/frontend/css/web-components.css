@@ -224,6 +224,20 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     border: 1.5px solid var(--success-color);
 }
 
+.container .select input {
+    appearance: none;
+    background-color: transparent;
+}
+
+.container .select input:focus {
+    outline: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .container .dropdown .options {
     display: flex;
     flex-direction: column;
