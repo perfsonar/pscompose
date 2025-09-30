@@ -363,7 +363,7 @@ dropdown-multi-select {
 }
 
 .container .excludes-container #excludes-minus-btn {
-    margin-top: 16px;
+    margin-top: 14px;
 }
 
 #excludes-add-btn {
@@ -453,12 +453,12 @@ web-button[data-theme="Icon"] button {
     background-color: transparent;
     color: var(--copy-color);
     border: none;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem;
 }
 
 web-button[data-theme="Icon"] button:hover {
     background-color: var(--surface1-color);
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem;
 }
 
 web-button[data-theme="Icon-Success"] button {
