@@ -167,7 +167,7 @@ nav {
 }
 
 .submenu.show {
-    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px];
+    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px] mb-xxlg;
 }
 
 .submenu h1 {
@@ -186,10 +186,15 @@ nav {
     @apply bg-success/30 rounded-full;
 }
 
-.submenu svg {
+.submenu ul svg {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
-
+.submenu .search-add {
+    @apply flex flex-row gap-xxsm items-center;
+}
+.submenu .search-add svg {
+    @apply w-[2rem] h-[2rem];
+}
 .submenu #submenu-search {
     @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
 }
@@ -287,15 +292,24 @@ th {
 }
 
 .step-box {
-    @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1;
+    @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
 }
 
 .step-box-left {
-    @apply flex flex-col py-md px-lg gap-md rounded-l-xxl flex-[0.4];
+    @apply flex flex-col gap-md rounded-l-xxl flex-[0.3];
 }
 
 .step-box-right {
-    @apply flex justify-center items-center py-md px-lg gap-xsm rounded-r-xxl flex-[0.6];
+    @apply flex flex-[0.7] justify-center;
+}
+
+.step-box-right .datatype.edit-form .content,
+.step-box-right .datatype.new-form .content {
+    @apply flex flex-col gap-lg w-full pb-xxlg;
+}
+
+.step-box-right .header #data-name {
+    @apply flex-1 text-left;
 }
 
 .step-box-column {
