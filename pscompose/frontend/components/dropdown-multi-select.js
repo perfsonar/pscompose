@@ -40,7 +40,7 @@ export class MultiSelectDropdown extends HTMLElement {
                 }
             };
         });
-        this.dispatchEvent(new Event("selected", { bubbles: true }));
+        this.dispatchEvent(new Event("select", { bubbles: true }));
     }
 
     attachTagsListeners() {
@@ -53,7 +53,7 @@ export class MultiSelectDropdown extends HTMLElement {
                 lucide.createIcons();
             });
         });
-        this.dispatchEvent(new Event("selected", { bubbles: true }));
+        this.dispatchEvent(new Event("select", { bubbles: true }));
     }
 
     selectedSetUp() {
