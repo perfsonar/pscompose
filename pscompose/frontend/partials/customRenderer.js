@@ -158,7 +158,7 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
+    elemToReturn.props.onSelected = (event) => {
         if (event.target.tagName == "DROPDOWN-SINGLE-SELECT") {
             handleChange(path, event.target.selected);
         }
@@ -198,7 +198,7 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
+    elemToReturn.props.onSelected = (event) => {
         if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
         }
@@ -232,7 +232,7 @@ function excludesCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
+    elemToReturn.props.onSelected = (event) => {
         if (event.target.tagName == "DROPDOWN-EXCLUDES" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
         }

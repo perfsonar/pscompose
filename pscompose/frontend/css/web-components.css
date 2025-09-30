@@ -191,6 +191,8 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     padding: 0;
     resize: none;
     color: var(--copyAlt-color);
+    height: auto;
+    min-height: 0;
 }
 
 /* DROPDOWN-SELECT */
