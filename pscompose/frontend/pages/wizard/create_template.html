@@ -1,22 +1,24 @@
 <div class="wizard-page">
-    <h1>New Template</h1>
-    <div class="progress-bar">
-        <web-button
-            data-link="/wizard/6/tasks/"
-            data-label="Previous"
-            data-theme="Primary"
-            data-leftIcon="arrow-left"
-        ></web-button>
-        <progress-bar step="7"></progress-bar>
-        <web-button
-            data-label="Save"
-            data-theme="Tertiary"
-            data-righticon="save"
-            data-redirect="/wizard/8/template/"
-            hx-post=""
-            hx-confirm="Are you sure you want to save this template?"
-        >
-        </web-button>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+        <h3 style="color: #e6e6e6; font-weight: 500">New Template</h3>
+        <div class="progress-bar">
+            <web-button
+                data-link="/wizard/6/tasks/"
+                data-label="Previous"
+                data-theme="Primary"
+                data-leftIcon="arrow-left"
+            ></web-button>
+            <progress-bar step="7"></progress-bar>
+            <web-button
+                data-label="Save"
+                data-theme="Tertiary"
+                data-righticon="save"
+                data-redirect="/wizard/8/template/"
+                hx-post=""
+                hx-confirm="Are you sure you want to save this template?"
+            >
+            </web-button>
+        </div>
     </div>
     <h2 class="step-title">Step 7) Create Template</h2>
     <div class="step-section">
