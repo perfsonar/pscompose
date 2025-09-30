@@ -1,6 +1,8 @@
 <div class="datatype new-form">
     <div class="page">
-        <h2>New Address</h2>
+        <div class="header">
+            <h2 id="data-name">New Address</h2>
+        </div>
         <div class="content">
             <form id="my-form">
                 <fieldset
@@ -79,7 +81,13 @@
                             "rgba(var(--success-color-rgb), 0.5)",
                         ]),
                     );
-                    window.location = "/addresses/?id=" + result.id;
+
+                    let pathName = window.location.pathname;
+                    if (pathName.includes("new")) {
+                        window.location = "/addresses/?id=" + result.id;
+                    } else {
+                        window.location = pathName + "?id=" + result.id;
+                    }
                 } else {
                     // Try to parse error message from response
                     let errorMsg = "Something went wrong.";
