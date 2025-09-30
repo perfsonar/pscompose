@@ -1,33 +1,35 @@
 <div class="wizard-page">
-    <h1>New Template</h1>
-    <div class="progress-bar">
-        <web-button data-link="/" data-label="Cancel" data-theme="Primary"></web-button>
-        <progress-bar step="1"></progress-bar>
-        <web-button
-            data-link="/wizard/2/groups/"
-            data-label="Next"
-            data-theme="Tertiary"
-            data-righticon="arrow-right"
-        ></web-button>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+        <h3 style="color: #e6e6e6; font-weight: 500">New Template</h3>
+        <div class="progress-bar">
+            <web-button data-link="/" data-label="Cancel" data-theme="Primary"></web-button>
+            <progress-bar step="1"></progress-bar>
+            <web-button
+                data-link="/wizard/2/groups/"
+                data-label="Next"
+                data-theme="Tertiary"
+                data-righticon="arrow-right"
+            ></web-button>
+        </div>
     </div>
-    <h2>Step 1) Addresses</h2>
     <div class="step-section">
+        <h2>Step 1) Addresses</h2>
         <p class="step-text">
-            First you need hosts. Hosts are a single remote or local computer. These run the tests
-            between them. Formerly known as address. Make sure all your hosts are in the list. If
-            not, add them now.
+            First you need an Address. Addresses are a single remote or local computer. These run
+            the tests between them. Make sure all your Addressess are in the list. If not, add them
+            now.
         </p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Existing Hosts</h4>
-                <dropdown-list
-                    placeholder="Search for Host"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Host A"}, {"value": "option2", "label": "Host B"}, {"value": "option2", "label": "Host C"}]'
+                <dropdown-single-select
+                    placeholder="Search for Addresses"
+                    label="Select Address"
+                    options=""
                 >
-                </dropdown-list>
+                </dropdown-single-select>
                 <web-button
-                    data-label="New Host"
+                    id="new-address-btn"
+                    data-label="New Address"
                     data-theme="Shadow"
                     data-lefticon="hard-drive-download"
                 ></web-button>
@@ -42,3 +44,61 @@
         <p class="step-text">Once all your hosts are imported, move on to the next step.</p>
     </div>
 </div>
+
+<script>
+    // SET LIST OF ADDRESSES TO DROPDOWN SELECT
+    try {
+        fetch(psCompose.metadata.wizard[0].list_endpoint)
+            .then((response) => {
+                if (!response.ok) {
+                    let errorMsg = "Something went wrong.";
+                    alert(errorMsg);
+                    console.error("Error:", errorMsg);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const addressList = data.map((item) => ({
+                    const: item.id,
+                    title: item.name,
+                }));
+                document
+                    .querySelector("dropdown-single-select")
+                    .setAttribute("options", JSON.stringify(addressList));
+            });
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+    /* RENDER JSON FORM */
+    // 1. set id param and redirect
+    document.querySelector("dropdown-single-select").addEventListener("select", (evt) => {
+        console.log("JOJO: ", evt.target);
+        let newUrlParam = new URLSearchParams();
+        newUrlParam.set("id", evt.target.selected);
+        window.location = window.location.pathname + "?" + newUrlParam;
+    });
+
+    // 2.1 take id param and render existing address json form
+    let urlParam = new URLSearchParams(window.location.search);
+    if (urlParam.size > 0 && !!urlParam.get("id")) {
+        document
+            .querySelector("dropdown-single-select")
+            .setAttribute("selected", urlParam.get("id"));
+
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/addresses/address_edit_form.html"
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    }
+
+    // 2.2 render new address json form
+    document.querySelector("#new-address-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/addresses/address_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>
