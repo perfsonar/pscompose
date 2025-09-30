@@ -151,6 +151,7 @@ export class excludesDropdown extends HTMLElement {
 
         this.attachDropdownListeners();
         this.attachMinusListeners();
+        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 
