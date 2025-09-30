@@ -67,8 +67,10 @@
 </div>
 
 <script>
-    // TOGGLED SUBMENU BY DEFAULT
-    showSubmenu();
+    // TOGGLED SUBMENU
+    if (psCompose.activeRoute.page_url == window.location.pathname) {
+        showSubmenu();
+    }
 
     let editlink = new URLSearchParams(window.location.search);
     editlink.append("edit", "true");
