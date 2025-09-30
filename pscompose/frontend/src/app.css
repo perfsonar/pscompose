@@ -68,7 +68,7 @@ body {
 }
 
 #router-target {
-    @apply flex justify-start items-center flex-col p-xxlg gap-5;
+    @apply flex justify-start items-center flex-col py-xlg px-xxlg gap-5;
 }
 
 .backdrop {
@@ -276,7 +276,7 @@ th {
 /* WIZARD  */
 
 .wizard-page {
-    @apply flex flex-col gap-lg items-center;
+    @apply flex flex-col gap-xlg items-center;
 }
 
 .progress-bar {
@@ -305,11 +305,15 @@ th {
 
 .step-box-right .datatype.edit-form .content,
 .step-box-right .datatype.new-form .content {
-    @apply flex flex-col gap-lg w-full pb-xxlg;
+    @apply flex flex-col gap-lg w-full pb-none;
+}
+
+.step-box-right :where(.packets-ui .vertical-layout-item) {
+    @apply mb-md;
 }
 
 .step-box-right .header #data-name {
-    @apply flex-1 text-left;
+    @apply flex-1 text-left text-h4_sans font-sans;
 }
 
 .step-box-column {
