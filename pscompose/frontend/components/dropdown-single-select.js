@@ -108,7 +108,6 @@ export class SingleSelectDropdown extends HTMLElement {
         `;
         this.attachToggleDropdown();
         this.attachSearchHandler();
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 

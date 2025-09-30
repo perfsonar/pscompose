@@ -47,7 +47,6 @@ class TextInputCheckbox extends HTMLElement {
             this.setAttribute("checked", event.target.checked ? "true" : "false");
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 

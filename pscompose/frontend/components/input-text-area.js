@@ -36,7 +36,6 @@ export class TextInputArea extends HTMLElement {
         this.querySelector("textarea").addEventListener("change", () => {
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 
