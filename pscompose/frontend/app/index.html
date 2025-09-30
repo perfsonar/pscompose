@@ -147,7 +147,7 @@
                             singular: "Address",
                             plural: "Addresses",
                             page_template: "/pages/wizard/addresses.html",
-                            list_endpoint: "/dummy_api/test_list.json",
+                            list_endpoint: "http://localhost:8000/api/address/",
                             icon: "hard-drive-download",
                         },
                         {
@@ -360,7 +360,8 @@
             let target = document.getElementById("router-target");
             target.innerHTML = `<div
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
-                hx-trigger='load'>
+                hx-trigger='load'
+                >
             </div>`;
         </script>
     </body>
