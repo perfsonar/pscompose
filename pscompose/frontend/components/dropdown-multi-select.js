@@ -144,7 +144,6 @@ export class MultiSelectDropdown extends HTMLElement {
         this.attachOptionListeners();
         this.attachTagsListeners();
         this.attachSearchHandler();
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 

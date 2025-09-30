@@ -109,7 +109,6 @@ export class WebButton extends HTMLElement {
                 }
             });
         }
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 

@@ -38,7 +38,6 @@ export class TextInput extends HTMLElement {
         this.querySelector("input").addEventListener("change", () => {
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
-        this.dispatchEvent(new Event("load", { bubbles: true }));
     }
 }
 
