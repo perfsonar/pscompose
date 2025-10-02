@@ -229,6 +229,7 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
 .container .select input {
     appearance: none;
     background-color: transparent;
+    width: 100%;
 }
 
 .container .select input:focus {
