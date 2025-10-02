@@ -10,6 +10,7 @@ export class excludesDropdown extends HTMLElement {
         this.allAddresses = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
             : [];
+        this.selectedSetUp();
         this.render();
         lucide.createIcons();
     }
@@ -35,20 +36,22 @@ export class excludesDropdown extends HTMLElement {
     attachMinusListeners() {
         this.querySelectorAll("#excludes-minus-btn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
-                const container = e.target.closest(".excludes-container");
-                if (this.querySelectorAll(".excludes-container").length > 0) {
-                    container.remove();
-                    this.updateLocalAddressesOptions();
-                    this.updateSelectedValues();
-                }
+                e.target.closest(".excludes-container").remove();
+                this.updateLocalAddressesOptions();
+                this.updateSelectedValues();
             });
         });
     }
 
     attachDropdownListeners() {
-        this.querySelectorAll("dropdown-single-select, dropdown-multi-select").forEach((dropdown) =>
-            dropdown.addEventListener("change", () => {
+        this.querySelectorAll("dropdown-single-select").forEach((dropdown) =>
+            dropdown.addEventListener("select", () => {
                 this.updateLocalAddressesOptions();
+                this.updateSelectedValues();
+            }),
+        );
+        this.querySelectorAll("dropdown-multi-select").forEach((dropdown) =>
+            dropdown.addEventListener("select", () => {
                 this.updateSelectedValues();
             }),
         );
@@ -73,34 +76,31 @@ export class excludesDropdown extends HTMLElement {
         );
     }
 
-    // Update this.selectedValues as {"local-address": {"name": "..."}, "target-addresses": [{"name": "..."}, ...]} objects
+    selectedSetUp() {
+        this.selectedValues = this.getAttribute("selected")
+            ? JSON.parse(this.getAttribute("selected"))
+            : [];
+    }
+
+    // Update this.selectedValues as {"local-address": {"name": id }, "target-addresses": [{"name": id}, ...]} objects
     updateSelectedValues() {
-        this.selectedValues = Array.from(this.querySelectorAll(".excludes-container")).map(
-            (container) => {
-                const localDropdown = container.querySelector("dropdown-single-select");
-                const targetDropdown = container.querySelector("dropdown-multi-select");
+        const selectedValues = [];
+        const containers = this.querySelectorAll(".excludes-container");
+        for (const container of containers) {
+            const localDropdown = container.querySelector("dropdown-single-select");
+            const targetDropdown = container.querySelector("dropdown-multi-select");
 
-                const localAddressName = localDropdown.hasAttribute("selected")
-                    ? this.allAddresses.find(
-                          (opt) => opt.const === localDropdown.getAttribute("selected"),
-                      )["title"]
-                    : null;
-
-                let targetAddressValue = [];
-                let targetAddressName = [];
-                if (targetDropdown.getAttribute("selected") && localAddressName) {
-                    // only return if both local and target addresses are selected
-                    targetAddressValue = JSON.parse(targetDropdown.getAttribute("selected"));
-                    targetAddressName = this.allAddresses
-                        .filter((opt) => targetAddressValue.includes(opt.const))
-                        .map((opt) => opt.title);
-                    return {
-                        "local-address": { name: localAddressName },
-                        "target-addresses": targetAddressName.map((name) => ({ name: name })),
-                    };
-                }
-            },
-        );
+            const targetAddressValue = targetDropdown.getAttribute("selected")
+                ? JSON.parse(targetDropdown.getAttribute("selected")).map((id) => ({ name: id }))
+                : null;
+            selectedValues.push({
+                "local-address": { name: localDropdown.getAttribute("selected") },
+                "target-addresses": targetAddressValue,
+            });
+        }
+        this.selectedValues = selectedValues;
+        this.setAttribute("selected", JSON.stringify(this.selectedValues));
+        this.dispatchEvent(new Event("select", { bubbles: true }));
     }
 
     addExcludesContainer() {
@@ -129,6 +129,35 @@ export class excludesDropdown extends HTMLElement {
     }
 
     render() {
+        const selectedHTML =
+            this.selectedValues.length > 0
+                ? this.selectedValues
+                      .map((val) => {
+                          const selectedTargetAddresses = val["target-addresses"]
+                              ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
+                              : "";
+                          return `
+            <div class="excludes-container">
+                <div class="dropdown-container">
+                    <dropdown-single-select
+                        label="Local Addresses" 
+                        options=${this.getAttribute("options")}
+                        selected=${val["local-address"]["name"]}
+                        >
+                    </dropdown-single-select>
+                    <dropdown-multi-select
+                        label="Target Addresses" 
+                        options=${this.getAttribute("options")}
+                        selected=${JSON.stringify(selectedTargetAddresses)}
+                        >
+                    </dropdown-multi-select>
+                </div>
+                <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
+            </div>`;
+                      })
+                      .join("")
+                : "";
+
         this.innerHTML = `
         <div class="container">
             <label>
@@ -141,6 +170,7 @@ export class excludesDropdown extends HTMLElement {
                         : ""
                 }
             </label>
+            ${selectedHTML}
         </div>
         <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
     `;
@@ -149,6 +179,7 @@ export class excludesDropdown extends HTMLElement {
             this.addExcludesContainer.bind(this),
         );
 
+        this.updateLocalAddressesOptions();
         this.attachDropdownListeners();
         this.attachMinusListeners();
     }
