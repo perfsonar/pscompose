@@ -35,12 +35,12 @@ export class MultiSelectDropdown extends HTMLElement {
                 if (value && !this.selectedValues.includes(value)) {
                     this.selectedValues.unshift(value); // Value to selectedValue array
                     this.setAttribute("selected", JSON.stringify(this.selectedValues)); // set Attribute
+                    this.dispatchEvent(new Event("select", { bubbles: true }));
                     this.render();
                     lucide.createIcons();
                 }
             };
         });
-        this.dispatchEvent(new Event("select", { bubbles: true }));
     }
 
     attachTagsListeners() {
@@ -49,11 +49,11 @@ export class MultiSelectDropdown extends HTMLElement {
                 const value = btn.getAttribute("data-value");
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
                 this.setAttribute("selected", JSON.stringify(this.selectedValues));
+                this.dispatchEvent(new Event("select", { bubbles: true }));
                 this.render();
                 lucide.createIcons();
             });
         });
-        this.dispatchEvent(new Event("select", { bubbles: true }));
     }
 
     selectedSetUp() {
