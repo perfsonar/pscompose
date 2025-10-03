@@ -47,17 +47,17 @@
 
     <script id="submenu-template" type="nunjucks">
         <div class='submenu show' id='submenu-content'>
-            <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
-            <div class="search-add">
-                <input
-                    type="text"
-                    id="submenu-search"
-                    placeholder="Search {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}"
-                    oninput="filterSubmenuItems(this.value)"
-                />
-                <web-button data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}" data-theme="Icon" data-righticon="plus">
+            <div class="submenu-header">
+                <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
+                <web-button data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}" data-theme="AddBtn" data-lefticon="plus" data-label="New">
                 </web-button>
             </div>
+            <input
+                type="text"
+                id="submenu-search"
+                placeholder="Search {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}"
+                oninput="filterSubmenuItems(this.value)"
+            />
             <ul id="submenu-list">
                 {% for item in data %}
                 <li id="{{item.id}}">
