@@ -448,6 +448,10 @@ web-button[data-theme="Shadow"] button {
     border: 2px solid var(--shadow-color);
 }
 
+web-button[data-theme="Shadow"] button:hover {
+    background-color: rgba(var(--shadow-color-rgb), 0.7);
+}
+
 web-button[data-theme="Error"] button {
     background-color: var(--error-color);
     color: var(--copy-color);
