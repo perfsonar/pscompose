@@ -438,6 +438,10 @@ web-button[data-theme="Tertiary"] button {
     border: 2px solid var(--copyAlt-color);
 }
 
+web-button[data-theme="Tertiary"] button:hover {
+    background-color: rgba(var(--success-color-rgb), 0.7);
+}
+
 web-button[data-theme="Shadow"] button {
     background-color: var(--shadow-color);
     color: var(--copy-color);
