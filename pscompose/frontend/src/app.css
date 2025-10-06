@@ -281,7 +281,7 @@ th {
 }
 
 .step-section {
-    @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[50vw];
+    @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[60vw];
 }
 
 .step-text {
