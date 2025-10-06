@@ -282,6 +282,24 @@ th {
 
 .step-section {
     @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[60vw];
+    animation-name: WizardFadeIn;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes WizardFadeIn {
+    0% {
+        transform: translateX(1%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .step-text {
