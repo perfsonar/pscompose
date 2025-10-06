@@ -22,14 +22,9 @@
         <p class="step-text">You also need schedules for how often the tests will run.</p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Existing Tests</h4>
-                <dropdown-list
-                    placeholder="Search for Test"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Test A"}, {"value": "option2", "label": "Test B"}, {"value": "option2", "label": "Test C"}]'
-                >
-                </dropdown-list>
+                <dropdown-single-select label="Test" options=""> </dropdown-single-select>
                 <web-button
+                    id="new-test-btn"
                     data-label="New Test"
                     data-theme="Shadow"
                     data-lefticon="flask-conical"

@@ -23,14 +23,9 @@
         <p class="step-text">You also need schedules for how often the tests will run.</p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Schedule List</h4>
-                <dropdown-list
-                    placeholder="Search for Schedule"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Schedule A"}, {"value": "option2", "label": "Schedule B"}, {"value": "option2", "label": "Schedule C"}]'
-                >
-                </dropdown-list>
+                <dropdown-single-select label="Schedule" options=""> </dropdown-single-select>
                 <web-button
+                    id="new-schedule-btn"
                     data-label="New Schedule"
                     data-theme="Shadow"
                     data-lefticon="calendar-check"

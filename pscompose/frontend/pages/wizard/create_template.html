@@ -13,9 +13,9 @@
                 data-label="Save"
                 data-theme="Tertiary"
                 data-righticon="save"
-                data-redirect="/wizard/8/template/"
-                hx-post=""
-                hx-confirm="Are you sure you want to save this template?"
+                data-link="/wizard/8/template/"
+                data-modalconfirm="Are you sure you want to save this template?"
+                data-modaltheme="Success"
             >
             </web-button>
         </div>
@@ -27,21 +27,16 @@
         </p>
         <div class="step-box-column">
             <input-text label="Name" placeholder="New Template"></input-text>
-            <dropdown-list
-                placeholder="Add Task"
-                label="ImportVia"
-                options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'
-            >
-            </dropdown-list>
+            <dropdown-multi-select label="Tasks" options=""> </dropdown-multi-select>
             <input-text-area label="Other Meta" placeholder="Enter Json"></input-text-area>
             <div class="save-cancel">
                 <web-button
                     data-label="Save"
                     data-theme="Tertiary"
                     data-righticon="save"
-                    data-redirect="/wizard/8/template/"
-                    hx-post=""
-                    hx-confirm="Are you sure you want to save this template?"
+                    data-link="/wizard/8/template/"
+                    data-modalconfirm="Are you sure you want to save this template?"
+                    data-modaltheme="Success"
                 >
                 </web-button>
                 <web-button
@@ -52,5 +47,4 @@
             </div>
         </div>
     </div>
-    <div id="modal-container"></div>
 </div>

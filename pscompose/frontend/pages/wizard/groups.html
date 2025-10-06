@@ -25,14 +25,9 @@
         </p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Existing Groups</h4>
-                <dropdown-list
-                    placeholder="Search for Groups"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Group A"}, {"value": "option2", "label": "Group B"}, {"value": "option2", "label": "Group C"}]'
-                >
-                </dropdown-list>
+                <dropdown-single-select label="Group" options=""> </dropdown-single-select>
                 <web-button
+                    id="new-group-btn"
                     data-label="New Group"
                     data-theme="Shadow"
                     data-lefticon="group"

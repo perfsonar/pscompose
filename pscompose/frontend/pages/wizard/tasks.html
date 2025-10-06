@@ -25,14 +25,9 @@
         </p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Existing Tasks</h4>
-                <dropdown-list
-                    placeholder="Search for Task"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Task A"}, {"value": "option2", "label": "Task B"}, {"value": "option2", "label": "Task C"}]'
-                >
-                </dropdown-list>
+                <dropdown-multi-select label="Tasks" options=""> </dropdown-multi-select>
                 <web-button
+                    id="new-task-btn"
                     data-label="New Task"
                     data-theme="Shadow"
                     data-lefticon="clipboard-list"

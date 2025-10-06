@@ -25,14 +25,9 @@
         </p>
         <div class="step-box">
             <div class="step-box-left">
-                <h4>Existing Archives</h4>
-                <dropdown-list
-                    placeholder="Search for Archives"
-                    label="ImportVia"
-                    options='[{"value": "option1", "label": "Archive A"}, {"value": "option2", "label": "Archive B"}, {"value": "option2", "label": "Archive C"}]'
-                >
-                </dropdown-list>
+                <dropdown-single-select label="Archive" options=""> </dropdown-single-select>
                 <web-button
+                    id="new-archive-btn"
                     data-label="New Archive"
                     data-theme="Shadow"
                     data-lefticon="database"
