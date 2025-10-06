@@ -8,6 +8,7 @@ export class WebButton extends HTMLElement {
         "data-righticon",
         "data-link",
         "data-modalconfirm",
+        "data-modaltheme",
     ];
     passthroughAttributes = {};
     passthroughAttributeMatchers = [new RegExp(/hx-.*/), new RegExp(/data-.*/)];
@@ -97,7 +98,7 @@ export class WebButton extends HTMLElement {
                         }
                         ${hxAttrs ? `hxAttrs=${hxAttrs}` : ""}
 
-                        theme="${this.getAttribute("data-theme")}"
+                        theme="${this.getAttribute("data-modaltheme")}"
                         message="${this.getAttribute("data-modalconfirm")}"
                         confirm-label = "${this.getAttribute("data-label")}"
                         ${hxAttrs}

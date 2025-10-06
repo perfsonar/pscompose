@@ -44,11 +44,13 @@
                     </web-button>
 
                     <web-button
+                        id="save-btn"
                         type="submit"
                         data-label="Save"
                         data-theme="Secondary"
                         data-righticon="save"
                         data-modalconfirm="Are you sure you want to save this address?"
+                        data-modaltheme="Success"
                     >
                     </web-button>
 
@@ -70,6 +72,9 @@
     // TOGGLED SUBMENU
     if (psCompose.activeRoute.page_url == window.location.pathname) {
         showSubmenu();
+    }
+    if (psCompose.activeRoute.section == "wizard") {
+        document.querySelector("#save-btn").setAttribute("data-modaltheme", "Warning");
     }
 
     let editlink = new URLSearchParams(window.location.search);
