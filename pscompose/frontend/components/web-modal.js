@@ -37,7 +37,7 @@ export class WebModal extends HTMLElement {
     render() {
         let accentColor = "var(--copy-color)";
         if (this.getAttribute("theme")) {
-            if (this.getAttribute("theme") == "Secondary") {
+            if (this.getAttribute("theme") == "Success") {
                 accentColor = "var(--success-color)";
             }
             if (this.getAttribute("theme") == "Error") {
