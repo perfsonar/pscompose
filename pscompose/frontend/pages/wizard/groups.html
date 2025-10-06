@@ -42,3 +42,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector("#new-group-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/groups/group_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>
