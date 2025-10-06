@@ -73,7 +73,6 @@
     /* RENDER JSON FORM */
     // 1. set id param and redirect
     document.querySelector("dropdown-single-select").addEventListener("select", (evt) => {
-        console.log("JOJO: ", evt.target);
         let newUrlParam = new URLSearchParams();
         newUrlParam.set("id", evt.target.selected);
         window.location = window.location.pathname + "?" + newUrlParam;
