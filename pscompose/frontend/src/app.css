@@ -128,6 +128,10 @@ nav {
     @apply font-mono text-h4_mono;
 }
 
+.readme:hover {
+    @apply text-copyAlt;
+}
+
 .left-nav {
     @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
