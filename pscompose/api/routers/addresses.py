@@ -7,12 +7,6 @@ from pscompose.backends.postgres import backend
 from fastapi.responses import JSONResponse
 
 # Setup CRUD endpoints
-# - GET /api/address
-# - POST /api/address
-# - PUT /api/address/uuid-slug
-# - DELETE /api/address/uuid-slug
-# - GET /api/address/uuid-slug
-# - GET /api/address/uuid-slug/json
 router = generate_router("address")
 
 
@@ -20,6 +14,7 @@ router = generate_router("address")
 @router.get("/api/address/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
+    # TODO: Dynamically populate the contexts property
     payload = {"ui_schema": ADDRESS_UI_SCHEMA, "json_schema": ADDRESS_SCHEMA, "form_data": {}}
     return JSONResponse(content=payload)
 

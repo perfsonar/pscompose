@@ -1,1 +1,58 @@
-<h2>New Schedule</h2>
+<div class="datatype new-form">
+    <div class="page">
+        <h2>New Schedule</h2>
+        <div class="content">
+            <form id="my-form">
+                <fieldset
+                    id="content"
+                    hx-get="http://0.0.0.0:8000/api/schedule/new/form"
+                    hx-trigger="load"
+                    nunjucks-template="example-template"
+                >
+                    Loading Form...
+                </fieldset>
+
+                <script src="/partials/customRenderer.js" type="module"></script>
+                <script id="example-template" type="nunjucks">
+                    <json-form
+                      id="my-json-form"
+                      form-data='{{ form_data | dump }}'
+                      schema-data='{{ json_schema | dump }}'
+                      layout-data='{{ ui_schema | dump }}'
+                    ></json-form>
+                </script>
+
+                <div class="save-cancel">
+                    <web-button data-label="Save" data-theme="Secondary" data-righticon="save">
+                    </web-button>
+                </div>
+            </form>
+            <!-- Response container -->
+            <div id="response-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("my-form").addEventListener("submit", async function (event) {
+        event.preventDefault(); // stop default form submission
+
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const { name, ...rest } = form_data; // Need to remove name from the form
+
+        // Convert addresses / a-addresses / b-addresses to an object
+
+        // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
+        const data = {
+            ref_set: [],
+            type: "group",
+            json: rest,
+            name: name,
+            created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+        };
+
+        console.log("data is ", data);
+    });
+</script>
