@@ -34,7 +34,6 @@ def generate_router(datatype: str):
         data: DataTableBase,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Create item data:", data)
         try:
             response = backend.create_datatype(
                 ref_set=data.ref_set,
@@ -69,7 +68,6 @@ def generate_router(datatype: str):
         updated_data: DataTableUpdate,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Update item ID:", item_id)
         print("Update item data:", updated_data)
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
@@ -81,7 +79,6 @@ def generate_router(datatype: str):
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
-        print("update response:", response)
         return response
 
     # Endpoint for DELETING an existing record
@@ -151,11 +148,17 @@ def _unique_keep_order(seq):
 
 
 # Helper function to enrich the group schema with address IDs and labels
-def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) -> (Dict, Dict):
+def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) -> Dict:
     """
-    Returns a copy of the group JSON-schema and UI-schema where each
-    property contains
-        - items.oneOf -> dictionary containing unique IDs and label
+    Enrich a JSON schema by injecting 'oneOf' options into given array properties.
+
+    Args:
+        base_schema: JSON schema (can have 'properties' or 'allOf' branches)
+        properties: list of property names to enrich (e.g., ['addresses', 'contexts'])
+        rows: list of ORM-like objects with `id` and `name` attributes
+
+    Returns:
+        Updated copy of the schema.
     """
     ids: List[str] = []
     labels: List[str] = []
@@ -165,25 +168,35 @@ def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) ->
         labels.append(str(row.name))
 
     ids = _unique_keep_order(ids)
-
-    # Update JSON Schema
     schema_copy = deepcopy(base_schema)
+
+    def inject_items(props: Dict):
+        """Injects oneOf entries for matching properties."""
+        for prop in properties:
+            if prop in props:
+                items = props[prop].get("items")
+                if not items or "oneOf" not in items:
+                    continue
+                # Clear or preserve existing options depending on preference
+                items["oneOf"].clear()
+
+                if not rows:  # handle case with no rows
+                    items["oneOf"].append({"const": "", "title": "No options available"})
+                    continue
+
+                for id_, label in zip(ids, labels):
+                    items["oneOf"].append({"const": id_, "title": label})
+
+    # Handle top-level properties
+    if "properties" in schema_copy:
+        inject_items(schema_copy["properties"])
+
+    # Handle nested allOf → then → properties
     for branch in schema_copy.get("allOf", []):
         then_part = branch.get("then")
         if not then_part:
             continue
-
         props = then_part.get("properties", {})
-        if not any(k in props for k in properties):
-            continue
-
-        # inject the enum of IDs into the JSON‑schema
-        for prop in properties:
-            if prop not in props:
-                continue
-            addr_items = props[prop]["items"]
-            for id in ids:
-                res = {"const": id, "title": labels[ids.index(id)]}
-                addr_items["oneOf"].append(res)
+        inject_items(props)
 
     return schema_copy

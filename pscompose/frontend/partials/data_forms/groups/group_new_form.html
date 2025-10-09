@@ -43,18 +43,44 @@
         const form_data = JSON.parse(elem.serializeForm());
         const { name, ...rest } = form_data; // Need to remove name from the form
 
+        // Transform certain keys from array of ids to array of objects with name key
+        const arrayKeys = ["addresses", "a-addresses", "b-addresses"];
+        arrayKeys.forEach((key) => {
+            if (rest[key] && Array.isArray(rest[key])) {
+                rest[key] = rest[key].map((id) => ({ name: id }));
+            }
+        });
+
+        // Find the matching schema "then" block for this type
+        const typeSchema = JSON.parse(elem.schemaData).allOf.find(
+            (item) => item.if?.properties?.type?.const === rest.type,
+        );
+
+        if (!typeSchema) {
+            throw new Error(`No schema found for type ${rest.type}`);
+        }
+
+        // Only keep keys that are in the schema
+        const filtered_json = {};
+        const allowedKeys = Object.keys(typeSchema.then.properties);
+        allowedKeys.forEach((key) => {
+            if (rest.hasOwnProperty(key)) {
+                filtered_json[key] = rest[key];
+            }
+        });
+
         // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
         const data = {
             ref_set: [],
             type: "group",
-            json: rest,
+            json: filtered_json,
             name: name,
             created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
             last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            // url: ""
         };
 
         try {
-            // TODO: This URL should be updated
             const response = await fetch("http://0.0.0.0:8000/api/group", {
                 method: "POST",
                 headers: {
@@ -66,13 +92,28 @@
             if (response.ok) {
                 const result = await response.json();
                 console.log("Success:", result);
-                document.getElementById("response-container").innerText =
-                    "New group saved successfully!";
+
+                // Adding save message to sessionStorage
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Group saved successfully!", "Success"]),
+                );
+
+                let pathName = window.location.pathname;
+                if (pathName.includes("new")) {
+                    window.location = "/groups/?id=" + result.id;
+                } else {
+                    window.location = pathName + "?id=" + result.id;
+                }
             } else {
                 // Try to parse error message from response
                 let errorMsg = "Something went wrong.";
-                alert(errorMsg);
                 console.error("Error:", errorMsg);
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Something went wrong", "Error"]),
+                );
+                window.location = window.location.pathname;
             }
         } catch (error) {
             console.error("Error:", error);
