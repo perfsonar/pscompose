@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, HTTPException
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
+from pscompose.logger import logger
 
 
 def generate_router(datatype: str):
@@ -32,7 +33,7 @@ def generate_router(datatype: str):
         data: DataTableBase,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Create item data:", data)
+        logger.debug("Create item data:", data)
         try:
             response = backend.create_datatype(
                 ref_set=data.ref_set,
@@ -51,11 +52,11 @@ def generate_router(datatype: str):
             return {"message": f"{datatype} created successfully", "id": response.id}
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
-            print("Integrity error:", str(e))
+            logger.debug("Integrity error:", str(e))
             raise HTTPException(status_code=400, detail=f"Integrity error: {str(e)}")
         except Exception as e:
             # backend.session.rollback()
-            print("Error creating datatype:", str(e))
+            logger.debug("Error creating datatype:", str(e))
             raise HTTPException(status_code=500, detail=str(e))
 
     # Endpoint for UPDATING an existing record
@@ -67,6 +68,7 @@ def generate_router(datatype: str):
         updated_data: DataTableUpdate,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        logger.debug("Create item data:", updated_data)
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
             raise HTTPException(
@@ -77,7 +79,7 @@ def generate_router(datatype: str):
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
-        print("update response:", response)
+        logger.debug("update response:", response)
         return response
 
     # Endpoint for DELETING an existing record
@@ -88,7 +90,7 @@ def generate_router(datatype: str):
         item_id: str,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Deleting item with ID:", item_id)
+        logger.debug("Deleting item with ID:", item_id)
         existing_item = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_item:
             raise HTTPException(
@@ -96,7 +98,7 @@ def generate_router(datatype: str):
             )
 
         response = backend.delete_datatype(existing_item)
-        print("Delete response:", response)
+        logger.debug("Delete response:", response)
         # Return success response with redirect
         # TODO: This isn't working
         return Response(
