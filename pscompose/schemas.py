@@ -250,6 +250,7 @@ class ExcludesAddressPairList(BaseModel):
 class GroupListSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
+        use_enum_values = True
 
     default_address_label: Optional[str] = Field(None, alias="default-address-label")
     type: GroupType
@@ -260,6 +261,7 @@ class GroupListSpecification(BaseModel):
 class GroupDisjointSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
+        use_enum_values = True
 
     default_address_label: Optional[str] = Field(None, alias="default-address-label")
     unidirectional: Optional[bool] = None
@@ -274,6 +276,7 @@ class GroupDisjointSpecification(BaseModel):
 class GroupMeshSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
+        use_enum_values = True
 
     default_address_label: Optional[str] = Field(None, alias="default-address-label")
     type: GroupType
@@ -283,8 +286,11 @@ class GroupMeshSpecification(BaseModel):
     field_meta: Optional[AnyJSON] = Field(None, alias="_meta")
 
 
-class GroupSpecification(BaseModel):
-    __root__: Union[GroupDisjointSpecification, GroupListSpecification, GroupMeshSpecification]
+GroupSpecification = Union[
+    GroupDisjointSpecification,
+    GroupListSpecification,
+    GroupMeshSpecification,
+]
 
 
 class AddressSpecification(BaseModel):
@@ -337,12 +343,15 @@ class DataTableBase(BaseModel):
         TestSpecification,
         pSConfigSchema,  # Full schema
     ] = Field(None, alias="json")
-    name: str
+    name: str = Field(..., min_length=1)
     created_by: str
     created_at: Optional[datetime] = None
     last_edited_by: str
     last_edited_at: Optional[datetime] = None
     url: Optional[str] = None
+
+    class Config:
+        orm_mode = True
 
 
 class DataTableUpdate(BaseModel):

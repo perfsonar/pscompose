@@ -155,7 +155,8 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
 function singleSelectDropdownCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
 
-    if (uischema.scope.endsWith("type")) return HIGH_RANK;
+    if (uischema.scope.endsWith("type") || uischema.scope.endsWith("excludes-self"))
+        return HIGH_RANK;
     return LOWEST_RANK;
 }
 
