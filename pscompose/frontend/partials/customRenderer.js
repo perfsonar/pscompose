@@ -198,6 +198,7 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
+    elemToReturn.props.output = "list";
     elemToReturn.props.onSelect = (event) => {
         if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
             handleChange(path, JSON.parse(event.target.selected));
@@ -205,6 +206,9 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     };
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
+    }
+    if (path.indexOf("addresses") >= 0) {
+        elemToReturn.props.output = "object";
     }
 
     // Multi Select Dropdown Specific
