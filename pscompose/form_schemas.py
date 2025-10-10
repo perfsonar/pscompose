@@ -74,33 +74,45 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/name"},
-                {"type": "Control", "scope": "#/properties/disabled"},
+                {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/disabled",
+                    "customComponent": "input-checkbox",
+                },
             ],
         },
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/address"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/address",
+                    "customComponent": "input-text",
+                },
                 {
                     "type": "Control",
                     "scope": "#/properties/no-agent",
+                    "customComponent": "input-checkbox",
                 },
             ],
         },
-        {"type": "Control", "scope": "#/properties/lead-bind-address"},
+        {
+            "type": "Control",
+            "scope": "#/properties/lead-bind-address",
+            "customComponent": "input-text",
+        },
         {
             "type": "Control",
             "scope": "#/properties/pscheduler-address",
+            "customComponent": "input-text",
         },
         {
             "type": "Control",
             "scope": "#/properties/contexts",
+            "customComponent": "dropdown-multi-select-list",
         },
-        {
-            "type": "Control",
-            "scope": "#/properties/_meta",
-        },
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
 }
 
@@ -194,8 +206,12 @@ GROUP_SCHEMA = {
 GROUP_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name"},
-        {"type": "Control", "scope": "#/properties/type"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {
+            "type": "Control",
+            "scope": "#/properties/type",
+            "customComponent": "dropdown-single-select",
+        },
         {
             "type": "Group",
             "rule": {
@@ -207,8 +223,13 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
+                    "customComponent": "dropdown-multi-select-object",
                 },
-                {"type": "Control", "scope": "#/properties/_meta"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/_meta",
+                    "customComponent": "input-text-area",
+                },
             ],
         },
         {
@@ -221,14 +242,38 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "HorizontalLayout",
                     "elements": [
-                        {"type": "Control", "scope": "#/properties/unidirectional"},
-                        {"type": "Control", "scope": "#/properties/excludes-self"},
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/unidirectional",
+                            "customComponent": "input-checkbox",
+                        },
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/excludes-self",
+                            "customComponent": "input-checkbox",
+                        },
                     ],
                 },
-                {"type": "Control", "scope": "#/properties/a-addresses"},
-                {"type": "Control", "scope": "#/properties/b-addresses"},
-                {"type": "Control", "scope": "#/properties/excludes"},
-                {"type": "Control", "scope": "#/properties/_meta"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/a-addresses",
+                    "customComponent": "dropdown-multi-select-object",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/b-addresses",
+                    "customComponent": "dropdown-multi-select-object",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/excludes",
+                    "customComponent": "dropdown-exclude",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/_meta",
+                    "customComponent": "input-text-area",
+                },
             ],
         },
         {
@@ -242,10 +287,24 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
+                    "customComponent": "dropdown-multi-select-object",
                 },
-                {"type": "Control", "scope": "#/properties/excludes-self"},
-                {"type": "Control", "scope": "#/properties/excludes"},
-                {"type": "Control", "scope": "#/properties/_meta", "options": {"multi": True}},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/excludes-self",
+                    "customComponent": "input-checkbox",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/excludes",
+                    "customComponent": "dropdown-exclude",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/_meta",
+                    "options": {"multi": True},
+                    "customComponent": "input-text-area",
+                },
             ],
         },
     ],
@@ -310,21 +369,16 @@ SCHEDULE_SCHEMA = {
 SCHEDULE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {
-            "type": "Control",
-            "scope": "#/properties/name",
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/repeat",
-        },
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/repeat", "customComponent": "input-text"},
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/slip"},
+                {"type": "Control", "scope": "#/properties/slip", "customComponent": "input-text"},
                 {
                     "type": "Control",
                     "scope": "#/properties/sliprand",
+                    "customComponent": "input-checkbox",
                 },
             ],
         },
@@ -336,14 +390,8 @@ SCHEDULE_UI_SCHEMA = {
         #     "type": "Control",
         #     "scope": "#/properties/until",
         # },
-        {
-            "type": "Control",
-            "scope": "#/properties/max-runs",
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/_meta",
-        },
+        {"type": "Control", "scope": "#/properties/max-runs", "customComponent": "input-number"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
 }
 
@@ -410,36 +458,26 @@ ARCHIVE_SCHEMA = {
 ARCHIVE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {
-            "type": "Control",
-            "scope": "#/properties/name",
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/archiver",
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/data",
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/label",
-        },
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/archiver", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/label", "customComponent": "input-text"},
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/schema"},
-                {"type": "Control", "scope": "#/properties/ttl"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/schema",
+                    "customComponent": "input-number",
+                },
+                {"type": "Control", "scope": "#/properties/ttl", "customComponent": "input-text"},
             ],
         },
         {
             "type": "Control",
             "scope": "#/properties/transform",
+            "customComponent": "input-text-area",
         },
-        {
-            "type": "Control",
-            "scope": "#/properties/_meta",
-        },
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
 }
