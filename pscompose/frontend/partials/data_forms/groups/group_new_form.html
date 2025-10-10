@@ -43,43 +43,23 @@
         const form_data = JSON.parse(elem.serializeForm());
         const { name, ...rest } = form_data; // Need to remove name from the form
 
-        // Transform certain keys from array of ids to array of objects with name key
-        const arrayKeys = ["addresses", "a-addresses", "b-addresses"];
-        arrayKeys.forEach((key) => {
-            if (rest[key] && Array.isArray(rest[key])) {
-                rest[key] = rest[key].map((id) => ({ name: id }));
-            }
-        });
-
-        // Find the matching schema "then" block for this type
-        const typeSchema = JSON.parse(elem.schemaData).allOf.find(
-            (item) => item.if?.properties?.type?.const === rest.type,
-        );
-
-        if (!typeSchema) {
-            throw new Error(`No schema found for type ${rest.type}`);
-        }
-
-        // Only keep keys that are in the schema
-        const filtered_json = {};
-        const allowedKeys = Object.keys(typeSchema.then.properties);
-        allowedKeys.forEach((key) => {
-            if (rest.hasOwnProperty(key)) {
-                filtered_json[key] = rest[key];
-            }
-        });
-
         // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
         const data = {
+            // Additional properties needed in order to sanitize the data
+            schema: JSON.parse(elem.schemaData),
+            group_type: rest.type,
+
+            // Actual data to be sent to backend
             ref_set: [],
             type: "group",
-            json: filtered_json,
+            json: rest,
             name: name,
             created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
             last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
             // url: ""
         };
 
+        console.log("Submitting data:", data);
         try {
             const response = await fetch("http://0.0.0.0:8000/api/group", {
                 method: "POST",

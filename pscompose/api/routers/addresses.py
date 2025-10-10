@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from fastapi_versioning import version
 from pscompose.form_schemas import ADDRESS_SCHEMA, ADDRESS_UI_SCHEMA
-from pscompose.utils import generate_router, enrich_group_schema
+from pscompose.utils import generate_router, enrich_schema
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
 from fastapi.responses import JSONResponse
@@ -19,7 +19,7 @@ def get_new_form():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_group_schema(
+    enriched_schema = enrich_schema(
         base_schema=ADDRESS_SCHEMA,
         properties=["contexts"],
         rows=context_rows,
@@ -47,7 +47,7 @@ def get_existing_form(item_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_group_schema(
+    enriched_schema = enrich_schema(
         base_schema=ADDRESS_SCHEMA,
         properties=["contexts"],
         rows=context_rows,
