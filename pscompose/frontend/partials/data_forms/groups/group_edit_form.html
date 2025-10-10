@@ -1,8 +1,11 @@
 <div class="datatype edit-form" hx-ext="dynamic-url">
     <div class="page">
-        <h2>Edit Group</h2>
+        <div class="header">
+            <h2 id="data-name"></h2>
+            <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
+        </div>
         <div class="content">
-            <form id="my-form">
+            <form id="my-form" method="GET">
                 <fieldset
                     id="content"
                     hx-get="http://0.0.0.0:8000/api/group/{id}/form"
@@ -13,75 +16,166 @@
                 </fieldset>
 
                 <script src="/partials/customRenderer.js" type="module"></script>
+
                 <script id="example-template" type="nunjucks">
                     <json-form
                       id="my-json-form"
-                      form-data='{{ form_data | dump }}'
+                      form-data='{{ form_data |
+                          logger("logging form-data:") |
+                          escape_property("_meta") |
+                          dump }}'
                       schema-data='{{ json_schema | dump }}'
                       layout-data='{{ ui_schema | dump }}'
                       readonly='true'
                     ></json-form>
                 </script>
 
-                <div class="save-cancel">
+                <div class="edit-save-cancel">
                     <web-button
+                        id="delete-btn"
+                        type="button"
                         data-label="Delete"
-                        data-theme="error"
+                        data-theme="Error"
                         data-righticon="trash-2"
-                        data-redirect="/groups/"
                         hx-delete="http://0.0.0.0:8000/api/group/{id}"
-                        hx-confirm="Are you sure you want to delete this group?"
+                        data-link="/groups/"
+                        data-modalconfirm="Are you sure you want to delete this group?"
+                        data-modaltheme="Error"
                     >
                     </web-button>
 
-                    <web-button data-label="Save" data-theme="Secondary" data-righticon="save">
+                    <web-button
+                        id="save-btn"
+                        type="submit"
+                        data-label="Save"
+                        data-theme="Secondary"
+                        data-righticon="save"
+                        data-modalconfirm="Are you sure you want to save this group?"
+                        data-modaltheme="Success"
+                    >
                     </web-button>
 
-                    <web-button data-label="Cancel" data-theme="Primary" data-righticon="x">
+                    <web-button
+                        type="button"
+                        data-label="Cancel"
+                        data-theme="Primary"
+                        data-righticon="x"
+                        data-link="javascript:history.back()"
+                    >
                     </web-button>
                 </div>
             </form>
-            <!-- Response container -->
-            <div id="response-container"></div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
-        event.preventDefault(); // stop default form submission
+    // TOGGLED SUBMENU
+    if (psCompose.activeRoute.page_url == window.location.pathname) {
+        showSubmenu();
+    }
 
-        const elem = document.querySelector("json-form");
-        const form_data = JSON.parse(elem.serializeForm());
-        const { name, ...rest } = form_data; // Need to remove name from the form
+    if (psCompose.activeRoute.section == "wizard") {
+        document.querySelector("#save-btn").setAttribute("data-modaltheme", "Warning");
+    }
 
-        const now = new Date();
+    let editlink = new URLSearchParams(window.location.search);
+    editlink.append("edit", "true");
+    document
+        .getElementById("edit-icon")
+        .setAttribute("data-link", window.location.pathname + "?" + editlink);
 
-        // TODO: How would ref_set be updated?
-        const updated_data = {
-            json: rest,
-            name: name,
-            last_edited_at: now.toISOString(),
-            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-        };
-
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        try {
-            const response = await fetch(`http://0.0.0.0:8000/api/group/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updated_data),
-            });
-
-            const result = await response.json();
-            console.log("Success:", result);
-            document.getElementById("response-container").innerText = "Group saved successfully!";
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById("response-container").innerText = "Something went wrong.";
+    // Set group name as the header and set readonly state to edit state
+    document.body.addEventListener("json-form:mounted", (event) => {
+        console.log("json-form mounted event:", event);
+        let elem = event.detail[0].target;
+        if (elem?.data?.name) {
+            document.getElementById("data-name").textContent = elem?.data?.name;
         }
+
+        let searchParams = new URLSearchParams(window.location.search);
+        let editMode = searchParams.get("edit");
+        if (!!editMode) {
+            const jsonForm = document.querySelector("json-form");
+            jsonForm.setAttribute("readonly", "false");
+            document.querySelector(".edit-save-cancel").style =
+                "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
+            document.getElementById("edit-icon").style.display = "none";
+
+            // Hide submenu when in edit mode
+            let submenu = document.querySelector(".submenu-container");
+            hideSubmenu();
+        }
+    });
+
+    // Save and submit the form and edit to readonly state
+    document.getElementById("my-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        document.body.addEventListener("confirm-yes-clicked", async function (event) {
+            const elem = document.querySelector("json-form");
+
+            const form_data = JSON.parse(elem.serializeForm());
+            const { name, ...rest } = form_data; // Need to remove name from the form
+
+            const now = new Date();
+
+            // TODO: How would ref_set be updated?
+            const updated_data = {
+                json: rest,
+                name: name,
+                last_edited_at: now.toISOString(),
+                last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                // url: "",
+                // ref_set: []
+            };
+
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            try {
+                const response = await fetch(`http://0.0.0.0:8000/api/group/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updated_data),
+                });
+
+                const result = await response.json();
+                params.delete("edit");
+
+                if (!response.ok) {
+                    // Handle server validation errors or other HTTP errors
+                    console.error("Server returned an error:", response);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                } else {
+                    // Adding save message to sessionStorage
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Group saved successfully!", "Success"]),
+                    );
+                }
+                window.location = window.location.pathname + "?" + params;
+            } catch (error) {
+                console.error("Error:", error);
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Something went wrong.", "Error"]),
+                );
+            }
+        });
+    });
+
+    document.querySelector("#delete-btn").addEventListener("click", async function (event) {
+        document.body.addEventListener("confirm-yes-clicked", async function (event) {
+            // Adding delete message to sessionStorage
+            sessionStorage.setItem(
+                "confirmMessage",
+                JSON.stringify(["Group deleted successfully!", "Success"]),
+            );
+        });
     });
 </script>

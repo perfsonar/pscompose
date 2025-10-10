@@ -88,7 +88,7 @@ class DataTable(SQLAlchemyStorage):
     ref_set = Column(postgresql.ARRAY(String))
     type = Column(Text)
     json = Column(postgresql.JSON)
-    name = Column(Text)
+    name = Column(Text, nullable=False)
     url = Column(Text)
     created_by = Column(Text)
     created_at = Column(
