@@ -248,19 +248,14 @@ GROUP_UI_SCHEMA = {
             },
             "elements": [
                 {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/unidirectional",
-                            "customComponent": "input-checkbox",
-                        },
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/excludes-self",
-                            "customComponent": "input-checkbox",
-                        },
-                    ],
+                    "type": "Control",
+                    "scope": "#/properties/unidirectional",
+                    "customComponent": "input-checkbox",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/excludes-self",
+                    "customComponent": "dropdown-single-select",
                 },
                 {
                     "type": "Control",
@@ -300,7 +295,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes-self",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "dropdown-single-select",
                 },
                 {
                     "type": "Control",
