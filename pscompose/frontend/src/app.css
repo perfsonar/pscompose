@@ -194,7 +194,7 @@ nav {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 .submenu .submenu-header {
-    @apply flex flex-row justify-between items-center mb-lg;
+    @apply flex flex-row justify-between items-center mb-1;
 }
 .submenu #submenu-search {
     @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
@@ -415,7 +415,7 @@ th {
 }
 
 .save-cancel {
-    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
+    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-1;
 }
 
 .copy-json {

@@ -146,13 +146,13 @@ export class excludesDropdown extends HTMLElement {
                 <div class="dropdown-container">
                     <dropdown-single-select
                         label="Local Addresses" 
-                        options=${this.getAttribute("options")}
+                        options='${this.getAttribute("options")}'
                         selected=${selectedLocalAddress}
                         >
                     </dropdown-single-select>
                     <dropdown-multi-select
                         label="Target Addresses" 
-                        options=${this.getAttribute("options")}
+                        options='${this.getAttribute("options")}'
                         selected=${JSON.stringify(selectedTargetAddresses)}
                         >
                     </dropdown-multi-select>
