@@ -89,12 +89,14 @@ export class excludesDropdown extends HTMLElement {
         for (const container of containers) {
             const localDropdown = container.querySelector("dropdown-single-select");
             const targetDropdown = container.querySelector("dropdown-multi-select");
-
+            const localAddressValue = localDropdown.getAttribute("selected")
+                ? { name: localDropdown.getAttribute("selected") }
+                : {};
             const targetAddressValue = targetDropdown.getAttribute("selected")
                 ? JSON.parse(targetDropdown.getAttribute("selected")).map((id) => ({ name: id }))
-                : null;
+                : [];
             selectedValues.push({
-                "local-address": { name: localDropdown.getAttribute("selected") },
+                "local-address": localAddressValue,
                 "target-addresses": targetAddressValue,
             });
         }
@@ -133,6 +135,9 @@ export class excludesDropdown extends HTMLElement {
             this.selectedValues.length > 0
                 ? this.selectedValues
                       .map((val) => {
+                          const selectedLocalAddress = isEmpty(val["local-address"])
+                              ? null
+                              : val["local-address"]["name"];
                           const selectedTargetAddresses = val["target-addresses"]
                               ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
                               : "";
@@ -142,7 +147,7 @@ export class excludesDropdown extends HTMLElement {
                     <dropdown-single-select
                         label="Local Addresses" 
                         options='${this.getAttribute("options")}'
-                        selected=${val["local-address"]["name"]}
+                        selected=${selectedLocalAddress}
                         >
                     </dropdown-single-select>
                     <dropdown-multi-select

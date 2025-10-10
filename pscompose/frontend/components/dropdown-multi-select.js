@@ -1,5 +1,5 @@
 export class MultiSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected"];
+    static observedAttributes = ["label", "options", "selected", "output"];
 
     constructor() {
         super();
@@ -18,6 +18,16 @@ export class MultiSelectDropdown extends HTMLElement {
         lucide.createIcons();
     }
 
+    sanitizeOutput(sv) {
+        if (this.getAttribute("output") == "object") {
+            let mapping = sv.map((val) => {
+                return { name: val };
+            });
+            return mapping;
+        }
+        return sv;
+    }
+
     attachToggleDropdown() {
         const options = this.querySelector(".options");
         if (!options) return;
@@ -34,7 +44,10 @@ export class MultiSelectDropdown extends HTMLElement {
                 const value = item.getAttribute("data-value");
                 if (value && !this.selectedValues.includes(value)) {
                     this.selectedValues.unshift(value); // Value to selectedValue array
-                    this.setAttribute("selected", JSON.stringify(this.selectedValues)); // set Attribute
+                    this.setAttribute(
+                        "selected",
+                        JSON.stringify(this.sanitizeOutput(this.selectedValues)),
+                    ); // set Attribute
                     this.dispatchEvent(new Event("select", { bubbles: true }));
                     this.render();
                     lucide.createIcons();
@@ -48,7 +61,10 @@ export class MultiSelectDropdown extends HTMLElement {
             btn.addEventListener("click", () => {
                 const value = btn.getAttribute("data-value");
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
-                this.setAttribute("selected", JSON.stringify(this.selectedValues));
+                this.setAttribute(
+                    "selected",
+                    JSON.stringify(this.sanitizeOutput(this.selectedValues)),
+                ); // set Attribute
                 this.dispatchEvent(new Event("select", { bubbles: true }));
                 this.render();
                 lucide.createIcons();
@@ -60,9 +76,15 @@ export class MultiSelectDropdown extends HTMLElement {
         const selected = this.getAttribute("selected")
             ? JSON.parse(this.getAttribute("selected"))
             : [];
-        this.selectedValues = selected.map((item) =>
-            typeof item === "object" ? item.const : item,
-        );
+        if (this.getAttribute("output") == "object") {
+            this.selectedValues = selected.map((item) =>
+                typeof item === "object" ? item.name : item,
+            );
+        } else {
+            this.selectedValues = selected.map((item) =>
+                typeof item === "object" ? item.const : item,
+            );
+        }
     }
 
     attachSearchHandler() {
