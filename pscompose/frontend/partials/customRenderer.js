@@ -6,20 +6,7 @@ const LOWEST_RANK = -1;
 
 function textInputCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
-
-    if (
-        uischema.scope.endsWith("name") ||
-        uischema.scope.endsWith("address") ||
-        uischema.scope.endsWith("lead-bind-address") ||
-        uischema.scope.endsWith("pschedular-address") ||
-        uischema.scope.endsWith("start") ||
-        uischema.scope.endsWith("slip") ||
-        uischema.scope.endsWith("repeat") ||
-        uischema.scope.endsWith("archiver") ||
-        uischema.scope.endsWith("ttl") ||
-        uischema.scope.endsWith("label")
-    )
-        return MID_RANK;
+    if (uischema.customComponent == "input-text") return MID_RANK;
     return LOWEST_RANK;
 }
 
@@ -38,7 +25,6 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-
     return elemToReturn;
 }
 
@@ -46,9 +32,8 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
 
 function textInputNumberCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
+    if (uischema.customComponent == "input-number") return HIGH_RANK;
 
-    // NOTE: Add scope for input number here
-    if (uischema.scope.endsWith("max-runs")) return HIGH_RANK;
     return LOWEST_RANK;
 }
 
@@ -67,7 +52,6 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-    // Number specific - Might have to double check schema labels
     if (schema?.schema?.minimum) {
         elemToReturn.props.min = schema.schema.minimum;
     }
@@ -77,7 +61,6 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.maximum) {
         elemToReturn.props.step = schema.schema.multipleOf;
     }
-
     return elemToReturn;
 }
 
@@ -85,19 +68,12 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
 
 function textInputAreaCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
-
-    if (
-        uischema.scope.endsWith("_meta") ||
-        uischema.scope.endsWith("data") ||
-        uischema.scope.endsWith("transform")
-    )
-        return MID_RANK;
+    if (uischema.customComponent == "input-text-area") return MID_RANK;
     return LOWEST_RANK;
 }
 
 function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-text-area", props: {} };
-
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.value = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;
@@ -111,7 +87,6 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-
     return elemToReturn;
 }
 
@@ -119,21 +94,13 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
 
 function checkBoxCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
+    if (uischema.customComponent == "input-checkbox") return MID_RANK;
 
-    if (
-        uischema.scope.endsWith("disabled") ||
-        uischema.scope.endsWith("no-agent") ||
-        uischema.scope.endsWith("unidirectional") ||
-        uischema.scope.endsWith("excludes-self") ||
-        uischema.scope.endsWith("sliprand")
-    )
-        return MID_RANK;
     return LOWEST_RANK;
 }
 
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-checkbox", props: {} };
-
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.checked = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;
@@ -154,14 +121,12 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
 
 function singleSelectDropdownCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
-
-    if (uischema.scope.endsWith("type")) return HIGH_RANK;
+    if (uischema.customComponent == "dropdown-single-select") return HIGH_RANK;
     return LOWEST_RANK;
 }
 
 function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-single-select", props: {} };
-
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;
@@ -175,33 +140,52 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-
-    // Single Select Dropdown Specific
     if (schema?.schema?.oneOf) {
         elemToReturn.props.options = JSON.stringify(schema.schema.oneOf);
     }
-
     return elemToReturn;
 }
 
-/* MULTI SELECT DROPDOWN */
+/* MULTI SELECT DROPDOWN - OBJECT */
 
-function multiSelectDropdownCustomTester(uischema, schema, context) {
+function multiSelectDropdownObjectCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
-
-    if (
-        uischema.scope.endsWith("contexts") ||
-        uischema.scope.endsWith("addresses") ||
-        uischema.scope.endsWith("a-addresses") ||
-        uischema.scope.endsWith("b-addresses")
-    )
-        return HIGH_RANK;
+    if (uischema.customComponent == "dropdown-multi-select-object") return HIGH_RANK;
     return LOWEST_RANK;
 }
 
-function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
+function multiSelectDropdownObjectCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-multi-select", props: {} };
+    elemToReturn.props.id = schema.uischema.scope;
+    elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
+    elemToReturn.props.path = path;
+    elemToReturn.props.label = schema.schema.title;
+    elemToReturn.props.required = schema.required;
+    elemToReturn.props.output = "object";
+    elemToReturn.props.onSelect = (event) => {
+        if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
+            handleChange(path, JSON.parse(event.target.selected));
+        }
+    };
+    if (schema?.schema?.description) {
+        elemToReturn.props.description = schema.schema.description;
+    }
+    if (schema?.schema?.items?.oneOf) {
+        elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
+    }
+    return elemToReturn;
+}
 
+/* MULTI SELECT DROPDOWN - LIST*/
+
+function multiSelectDropdownListCustomTester(uischema, schema, context) {
+    if (!uischema.scope) return LOWEST_RANK;
+    if (uischema.customComponent == "dropdown-multi-select-list") return HIGH_RANK;
+    return LOWEST_RANK;
+}
+
+function multiSelectDropdownListCustomRenderer(data, handleChange, path, schema) {
+    let elemToReturn = { tag: "dropdown-multi-select", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
@@ -216,15 +200,9 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-    if (path.indexOf("addresses") >= 0) {
-        elemToReturn.props.output = "object";
-    }
-
-    // Multi Select Dropdown Specific
     if (schema?.schema?.items?.oneOf) {
         elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
     }
-
     return elemToReturn;
 }
 
@@ -232,14 +210,12 @@ function multiSelectDropdownCustomRenderer(data, handleChange, path, schema) {
 
 function excludesCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
-
-    if (uischema.scope.endsWith("excludes")) return HIGH_RANK;
+    if (uischema.customComponent == "dropdown-exclude") return HIGH_RANK;
     return LOWEST_RANK;
 }
 
 function excludesCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-excludes", props: {} };
-
     elemToReturn.props.id = schema.uischema.scope;
     elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
@@ -253,8 +229,6 @@ function excludesCustomRenderer(data, handleChange, path, schema) {
     if (schema?.schema?.description) {
         elemToReturn.props.description = schema.schema.description;
     }
-
-    // Excludes Dropdown Specific
     if (schema?.schema?.items?.oneOf) {
         elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
     }
@@ -283,8 +257,12 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
             renderer: singleSelectDropdownCustomRenderer,
         });
         elem.appendRenderer({
-            tester: multiSelectDropdownCustomTester,
-            renderer: multiSelectDropdownCustomRenderer,
+            tester: multiSelectDropdownObjectCustomTester,
+            renderer: multiSelectDropdownObjectCustomRenderer,
+        });
+        elem.appendRenderer({
+            tester: multiSelectDropdownListCustomTester,
+            renderer: multiSelectDropdownListCustomRenderer,
         });
         elem.appendRenderer({
             tester: excludesCustomTester,
