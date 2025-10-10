@@ -126,6 +126,8 @@
                 name: name,
                 last_edited_at: now.toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                // url: "",
+                // ref_set: []
             };
 
             const params = new URLSearchParams(window.location.search);
@@ -156,6 +158,7 @@
                         JSON.stringify(["Group saved successfully!", "Success"]),
                     );
                 }
+                window.location = window.location.pathname + "?" + params;
             } catch (error) {
                 console.error("Error:", error);
                 sessionStorage.setItem(
@@ -163,7 +166,6 @@
                     JSON.stringify(["Something went wrong.", "Error"]),
                 );
             }
-            window.location = window.location.pathname + "?" + params;
         });
     });
 
