@@ -11,7 +11,13 @@ function textInputCustomTester(uischema, schema, context) {
         uischema.scope.endsWith("name") ||
         uischema.scope.endsWith("address") ||
         uischema.scope.endsWith("lead-bind-address") ||
-        uischema.scope.endsWith("pschedular-address")
+        uischema.scope.endsWith("pschedular-address") ||
+        uischema.scope.endsWith("start") ||
+        uischema.scope.endsWith("slip") ||
+        uischema.scope.endsWith("repeat") ||
+        uischema.scope.endsWith("archiver") ||
+        uischema.scope.endsWith("ttl") ||
+        uischema.scope.endsWith("label")
     )
         return MID_RANK;
     return LOWEST_RANK;
@@ -42,10 +48,7 @@ function textInputNumberCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
 
     // NOTE: Add scope for input number here
-    // if (
-    //     uischema.scope.endsWith("")
-    // )
-    //     return HIGH_RANK;
+    if (uischema.scope.endsWith("max-runs")) return HIGH_RANK;
     return LOWEST_RANK;
 }
 
@@ -83,7 +86,12 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
 function textInputAreaCustomTester(uischema, schema, context) {
     if (!uischema.scope) return LOWEST_RANK;
 
-    if (uischema.scope.endsWith("_meta")) return MID_RANK;
+    if (
+        uischema.scope.endsWith("_meta") ||
+        uischema.scope.endsWith("data") ||
+        uischema.scope.endsWith("transform")
+    )
+        return MID_RANK;
     return LOWEST_RANK;
 }
 
@@ -116,7 +124,8 @@ function checkBoxCustomTester(uischema, schema, context) {
         uischema.scope.endsWith("disabled") ||
         uischema.scope.endsWith("no-agent") ||
         uischema.scope.endsWith("unidirectional") ||
-        uischema.scope.endsWith("excludes-self")
+        uischema.scope.endsWith("excludes-self") ||
+        uischema.scope.endsWith("sliprand")
     )
         return MID_RANK;
     return LOWEST_RANK;
