@@ -1,3 +1,5 @@
+from copy import deepcopy
+from typing import Dict, List
 from fastapi_versioning import version
 from fastapi.responses import Response
 from sqlalchemy.exc import IntegrityError
@@ -67,6 +69,8 @@ def generate_router(datatype: str):
         updated_data: DataTableUpdate,
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        print("Update item ID:", item_id)
+        print("Update item data:", updated_data)
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
             raise HTTPException(
@@ -133,3 +137,53 @@ def generate_router(datatype: str):
         return response_json
 
     return router
+
+
+# Helper function to ensure unique items while preserving order
+def _unique_keep_order(seq):
+    """Return a new list with duplicate items removed while preserving order."""
+    seen, out = set(), []
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            out.append(item)
+    return out
+
+
+# Helper function to enrich the group schema with address IDs and labels
+def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) -> (Dict, Dict):
+    """
+    Returns a copy of the group JSON-schema and UI-schema where each
+    property contains
+        - items.oneOf -> dictionary containing unique IDs and label
+    """
+    ids: List[str] = []
+    labels: List[str] = []
+
+    for row in rows:
+        ids.append(str(row.id))
+        labels.append(str(row.name))
+
+    ids = _unique_keep_order(ids)
+
+    # Update JSON Schema
+    schema_copy = deepcopy(base_schema)
+    for branch in schema_copy.get("allOf", []):
+        then_part = branch.get("then")
+        if not then_part:
+            continue
+
+        props = then_part.get("properties", {})
+        if not any(k in props for k in properties):
+            continue
+
+        # inject the enum of IDs into the JSON‑schema
+        for prop in properties:
+            if prop not in props:
+                continue
+            addr_items = props[prop]["items"]
+            for id in ids:
+                res = {"const": id, "title": labels[ids.index(id)]}
+                addr_items["oneOf"].append(res)
+
+    return schema_copy
