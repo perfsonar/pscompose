@@ -307,8 +307,16 @@ th {
 }
 
 .step-text {
-    @apply text-copy_2_sans;
+    @apply text-copy_2_sans pr-xlg;
 }
+
+.step-text a {
+    @apply underline text-success;
+}
+
+/* .step-text b {
+    @apply bg-shadow px-xsm py-xxsm rounded-full;
+} */
 
 .step-box {
     @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
