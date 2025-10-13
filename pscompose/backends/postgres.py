@@ -2,9 +2,8 @@ from sqlalchemy import func
 from fastapi import HTTPException
 from sqlalchemy.orm import sessionmaker
 from pscompose.models import DataTable, engine
-
-# from pscompose.schemas import DataTableUpdate
-# from pscompose.settings import DataTypes
+from pscompose.schemas import DataTableBase
+from pydantic import ValidationError
 
 
 class PostgresBackend:
@@ -35,7 +34,7 @@ class PostgresBackend:
             return new_type
         except Exception:
             self.session.rollback()
-            raise HTTPException(status_code=422, detail=f"Could not create the {type}")
+            raise HTTPException(status_code=422, detail=f"Could not create the {datatype}")
 
     def update_datatype(self, existing_result, updated_data):
         try:
@@ -43,7 +42,17 @@ class PostgresBackend:
             for field, value in updated_dict.items():
                 setattr(existing_result, field, value)
 
+            try:
+                # Validate the full ORM object
+                DataTableBase.from_orm(existing_result)
+            except ValidationError as ve:
+                # Roll back any DB changes if validation fails
+                self.session.rollback()
+                # Raise a 422 error with detailed Pydantic errors
+                raise HTTPException(status_code=422, detail=ve.errors())
+
             self.session.commit()
+            self.session.refresh(existing_result)
 
             return {
                 "id": existing_result.id,

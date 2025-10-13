@@ -44,15 +44,7 @@ ADDRESS_SCHEMA = {
         "contexts": {
             "type": "array",
             "title": "Contexts",
-            # TODO: Dynamically populate the enum of IDs and labels
-            # "items": {"oneOf": []},
-            "items": {
-                "oneOf": [
-                    {"const": "male", "title": "Male"},
-                    {"const": "female", "title": "Female"},
-                    {"const": "other", "title": "Diverse"},
-                ]
-            },
+            "items": {"oneOf": []},
         },
         "_meta": {
             "type": "string",
@@ -170,7 +162,15 @@ GROUP_SCHEMA = {
                         "title": "B-Addresses",
                         "items": {"oneOf": []},
                     },
-                    "excludes-self": {"type": "boolean", "title": "Excludes Self"},
+                    "excludes-self": {
+                        "type": "string",
+                        "title": "Excludes Self",
+                        "oneOf": [
+                            {"const": "host", "title": "Host"},
+                            {"const": "address", "title": "Address"},
+                            {"const": "disabled", "title": "Disabled"},
+                        ],
+                    },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
                         "type": "string",
@@ -188,7 +188,15 @@ GROUP_SCHEMA = {
                 "properties": {
                     "type": {"const": "mesh"},
                     "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
-                    "excludes-self": {"type": "boolean", "title": "Excludes Self"},
+                    "excludes-self": {
+                        "type": "string",
+                        "title": "Excludes Self",
+                        "oneOf": [
+                            {"const": "host", "title": "Host"},
+                            {"const": "address", "title": "Address"},
+                            {"const": "disabled", "title": "Disabled"},
+                        ],
+                    },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
                         "type": "string",
@@ -240,19 +248,14 @@ GROUP_UI_SCHEMA = {
             },
             "elements": [
                 {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/unidirectional",
-                            "customComponent": "input-checkbox",
-                        },
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/excludes-self",
-                            "customComponent": "input-checkbox",
-                        },
-                    ],
+                    "type": "Control",
+                    "scope": "#/properties/unidirectional",
+                    "customComponent": "input-checkbox",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/excludes-self",
+                    "customComponent": "dropdown-single-select",
                 },
                 {
                     "type": "Control",
@@ -292,7 +295,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes-self",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "dropdown-single-select",
                 },
                 {
                     "type": "Control",

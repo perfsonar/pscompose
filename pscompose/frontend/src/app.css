@@ -415,7 +415,7 @@ th {
 }
 
 .save-cancel {
-    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
+    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-1;
 }
 
 .copy-json {

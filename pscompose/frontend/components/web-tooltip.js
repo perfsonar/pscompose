@@ -44,7 +44,7 @@ class TooltipBubble extends HTMLElement {
 
     render() {
         this.innerHTML = `
-      <div class="tooltip-container">
+      <div class="tooltip-container" style="display: flex; align-items: center;">
         <div class="icon-wrapper"><i class="info-icon" data-lucide="info"></i></div>
         <div class="tooltip-bubble">
           <div class="tooltip">${this.getAttribute("description")}</div>

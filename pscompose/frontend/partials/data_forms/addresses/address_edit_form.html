@@ -125,6 +125,8 @@
                 name: name,
                 last_edited_at: now.toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                // url: "",
+                // ref_set: []
             };
 
             const params = new URLSearchParams(window.location.search);
@@ -139,22 +141,30 @@
                 });
 
                 const result = await response.json();
-                console.log("Success:", result);
                 params.delete("edit");
 
-                // Adding save message to sessionStorage
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Address saved successfully!", "Success"]),
-                );
+                if (!response.ok) {
+                    // Handle server validation errors or other HTTP errors
+                    console.error("Server returned an error:", response);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                } else {
+                    // Adding save message to sessionStorage
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Address saved successfully!", "Success"]),
+                    );
+                }
+
                 window.location = window.location.pathname + "?" + params;
             } catch (error) {
                 console.error("Error:", error);
                 sessionStorage.setItem(
                     "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "rgba(var(--error-color-rgb), 0.5)"]),
+                    JSON.stringify(["Something went wrong.", "Error"]),
                 );
-                // document.getElementById("response-container").innerText = "Something went wrong.";
             }
         });
     });

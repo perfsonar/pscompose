@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from fastapi_versioning import version
 from pscompose.form_schemas import ADDRESS_SCHEMA, ADDRESS_UI_SCHEMA
-from pscompose.utils import generate_router
+from pscompose.utils import generate_router, enrich_schema
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
 from fastapi.responses import JSONResponse
@@ -14,8 +14,18 @@ router = generate_router("address")
 @router.get("/api/address/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    # TODO: Dynamically populate the contexts property
-    payload = {"ui_schema": ADDRESS_UI_SCHEMA, "json_schema": ADDRESS_SCHEMA, "form_data": {}}
+    try:
+        context_rows = backend.get_results(datatype=DataTypes.CONTEXT)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=ADDRESS_SCHEMA,
+        properties=["contexts"],
+        rows=context_rows,
+    )
+
+    payload = {"ui_schema": ADDRESS_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
 
@@ -31,10 +41,21 @@ def get_existing_form(item_id: str):
         response_json["name"] = response.name  # Adding "name" since it's not present in the json
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
-    print("form data:", response_json)
+
+    try:
+        context_rows = backend.get_results(datatype=DataTypes.CONTEXT)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=ADDRESS_SCHEMA,
+        properties=["contexts"],
+        rows=context_rows,
+    )
+
     payload = {
         "ui_schema": ADDRESS_UI_SCHEMA,
-        "json_schema": ADDRESS_SCHEMA,
+        "json_schema": enriched_schema,
         "form_data": response_json,
     }
 
