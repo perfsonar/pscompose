@@ -111,7 +111,7 @@ export class excludesDropdown extends HTMLElement {
         newContainer.innerHTML = `
             <div class="dropdown-container">
                 <dropdown-single-select
-                    label="Local Addresses" 
+                    label="Local Address" 
                     options='${JSON.stringify(this.getAvailableLocalAddresses())}'
                     >
                 </dropdown-single-select>
@@ -146,7 +146,7 @@ export class excludesDropdown extends HTMLElement {
             <div class="excludes-container">
                 <div class="dropdown-container">
                     <dropdown-single-select
-                        label="Local Addresses" 
+                        label="Local Address" 
                         options='${this.getAttribute("options")}'
                         selected=${selectedLocalAddress}
                         >
