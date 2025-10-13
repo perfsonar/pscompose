@@ -1,23 +1,60 @@
 from fastapi import HTTPException
 from fastapi_versioning import version
-from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
-from pscompose.utils import generate_router, enrich_group_schema
-from pscompose.settings import DataTypes
-from pscompose.backends.postgres import backend
 from fastapi.responses import JSONResponse
 
+from pscompose.settings import DataTypes
+from pscompose.backends.postgres import backend
+from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
+from pscompose.utils import generate_router, enrich_schema
+
 # Setup CRUD endpoints
-# - GET /api/group
-# - POST /api/group
-# - PUT /api/group/uuid-slug
-# - DELETE /api/group/uuid-slug
-# - GET /api/group/uuid-slug
-# - GET /api/group/uuid-slug/json
 router = generate_router("group")
 
 
+# Custom sanitize function to transform the data for the backend
+def sanitize_data(data):
+    json_data = data["json"]
+
+    # Cleaning up the data
+    if "schema" in data and "group_type" in data:
+        schema = data["schema"]
+        group_type = data["group_type"]
+
+        # Find the matching schema for the relevant group type
+        type_schema = next(
+            (
+                item
+                for item in schema.get("allOf", [])
+                if item.get("if", {}).get("properties", {}).get("type", {}).get("const")
+                == group_type
+            ),
+            None,
+        )
+
+        if not type_schema:
+            raise ValueError(f"No schema found for type {group_type}")
+
+        # Filter json_data to only include properties that are allowed for this type
+        allowed_keys = type_schema.get("then", {}).get("properties", {}).keys()
+        filtered_json = {k: json_data[k] for k in allowed_keys if k in json_data}
+
+        # Remove these keys from the main data dictionary
+        if "schema" in data:
+            del data["schema"]
+
+        if "group_type" in data:
+            del data["group_type"]
+
+        data["json"] = filtered_json
+
+    print("sanitize_data finally:", data)
+    return data
+
+
+router.sanitize = sanitize_data
+
+
 # Custom endpoints
-# TODO: Do these need trailing slashes?
 @router.get("/api/group/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
@@ -26,7 +63,7 @@ def get_new_form():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_group_schema(
+    enriched_schema = enrich_schema(
         base_schema=GROUP_SCHEMA,
         properties=["addresses", "a-addresses", "b-addresses", "excludes"],
         rows=address_rows,
@@ -49,9 +86,20 @@ def get_existing_form(item_id: str):
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
 
+    try:
+        address_rows = backend.get_results(datatype=DataTypes.ADDRESS)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=GROUP_SCHEMA,
+        properties=["addresses", "a-addresses", "b-addresses", "excludes"],
+        rows=address_rows,
+    )
+
     payload = {
         "ui_schema": GROUP_UI_SCHEMA,
-        "json_schema": GROUP_SCHEMA,
+        "json_schema": enriched_schema,
         "form_data": response_json,
     }
     return JSONResponse(content=payload)

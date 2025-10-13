@@ -57,6 +57,7 @@
                 name: name,
                 created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                // url: ""
             };
 
             console.log("Submitting data:", data);
@@ -89,13 +90,11 @@
                 } else {
                     // Try to parse error message from response
                     let errorMsg = "Something went wrong.";
-                    // alert(errorMsg);
                     console.error("Error:", errorMsg);
                     sessionStorage.setItem(
                         "confirmMessage",
                         JSON.stringify(["Something went wrong.", "Error"]),
                     );
-                    // processLastMessage(); // message-banner.js is not being imported properly
                     window.location = window.location.pathname;
                 }
             } catch (error) {

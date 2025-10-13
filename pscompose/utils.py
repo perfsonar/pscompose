@@ -1,11 +1,12 @@
 from copy import deepcopy
 from typing import Dict, List
+from fastapi import Body
 from fastapi_versioning import version
-from fastapi.responses import Response
 from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, HTTPException
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
+from pydantic import ValidationError
 
 
 def generate_router(datatype: str):
@@ -17,6 +18,11 @@ def generate_router(datatype: str):
     """
 
     router = APIRouter(tags=[f"{datatype}"])
+
+    def sanitize_input(data):
+        return data
+
+    router.sanitize = sanitize_input
 
     # Endpoint for retrieving all records of a given datatype (e.g., GET /template)
     # List endpoint (e.g., GET /api/template)
@@ -31,10 +37,18 @@ def generate_router(datatype: str):
     @router.post(f"/api/{datatype}", summary=f"Create a new {datatype}")
     @version(1)
     def create_item(
-        data: DataTableBase,
+        data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Create item data:", data)
+        sanitized_data = router.sanitize(data)
+
+        # Convert sanitized dict into a proper DataTableBase object
+        try:
+            data = DataTableBase(**sanitized_data)
+        except ValidationError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
+        # TODO: Fix the created_by and last_edited_by
         try:
             response = backend.create_datatype(
                 ref_set=data.ref_set,
@@ -47,9 +61,7 @@ def generate_router(datatype: str):
                 # last_edited_by=user.name,
             )
 
-            # TODO: See comment below?
-            # Do we need to update on each of the child objects when a new type is created?
-
+            # TODO: Do we need to update on each of the child objects when a new type is created?
             return {"message": f"{datatype} created successfully", "id": response.id}
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
@@ -66,11 +78,17 @@ def generate_router(datatype: str):
     @version(1)
     def update_item(
         item_id: str,
-        updated_data: DataTableUpdate,
+        updated_data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        print("Update item ID:", item_id)
-        print("Update item data:", updated_data)
+        sanitized_data = router.sanitize(updated_data)
+
+        # Convert sanitized dict into a proper DataTableUpdate object
+        try:
+            updated_data = DataTableUpdate(**sanitized_data)
+        except ValidationError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
             raise HTTPException(
@@ -81,7 +99,6 @@ def generate_router(datatype: str):
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
-        print("update response:", response)
         return response
 
     # Endpoint for DELETING an existing record
@@ -100,13 +117,7 @@ def generate_router(datatype: str):
             )
 
         response = backend.delete_datatype(existing_item)
-        print("Delete response:", response)
-        # Return success response with redirect
-        # TODO: This isn't working
-        return Response(
-            status_code=200,
-            headers={"HX-Redirect": "http://localhost:5001"},  # Redirect after success
-        )
+        return response
 
     # Endpoint for retrieving a specific item by ID
     @router.get(
@@ -151,11 +162,17 @@ def _unique_keep_order(seq):
 
 
 # Helper function to enrich the group schema with address IDs and labels
-def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) -> (Dict, Dict):
+def enrich_schema(base_schema: Dict, properties: List[str], rows: List) -> Dict:
     """
-    Returns a copy of the group JSON-schema and UI-schema where each
-    property contains
-        - items.oneOf -> dictionary containing unique IDs and label
+    Enrich a JSON schema by injecting 'oneOf' options into given array properties.
+
+    Args:
+        base_schema: JSON schema (can have 'properties' or 'allOf' branches)
+        properties: list of property names to enrich (e.g., ['addresses', 'contexts'])
+        rows: list of ORM-like objects with `id` and `name` attributes
+
+    Returns:
+        Updated copy of the schema.
     """
     ids: List[str] = []
     labels: List[str] = []
@@ -165,25 +182,35 @@ def enrich_group_schema(base_schema: Dict, properties: List[str], rows: List) ->
         labels.append(str(row.name))
 
     ids = _unique_keep_order(ids)
-
-    # Update JSON Schema
     schema_copy = deepcopy(base_schema)
+
+    def inject_items(props: Dict):
+        """Injects oneOf entries for matching properties."""
+        for prop in properties:
+            if prop in props:
+                items = props[prop].get("items")
+                if not items or "oneOf" not in items:
+                    continue
+                # Clear or preserve existing options depending on preference
+                items["oneOf"].clear()
+
+                if not rows:  # handle case with no rows
+                    items["oneOf"].append({"const": "", "title": "No options available"})
+                    continue
+
+                for id_, label in zip(ids, labels):
+                    items["oneOf"].append({"const": id_, "title": label})
+
+    # Handle top-level properties
+    if "properties" in schema_copy:
+        inject_items(schema_copy["properties"])
+
+    # Handle nested allOf → then → properties
     for branch in schema_copy.get("allOf", []):
         then_part = branch.get("then")
         if not then_part:
             continue
-
         props = then_part.get("properties", {})
-        if not any(k in props for k in properties):
-            continue
-
-        # inject the enum of IDs into the JSON‑schema
-        for prop in properties:
-            if prop not in props:
-                continue
-            addr_items = props[prop]["items"]
-            for id in ids:
-                res = {"const": id, "title": labels[ids.index(id)]}
-                addr_items["oneOf"].append(res)
+        inject_items(props)
 
     return schema_copy

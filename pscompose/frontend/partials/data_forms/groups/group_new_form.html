@@ -45,16 +45,22 @@
 
         // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
         const data = {
+            // Additional properties needed in order to sanitize the data
+            schema: JSON.parse(elem.schemaData),
+            group_type: rest.type,
+
+            // Actual data to be sent to backend
             ref_set: [],
             type: "group",
             json: rest,
             name: name,
             created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
             last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+            // url: ""
         };
 
+        console.log("Submitting data:", data);
         try {
-            // TODO: This URL should be updated
             const response = await fetch("http://0.0.0.0:8000/api/group", {
                 method: "POST",
                 headers: {
@@ -66,13 +72,28 @@
             if (response.ok) {
                 const result = await response.json();
                 console.log("Success:", result);
-                document.getElementById("response-container").innerText =
-                    "New group saved successfully!";
+
+                // Adding save message to sessionStorage
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Group saved successfully!", "Success"]),
+                );
+
+                let pathName = window.location.pathname;
+                if (pathName.includes("new")) {
+                    window.location = "/groups/?id=" + result.id;
+                } else {
+                    window.location = pathName + "?id=" + result.id;
+                }
             } else {
                 // Try to parse error message from response
                 let errorMsg = "Something went wrong.";
-                alert(errorMsg);
                 console.error("Error:", errorMsg);
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Something went wrong", "Error"]),
+                );
+                window.location = window.location.pathname;
             }
         } catch (error) {
             console.error("Error:", error);
