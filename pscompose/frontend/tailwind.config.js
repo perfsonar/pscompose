@@ -25,6 +25,14 @@ module.exports = {
       success: tokens.ESNET_COLOR_DARK_SUCCESS,
       shadow: tokens.ESNET_COLOR_DARK_SHADOW,
     },
+    screens: {
+      none: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_NONE,
+      xs: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XSMALL,
+      sm: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_SMALL,
+      md: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_MEDIUM,
+      lg: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_LARGE,
+      xl: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XLARGE,
+    },
     extend: {
       boxShadow: {
         none: tokens.ESNET_BOX_SHADOW_CORE_NONE,
