@@ -135,9 +135,10 @@ export class excludesDropdown extends HTMLElement {
             this.selectedValues.length > 0
                 ? this.selectedValues
                       .map((val) => {
-                          const selectedLocalAddress = isEmpty(val["local-address"])
-                              ? null
-                              : val["local-address"]["name"];
+                          const selectedLocalAddress =
+                              Object.keys(val["local-address"]).length != 0
+                                  ? val["local-address"]["name"]
+                                  : "";
                           const selectedTargetAddresses = val["target-addresses"]
                               ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
                               : "";
