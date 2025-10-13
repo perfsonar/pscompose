@@ -187,14 +187,14 @@ nav {
 }
 
 .submenu .active {
-    @apply bg-success/30 rounded-full;
+    @apply bg-success/30;
 }
 
 .submenu ul svg {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 .submenu .submenu-header {
-    @apply flex flex-row justify-between items-center mb-lg;
+    @apply flex flex-row justify-between items-center mb-lg gap-lg;
 }
 .submenu #submenu-search {
     @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
