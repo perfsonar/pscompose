@@ -283,6 +283,16 @@ input[type="search"]::-webkit-search-cancel-button {
     color: transparent;
 }
 
+.container .dropdown.disabled .select {
+    padding: 0;
+}
+
+.container .dropdown input:disabled {
+    font-family: "Source Code Pro";
+    color: var(--copyAlt-color);
+    height: 24px;
+}
+
 .container .dropdown.disabled web-button {
     display: none;
 }
@@ -365,6 +375,11 @@ dropdown-multi-select .container:has(.dropdown.disabled) .select {
 .container .excludes-container .dropdown-container dropdown-single-select,
 dropdown-multi-select {
     flex: 1;
+}
+
+.container .excludes-container:has(.dropdown.disabled) #excludes-minus-btn,
+#excludes-add-btn {
+    display: none;
 }
 
 .container .excludes-container #excludes-minus-btn {
