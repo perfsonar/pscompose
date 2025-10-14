@@ -97,11 +97,9 @@ export class WebButton extends HTMLElement {
                                 : ""
                         }
                         ${hxAttrs ? `hxAttrs=${hxAttrs}` : ""}
-
                         theme="${this.getAttribute("data-modaltheme")}"
                         message="${this.getAttribute("data-modalconfirm")}"
                         confirm-label = "${this.getAttribute("data-label")}"
-                        ${hxAttrs}
                     ></web-modal>`;
 
                 const responseContainer = document.getElementById("response-container");
