@@ -123,7 +123,7 @@ GROUP_SCHEMA = {
             ],
         },
     },
-    "required": ["name", "type"],
+    "required": ["name", "type", "addresses", "a-addresses", "b-addresses"],
     "allOf": [
         {
             "if": {"properties": {"type": {"const": "list"}}},
@@ -408,12 +408,24 @@ ARCHIVE_SCHEMA = {
             "description": "A string to identify this archive",
             "default": "",
         },
-        # TODO: Make this a dropdown with options fetched from pScheduler
+        # TODO: Fetch these options from pScheduler
         "archiver": {
             "type": "string",
             "title": "Archiver",
             "description": "A string that type of archive",
-            "default": "",
+            "oneOf": [
+                {"const": "bitbucket", "title": "Bitbucket"},
+                {"const": "esmond", "title": "ESmond"},
+                {"const": "failer", "title": "Failer"},
+                {"const": "http", "title": "HTTP"},
+                {"const": "kafka", "title": "Kafka"},
+                {"const": "postgresql", "title": "PostgreSQL"},
+                {"const": "rabbitmq", "title": "RabbitMQ"},
+                {"const": "snmptrap", "title": "SNMP Trap"},
+                {"const": "syslog", "title": "Syslog"},
+                {"const": "tcp", "title": "TCP"},
+                {"const": "udp", "title": "UDP"},
+            ],
         },
         "data": {
             "type": "string",
@@ -462,7 +474,11 @@ ARCHIVE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
         {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
-        {"type": "Control", "scope": "#/properties/archiver", "customComponent": "input-text"},
+        {
+            "type": "Control",
+            "scope": "#/properties/archiver",
+            "customComponent": "dropdown-single-select",
+        },
         {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area"},
         {"type": "Control", "scope": "#/properties/label", "customComponent": "input-text"},
         {
@@ -480,6 +496,322 @@ ARCHIVE_UI_SCHEMA = {
             "type": "Control",
             "scope": "#/properties/transform",
             "customComponent": "input-text-area",
+        },
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+    ],
+}
+
+TEST_SCHEMA = {
+    "title": "Schema for creating a new test",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Test Name",
+            "description": "A string to identify this test",
+            "default": "",
+        },
+        # TODO: Fetch these options from pScheduler
+        "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "Type of test to be performed",
+            "oneOf": [
+                {"const": "clock", "title": "Clock"},
+                {"const": "dhcp", "title": "Dhcp"},
+                {"const": "disk-to-disk", "title": "Disk To Disk"},
+                {"const": "dns", "title": "Dns"},
+                {"const": "dot1x", "title": "Dot1x"},
+                {"const": "http", "title": "Http"},
+                {"const": "idle", "title": "Idle"},
+                {"const": "idlebgm", "title": "Idlebgm"},
+                {"const": "idleex", "title": "Idleex"},
+                {"const": "latency", "title": "Latency"},
+                {"const": "latencybg", "title": "Latencybg"},
+                {"const": "mtu", "title": "Mtu"},
+                {"const": "netreach", "title": "Netreach"},
+                {"const": "noop", "title": "Noop"},
+                {"const": "openports", "title": "Openports"},
+                {"const": "psresponse", "title": "Psresponse"},
+                {"const": "rtt", "title": "Rtt"},
+                {"const": "s3throughput", "title": "S3throughput"},
+                {"const": "simplestream", "title": "Simplestream"},
+                {"const": "snmpget", "title": "Snmpget"},
+                {"const": "snmpgetbgm", "title": "Snmpgetbgm"},
+                {"const": "snmpset", "title": "Snmpset"},
+                {"const": "throughput", "title": "Throughput"},
+                {"const": "trace", "title": "Trace"},
+                {"const": "wifibssid", "title": "Wifibssid"},
+            ],
+        },
+        "spec": {
+            "type": "string",
+            "title": "Spec",
+            "default": "",
+        },
+        "_meta": {
+            "type": "string",
+            "title": "Other Meta",
+            "description": "Fill in information such as display-name and display-set as an object",
+            "default": "",
+        },
+    },
+    "required": [
+        "name",
+        "type",
+        "spec",
+    ],
+    "renderers": {},
+}
+
+TEST_UI_SCHEMA = {
+    "type": "VerticalLayout",
+    "elements": [
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {
+            "type": "Control",
+            "scope": "#/properties/type",
+            "customComponent": "dropdown-single-select",
+        },
+        {"type": "Control", "scope": "#/properties/spec", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+    ],
+}
+
+CONTEXT_SCHEMA = {
+    "title": "Schema for creating a new context",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Context Name",
+            "description": "A string to identify this context",
+            "default": "",
+        },
+        # TODO: Fetch these options from pScheduler
+        "context": {
+            "type": "string",
+            "title": "Context Type",
+            "description": "Type of context",
+            "oneOf": [
+                {"const": "changefail", "title": "Change Fail"},
+                {"const": "changenothing", "title": "Change Nothing"},
+                {"const": "linuxnns", "title": "Linux NNS"},
+                {"const": "linuxvrf", "title": "Linux VRF"},
+            ],
+        },
+        "data": {
+            "type": "string",
+            "title": "Data",
+            "description": "JSON object that specifies archive-specific parameters. Archive objects in pSConfig are taken directly from pScheduler. Eg: _url",
+            "default": "",
+        },
+        "_meta": {
+            "type": "string",
+            "title": "Other Meta",
+            "description": "Fill in information such as display-name and display-set as an object",
+            "default": "",
+        },
+    },
+    "required": [
+        "name",
+        "context",
+        "data",
+    ],
+    "renderers": {},
+}
+
+CONTEXT_UI_SCHEMA = {
+    "type": "VerticalLayout",
+    "elements": [
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {
+            "type": "Control",
+            "scope": "#/properties/context",
+            "customComponent": "dropdown-single-select",
+        },
+        {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+    ],
+}
+
+# TODO: Check if we need scheduled-by property, subtasks property
+TASK_SCHEMA = {
+    "title": "Schema for creating a new task",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Task Name",
+            "description": "A string to identify this task",
+            "default": "",
+        },
+        # "scheduled-by": {
+        #     "title": "Scheduled By",
+        #     "allOf": [
+        #         {
+        #             "type": "integer",
+        #             "minimum": 0
+        #         }
+        #     ]
+        # },
+        "group": {
+            "type": "string",
+            "title": "Group",
+            "oneOf": [],
+        },
+        "test": {
+            "type": "string",
+            "title": "Test",
+            "oneOf": [],
+        },
+        "schedule": {
+            "type": "string",
+            "title": "Schedule",
+            "oneOf": [],
+        },
+        "disabled": {
+            "type": "boolean",
+            "title": "Disabled",
+            "description": "Check this box if this task is disabled. Set to False by default",
+            "default": False,
+        },
+        "archives": {
+            "type": "array",
+            "title": "Archives",
+            "items": {"oneOf": []},
+        },
+        "tools": {
+            "type": "array",
+            "title": "Tools",
+            "items": {"oneOf": []},
+        },
+        # "subtasks": {
+        #     "type": "array",
+        #     "title": "Subtasks",
+        #     "items": {"oneOf": []},
+        # },
+        "priority": {
+            "type": "integer",
+            "title": "Priority",
+        },
+        "reference": {
+            "type": "string",
+            "title": "Reference",
+            "default": "",
+        },
+        "_meta": {
+            "type": "string",
+            "title": "Other Meta",
+            "description": "Fill in information such as display-name and display-set as an object",
+            "default": "",
+        },
+    },
+    "required": ["name", "group", "test"],
+    "renderers": {},
+}
+
+TASK_UI_SCHEMA = {
+    "type": "VerticalLayout",
+    "elements": [
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/disabled",
+                    "customComponent": "input-checkbox",
+                },
+            ],
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/group",
+                    "customComponent": "dropdown-single-select",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/test",
+                    "customComponent": "dropdown-single-select",
+                },
+            ],
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/archives",
+                    "customComponent": "dropdown-multi-select-list",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/schedule",
+                    "customComponent": "dropdown-single-select",
+                },
+            ],
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/tools",
+                    "customComponent": "dropdown-multi-select-list",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/priority",
+                    "customComponent": "input-number",
+                },
+            ],
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/reference",
+            "customComponent": "input-text-area",
+        },
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+    ],
+}
+
+TEMPLATE_SCHEMA = {
+    "title": "Schema for creating a new template",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Template Name",
+            "description": "A string to identify this template",
+            "default": "",
+        },
+        "tasks": {
+            "type": "array",
+            "title": "Tasks",
+            "items": {"oneOf": []},
+        },
+        "_meta": {
+            "type": "string",
+            "title": "Other Meta",
+            "default": "",
+        },
+    },
+    "required": ["name", "tasks"],
+    "renderers": {},
+}
+
+TEMPLATE_UI_SCHEMA = {
+    "type": "VerticalLayout",
+    "elements": [
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {
+            "type": "Control",
+            "scope": "#/properties/tasks",
+            "customComponent": "dropdown-multi-select-list",
         },
         {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
