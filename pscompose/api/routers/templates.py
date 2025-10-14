@@ -20,11 +20,7 @@ def get_new_form():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch data: {str(e)}")
 
-    enriched_schema = enrich_schema(
-        base_schema=TEMPLATE_SCHEMA,
-        properties=["tasks"],
-        rows=tasks,
-    )
+    enriched_schema = enrich_schema(base_schema=TEMPLATE_SCHEMA, updates={"tasks": tasks})
 
     payload = {"ui_schema": TEMPLATE_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)

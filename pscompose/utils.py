@@ -163,71 +163,65 @@ def _unique_keep_order(seq):
     return out
 
 
-# Helper function to enrich the group schema with address IDs and labels
-def enrich_schema(base_schema: Dict, properties: List[str], rows: List) -> Dict:
+def enrich_schema(base_schema: Dict, updates: Dict[str, List]) -> Dict:
     """
-    Enrich a JSON schema by injecting 'oneOf' options into given array properties.
-
-    Handles both:
-      - string properties with direct `oneOf`
-      - array properties with `items.oneOf`
+    Enrich a JSON schema by injecting 'oneOf' options for multiple properties at once.
 
     Args:
-        base_schema: JSON schema (can have 'properties' or 'allOf' branches)
-        properties: list of property names to enrich (e.g., ['addresses', 'contexts'])
-        rows: list of ORM-like objects with `id` and `name` attributes
+        base_schema: JSON schema to enrich.
+        updates: Mapping of property name -> rows list
+                 (e.g., {"group": groups, "addresses": address_rows})
 
     Returns:
         Updated copy of the schema.
     """
-    ids: List[str] = []
-    labels: List[str] = []
-
-    for row in rows:
-        ids.append(str(row.id))
-        labels.append(str(row.name))
-
-    ids = _unique_keep_order(ids)
     schema_copy = deepcopy(base_schema)
 
-    def inject_items(props: Dict):
-        """Injects oneOf entries for matching properties."""
-        for prop in properties:
-            if prop in props:
-                prop_def = props[prop]
+    def inject_items(props: Dict, prop_name: str, rows: List):
+        """Inject oneOf entries for a single property."""
+        if prop_name not in props:
+            return
 
-                # Determine where the 'oneOf' list lives
-                if prop_def.get("type") == "array":
-                    items = prop_def.get("items")
-                    if not items or "oneOf" not in items:
-                        continue
-                    oneof_target = items["oneOf"]
-                else:
-                    # single-select (direct oneOf)
-                    if "oneOf" not in prop_def:
-                        prop_def["oneOf"] = []
-                    oneof_target = prop_def["oneOf"]
+        prop_def = props[prop_name]
 
-                # Clear or preserve existing options depending on preference
-                oneof_target.clear()
+        # Determine where the 'oneOf' list lives
+        if prop_def.get("type") == "array":
+            items = prop_def.get("items")
+            if not items or "oneOf" not in items:
+                return
+            oneof_target = items["oneOf"]
+        else:
+            if "oneOf" not in prop_def:
+                prop_def["oneOf"] = []
+            oneof_target = prop_def["oneOf"]
 
-                if not rows:  # handle case with no rows
-                    oneof_target.append({"const": "", "title": "No options available"})
-                    continue
+        # Clear existing options
+        oneof_target.clear()
 
-                for id_, label in zip(ids, labels):
-                    oneof_target.append({"const": id_, "title": label})
+        # Handle empty rows
+        if not rows:
+            oneof_target.append({"const": "", "title": "No options available"})
+            return
 
-    # Handle top-level properties
+        # Prepare unique IDs and labels
+        ids = _unique_keep_order([str(row.id) for row in rows])
+        labels = [str(row.name) for row in rows if str(row.id) in ids]
+
+        for id_, label in zip(ids, labels):
+            oneof_target.append({"const": id_, "title": label})
+
+    # Update top-level properties
     if "properties" in schema_copy:
-        inject_items(schema_copy["properties"])
+        for prop_name, rows in updates.items():
+            inject_items(schema_copy["properties"], prop_name, rows)
 
-    # Handle nested allOf → then → properties
+    # Update nested allOf → then → properties
     for branch in schema_copy.get("allOf", []):
         then_part = branch.get("then")
         if not then_part:
             continue
         props = then_part.get("properties", {})
-        inject_items(props)
+        for prop_name, rows in updates.items():
+            inject_items(props, prop_name, rows)
 
     return schema_copy

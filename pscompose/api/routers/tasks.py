@@ -26,32 +26,13 @@ def get_new_form():
 
     enriched_schema = enrich_schema(
         base_schema=TASK_SCHEMA,
-        properties=["group"],
-        rows=groups,
-    )
-
-    enriched_schema = enrich_schema(
-        base_schema=enriched_schema,
-        properties=["test"],
-        rows=tests,
-    )
-
-    enriched_schema = enrich_schema(
-        base_schema=enriched_schema,
-        properties=["schedule"],
-        rows=schedules,
-    )
-
-    enriched_schema = enrich_schema(
-        base_schema=enriched_schema,
-        properties=["archives"],
-        rows=archives,
-    )
-
-    enriched_schema = enrich_schema(
-        base_schema=enriched_schema,
-        properties=["tools"],
-        rows=tools,
+        updates={
+            "group": groups,
+            "test": tests,
+            "schedule": schedules,
+            "archives": archives,
+            "tools": tools,
+        },
     )
 
     print("enriched_schema:", enriched_schema)

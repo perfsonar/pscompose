@@ -19,11 +19,7 @@ def get_new_form():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_schema(
-        base_schema=ADDRESS_SCHEMA,
-        properties=["contexts"],
-        rows=context_rows,
-    )
+    enriched_schema = enrich_schema(base_schema=ADDRESS_SCHEMA, updates={"contexts": context_rows})
 
     payload = {"ui_schema": ADDRESS_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
@@ -47,11 +43,7 @@ def get_existing_form(item_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_schema(
-        base_schema=ADDRESS_SCHEMA,
-        properties=["contexts"],
-        rows=context_rows,
-    )
+    enriched_schema = enrich_schema(base_schema=ADDRESS_SCHEMA, updates={"contexts": context_rows})
 
     payload = {
         "ui_schema": ADDRESS_UI_SCHEMA,
