@@ -122,6 +122,10 @@
 
             // TODO: How would ref_set be updated?
             const updated_data = {
+                // Additional properties needed in order to sanitize the data
+                schema: JSON.parse(elem.schemaData),
+                group_type: rest.type,
+
                 json: rest,
                 name: name,
                 last_edited_at: now.toISOString(),
