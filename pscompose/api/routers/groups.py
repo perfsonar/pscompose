@@ -65,8 +65,12 @@ def get_new_form():
 
     enriched_schema = enrich_schema(
         base_schema=GROUP_SCHEMA,
-        properties=["addresses", "a-addresses", "b-addresses", "excludes"],
-        rows=address_rows,
+        updates={
+            "addresses": address_rows,
+            "a-addresses": address_rows,
+            "b-addresses": address_rows,
+            "excludes": address_rows,
+        },
     )
 
     payload = {"ui_schema": GROUP_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
@@ -93,8 +97,12 @@ def get_existing_form(item_id: str):
 
     enriched_schema = enrich_schema(
         base_schema=GROUP_SCHEMA,
-        properties=["addresses", "a-addresses", "b-addresses", "excludes"],
-        rows=address_rows,
+        updates={
+            "addresses": address_rows,
+            "a-addresses": address_rows,
+            "b-addresses": address_rows,
+            "excludes": address_rows,
+        },
     )
 
     payload = {
