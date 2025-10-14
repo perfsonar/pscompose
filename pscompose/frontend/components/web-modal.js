@@ -53,7 +53,7 @@ export class WebModal extends HTMLElement {
                 <div class="modal-underlay"></div>
 
                 <div class="modal-content" style="border-color:${accentColor}" >
-                    <i  style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide=  "alert-triangle">
+                    <i style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide="alert-triangle">
                     </i>
                     <h4 id="confirm-question">${this.getAttribute("message")}</h4>
                     <div class="save-cancel">
