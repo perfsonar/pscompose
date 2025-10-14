@@ -103,8 +103,12 @@ export class SingleSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
-            </div>
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
+           </div>
         `;
         this.attachToggleDropdown();
         this.attachSearchHandler();

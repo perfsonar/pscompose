@@ -34,7 +34,11 @@ class TextInputCheckbox extends HTMLElement {
                         }
                     </label>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
 
             <div class="checkbox-container-disabled">

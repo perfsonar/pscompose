@@ -111,7 +111,8 @@ export class MultiSelectDropdown extends HTMLElement {
 
         const tagsHTML = this.selectedValues
             .map((val) => {
-                const label = options.find((opt) => opt.const === val)?.title || val;
+                const label =
+                    options.find((opt) => opt.const === val)?.title || "Options Not Found";
                 return `
                     <span class="tag">
                         ${label}
@@ -121,6 +122,8 @@ export class MultiSelectDropdown extends HTMLElement {
                     </span>`;
             })
             .join("");
+
+        console.log(this.getAttribute("label"), "tagsHTML", tagsHTML);
 
         this.innerHTML = `
             <div class="container">
@@ -158,7 +161,11 @@ export class MultiSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;

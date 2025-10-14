@@ -56,7 +56,11 @@ export class TextInputNum extends HTMLElement {
                         <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
                     </div>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
 

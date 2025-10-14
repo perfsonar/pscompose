@@ -30,7 +30,11 @@ export class TextInputArea extends HTMLElement {
                 <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
                     this.getAttribute("value") || ""
                 }</textarea>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
         this.querySelector("textarea").addEventListener("change", () => {

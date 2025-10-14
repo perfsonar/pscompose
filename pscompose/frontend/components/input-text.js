@@ -32,7 +32,11 @@ export class TextInput extends HTMLElement {
                         this.getAttribute("value") || ""
                     }" />
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
         this.querySelector("input").addEventListener("change", () => {
