@@ -363,6 +363,25 @@ dropdown-multi-select .container:has(.dropdown.disabled) .select {
     gap: 0.5rem;
     align-items: start;
     margin-bottom: 0.5rem;
+
+    opacity: 0;
+    transform: translateY(-20px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.container .excludes-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.container .excludes-container.removing {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .dropdown-container {
