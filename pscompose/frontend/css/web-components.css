@@ -16,12 +16,12 @@
 .container ::placeholder {
     color: var(--copyAlt-color);
 }
-.container required {
+.container .required {
     color: var(--copyAlt-color);
     text-align: right;
     font-size: 12px;
 }
-.container:has(:disabled) required {
+.container:has(:disabled) .required {
     display: none;
 }
 
