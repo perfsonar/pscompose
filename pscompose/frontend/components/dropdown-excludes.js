@@ -36,6 +36,7 @@ export class excludesDropdown extends HTMLElement {
     attachMinusListeners() {
         this.querySelectorAll("#excludes-minus-btn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
+                e.target.closest(".excludes-container").classList.add("removing");
                 e.target.closest(".excludes-container").remove();
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
@@ -125,6 +126,9 @@ export class excludesDropdown extends HTMLElement {
         `;
         this.querySelector(".container").appendChild(newContainer);
 
+        newContainer.offsetHeight;
+        newContainer.classList.add("show");
+
         // Attach listeners
         this.attachMinusListeners();
         this.attachDropdownListeners();
@@ -143,7 +147,7 @@ export class excludesDropdown extends HTMLElement {
                               ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
                               : "";
                           return `
-            <div class="excludes-container">
+            <div class="excludes-container show">
                 <div class="dropdown-container">
                     <dropdown-single-select
                         label="Local Address" 
