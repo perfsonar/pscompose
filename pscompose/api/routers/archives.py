@@ -12,6 +12,8 @@ router = generate_router("archive")
 
 
 # Custom endpoints
+# TODO: This will need a parameter to specify which type of archive it is
+# and then enrich the form based on that?
 @router.get("/api/archive/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
