@@ -19,15 +19,15 @@ export class TextInputNum extends HTMLElement {
     onPlusClick() {
         const input = document.querySelector('input[type="number"]');
         input.stepUp();
-        this.setAttribute("value", input.value);
-        this.dispatchEvent(new Event("change", { bubbles: true }));
+        input.setAttribute("value", input.value);
+        input.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     onMinusClick() {
         const input = document.querySelector('input[type="number"]');
         input.stepDown();
-        this.setAttribute("value", input.value);
-        this.dispatchEvent(new Event("change", { bubbles: true }));
+        input.setAttribute("value", input.value);
+        input.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     render() {
@@ -66,9 +66,6 @@ export class TextInputNum extends HTMLElement {
 
         this.querySelector("#plus-btn").addEventListener("click", this.onPlusClick);
         this.querySelector("#minus-btn").addEventListener("click", this.onMinusClick);
-        this.querySelector("input").addEventListener("change", () => {
-            this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
     }
 }
 
