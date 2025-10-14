@@ -40,8 +40,9 @@ def generate_router(datatype: str):
         data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        print("CREATE Unsanitized data:", data)
         sanitized_data = router.sanitize(data)
-
+        print("CREATE Sanitized data:", sanitized_data)
         # Convert sanitized dict into a proper DataTableBase object
         try:
             data = DataTableBase(**sanitized_data)
@@ -117,6 +118,7 @@ def generate_router(datatype: str):
             )
 
         response = backend.delete_datatype(existing_item)
+        print("response from delete:", response)
         return response
 
     # Endpoint for retrieving a specific item by ID
@@ -166,6 +168,10 @@ def enrich_schema(base_schema: Dict, properties: List[str], rows: List) -> Dict:
     """
     Enrich a JSON schema by injecting 'oneOf' options into given array properties.
 
+    Handles both:
+      - string properties with direct `oneOf`
+      - array properties with `items.oneOf`
+
     Args:
         base_schema: JSON schema (can have 'properties' or 'allOf' branches)
         properties: list of property names to enrich (e.g., ['addresses', 'contexts'])
@@ -188,18 +194,29 @@ def enrich_schema(base_schema: Dict, properties: List[str], rows: List) -> Dict:
         """Injects oneOf entries for matching properties."""
         for prop in properties:
             if prop in props:
-                items = props[prop].get("items")
-                if not items or "oneOf" not in items:
-                    continue
+                prop_def = props[prop]
+
+                # Determine where the 'oneOf' list lives
+                if prop_def.get("type") == "array":
+                    items = prop_def.get("items")
+                    if not items or "oneOf" not in items:
+                        continue
+                    oneof_target = items["oneOf"]
+                else:
+                    # single-select (direct oneOf)
+                    if "oneOf" not in prop_def:
+                        prop_def["oneOf"] = []
+                    oneof_target = prop_def["oneOf"]
+
                 # Clear or preserve existing options depending on preference
-                items["oneOf"].clear()
+                oneof_target.clear()
 
                 if not rows:  # handle case with no rows
-                    items["oneOf"].append({"const": "", "title": "No options available"})
+                    oneof_target.append({"const": "", "title": "No options available"})
                     continue
 
                 for id_, label in zip(ids, labels):
-                    items["oneOf"].append({"const": id_, "title": label})
+                    oneof_target.append({"const": id_, "title": label})
 
     # Handle top-level properties
     if "properties" in schema_copy:
