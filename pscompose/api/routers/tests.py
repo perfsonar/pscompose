@@ -1,6 +1,7 @@
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 from pscompose.utils import generate_router
+from pscompose.form_schemas import TEST_SCHEMA, TEST_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("test")
@@ -29,7 +30,14 @@ router = generate_router("test")
 #     return results
 
 
-@router.get("/test/idle/new/form", summary="Return the IDLE form")
+@router.get("/api/test/new/form", summary="Return the form to be rendered")
+@version(1)
+def get_form():
+    payload = {"ui_schema": TEST_UI_SCHEMA, "json_schema": TEST_SCHEMA, "form_data": {}}
+    return JSONResponse(content=payload)
+
+
+@router.get("/api/test/idle/new/form", summary="Return the IDLE form")
 @version(1)
 def validate_form(testType: str):
     json_schema = {
