@@ -3,9 +3,9 @@ from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 
 from pscompose.settings import DataTypes
-from pscompose.utils import generate_router
+from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
+from pscompose.form_schemas import TEMPLATE_SCHEMA, TEMPLATE_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("template")
@@ -15,7 +15,18 @@ router = generate_router("template")
 @router.get("/api/template/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    payload = {"ui_schema": GROUP_UI_SCHEMA, "json_schema": GROUP_SCHEMA, "form_data": {}}
+    try:
+        tasks = backend.get_results(datatype=DataTypes.TASK)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch data: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=TEMPLATE_SCHEMA,
+        properties=["tasks"],
+        rows=tasks,
+    )
+
+    payload = {"ui_schema": TEMPLATE_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
 
@@ -33,8 +44,8 @@ def get_existing_form(item_id: str):
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
 
     payload = {
-        "ui_schema": GROUP_UI_SCHEMA,
-        "json_schema": GROUP_SCHEMA,
+        "ui_schema": TEMPLATE_UI_SCHEMA,
+        "json_schema": TEMPLATE_SCHEMA,
         "form_data": response_json,
     }
     return JSONResponse(content=payload)
