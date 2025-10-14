@@ -49,9 +49,6 @@
             const form_data = JSON.parse(elem.serializeForm());
             const { name, ...rest } = form_data; // Need to remove name from the form
 
-            console.log("Form Data:", rest, rest["max-runs"], Number(rest["max-runs"]));
-            rest["max-runs"] = Number(rest["max-runs"]);
-
             // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
             const data = {
                 ref_set: [],
