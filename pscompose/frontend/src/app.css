@@ -194,7 +194,7 @@ nav {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 .submenu .submenu-header {
-    @apply flex flex-row justify-between items-center mb-lg gap-lg;
+    @apply flex flex-row justify-between items-center mb-xsm gap-lg;
 }
 
 .submenu #submenu-search {
