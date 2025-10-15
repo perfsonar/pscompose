@@ -1,5 +1,5 @@
 export class SingleSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected"];
+    static observedAttributes = ["label", "options", "value"];
 
     constructor() {
         super();
@@ -35,17 +35,17 @@ export class SingleSelectDropdown extends HTMLElement {
         const deselectBtn = this.querySelector("#deselect-btn");
         if (deselectBtn) {
             deselectBtn.addEventListener("click", () => {
-                this.removeAttribute("selected");
+                this.removeAttribute("value");
                 this.render();
-                this.dispatchEvent(new Event("select", { bubbles: true }));
+                this.dispatchEvent(new Event("change", { bubbles: true }));
             });
         }
     }
 
     selectOption(value, title) {
-        this.setAttribute("selected", value);
+        this.setAttribute("value", value);
         this.render();
-        this.dispatchEvent(new Event("select", { bubbles: true }));
+        this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     attachSearchHandler() {
@@ -66,7 +66,7 @@ export class SingleSelectDropdown extends HTMLElement {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
             : [];
-        const selectedValue = this.getAttribute("selected") || "";
+        const selectedValue = this.getAttribute("value") || "";
         const selectedOption = options ? options.find((opt) => opt.const === selectedValue) : null;
 
         this.innerHTML = `
