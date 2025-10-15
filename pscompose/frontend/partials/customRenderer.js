@@ -18,8 +18,8 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName != "INPUT") {
-            handleChange(path, event.target.querySelector("input").value);
+        if (event.target.tagName == "INPUT-TEXT") {
+            handleChange(path, event.target.getAttribute("value"));
         }
     };
     if (schema?.schema?.description) {
@@ -80,8 +80,8 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName != "TEXTAREA") {
-            handleChange(path, event.target.querySelector("textarea").value);
+        if (event.target.tagName == "INPUT-TEXT-AREA") {
+            handleChange(path, event.target.getAttribute("value"));
         }
     };
     if (schema?.schema?.description) {

@@ -39,7 +39,10 @@ export class TextInput extends HTMLElement {
                 }
             </div>
         `;
-        this.querySelector("input").addEventListener("change", () => {
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", input.value);
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
