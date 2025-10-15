@@ -123,8 +123,6 @@ export class MultiSelectDropdown extends HTMLElement {
             })
             .join("");
 
-        console.log(this.getAttribute("label"), "tagsHTML", tagsHTML);
-
         this.innerHTML = `
             <div class="container">
                 <label>
