@@ -1,16 +1,11 @@
-<div class="datatype new-form">
+<div class="datatype new-form" hx-ext="dynamic-url">
     <div class="page">
         <div class="header">
             <h2 id="data-name">New Address</h2>
         </div>
         <div class="content">
             <form id="my-form">
-                <fieldset
-                    id="content"
-                    hx-get="http://0.0.0.0:8000/api/address/new/form"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                >
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
 
@@ -41,6 +36,11 @@
 </div>
 
 <script>
+    // Setting the hx-get attribute dynamically
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${window.API_BASE_URL}/address/new/form`);
+
     document.getElementById("my-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -60,9 +60,8 @@
                 // url: ""
             };
 
-            console.log("Submitting data:", data);
             try {
-                const response = await fetch("http://0.0.0.0:8000/api/address", {
+                const response = await fetch(`${window.API_BASE_URL}/api/address`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

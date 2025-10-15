@@ -53,6 +53,9 @@
             document.addEventListener("htmx:afterRequest", function (evt) {
                 lucide.createIcons();
             });
+
+            window.API_BASE_URL = "http://0.0.0.0:8000/api";
+
             // probably we'll need something like this too:
             /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
                 outboundReq.headers.push(["my auth header"])
