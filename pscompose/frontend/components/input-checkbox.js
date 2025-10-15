@@ -1,5 +1,5 @@
 class TextInputCheckbox extends HTMLElement {
-    static observedAttributes = ["label", "checked"];
+    static observedAttributes = ["label", "value"];
 
     constructor() {
         super();
@@ -21,7 +21,7 @@ class TextInputCheckbox extends HTMLElement {
             <div class="container">
                 <div class="input-checkbox-wrapper">
                     <input type="checkbox" ${
-                        this.getAttribute("checked") === "true" ? "checked" : ""
+                        this.getAttribute("value") === "true" ? "checked" : ""
                     } />
                     <label>
                         ${this.getAttribute("label")}
@@ -43,12 +43,14 @@ class TextInputCheckbox extends HTMLElement {
 
             <div class="checkbox-container-disabled">
                 <label>${this.getAttribute("label")}</label>        
-                <p> ${this.getAttribute("checked")}</p>
+                <p> ${this.getAttribute("value")}</p>
             </div>
         `;
 
-        this.querySelector('input[type="checkbox"]').addEventListener("change", (event) => {
-            this.setAttribute("checked", event.target.checked ? "true" : "false");
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", event.target.checked ? "true" : "false");
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
