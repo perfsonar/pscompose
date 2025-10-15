@@ -6,12 +6,7 @@
         </div>
         <div class="content">
             <form id="my-form" method="GET">
-                <fieldset
-                    id="content"
-                    hx-get="http://0.0.0.0:8000/api/schedule/{id}/form"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                >
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
 
@@ -69,6 +64,11 @@
 </div>
 
 <script>
+    // Setting the hx-get attribute dynamically
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${window.API_BASE_URL}/schedule/{id}/form`);
+
     // TOGGLED SUBMENU
     if (psCompose.activeRoute.page_url == window.location.pathname) {
         showSubmenu();
@@ -131,7 +131,7 @@
             const params = new URLSearchParams(window.location.search);
             const id = params.get("id");
             try {
-                const response = await fetch(`http://0.0.0.0:8000/api/schedule/${id}`, {
+                const response = await fetch(`${window.API_BASE_URL}/api/schedule/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -174,7 +174,7 @@
             const id = params.get("id");
             try {
                 // Adding delete message to sessionStorage
-                const response = await fetch(`http://0.0.0.0:8000/api/schedule/${id}`, {
+                const response = await fetch(`${window.API_BASE_URL}/api/schedule/${id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",

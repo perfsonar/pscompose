@@ -5,12 +5,7 @@
         </div>
         <div class="content">
             <form id="my-form">
-                <fieldset
-                    id="content"
-                    hx-get="http://0.0.0.0:8000/api/group/new/form"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                >
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
 
@@ -36,6 +31,11 @@
 </div>
 
 <script>
+    // Setting the hx-get attribute dynamically
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${window.API_BASE_URL}/group/new/form`);
+
     document.getElementById("my-form").addEventListener("submit", async function (event) {
         event.preventDefault(); // stop default form submission
 
@@ -61,7 +61,7 @@
 
         console.log("Submitting data:", data);
         try {
-            const response = await fetch("http://0.0.0.0:8000/api/group", {
+            const response = await fetch(`${window.API_BASE_URL}/api/group`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
