@@ -131,7 +131,7 @@
             const params = new URLSearchParams(window.location.search);
             const id = params.get("id");
             try {
-                const response = await fetch(`${window.API_BASE_URL}/api/schedule/${id}`, {
+                const response = await fetch(`${window.API_BASE_URL}/schedule/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -174,7 +174,7 @@
             const id = params.get("id");
             try {
                 // Adding delete message to sessionStorage
-                const response = await fetch(`${window.API_BASE_URL}/api/schedule/${id}`, {
+                const response = await fetch(`${window.API_BASE_URL}/schedule/${id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
