@@ -1,4 +1,4 @@
-<nav class="backdrop" hx-ext="client-side-templates">
+<div class="menu">
     <div class="left-nav">
         <ul>
             <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
@@ -70,7 +70,7 @@
             </ul>
         </div>
     </script>
-</nav>
+</div>
 
 <script>
     function filterSubmenuItems(searchValue) {
@@ -106,16 +106,42 @@
     }
 
     function hideSubmenu() {
+        let container = document.querySelector(".submenu-container");
+        psCompose.toggledMenuItem = null;
+        container.classList.remove("open");
+        container.classList.add("close");
+
+        container.addEventListener("transitionend", function onTransitionEnd() {
+            // Waiting for close animation to execute before hidding container
+            container.classList.add("hidden");
+            container.classList.remove("close");
+            container.removeEventListener("transitionend", onTransitionEnd);
+        });
+    }
+
+    function switchSubmenu() {
         return new Promise((transitioned) => {
             let container = document.querySelector(".submenu-container");
-            psCompose.toggledMenuItem = null;
+            psCompose.toggledMenuItem = psCompose.activeMenuItem;
             container.classList.remove("open");
             container.classList.add("close");
 
-            container.addEventListener("transitionend", function onTransitionEnd() {
-                container.classList.add("hidden");
+            // Update container content
+            container.innerHTML = `
+            <div
+                hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+                hx-trigger='load'
+                hx-target='.submenu-container'
+                nunjucks-array-template="submenu-template"
+                hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+            </div>`;
+            htmx.process(container);
+
+            // Wait on close transition before opening submenu
+            container.addEventListener("transitionend", function switched() {
                 container.classList.remove("close");
-                container.removeEventListener("transitionend", onTransitionEnd);
+                container.removeEventListener("transitionend", switched);
+                container.classList.add("open");
                 transitioned();
             });
         });
@@ -159,27 +185,25 @@
                 } else if (psCompose.activeRoute?.page_url?.split("/")[1]) {
                     psCompose.activeMenuItem = psCompose.activeRoute.page_url.split("/")[1];
                 }
-
                 hideSubmenu();
-                updateShortCutsVisibility();
-                renderHighlight();
             } else {
-                // If other elem active & trying to toggle other elem, wait to close submenu and then proceed
-                if (psCompose.toggledMenuItem) {
-                    await hideSubmenu();
-                    updateShortCutsVisibility();
-                    renderHighlight();
-                }
-                // Remove active from all, set new active, and show submenu
                 document
                     .querySelectorAll(`.left-nav .parent-item`)
                     .forEach((e) => e.classList.remove("active"));
                 elem.classList.add("active");
                 psCompose.activeMenuItem = clickedMenu;
-                updateShortCutsVisibility();
-                showSubmenu();
-                renderHighlight();
+                if (psCompose.toggledMenuItem != null) {
+                    // Locking menu width to prevent blip while switching between submenus
+                    const menu = document.querySelector(".menu");
+                    menu.style.width = menu.getBoundingClientRect().width + "px";
+                    await switchSubmenu();
+                    menu.style.width = "";
+                } else {
+                    showSubmenu();
+                }
             }
+            updateShortCutsVisibility();
+            renderHighlight();
         });
     });
 </script>
