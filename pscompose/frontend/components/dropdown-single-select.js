@@ -31,6 +31,17 @@ export class SingleSelectDropdown extends HTMLElement {
         });
     }
 
+    attachDeselectHandler() {
+        const deselectBtn = this.querySelector("#deselect-btn");
+        if (deselectBtn) {
+            deselectBtn.addEventListener("click", () => {
+                this.removeAttribute("selected");
+                this.render();
+                this.dispatchEvent(new Event("select", { bubbles: true }));
+            });
+        }
+    }
+
     selectOption(value, title) {
         this.setAttribute("selected", value);
         this.render();
@@ -88,15 +99,22 @@ export class SingleSelectDropdown extends HTMLElement {
                                 ? options
                                       .map(
                                           (option) => `
-                            <li ${
-                                option.const == selectedValue
-                                    ? 'class="option active"'
-                                    : 'class="option"'
-                            }
-                            data-value="${option.const}">
-                            ${option.title}
-                            </li>
-                        `,
+                            <li>
+                                <div ${
+                                    option.const == selectedValue
+                                        ? 'class="option active"'
+                                        : 'class="option"'
+                                }
+                                data-value="${option.const}"
+                                >
+                                ${option.title}
+                                </div>
+                                ${
+                                    option.const == selectedValue
+                                        ? '<web-button id="deselect-btn" type="button" data-righticon="x" data-theme="Icon-Small" />'
+                                        : ""
+                                }
+                            </li>`,
                                       )
                                       .join("")
                                 : ""
@@ -112,6 +130,7 @@ export class SingleSelectDropdown extends HTMLElement {
         `;
         this.attachToggleDropdown();
         this.attachSearchHandler();
+        this.attachDeselectHandler();
     }
 }
 

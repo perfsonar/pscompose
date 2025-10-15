@@ -266,13 +266,20 @@ input[type="search"]::-webkit-search-cancel-button {
     scrollbar-color: var(--copyAlt-color) var(--copy-color);
 }
 
-.container .dropdown .option {
+.container .dropdown li {
     display: flex;
+    flex-direction: row;
     padding: 4px;
 }
 
-.container .dropdown .option.active {
+.container .dropdown li:has(.option.active) {
     background-color: rgba(var(--success-color-rgb), 0.5);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container .dropdown .option {
+    flex: 1;
 }
 
 .container .dropdown.disabled {
@@ -532,6 +539,23 @@ web-button[data-theme="Icon-Success"] button {
 
 web-button[data-theme="Icon-Success"] button:hover {
     background-color: var(--surface1-color);
+}
+
+web-button[data-theme="Icon-Small"] button {
+    background-color: transparent;
+    color: var(--copy-color);
+    border: none;
+    padding: 0.3rem;
+}
+
+web-button[data-theme="Icon-Small"] button:hover {
+    background-color: rgba(var(--surface1-color-rgb), 0.5);
+    padding: 0.3rem;
+}
+
+web-button[data-theme="Icon-Small"] button svg {
+    width: 16px;
+    height: 16px;
 }
 
 web-button[data-theme="Small"] button {
