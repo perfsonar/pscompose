@@ -111,8 +111,7 @@ export class MultiSelectDropdown extends HTMLElement {
 
         const tagsHTML = this.selectedValues
             .map((val) => {
-                const label =
-                    options.find((opt) => opt.const === val)?.title || "Options Not Found";
+                const label = options.find((opt) => opt.const === val)?.title || "Option Not Found";
                 return `
                     <span class="tag">
                         ${label}

@@ -10,6 +10,22 @@ from fastapi.responses import JSONResponse
 router = generate_router("address")
 
 
+# Custom sanitize function to transform the data for the backend
+def sanitize_data(data):
+    json_data = data["json"]
+
+    # Cleaning up the data since empty strings are not allowed for these fields
+    for field in ["lead-bind-address", "pscheduler-address"]:
+        if field in json_data and json_data[field] == "":
+            json_data[field] = None
+
+    data["json"] = json_data
+    return data
+
+
+router.sanitize = sanitize_data
+
+
 # Custom endpoints
 @router.get("/api/address/new/form", summary="Return the new form to be rendered")
 @version(1)
