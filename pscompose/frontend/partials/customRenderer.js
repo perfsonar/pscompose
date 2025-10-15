@@ -102,13 +102,13 @@ function checkBoxCustomTester(uischema, schema, context) {
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-checkbox", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.checked = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName != "INPUT") {
-            handleChange(path, event.target.querySelector("input").checked == true);
+        if (event.target.tagName == "INPUT-CHECKBOX") {
+            handleChange(path, event.target.getAttribute("value"));
         }
     };
     if (schema?.schema?.description) {
