@@ -128,13 +128,13 @@ function singleSelectDropdownCustomTester(uischema, schema, context) {
 function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-single-select", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.selected = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : data;
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
-    elemToReturn.props.onSelect = (event) => {
+    elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "DROPDOWN-SINGLE-SELECT") {
-            handleChange(path, event.target.selected);
+            handleChange(path, event.target.getAttribute("value"));
         }
     };
     if (schema?.schema?.description) {
