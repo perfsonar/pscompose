@@ -115,9 +115,7 @@ export class MultiSelectDropdown extends HTMLElement {
                 return `
                     <span class="tag">
                         ${label}
-                        <button class="remove-tag" data-value="${val}">
-                            <i style="width: 16px; height: 16px; color: white;" data-lucide="x"></i>
-                        </button>
+                        <web-button class="remove-tag" type="button" data-value="${val}" data-righticon="x" data-theme="Icon-Small" />
                     </span>`;
             })
             .join("");
