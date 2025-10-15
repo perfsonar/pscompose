@@ -110,13 +110,10 @@
         psCompose.toggledMenuItem = null;
         container.classList.remove("open");
         container.classList.add("close");
-
-        container.addEventListener("transitionend", function onTransitionEnd() {
-            // Waiting for close animation to execute before hidding container
+        setTimeout(() => {
             container.classList.add("hidden");
             container.classList.remove("close");
-            container.removeEventListener("transitionend", onTransitionEnd);
-        });
+        }, 200);
     }
 
     function switchSubmenu() {
