@@ -46,7 +46,7 @@
     <div class="submenu-container"></div>
 
     <script id="submenu-template" type="nunjucks">
-        <div class='submenu show' id='submenu-content'>
+        <div class='submenu' id='submenu-content'>
             <div class="submenu-header">
                 <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
                 <web-button data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}" data-theme="AddBtn" data-lefticon="plus" data-label="New">
@@ -91,6 +91,8 @@
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = psCompose.activeMenuItem;
         container.classList.remove("hidden");
+        container.offsetWidth;
+        container.classList.remove("close");
         container.innerHTML = `
           <div
             hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
@@ -99,13 +101,24 @@
             nunjucks-array-template="submenu-template"
             hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
           </div>`;
+        container.classList.add("open");
         htmx.process(container);
     }
 
     function hideSubmenu() {
-        let container = document.querySelector(".submenu-container");
-        psCompose.toggledMenuItem = null;
-        container.classList.add("hidden");
+        return new Promise((transitioned) => {
+            let container = document.querySelector(".submenu-container");
+            psCompose.toggledMenuItem = null;
+            container.classList.remove("open");
+            container.classList.add("close");
+
+            container.addEventListener("transitionend", function onTransitionEnd() {
+                container.classList.add("hidden");
+                container.classList.remove("close");
+                container.removeEventListener("transitionend", onTransitionEnd);
+                transitioned();
+            });
+        });
     }
 
     function renderHighlight() {
@@ -136,7 +149,7 @@
     renderHighlight();
 
     document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
-        elem.addEventListener("click", function () {
+        elem.addEventListener("click", async function () {
             const clickedMenu = elem.getAttribute("data-submenu");
             if (psCompose.toggledMenuItem === clickedMenu && elem.classList.contains("active")) {
                 // If clicking the already active item, untoggle
@@ -151,6 +164,12 @@
                 updateShortCutsVisibility();
                 renderHighlight();
             } else {
+                // If other elem active & trying to toggle other elem, wait to close submenu and then proceed
+                if (psCompose.toggledMenuItem) {
+                    await hideSubmenu();
+                    updateShortCutsVisibility();
+                    renderHighlight();
+                }
                 // Remove active from all, set new active, and show submenu
                 document
                     .querySelectorAll(`.left-nav .parent-item`)
