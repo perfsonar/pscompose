@@ -45,8 +45,8 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName != "INPUT") {
-            handleChange(path, event.target.querySelector("input").value);
+        if (event.target.tagName == "INPUT-NUMBER") {
+            handleChange(path, event.target.getAttribute("value"));
         }
     };
     if (schema?.schema?.description) {

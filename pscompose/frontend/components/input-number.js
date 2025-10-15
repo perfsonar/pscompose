@@ -64,7 +64,10 @@ export class TextInputNum extends HTMLElement {
 
         this.querySelector("#plus-btn").addEventListener("click", this.onPlusClick);
         this.querySelector("#minus-btn").addEventListener("click", this.onMinusClick);
-        this.querySelector("input").addEventListener("change", () => {
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", input.value);
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
