@@ -132,6 +132,10 @@ nav {
     @apply text-copyAlt;
 }
 
+.menu {
+    @apply flex flex-row;
+}
+
 .left-nav {
     @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
