@@ -131,7 +131,7 @@
             const params = new URLSearchParams(window.location.search);
             const id = params.get("id");
             try {
-                const response = await fetch(`${window.API_BASE_URL}/api/task/${id}`, {
+                const response = await fetch(`${window.API_BASE_URL}/task/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
