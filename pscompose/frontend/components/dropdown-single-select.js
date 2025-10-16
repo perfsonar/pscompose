@@ -66,7 +66,7 @@ export class SingleSelectDropdown extends HTMLElement {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
             : [];
-        const selectedValue = this.getAttribute("value") || "";
+        const selectedValue = JSON.parse(this.getAttribute("value")) || "";
         const selectedOption = options ? options.find((opt) => opt.const === selectedValue) : null;
 
         this.innerHTML = `

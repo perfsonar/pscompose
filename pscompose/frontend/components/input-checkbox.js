@@ -21,7 +21,7 @@ class TextInputCheckbox extends HTMLElement {
             <div class="container">
                 <div class="input-checkbox-wrapper">
                     <input type="checkbox" ${
-                        this.getAttribute("value") === "true" ? "checked" : ""
+                        JSON.parse(this.getAttribute("value")) === "true" ? "checked" : ""
                     } />
                     <label>
                         ${this.getAttribute("label")}
@@ -43,7 +43,7 @@ class TextInputCheckbox extends HTMLElement {
 
             <div class="checkbox-container-disabled">
                 <label>${this.getAttribute("label")}</label>        
-                <p> ${this.getAttribute("value")}</p>
+                <p> ${JSON.parse(this.getAttribute("value"))}</p>
             </div>
         `;
 
