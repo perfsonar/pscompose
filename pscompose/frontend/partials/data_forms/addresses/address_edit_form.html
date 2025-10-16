@@ -116,14 +116,14 @@
 
             const now = new Date();
 
-            // TODO: How would ref_set be updated?
+            // TODO: How would ref_set be updated? -> in backend sanitize_data function
             const updated_data = {
+                ref_set: [],
                 json: rest,
                 name: name,
                 last_edited_at: now.toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                 // url: "",
-                // ref_set: []
             };
 
             const params = new URLSearchParams(window.location.search);
@@ -167,12 +167,47 @@
     });
 
     document.querySelector("#delete-btn").addEventListener("click", async function (event) {
+        // TODO: How can I show the list of affected items using an API call to /address/find?
+
         document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            // Adding delete message to sessionStorage
-            sessionStorage.setItem(
-                "confirmMessage",
-                JSON.stringify(["Address deleted successfully!", "Success"]),
-            );
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            try {
+                // Adding delete message to sessionStorage
+                const response = await fetch(`${window.API_BASE_URL}/address/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const result = await response.json();
+                console.log("response from delete:", response, result);
+                if (!response.ok) {
+                    // Handle server validation errors or other HTTP errors
+                    console.log("inside 1");
+                    console.error("Server returned an error:", response);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                } else {
+                    // Adding delete message to sessionStorage
+                    console.log("inside 2");
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Schedule deleted successfully!", "Success"]),
+                    );
+                }
+                params.delete("edit");
+            } catch (error) {
+                console.log("inside catch");
+                console.error("Error:", error);
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(["Something went wrong.", "Error"]),
+                );
+            }
         });
     });
 </script>

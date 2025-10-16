@@ -61,8 +61,6 @@ def generate_router(datatype: str):
                 last_edited_by=data.last_edited_by,
                 # last_edited_by=user.name,
             )
-
-            # TODO: Do we need to update on each of the child objects when a new type is created?
             return {"message": f"{datatype} created successfully", "id": response.id}
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
@@ -82,7 +80,9 @@ def generate_router(datatype: str):
         updated_data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
+        print("UPDATE Unsanitized data:", updated_data)
         sanitized_data = router.sanitize(updated_data)
+        print("UPDATE sanitized data:", sanitized_data)
 
         # Convert sanitized dict into a proper DataTableUpdate object
         try:
@@ -96,7 +96,6 @@ def generate_router(datatype: str):
                 status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found"
             )
 
-        # TODO: In this, how will ref_set be updated?
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
@@ -111,6 +110,11 @@ def generate_router(datatype: str):
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
         print("Deleting item with ID:", item_id)
+
+        # Find all ref_set references to this item_id and remove them
+        # Also, update the JSON
+        cleanup_response = backend.remove_references(item_id)  # noqa: F841
+
         existing_item = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_item:
             raise HTTPException(
@@ -118,7 +122,6 @@ def generate_router(datatype: str):
             )
 
         response = backend.delete_datatype(existing_item)
-        print("response from delete:", response)
         return response
 
     # Endpoint for retrieving a specific item by ID
@@ -134,20 +137,17 @@ def generate_router(datatype: str):
             )
         return response
 
-    # Endpoint for retrieving a specific item's json
+    # Endpoint for retrieving list of records which reference a particular item
     @router.get(
-        f"/api/{datatype}/{{item_id}}/json",
-        summary=f"Retrieve the JSON of a specific {datatype} record",
+        f"/api/{datatype}/{{item_id}}/find",
+        summary="Retrieve the records which reference a particular record",
     )
-    def get_item_json(item_id: str):
+    def find_records(item_id: str):
         try:
-            response = backend.get_datatype(datatype=datatype, item_id=item_id)
-            response_json = response.json
+            response = backend.find_records(target_id=item_id)
         except HTTPException:
-            raise HTTPException(
-                status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found"
-            )
-        return response_json
+            raise HTTPException(status_code=404, detail="Error in finding records")
+        return response
 
     return router
 
