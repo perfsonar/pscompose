@@ -27,9 +27,11 @@ export class TextInputArea extends HTMLElement {
                             : ""
                     }
                 </label>
-                <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
-                    JSON.parse(this.getAttribute("value")) || ""
-                }</textarea>
+                <div class="wrapper">
+                    <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
+                        JSON.parse(this.getAttribute("value")) || ""
+                    }</textarea>
+                </div>
                 ${
                     this.getAttribute("required") == "true"
                         ? `<div class="required">Required</div>`

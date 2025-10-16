@@ -31,7 +31,7 @@ export class MultiSelectDropdown extends HTMLElement {
     attachToggleDropdown() {
         const options = this.querySelector(".options");
         if (!options) return;
-        this.querySelector(".select").addEventListener("click", () => {
+        this.querySelector(".wrapper").addEventListener("click", () => {
             options.classList.toggle("open");
             this.querySelector(".dropdown").classList.toggle("active");
             this.attachOptionListeners();
@@ -131,7 +131,7 @@ export class MultiSelectDropdown extends HTMLElement {
                 }
                 </label>
                 <div class="dropdown">
-                    <div class="select">
+                    <div class="wrapper">
                         <input type="search" id="dropdown-search" placeholder='Select ${this.getAttribute(
                             "label",
                         )}'/>
