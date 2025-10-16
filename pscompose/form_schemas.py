@@ -102,7 +102,8 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/contexts",
-            "customComponent": "dropdown-multi-select-list",
+            "customComponent": "dropdown-multi-select",
+            "output": "list",
         },
         {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
@@ -231,7 +232,8 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
-                    "customComponent": "dropdown-multi-select-object",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "object",
                 },
                 {
                     "type": "Control",
@@ -260,17 +262,19 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/a-addresses",
-                    "customComponent": "dropdown-multi-select-object",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "object",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/b-addresses",
-                    "customComponent": "dropdown-multi-select-object",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "object",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "dropdown-exclude",
+                    "customComponent": "dropdown-excludes",
                 },
                 {
                     "type": "Control",
@@ -290,7 +294,8 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
-                    "customComponent": "dropdown-multi-select-object",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "object",
                 },
                 {
                     "type": "Control",
@@ -300,7 +305,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "dropdown-exclude",
+                    "customComponent": "dropdown-excludes",
                 },
                 {
                     "type": "Control",
@@ -746,7 +751,8 @@ TASK_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/archives",
-                    "customComponent": "dropdown-multi-select-list",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "list",
                 },
                 {
                     "type": "Control",
@@ -761,7 +767,8 @@ TASK_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/tools",
-                    "customComponent": "dropdown-multi-select-list",
+                    "customComponent": "dropdown-multi-select",
+                    "output": "list",
                 },
                 {
                     "type": "Control",
@@ -811,7 +818,8 @@ TEMPLATE_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/tasks",
-            "customComponent": "dropdown-multi-select-list",
+            "customComponent": "dropdown-multi-select",
+            "output": "list",
         },
         {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
     ],
