@@ -19,6 +19,11 @@ def sanitize_data(data):
         if field in json_data and json_data[field] == "":
             json_data[field] = None
 
+    ref_set = data["ref_set"]
+    for context in json_data["contexts"]:
+        ref_set.append(context)
+
+    data["ref_set"] = ref_set
     data["json"] = json_data
     return data
 

@@ -47,7 +47,14 @@ def sanitize_data(data):
 
         data["json"] = filtered_json
 
-    print("sanitize_data finally:", data)
+    ref_set = data["ref_set"]
+    for key in ("addresses", "a-addresses", "b-addresses"):
+        for address in json_data.get(key, []):
+            name = address["name"]
+            if name not in ref_set:
+                ref_set.append(name)
+
+    data["ref_set"] = ref_set
     return data
 
 
