@@ -218,13 +218,13 @@ function excludesCustomTester(uischema, schema, context) {
 function excludesCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-excludes", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
-    elemToReturn.props.onSelect = (event) => {
-        if (event.target.tagName == "DROPDOWN-EXCLUDES" && event.target.selected) {
-            handleChange(path, JSON.parse(event.target.selected));
+    elemToReturn.props.onChange = (event) => {
+        if (event.target.tagName == "DROPDOWN-EXCLUDES") {
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {

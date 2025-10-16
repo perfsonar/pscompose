@@ -1,5 +1,5 @@
 export class excludesDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected"];
+    static observedAttributes = ["label", "options", "value"];
 
     constructor() {
         super();
@@ -25,7 +25,7 @@ export class excludesDropdown extends HTMLElement {
         const containers = this.querySelectorAll(
             ".container .excludes-container dropdown-single-select",
         );
-        return Array.from(containers).map((singledropdown) => singledropdown.selected);
+        return Array.from(containers).map((singledropdown) => singledropdown.value);
     }
 
     getAvailableLocalAddresses() {
@@ -46,13 +46,13 @@ export class excludesDropdown extends HTMLElement {
 
     attachDropdownListeners() {
         this.querySelectorAll("dropdown-single-select").forEach((dropdown) =>
-            dropdown.addEventListener("select", () => {
+            dropdown.addEventListener("change", () => {
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
             }),
         );
         this.querySelectorAll("dropdown-multi-select").forEach((dropdown) =>
-            dropdown.addEventListener("select", () => {
+            dropdown.addEventListener("change", () => {
                 this.updateSelectedValues();
             }),
         );
@@ -71,15 +71,15 @@ export class excludesDropdown extends HTMLElement {
                     const newOptions = [...this.getAvailableLocalAddresses(), currentSelection]; // Include current selection
                     newOptions.sort((a, b) => a.title.localeCompare(b.title)); // Sort options alphabetically to keep order consistent
                     singledropdown.setAttribute("options", JSON.stringify(newOptions));
-                    singledropdown.setAttribute("selected", currentSelectionValue);
+                    singledropdown.setAttribute("value", JSON.stringify(currentSelectionValue));
                 }
             },
         );
     }
 
     selectedSetUp() {
-        this.selectedValues = this.getAttribute("selected")
-            ? JSON.parse(this.getAttribute("selected"))
+        this.selectedValues = this.getAttribute("value")
+            ? JSON.parse(this.getAttribute("value"))
             : [];
     }
 
@@ -90,11 +90,11 @@ export class excludesDropdown extends HTMLElement {
         for (const container of containers) {
             const localDropdown = container.querySelector("dropdown-single-select");
             const targetDropdown = container.querySelector("dropdown-multi-select");
-            const localAddressValue = localDropdown.getAttribute("selected")
-                ? { name: localDropdown.getAttribute("selected") }
+            const localAddressValue = localDropdown.getAttribute("value")
+                ? { name: JSON.parse(localDropdown.getAttribute("value")) }
                 : {};
-            const targetAddressValue = targetDropdown.getAttribute("selected")
-                ? JSON.parse(targetDropdown.getAttribute("selected")).map((id) => ({ name: id }))
+            const targetAddressValue = targetDropdown.getAttribute("value")
+                ? JSON.parse(targetDropdown.getAttribute("value")).map((id) => ({ name: id }))
                 : [];
             selectedValues.push({
                 "local-address": localAddressValue,
@@ -102,8 +102,8 @@ export class excludesDropdown extends HTMLElement {
             });
         }
         this.selectedValues = selectedValues;
-        this.setAttribute("selected", JSON.stringify(this.selectedValues));
-        this.dispatchEvent(new Event("select", { bubbles: true }));
+        this.setAttribute("value", JSON.stringify(this.selectedValues));
+        this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     addExcludesContainer() {
@@ -143,6 +143,7 @@ export class excludesDropdown extends HTMLElement {
                               Object.keys(val["local-address"]).length != 0
                                   ? val["local-address"]["name"]
                                   : "";
+
                           const selectedTargetAddresses = val["target-addresses"]
                               ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
                               : "";
@@ -152,13 +153,13 @@ export class excludesDropdown extends HTMLElement {
                     <dropdown-single-select
                         label="Local Address" 
                         options='${this.getAttribute("options")}'
-                        selected=${selectedLocalAddress}
+                        value='${JSON.stringify(selectedLocalAddress)}'
                         >
                     </dropdown-single-select>
                     <dropdown-multi-select
                         label="Target Addresses" 
                         options='${this.getAttribute("options")}'
-                        selected=${JSON.stringify(selectedTargetAddresses)}
+                        value='${JSON.stringify(selectedTargetAddresses)}'
                         >
                     </dropdown-multi-select>
                 </div>
