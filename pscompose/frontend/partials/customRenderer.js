@@ -75,56 +75,29 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
-    let elem = event.detail[0].target;
-    if (elem.readonly == "true") {
-        const inputs = document.querySelector("form").querySelectorAll("input, textarea");
-        const dropdowns = document.querySelector("form").querySelectorAll(".dropdown");
-
-        inputs.forEach((el) => {
-            el.disabled = true;
-            // Save placeholder if not already saved
-            if (!el.dataset.originalPlaceholder) {
-                el.dataset.originalPlaceholder = el.placeholder;
-            }
-            el.placeholder = "";
-        });
-
-        dropdowns.forEach((dropdown) => {
-            dropdown.classList.add("disabled");
+    if (event.detail[0].target.readonly == "true") {
+        webComponents.forEach((compoenent) => {
+            document
+                .querySelector("form")
+                .querySelectorAll(compoenent)
+                .forEach((comp) => {
+                    comp.classList.add("disabled");
+                });
         });
     }
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    const inputs = document.querySelector("form").querySelectorAll("input, textarea");
-    const dropdowns = document.querySelector("form").querySelectorAll(".dropdown");
-
-    let elem = event.detail[0].target;
-    if (elem.readonly == "true") {
-        inputs.forEach((el) => {
-            el.disabled = true;
-            // Save placeholder if not already saved
-            if (!el.dataset.originalPlaceholder) {
-                el.dataset.originalPlaceholder = el.placeholder;
-            }
-            el.placeholder = "";
-        });
-
-        dropdowns.forEach((dropdown) => {
-            dropdown.classList.add("disabled");
-        });
-    }
-    if (elem.readonly == "false") {
-        inputs.forEach((el) => {
-            el.disabled = false;
-            // Restore original placeholder if we have it
-            if (el.dataset.originalPlaceholder !== undefined) {
-                el.placeholder = el.dataset.originalPlaceholder;
-            }
-        });
-
-        dropdowns.forEach((dropdown) => {
-            dropdown.classList.remove("disabled");
-        });
-    }
+    webComponents.forEach((compoenent) => {
+        document
+            .querySelector("form")
+            .querySelectorAll(compoenent)
+            .forEach((comp) => {
+                if (event.detail[0].target.readonly == "true") {
+                    comp.classList.add("disabled");
+                } else {
+                    comp.classList.remove("disabled");
+                }
+            });
+    });
 });
