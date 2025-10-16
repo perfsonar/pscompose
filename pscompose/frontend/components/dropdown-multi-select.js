@@ -1,5 +1,5 @@
 export class MultiSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected", "output"];
+    static observedAttributes = ["label", "options", "value", "output"];
 
     constructor() {
         super();
@@ -45,10 +45,10 @@ export class MultiSelectDropdown extends HTMLElement {
                 if (value && !this.selectedValues.includes(value)) {
                     this.selectedValues.unshift(value); // Value to selectedValue array
                     this.setAttribute(
-                        "selected",
+                        "value",
                         JSON.stringify(this.sanitizeOutput(this.selectedValues)),
                     ); // set Attribute
-                    this.dispatchEvent(new Event("select", { bubbles: true }));
+                    this.dispatchEvent(new Event("change", { bubbles: true }));
                     this.render();
                     lucide.createIcons();
                 }
@@ -62,10 +62,10 @@ export class MultiSelectDropdown extends HTMLElement {
                 const value = btn.getAttribute("data-value");
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
                 this.setAttribute(
-                    "selected",
+                    "value",
                     JSON.stringify(this.sanitizeOutput(this.selectedValues)),
                 ); // set Attribute
-                this.dispatchEvent(new Event("select", { bubbles: true }));
+                this.dispatchEvent(new Event("change", { bubbles: true }));
                 this.render();
                 lucide.createIcons();
             });
@@ -73,9 +73,7 @@ export class MultiSelectDropdown extends HTMLElement {
     }
 
     selectedSetUp() {
-        const selected = this.getAttribute("selected")
-            ? JSON.parse(this.getAttribute("selected"))
-            : [];
+        const selected = this.getAttribute("value") ? JSON.parse(this.getAttribute("value")) : [];
         if (this.getAttribute("output") == "object") {
             this.selectedValues = selected.map((item) =>
                 typeof item === "object" ? item.name : item,
