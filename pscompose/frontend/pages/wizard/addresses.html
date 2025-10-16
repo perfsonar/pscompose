@@ -68,9 +68,9 @@
 
     /* RENDER JSON FORM */
     // 1. set id param and redirect
-    document.querySelector("dropdown-single-select").addEventListener("select", (evt) => {
+    document.querySelector("dropdown-single-select").addEventListener("change", (evt) => {
         let newUrlParam = new URLSearchParams();
-        newUrlParam.set("id", evt.target.selected);
+        newUrlParam.set("id", JSON.parse(evt.target.value));
         window.location = window.location.pathname + "?" + newUrlParam;
     });
 
@@ -79,7 +79,7 @@
     if (urlParam.size > 0 && !!urlParam.get("id")) {
         document
             .querySelector("dropdown-single-select")
-            .setAttribute("selected", urlParam.get("id"));
+            .setAttribute("value", JSON.stringify(urlParam.get("id")));
 
         let container = document.querySelector(".step-box-right");
         container.innerHTML = `<div class="w-full" 
