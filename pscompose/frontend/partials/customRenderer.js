@@ -1,278 +1,78 @@
 const HIGH_RANK = 6;
-const MID_RANK = 3;
-const LOWEST_RANK = -1;
+const LOW_RANK = -1;
 
-/* TEXT INPUT */
-
-function textInputCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "input-text") return MID_RANK;
-    return LOWEST_RANK;
+function toAllCaps(str) {
+    return str.replace(/.*/g, (match) => match.toUpperCase());
 }
 
-function textInputCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "input-text", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "INPUT-TEXT") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
+const webComponents = [
+    "input-text",
+    "input-text-area",
+    "input-number",
+    "input-checkbox",
+    "dropdown-single-select",
+    "dropdown-multi-select",
+    "dropdown-excludes",
+];
+
+/* CREATE TESTER AND RENDERERS */
+
+function createCustomTester(componentName, rank) {
+    return function (uischema, schema, context) {
+        if (!uischema.scope) return LOW_RANK;
+        if (uischema.customComponent === componentName) return rank;
+        return LOW_RANK;
     };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    return elemToReturn;
 }
 
-/* TEXT INPUT NUMBER */
+function createCustomRenderer(componentName) {
+    return function (data, handleChange, path, schema) {
+        let elemToReturn = { tag: componentName, props: {} };
+        elemToReturn.props.id = schema.uischema.scope;
+        elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
+        elemToReturn.props.path = path;
+        elemToReturn.props.label = schema.schema.title;
+        elemToReturn.props.required = schema.required;
+        elemToReturn.props.onChange = (event) => {
+            if (event.target.tagName == toAllCaps(schema.uischema.customComponent)) {
+                handleChange(path, JSON.parse(event.target.getAttribute("value")));
+            }
+        };
+        if (schema?.schema?.description) elemToReturn.props.description = schema.schema.description;
 
-function textInputNumberCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "input-number") return HIGH_RANK;
+        // Input Number
+        if (schema?.schema?.minimum) elemToReturn.props.min = schema.schema.minimum;
+        if (schema?.schema?.maximum) elemToReturn.props.max = schema.schema.maximum;
+        if (schema?.schema?.multipleOf) elemToReturn.props.step = schema.schema.multipleOf;
 
-    return LOWEST_RANK;
-}
+        // Single Select Dropdown
+        if (schema?.schema?.oneOf) elemToReturn.props.options = JSON.stringify(schema.schema.oneOf);
 
-function textInputNumberCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "input-number", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "INPUT-NUMBER") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
+        // Multi Select Dropdown & Exclude Dropdown
+        if (schema?.schema?.items?.oneOf)
+            elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
+        if (schema.uischema?.output) elemToReturn.props.output = schema.uischema.output;
+
+        return elemToReturn;
     };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    if (schema?.schema?.minimum) {
-        elemToReturn.props.min = schema.schema.minimum;
-    }
-    if (schema?.schema?.maximum) {
-        elemToReturn.props.max = schema.schema.maximum;
-    }
-    if (schema?.schema?.maximum) {
-        elemToReturn.props.step = schema.schema.multipleOf;
-    }
-    return elemToReturn;
-}
-
-/* INPUT TEXT AREA */
-
-function textInputAreaCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "input-text-area") return MID_RANK;
-    return LOWEST_RANK;
-}
-
-function textInputAreaCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "input-text-area", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "INPUT-TEXT-AREA") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    return elemToReturn;
-}
-
-/* TEXT INPUT CHECK BOX */
-
-function checkBoxCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "input-checkbox") return MID_RANK;
-
-    return LOWEST_RANK;
-}
-
-function checkBoxCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "input-checkbox", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "INPUT-CHECKBOX") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    return elemToReturn;
-}
-
-/* SINGLE SELECT DROPDOWN */
-
-function singleSelectDropdownCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "dropdown-single-select") return HIGH_RANK;
-    return LOWEST_RANK;
-}
-
-function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "dropdown-single-select", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "DROPDOWN-SINGLE-SELECT") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    if (schema?.schema?.oneOf) {
-        elemToReturn.props.options = JSON.stringify(schema.schema.oneOf);
-    }
-    return elemToReturn;
-}
-
-/* MULTI SELECT DROPDOWN - OBJECT */
-
-function multiSelectDropdownObjectCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "dropdown-multi-select-object") return HIGH_RANK;
-    return LOWEST_RANK;
-}
-
-function multiSelectDropdownObjectCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "dropdown-multi-select", props: {} };
-    console.log();
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.output = "object";
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "DROPDOWN-MULTI-SELECT") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    if (schema?.schema?.items?.oneOf) {
-        elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
-    }
-    return elemToReturn;
-}
-
-/* MULTI SELECT DROPDOWN - LIST*/
-
-function multiSelectDropdownListCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "dropdown-multi-select-list") return HIGH_RANK;
-    return LOWEST_RANK;
-}
-
-function multiSelectDropdownListCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "dropdown-multi-select", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.output = "list";
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "DROPDOWN-MULTI-SELECT") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    if (schema?.schema?.items?.oneOf) {
-        elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
-    }
-    return elemToReturn;
-}
-
-/* EXCLUDES DROPDOWN */
-
-function excludesCustomTester(uischema, schema, context) {
-    if (!uischema.scope) return LOWEST_RANK;
-    if (uischema.customComponent == "dropdown-exclude") return HIGH_RANK;
-    return LOWEST_RANK;
-}
-
-function excludesCustomRenderer(data, handleChange, path, schema) {
-    let elemToReturn = { tag: "dropdown-excludes", props: {} };
-    elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-    elemToReturn.props.path = path;
-    elemToReturn.props.label = schema.schema.title;
-    elemToReturn.props.required = schema.required;
-    elemToReturn.props.onChange = (event) => {
-        if (event.target.tagName == "DROPDOWN-EXCLUDES") {
-            handleChange(path, JSON.parse(event.target.getAttribute("value")));
-        }
-    };
-    if (schema?.schema?.description) {
-        elemToReturn.props.description = schema.schema.description;
-    }
-    if (schema?.schema?.items?.oneOf) {
-        elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
-    }
-
-    return elemToReturn;
 }
 
 /* REGISTER RENDERERS */
 
 document.body.addEventListener("json-form:beforeMount", (event) => {
     let elem = event.detail[0].target;
+    if (!elem) return;
 
-    if (elem) {
-        elem.appendRenderer({ tester: textInputCustomTester, renderer: textInputCustomRenderer });
-        elem.appendRenderer({
-            tester: textInputNumberCustomTester,
-            renderer: textInputNumberCustomRenderer,
-        });
-        elem.appendRenderer({ tester: checkBoxCustomTester, renderer: checkBoxCustomRenderer });
-        elem.appendRenderer({
-            tester: textInputAreaCustomTester,
-            renderer: textInputAreaCustomRenderer,
-        });
-        elem.appendRenderer({
-            tester: singleSelectDropdownCustomTester,
-            renderer: singleSelectDropdownCustomRenderer,
-        });
-        elem.appendRenderer({
-            tester: multiSelectDropdownObjectCustomTester,
-            renderer: multiSelectDropdownObjectCustomRenderer,
-        });
-        elem.appendRenderer({
-            tester: multiSelectDropdownListCustomTester,
-            renderer: multiSelectDropdownListCustomRenderer,
-        });
-        elem.appendRenderer({
-            tester: excludesCustomTester,
-            renderer: excludesCustomRenderer,
-        });
-    }
+    webComponents.forEach((component) => {
+        let renderer = {
+            tester: createCustomTester(component, HIGH_RANK),
+            renderer: createCustomRenderer(component),
+        };
+        elem.appendRenderer(renderer);
+    });
 });
 
-/* CHECK READONLY */
+/* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
     let elem = event.detail[0].target;
