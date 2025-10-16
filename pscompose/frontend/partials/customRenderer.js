@@ -17,10 +17,10 @@ const webComponents = [
 
 /* CREATE TESTER AND RENDERERS */
 
-function createCustomTester(componentName, rank) {
+function createCustomTester(componentName) {
     return function (uischema, schema, context) {
         if (!uischema.scope) return LOW_RANK;
-        if (uischema.customComponent === componentName) return rank;
+        if (uischema.customComponent === componentName) return HIGH_RANK;
         return LOW_RANK;
     };
 }
@@ -65,7 +65,7 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
     webComponents.forEach((component) => {
         let renderer = {
-            tester: createCustomTester(component, HIGH_RANK),
+            tester: createCustomTester(component),
             renderer: createCustomRenderer(component),
         };
         elem.appendRenderer(renderer);
