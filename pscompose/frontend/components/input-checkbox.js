@@ -50,7 +50,8 @@ class TextInputCheckbox extends HTMLElement {
         const input = this.querySelector("input");
         input.addEventListener("change", (event) => {
             event.stopPropagation();
-            this.setAttribute("value", event.target.checked ? "true" : "false");
+            const boolVal = event.target.checked ? "true" : "false";
+            this.setAttribute("value", JSON.stringify(boolVal));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

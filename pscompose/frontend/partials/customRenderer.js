@@ -19,7 +19,7 @@ function textInputCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "INPUT-TEXT") {
-            handleChange(path, event.target.getAttribute("value"));
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -46,7 +46,7 @@ function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "INPUT-NUMBER") {
-            handleChange(path, event.target.getAttribute("value"));
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -81,7 +81,7 @@ function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "INPUT-TEXT-AREA") {
-            handleChange(path, event.target.getAttribute("value"));
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -108,7 +108,7 @@ function checkBoxCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "INPUT-CHECKBOX") {
-            handleChange(path, event.target.getAttribute("value"));
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -134,7 +134,7 @@ function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     elemToReturn.props.required = schema.required;
     elemToReturn.props.onChange = (event) => {
         if (event.target.tagName == "DROPDOWN-SINGLE-SELECT") {
-            handleChange(path, event.target.getAttribute("value"));
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -156,15 +156,16 @@ function multiSelectDropdownObjectCustomTester(uischema, schema, context) {
 
 function multiSelectDropdownObjectCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-multi-select", props: {} };
+    console.log();
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.output = "object";
-    elemToReturn.props.onSelect = (event) => {
-        if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
-            handleChange(path, JSON.parse(event.target.selected));
+    elemToReturn.props.onChange = (event) => {
+        if (event.target.tagName == "DROPDOWN-MULTI-SELECT") {
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {
@@ -187,14 +188,14 @@ function multiSelectDropdownListCustomTester(uischema, schema, context) {
 function multiSelectDropdownListCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-multi-select", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.selected = data == null ? schema.schema.default : JSON.stringify(data);
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
     elemToReturn.props.output = "list";
-    elemToReturn.props.onSelect = (event) => {
-        if (event.target.tagName == "DROPDOWN-MULTI-SELECT" && event.target.selected) {
-            handleChange(path, JSON.parse(event.target.selected));
+    elemToReturn.props.onChange = (event) => {
+        if (event.target.tagName == "DROPDOWN-MULTI-SELECT") {
+            handleChange(path, JSON.parse(event.target.getAttribute("value")));
         }
     };
     if (schema?.schema?.description) {

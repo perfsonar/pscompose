@@ -40,7 +40,7 @@ export class TextInputArea extends HTMLElement {
         const textarea = this.querySelector("textarea");
         textarea.addEventListener("change", (event) => {
             event.stopPropagation();
-            this.setAttribute("value", textarea.value);
+            this.setAttribute("value", JSON.stringify(textarea.value));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

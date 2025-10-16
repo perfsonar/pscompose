@@ -44,7 +44,7 @@ export class TextInputNum extends HTMLElement {
                 <div class="input-wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
-                            value="${this.getAttribute("value") || ""}" 
+                            value="${JSON.parse(this.getAttribute("value")) || ""}" 
                             step="${this.getAttribute("step") || 1}"
                             min="${this.getAttribute("min") || 0}"
                             max="${this.getAttribute("max") || 100}"
@@ -67,7 +67,7 @@ export class TextInputNum extends HTMLElement {
         const input = this.querySelector("input");
         input.addEventListener("change", (event) => {
             event.stopPropagation();
-            this.setAttribute("value", input.value);
+            this.setAttribute("value", JSON.stringify(input.value));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
