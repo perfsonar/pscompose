@@ -43,7 +43,7 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 
     selectOption(value, title) {
-        this.setAttribute("value", value);
+        this.setAttribute("value", JSON.stringify(value));
         this.render();
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
