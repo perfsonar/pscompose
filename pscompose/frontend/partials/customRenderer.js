@@ -13,7 +13,7 @@ function textInputCustomTester(uischema, schema, context) {
 function textInputCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-text", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
@@ -40,7 +40,7 @@ function textInputNumberCustomTester(uischema, schema, context) {
 function textInputNumberCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-number", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : data; // Might not have default?
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
@@ -75,7 +75,7 @@ function textInputAreaCustomTester(uischema, schema, context) {
 function textInputAreaCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-text-area", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
@@ -102,7 +102,7 @@ function checkBoxCustomTester(uischema, schema, context) {
 function checkBoxCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "input-checkbox", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;
@@ -128,7 +128,7 @@ function singleSelectDropdownCustomTester(uischema, schema, context) {
 function singleSelectDropdownCustomRenderer(data, handleChange, path, schema) {
     let elemToReturn = { tag: "dropdown-single-select", props: {} };
     elemToReturn.props.id = schema.uischema.scope;
-    elemToReturn.props.value = data == null ? schema.schema.default : data;
+    elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
     elemToReturn.props.path = path;
     elemToReturn.props.label = schema.schema.title;
     elemToReturn.props.required = schema.required;

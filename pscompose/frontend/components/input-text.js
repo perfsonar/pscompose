@@ -29,7 +29,7 @@ export class TextInput extends HTMLElement {
                 </label>
                 <div class="input-wrapper">
                     <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
-                        this.getAttribute("value") || ""
+                        JSON.parse(this.getAttribute("value")) || ""
                     }" />
                 </div>
                 ${
