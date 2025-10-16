@@ -42,8 +42,10 @@ class TextInputCheckbox extends HTMLElement {
             </div>
 
             <div class="checkbox-container-disabled">
-                <label>${this.getAttribute("label")}</label>        
-                <p> ${JSON.parse(this.getAttribute("value"))}</p>
+                <label>${this.getAttribute("label")}</label> 
+                <div class="wrapper">       
+                    <p> ${JSON.parse(this.getAttribute("value"))}</p>
+                </div>
             </div>
         `;
 

@@ -41,7 +41,7 @@ export class TextInputNum extends HTMLElement {
                             : ""
                     }
                 </label>
-                <div class="input-wrapper">
+                <div class="wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
                             value="${JSON.parse(this.getAttribute("value")) || ""}" 

@@ -33,9 +33,7 @@
     display: none;
 }
 
-/* INPUT-TEXT */
-
-.container .input-wrapper {
+.container .wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -45,53 +43,57 @@
     color: var(--copy-color);
 
     width: 100%;
-    height: 40px;
+    height: auto;
 
     border: 1px solid #c3c7d9;
 }
 
-.container .input-wrapper input {
+/* INPUT-TEXT */
+.container .wrapper input {
     border: none;
     appearance: none;
     outline: none;
     background-color: transparent;
 
     width: 100%;
+    height: 40px;
     flex: 1 1 auto;
 }
 
-.container .input-wrapper:has(input:focus) {
+.container .wrapper:has(input:focus) {
     border: 1.5px solid var(--success-color);
 }
 
-.container .input-wrapper input:focus {
+.container .wrapper input:focus {
     border: none;
 }
 
-.container .input-wrapper .buttons {
+.container .wrapper .buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 8px;
 }
 
-.disabled .container .input-wrapper {
+.disabled .wrapper {
     background-color: transparent;
     border: none;
     font-family: "Source Code Pro";
     cursor: not-allowed;
     color: var(--copyAlt-color);
-    height: 24px;
+
     padding: 0px;
+    /* border-left: 2px solid var(--copyAlt-color); */
 }
 
-.disabled .container .input-wrapper input {
+.disabled .container .wrapper input {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
+    height: 24px;
 }
 
-.disabled .container .input-wrapper .buttons {
+.disabled .container .wrapper .buttons {
     display: none;
 }
 
@@ -181,15 +183,14 @@ input[type="number"]::-webkit-outer-spin-button {
     font-family: "Source Code Pro";
     color: var(--copyAlt-color);
     height: 24px;
+    padding: 0 12px;
+    align-items: center;
 }
 
 /* INPUT-TEXT-AREA */
 
 .container textarea {
-    padding: 8px;
-
-    background-color: var(--surface2-color);
-    color: var(--copy-color);
+    padding: 8px 0;
 
     width: 100%;
     max-width: 100%;
@@ -197,12 +198,23 @@ input[type="number"]::-webkit-outer-spin-button {
     max-height: 35vh;
     resize: vertical;
 
-    border: 1px solid #c3c7d9;
+    border: none;
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+
+    width: 100%;
+    flex: 1 1 auto;
 }
 
-.container textarea:focus {
+.container .wrapper:has(textarea:focus) {
     outline: none;
     border: 1.5px solid var(--success-color);
+}
+
+.container .wrapper textarea:focus {
+    outline: none;
+    border: none;
 }
 
 .disabled .container textarea {
@@ -225,24 +237,13 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0px 8px;
-    background-color: var(--surface2-color);
-    border: 1px solid #c3c7d9;
 }
 
-.container .dropdown .select {
+.container .dropdown .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-left: 8px;
-    gap: 16px;
-
-    color: var(--copy-color);
-
-    width: 100%;
-    min-height: 40px;
-    max-height: 40px;
 }
 
 .container .dropdown.active {
@@ -250,13 +251,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border: 1.5px solid var(--success-color);
 }
 
-.container .dropdown .select input {
-    appearance: none;
-    background-color: transparent;
-    width: 100%;
-}
-
-.container .dropdown .select input:focus {
+.container .dropdown .wrapper:has(input:focus) {
     outline: none;
 }
 
@@ -269,9 +264,9 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    border-top: 1px solid var(--copy-color);
     gap: 10px;
     cursor: pointer;
+    background-color: var(--surface2-color);
 
     max-height: 0;
     opacity: 0;
@@ -307,35 +302,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .disabled .container .dropdown {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    color: transparent;
-
-    pointer-events: none;
-    user-select: none;
-    cursor: not-allowed;
-}
-
-.disabled .container .dropdown .select {
-    padding: 0;
-}
-
-.disabled .container .dropdown .select input {
-    font-family: "Source Code Pro";
-    color: var(--copyAlt-color);
-    height: 24px;
-
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
 }
 
 .disabled .container .dropdown web-button {
-    display: none;
-}
-
-.disabled .container .dropdown p {
     display: none;
 }
 
@@ -368,13 +340,14 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
-dropdown-multi-select.disabled .container .dropdown .select {
+dropdown-multi-select.disabled .container .dropdown .wrapper {
     display: none;
 }
 
 .disabled .container .tags {
     display: flex;
-    height: 24px;
+    /* padding: 0 12px;
+    border-left: 2px solid var(--copyAlt-color); */
 }
 
 .disabled .container .tag {
@@ -436,6 +409,16 @@ dropdown-multi-select {
     display: flex;
     margin-top: 14px;
 }
+
+/* .disabled .container .excludes-container {
+    border-left: 2px solid var(--copyAlt-color);
+    padding: 0 12px;
+} */
+
+/* .disabled .container .excludes-container .tags {
+    border-left: 0;
+    padding: 0;
+} */
 
 .disabled .container .excludes-container #excludes-minus-btn {
     display: none;
