@@ -135,6 +135,9 @@ export class excludesDropdown extends HTMLElement {
     }
 
     render() {
+        const options = this.getAttribute("options")
+            ? JSON.parse(this.getAttribute("options"))
+            : [];
         const selectedHTML =
             this.selectedValues.length > 0
                 ? this.selectedValues
@@ -169,6 +172,45 @@ export class excludesDropdown extends HTMLElement {
                       .join("")
                 : "";
 
+        const tableSelectedHTML =
+            this.selectedValues.length > 0
+                ? `<table class="excludes-table">
+                <thead>
+                <tr>
+                    <th>Local Address</th>
+                    <th>Target Addresses</th>
+                </tr>
+                </thead>
+                <tbody>
+                ${this.selectedValues
+                    .map((val, index) => {
+                        const selectedLocalAddress =
+                            Object.keys(val["local-address"]).length !== 0
+                                ? options.find((opt) => opt.const === val["local-address"]["name"])
+                                      ?.title || "Option Not Found"
+                                : "";
+                        const selectedTargetAddresses = val["target-addresses"]
+                            ? val["target-addresses"]
+                                  .map((val) => {
+                                      const label =
+                                          options.find((opt) => opt.const === val["name"])?.title ||
+                                          "Option Not Found";
+                                      return `<span class="tag">${label}</span>`;
+                                  })
+                                  .join("")
+                            : "";
+                        return `
+                        <tr data-index="${index}">
+                        <td>${selectedLocalAddress}</td>
+                        <td class="tags">${selectedTargetAddresses}</td>
+                        </tr>
+                    `;
+                    })
+                    .join("")}
+                </tbody>
+             </table> `
+                : "";
+
         this.innerHTML = `
         <div class="container">
             <label>
@@ -182,6 +224,7 @@ export class excludesDropdown extends HTMLElement {
                 }
             </label>
             ${selectedHTML}
+            ${tableSelectedHTML}
         </div>
         <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
     `;
