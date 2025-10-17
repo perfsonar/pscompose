@@ -608,16 +608,16 @@ web-button[data-theme="Small"] button:hover {
 }
 
 web-button[data-theme="AddBtn"] button {
-    background-color: var(--shadow-color);
+    background-color: var(--surface1-color);
     color: var(--copy-color);
-    border: 1.5px solid var(--copy-color);
+    border: 1.5px solid var(--copyAlt-color);
 
     gap: 3px;
     padding: 0.3rem;
-    padding-right: 0.5rem;
+    padding: 4px 12px 4px 8px;
 
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 web-button[data-theme="AddBtn"] button:hover {
