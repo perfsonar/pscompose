@@ -21,7 +21,7 @@ class TextInputCheckbox extends HTMLElement {
             <div class="container">
                 <div class="input-checkbox-wrapper">
                     <input type="checkbox" ${
-                        JSON.parse(this.getAttribute("value")) === "true" ? "checked" : ""
+                        JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
                     } />
                     <label>
                         ${this.getAttribute("label")}
@@ -52,7 +52,7 @@ class TextInputCheckbox extends HTMLElement {
         const input = this.querySelector("input");
         input.addEventListener("change", (event) => {
             event.stopPropagation();
-            const boolVal = event.target.checked ? "true" : "false";
+            const boolVal = event.target.checked ? true : false;
             this.setAttribute("value", JSON.stringify(boolVal));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
