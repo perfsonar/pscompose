@@ -44,13 +44,13 @@ class DataTypes:
 
 
 PARENT_CHILD_RELATIONSHIP = {
-    "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
     "archive": [],
     "context": [],
-    "group": ["address"],
-    # "address": [],
-    # "host": ["address", "context"],
     "schedule": [],
-    "task": ["group", "test", "schedule", "archive"],
     "test": [],
+    "address": ["context"],
+    "group": ["address"],
+    "task": ["group", "test", "schedule", "archive"],
+    "template": ["task"],
+    # "template": ["archive", "address", "group", "schedule", "test", "task", "context"],
 }

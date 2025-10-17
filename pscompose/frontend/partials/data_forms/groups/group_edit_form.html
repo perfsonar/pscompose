@@ -117,18 +117,18 @@
 
             const now = new Date();
 
-            // TODO: How would ref_set be updated?
+            // TODO: How would ref_set be updated? -> in backend sanitize_data function
             const updated_data = {
                 // Additional properties needed in order to sanitize the data
                 schema: JSON.parse(elem.schemaData),
                 group_type: rest.type,
 
+                ref_set: [],
                 json: rest,
                 name: name,
                 last_edited_at: now.toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                 // url: "",
-                // ref_set: []
             };
 
             const params = new URLSearchParams(window.location.search);
