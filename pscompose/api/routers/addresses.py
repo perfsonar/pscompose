@@ -20,8 +20,9 @@ def sanitize_data(data):
             json_data[field] = None
 
     ref_set = data["ref_set"]
-    for context in json_data["contexts"]:
-        ref_set.append(context)
+    if json_data.get("contexts") is not None:
+        for context in json_data.get("contexts", []):
+            ref_set.append(context)
 
     data["ref_set"] = ref_set
     data["json"] = json_data
