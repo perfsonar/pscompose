@@ -12,6 +12,7 @@ router = generate_router("address")
 
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
+    print("inside sanitize data ", data)
     json_data = data["json"]
 
     # Cleaning up the data since empty strings are not allowed for these fields
@@ -74,17 +75,3 @@ def get_existing_form(item_id: str):
     }
 
     return JSONResponse(content=payload)
-
-
-# TODO: Test this
-# @router.get("/api/address/{addressId}/change")
-# @version(1)
-# def get_updated_entries(addressId: str):
-#     '''
-#     Get the entire list of things that will need to be updated
-#     when some information about a given host is changed.
-#     This will include host groups that reference this host,
-#     along with perhaps tests, tasks, templates and others
-#     '''
-#     results = backend.find_records(target_id=addressId)
-#     return results
