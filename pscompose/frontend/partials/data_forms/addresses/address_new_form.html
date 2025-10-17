@@ -59,6 +59,8 @@
                 // url: ""
             };
 
+            console.log("sending data ", data);
+
             try {
                 const response = await fetch(`${window.API_BASE_URL}/address`, {
                     method: "POST",
@@ -80,11 +82,11 @@
                     );
 
                     let pathName = window.location.pathname;
-                    if (pathName.includes("new")) {
+                    /*if (pathName.includes("new")) {
                         window.location = "/addresses/?id=" + result.id;
                     } else {
                         window.location = pathName + "?id=" + result.id;
-                    }
+                    }*/
                 } else {
                     // Try to parse error message from response
                     let errorMsg = "Something went wrong.";
@@ -93,7 +95,7 @@
                         "confirmMessage",
                         JSON.stringify(["Something went wrong.", "Error"]),
                     );
-                    window.location = window.location.pathname;
+                    //window.location = window.location.pathname;
                 }
             } catch (error) {
                 console.error("Error:", error);
