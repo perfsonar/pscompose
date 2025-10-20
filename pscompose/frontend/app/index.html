@@ -76,6 +76,7 @@
             </main>
             <div id="short" hx-get="/partials/recently_edited.html" hx-trigger="load"></div>
         </div>
+        <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
         <script>
             // nunjucks environment setup: add 'logger' and 'escape_property' filters
             document.addEventListener("htmx:nunjucks-environment", (event) => {
