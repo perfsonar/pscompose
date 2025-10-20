@@ -129,6 +129,8 @@ class PostgresBackend:
                 # Remove from JSON recursively
                 if isinstance(record.json, dict):
                     cleaned_json = self.update_json(record.json, target_id)
+                    if "name" in cleaned_json:
+                        del cleaned_json["name"]
                     record.json = cleaned_json
 
                     try:
