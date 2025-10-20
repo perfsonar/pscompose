@@ -24,10 +24,16 @@
                         data-label="Save"
                         data-theme="Secondary"
                         data-righticon="save"
-                        data-modalconfirm="Are you sure you want to save this group?"
-                        data-modaltheme="Success"
+                        confirm-modal="save-modal"
                     >
                     </web-button>
+                    <web-modal
+                        id="save-modal"
+                        theme="Success"
+                        message="Are you sure you want to save this group?"
+                        confirm-label="Save"
+                    >
+                    </web-modal>
                 </div>
             </form>
         </div>

@@ -15,21 +15,26 @@ export class WebModal extends HTMLElement {
     }
 
     attachListeners() {
-        const yes = document.querySelector("#confirm-yes");
-        const no = document.querySelector("#confirm-no");
-        const underlay = document.querySelector(".modal-underlay");
+        const yes = this.querySelector("#confirm-yes");
+        const no = this.querySelector("#confirm-no");
+        const underlay = this.querySelector(".modal-underlay");
 
-        yes.onclick = function () {
+        yes.onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
             const confirmEvent = new CustomEvent("confirm-yes-clicked", {
                 bubbles: true,
             });
             document.body.dispatchEvent(confirmEvent);
+
+            // Update logic after updating save logic
+            if (this.getAttribute("link")) window.location = this.getAttribute("link");
         };
-        no.onclick = function () {
+
+        no.onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
         };
-        underlay.onclick = function () {
+
+        underlay.onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
         };
     }
@@ -60,11 +65,6 @@ export class WebModal extends HTMLElement {
                         <web-button id="confirm-no" data-label="Cancel" data-theme="Shadow"></web-button>
                         <web-button
                             id="confirm-yes"
-                            ${
-                                this.getAttribute("link")
-                                    ? `data-link=${this.getAttribute("link")}`
-                                    : ""
-                            }
                             ${
                                 this.getAttribute("icon")
                                     ? `data-righticon=${this.getAttribute("icon")}`
