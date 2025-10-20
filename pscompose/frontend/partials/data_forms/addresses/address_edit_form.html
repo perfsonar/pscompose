@@ -5,7 +5,7 @@
             <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
         </div>
         <div class="content">
-            <form id="my-form" method="GET">
+            <form id="data-form" method="GET">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
@@ -59,149 +59,95 @@
 </div>
 
 <script>
+    const API_URL = window.API_BASE_URL;
+    const form = document.getElementById("data-form");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
     // Setting the hx-get attribute dynamically
-    document
-        .getElementById("content")
-        .setAttribute("hx-get", `${window.API_BASE_URL}/address/{id}/form`);
+    document.getElementById("content").setAttribute("hx-get", `${API_URL}/address/{id}/form`);
 
-    // TOGGLED SUBMENU
-    if (psCompose.activeRoute.page_url == window.location.pathname) {
-        showSubmenu();
-    }
-    if (psCompose.activeRoute.section == "wizard") {
-        document.querySelector("#save-btn").setAttribute("data-modaltheme", "Warning");
-    }
+    // toggle submenu
+    if (psCompose.activeRoute.page_url == window.location.pathname) showSubmenu();
 
-    let editlink = new URLSearchParams(window.location.search);
-    editlink.append("edit", "true");
-    document
-        .getElementById("edit-icon")
-        .setAttribute("data-link", window.location.pathname + "?" + editlink);
-
-    // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT STATE
+    // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", (event) => {
-        console.log("json-form mounted event:", event);
         let elem = event.detail[0].target;
-        if (elem?.data?.name) {
-            document.getElementById("data-name").textContent = elem?.data?.name;
-        }
 
-        let searchParams = new URLSearchParams(window.location.search);
-        let editMode = searchParams.get("edit");
-        if (!!editMode) {
-            const jsonForm = document.querySelector("json-form");
-            jsonForm.setAttribute("readonly", "false");
-            document.querySelector(".edit-save-cancel").style =
-                "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
-            document.getElementById("edit-icon").style.display = "none";
+        // Header
+        document.getElementById("data-name").textContent = elem?.data?.name;
+        document
+            .getElementById("edit-icon")
+            .setAttribute("data-link", `/addresses/?id=${id}&edit=true`);
 
-            // Hide submenu when in edit mode
-            let submenu = document.querySelector(".submenu-container");
+        if (!!params.get("edit")) {
+            document.querySelector("json-form").setAttribute("readonly", "false");
             hideSubmenu();
         }
     });
 
     // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const elem = document.querySelector("json-form");
-
-            const form_data = JSON.parse(elem.serializeForm());
-            const { name, ...rest } = form_data; // Need to remove name from the form
-
-            const now = new Date();
+            const jsonForm = document.querySelector("json-form");
+            const formData = JSON.parse(jsonForm.serializeForm());
+            const { name, ...rest } = formData; // Need to remove name from the form
 
             // TODO: How would ref_set be updated? -> in backend sanitize_data function
-            const updated_data = {
+            const updatedData = {
                 ref_set: [],
                 json: rest,
                 name: name,
-                last_edited_at: now.toISOString(),
+                last_edited_at: new Date().toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                 // url: "",
             };
 
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
             try {
-                const response = await fetch(`${window.API_BASE_URL}/address/${id}`, {
+                const response = await fetch(`${API_URL}/address/${id}`, {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(updated_data),
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedData),
                 });
-
                 const result = await response.json();
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(
+                        response.ok
+                            ? ["Address saved successfully!", "Success"]
+                            : ["Something went wrong.", "Error"],
+                    ),
+                );
                 params.delete("edit");
-
-                if (!response.ok) {
-                    // Handle server validation errors or other HTTP errors
-                    console.error("Server returned an error:", response);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                } else {
-                    // Adding save message to sessionStorage
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Address saved successfully!", "Success"]),
-                    );
-                }
-
                 window.location = window.location.pathname + "?" + params;
             } catch (error) {
                 console.error("Error:", error);
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "Error"]),
-                );
             }
         });
     });
 
     document.querySelector("#delete-btn").addEventListener("click", async function (event) {
         document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
             try {
-                // Adding delete message to sessionStorage
                 const response = await fetch(`${window.API_BASE_URL}/address/${id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
-
                 const result = await response.json();
-                console.log("response from delete:", response, result);
-                if (!response.ok) {
-                    // Handle server validation errors or other HTTP errors
-                    console.log("inside 1");
-                    console.error("Server returned an error:", response);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                } else {
-                    // Adding delete message to sessionStorage
-                    console.log("inside 2");
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Address deleted successfully!", "Success"]),
-                    );
-                }
-                params.delete("edit");
-            } catch (error) {
-                console.log("inside catch");
-                console.error("Error:", error);
                 sessionStorage.setItem(
                     "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "Error"]),
+                    JSON.stringify(
+                        response.ok
+                            ? ["Address saved successfully!", "Success"]
+                            : ["Something went wrong. confused", "Error"],
+                    ),
                 );
+            } catch (error) {
+                console.error("Error:", error);
             }
         });
     });
