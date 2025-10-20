@@ -699,6 +699,10 @@ web-button[data-theme="AddBtn"] button:hover {
 
 /* WEB-MODAL */
 
+web-modal {
+    display: none;
+}
+
 #confirm-modal {
     /* Underlay covers entire screen. */
     position: fixed;
