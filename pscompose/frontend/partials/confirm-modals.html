@@ -1,0 +1,41 @@
+<web-modal id="save-modal" theme="Success" message="Are you sure mate?" confirm-label="Save">
+</web-modal>
+
+<web-modal
+    id="delete-modal"
+    theme="Error"
+    link=""
+    message="Are you sure you want to delete this address?"
+    confirm-label="Delete"
+>
+</web-modal>
+
+<script>
+    saveBtn = document.querySelector("#save-modal");
+    saveMsg = "Are you sure you want to save this " + psCompose.activeRoute.singular + " ?";
+    saveBtn.setAttribute("message", saveMsg);
+
+    deleteBtn = document.querySelector("#delete-modal");
+    deleteMsg = "Are you sure you want to delete this " + psCompose.activeRoute.singular + " ?";
+    deleteLink = psCompose.activeRoute.page_url;
+    deleteBtn.setAttribute("message", deleteMsg);
+    deleteBtn.setAttribute("link", deleteLink);
+
+    // TODO: How can I show the list of affected items using an API call to /address/find?
+    /*
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        try {
+            const response = await fetch(`${window.API_BASE_URL}/address/${id}/find`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const result = await response.json();
+            console.log("delete button clicked ", response, result)
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        */
+</script>
