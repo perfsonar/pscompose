@@ -37,7 +37,7 @@
         } catch (error) {
             console.error("Error:", error);
         }
-        deleteModal.setAttribute("message", resultToHtml(result));
+        if (result.length > 0) deleteModal.setAttribute("message", resultToHtml(result));
     })();
 
     // Save Datatype
