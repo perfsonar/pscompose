@@ -450,8 +450,12 @@ th {
     @apply hidden;
 }
 
-#data-form:has(json-form[readonly="false"]) .edit-save-cancel {
+.edit-form:has(json-form[readonly="false"]) .edit-save-cancel {
     @apply flex flex-row justify-end gap-md mt-lg;
+}
+
+.edit-form:has(json-form[readonly="false"]) #edit-icon {
+    @apply hidden;
 }
 
 .save-cancel {
