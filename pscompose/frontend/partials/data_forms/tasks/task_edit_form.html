@@ -23,39 +23,7 @@
                     ></json-form>
                 </script>
 
-                <div class="edit-save-cancel">
-                    <web-button
-                        id="delete-btn"
-                        type="button"
-                        data-label="Delete"
-                        data-theme="Error"
-                        data-righticon="trash-2"
-                        data-link="/tasks/"
-                        data-modalconfirm="Are you sure you want to delete this task?"
-                        data-modaltheme="Error"
-                    >
-                    </web-button>
-
-                    <web-button
-                        id="save-btn"
-                        type="submit"
-                        data-label="Save"
-                        data-theme="Secondary"
-                        data-righticon="save"
-                        data-modalconfirm="Are you sure you want to save this task?"
-                        data-modaltheme="Success"
-                    >
-                    </web-button>
-
-                    <web-button
-                        type="button"
-                        data-label="Cancel"
-                        data-theme="Primary"
-                        data-righticon="x"
-                        data-link="javascript:history.back()"
-                    >
-                    </web-button>
-                </div>
+                <div hx-get="/partials/edit-save-cancel.html" hx-trigger="load"></div>
             </form>
         </div>
     </div>
