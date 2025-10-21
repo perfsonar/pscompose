@@ -23,6 +23,8 @@
 
     // Set Up JSON Form in Edit Page -> maybe rename confirm-modals.js since this isn't modal stuff
     if (psCompose.activeRoute.page_url == window.location.pathname) {
+        showSubmenu();
+
         document.body.addEventListener("json-form:mounted", (event) => {
             let elem = event.detail[0].target;
 
