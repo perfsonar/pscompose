@@ -5,7 +5,7 @@
             <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
         </div>
         <div class="content">
-            <form id="my-form" method="GET">
+            <form id="data-form" method="GET">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
@@ -33,15 +33,6 @@
                         confirm-modal="delete-modal"
                     >
                     </web-button>
-                    <web-modal
-                        id="delete-modal"
-                        theme="Error"
-                        link="/schedules/"
-                        message="Are you sure you want to delete this schedule?"
-                        confirm-label="Delete"
-                    >
-                    </web-modal>
-
                     <web-button
                         id="save-btn"
                         type="submit"
@@ -51,14 +42,6 @@
                         confirm-modal="save-modal"
                     >
                     </web-button>
-                    <web-modal
-                        id="save-modal"
-                        theme="Success"
-                        message="Are you sure you want to save this schedule?"
-                        confirm-label="Save"
-                    >
-                    </web-modal>
-
                     <web-button
                         type="button"
                         data-label="Cancel"
@@ -74,72 +57,52 @@
 </div>
 
 <script>
+    // const params = new URLSearchParams(window.location.search);
+    // const id = params.get("id");
+
     // Setting the hx-get attribute dynamically
     document
         .getElementById("content")
         .setAttribute("hx-get", `${window.API_BASE_URL}/schedule/{id}/form`);
 
-    // TOGGLED SUBMENU
-    if (psCompose.activeRoute.page_url == window.location.pathname) {
-        showSubmenu();
-    }
-    if (psCompose.activeRoute.section == "wizard") {
-        document.querySelector("#save-btn").setAttribute("data-modaltheme", "Warning");
-    }
+    // toggle submenu
+    if (psCompose.activeRoute.page_url == window.location.pathname) showSubmenu();
 
-    let editlink = new URLSearchParams(window.location.search);
-    editlink.append("edit", "true");
-    document
-        .getElementById("edit-icon")
-        .setAttribute("data-link", window.location.pathname + "?" + editlink);
-
-    // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT STATE
+    // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", (event) => {
-        console.log("json-form mounted event:", event);
         let elem = event.detail[0].target;
-        if (elem?.data?.name) {
-            document.getElementById("data-name").textContent = elem?.data?.name;
-        }
 
-        let searchParams = new URLSearchParams(window.location.search);
-        let editMode = searchParams.get("edit");
-        if (!!editMode) {
-            const jsonForm = document.querySelector("json-form");
-            jsonForm.setAttribute("readonly", "false");
-            document.querySelector(".edit-save-cancel").style =
-                "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
-            document.getElementById("edit-icon").style.display = "none";
+        // Header
+        document.getElementById("data-name").textContent = elem?.data?.name;
+        document
+            .getElementById("edit-icon")
+            .setAttribute("data-link", `/schedules/?id=${id}&edit=true`);
 
-            // Hide submenu when in edit mode
-            let submenu = document.querySelector(".submenu-container");
+        if (!!params.get("edit")) {
+            document.querySelector("json-form").setAttribute("readonly", "false");
             hideSubmenu();
         }
     });
 
     // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const elem = document.querySelector("json-form");
-
-            const form_data = JSON.parse(elem.serializeForm());
-            const { name, ...rest } = form_data; // Need to remove name from the form
-
-            const now = new Date();
+            const jsonForm = document.querySelector("json-form");
+            const formData = JSON.parse(jsonForm.serializeForm());
+            const { name, ...rest } = formData; // Need to remove name from the form
 
             // TODO: How would ref_set be updated?
             const updated_data = {
                 json: rest,
                 name: name,
-                last_edited_at: now.toISOString(),
+                last_edited_at: new Date().toISOString(),
                 last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                 // url: "",
                 // ref_set: []
             };
 
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
             try {
                 const response = await fetch(`${window.API_BASE_URL}/schedule/${id}`, {
                     method: "PUT",
@@ -150,73 +113,18 @@
                 });
 
                 const result = await response.json();
+                sessionStorage.setItem(
+                    "confirmMessage",
+                    JSON.stringify(
+                        response.ok
+                            ? ["Schedule saved successfully!", "Success"]
+                            : ["Something went wrong.", "Error"],
+                    ),
+                );
                 params.delete("edit");
-
-                if (!response.ok) {
-                    // Handle server validation errors or other HTTP errors
-                    console.error("Server returned an error:", response);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                } else {
-                    // Adding save message to sessionStorage
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Address saved successfully!", "Success"]),
-                    );
-                }
-
                 window.location = window.location.pathname + "?" + params;
             } catch (error) {
                 console.error("Error:", error);
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "Error"]),
-                );
-            }
-        });
-    });
-
-    document.querySelector("#delete-btn").addEventListener("click", async function (event) {
-        document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
-            try {
-                // Adding delete message to sessionStorage
-                const response = await fetch(`${window.API_BASE_URL}/schedule/${id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                const result = await response.json();
-                console.log("response from delete:", response, result);
-                if (!response.ok) {
-                    // Handle server validation errors or other HTTP errors
-                    console.log("inside 1");
-                    console.error("Server returned an error:", response);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                } else {
-                    // Adding delete message to sessionStorage
-                    console.log("inside 2");
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Schedule deleted successfully!", "Success"]),
-                    );
-                }
-                params.delete("edit");
-            } catch (error) {
-                console.log("inside catch");
-                console.error("Error:", error);
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "Error"]),
-                );
             }
         });
     });
