@@ -1,5 +1,5 @@
 export class WebModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "hxAttr"];
+    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon"];
 
     constructor() {
         super();
