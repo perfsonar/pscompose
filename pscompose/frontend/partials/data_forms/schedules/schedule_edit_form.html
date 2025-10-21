@@ -9,7 +9,6 @@
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
-
                 <script id="example-template" type="nunjucks">
                     <json-form
                       id="my-json-form"
@@ -22,67 +21,19 @@
                       readonly='true'
                     ></json-form>
                 </script>
-
-                <div class="edit-save-cancel">
-                    <web-button
-                        id="delete-btn"
-                        type="button"
-                        data-label="Delete"
-                        data-theme="Error"
-                        data-righticon="trash-2"
-                        confirm-modal="delete-modal"
-                    >
-                    </web-button>
-                    <web-button
-                        id="save-btn"
-                        type="submit"
-                        data-label="Save"
-                        data-theme="Secondary"
-                        data-righticon="save"
-                        confirm-modal="save-modal"
-                    >
-                    </web-button>
-                    <web-button
-                        type="button"
-                        data-label="Cancel"
-                        data-theme="Primary"
-                        data-righticon="x"
-                        data-link="javascript:history.back()"
-                    >
-                    </web-button>
-                </div>
+                <div hx-get="/partials/edit-save-cancel.html" hx-trigger="load"></div>
             </form>
         </div>
     </div>
 </div>
 
 <script>
-    // const params = new URLSearchParams(window.location.search);
-    // const id = params.get("id");
+    showSubmenu();
 
     // Setting the hx-get attribute dynamically
     document
         .getElementById("content")
         .setAttribute("hx-get", `${window.API_BASE_URL}/schedule/{id}/form`);
-
-    // toggle submenu
-    if (psCompose.activeRoute.page_url == window.location.pathname) showSubmenu();
-
-    // Set Up JSON Form
-    document.body.addEventListener("json-form:mounted", (event) => {
-        let elem = event.detail[0].target;
-
-        // Header
-        document.getElementById("data-name").textContent = elem?.data?.name;
-        document
-            .getElementById("edit-icon")
-            .setAttribute("data-link", `/schedules/?id=${id}&edit=true`);
-
-        if (!!params.get("edit")) {
-            document.querySelector("json-form").setAttribute("readonly", "false");
-            hideSubmenu();
-        }
-    });
 
     // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
     document.getElementById("data-form").addEventListener("submit", async function (event) {
