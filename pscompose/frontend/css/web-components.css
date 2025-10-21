@@ -746,8 +746,8 @@ web-modal {
     background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
     padding-top: 2rem;
     padding-bottom: 2rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     --tw-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 4px 5px -1px rgba(0, 0, 0, 0.1);
     --tw-shadow-colored: 0px 2px 3px -1px var(--tw-shadow-color),
         0px 4px 5px -1px var(--tw-shadow-color);
@@ -771,6 +771,20 @@ web-modal {
     animation-name: zoomOut;
     animation-duration: 150ms;
     animation-timing-function: ease;
+}
+
+#confirm-modal .confirm-message {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+    font-weight: 400;
+    color: var(--copyAlt-color);
+}
+
+#confirm-modal .confirm-message ul {
+    list-style-type: disc;
+    padding-left: 1rem;
 }
 
 @keyframes fadeIn {

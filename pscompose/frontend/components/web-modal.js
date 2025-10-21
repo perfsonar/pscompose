@@ -1,5 +1,5 @@
 export class WebModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "message", "hxAttr"];
+    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "hxAttr"];
 
     constructor() {
         super();
@@ -51,7 +51,9 @@ export class WebModal extends HTMLElement {
                 <div class="modal-content" style="border-color:${accentColor}" >
                     <i style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide="alert-triangle">
                     </i>
-                    <h4 id="confirm-question">${this.getAttribute("message")}</h4>
+                    <h4 id="confirm-question">${this.getAttribute("question")}</h4>
+                    ${this.getAttribute("message") ? this.getAttribute("message") : ""}
+                    <p id="confirm-find"></p>
                     <div class="save-cancel">
                         <web-button id="confirm-no" data-label="Cancel" data-theme="Shadow"></web-button>
                         <web-button
