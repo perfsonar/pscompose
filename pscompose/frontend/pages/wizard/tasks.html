@@ -46,3 +46,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector("#new-task-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/tasks/task_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>
