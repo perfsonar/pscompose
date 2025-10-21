@@ -42,64 +42,60 @@
     document.getElementById("my-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const elem = document.querySelector("json-form");
-            const form_data = JSON.parse(elem.serializeForm());
-            const { name, ...rest } = form_data; // Need to remove name from the form
+        document
+            .querySelector("#save-modal")
+            .addEventListener("confirm-yes-clicked", async function (event) {
+                const elem = document.querySelector("json-form");
+                const form_data = JSON.parse(elem.serializeForm());
+                const { name, ...rest } = form_data; // Need to remove name from the form
 
-            // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
-            const data = {
-                ref_set: [],
-                type: "address",
-                json: rest,
-                name: name,
-                created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-                last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-                // url: ""
-            };
+                // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
+                const data = {
+                    ref_set: [],
+                    type: "address",
+                    json: rest,
+                    name: name,
+                    created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                    last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                    // url: ""
+                };
 
-            console.log("sending data ", data);
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/address`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
 
-            try {
-                const response = await fetch(`${window.API_BASE_URL}/address`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
+                    if (response.ok) {
+                        const result = await response.json();
 
-                // TODO: Check if this works as expected
-                console.log("Response: ", response);
-                if (response.ok) {
-                    const result = await response.json();
+                        // Adding save message to sessionStorage
+                        sessionStorage.setItem(
+                            "confirmMessage",
+                            JSON.stringify(["Address saved successfully!", "Success"]),
+                        );
 
-                    // Adding save message to sessionStorage
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Address saved successfully!", "Success"]),
-                    );
-
-                    let pathName = window.location.pathname;
-                    if (pathName.includes("new")) {
-                        window.location = "/addresses/?id=" + result.id;
+                        // Depends on if wizard page or not
+                        let pathName = window.location.pathname;
+                        if (pathName.includes("new")) {
+                            window.location = "/addresses/?id=" + result.id;
+                        } else {
+                            window.location = pathName + "?id=" + result.id;
+                        }
                     } else {
-                        window.location = pathName + "?id=" + result.id;
+                        console.error("Error:", "Something went wrong.");
+                        sessionStorage.setItem(
+                            "confirmMessage",
+                            JSON.stringify(["Something went wrong.", "Error"]),
+                        );
+                        processLastMessage();
                     }
-                } else {
-                    // Try to parse error message from response
-                    let errorMsg = "Something went wrong.";
-                    console.error("Error:", errorMsg);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                    window.location = window.location.pathname;
+                } catch (error) {
+                    console.error("Error:", error);
                 }
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById("response-container").innerText = "Something went wrong.";
-            }
-        });
+            });
     });
 </script>
