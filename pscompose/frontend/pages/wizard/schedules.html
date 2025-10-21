@@ -52,3 +52,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector("#new-schedule-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/schedules/schedule_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>
