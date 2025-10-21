@@ -434,7 +434,12 @@ th {
     @apply w-auto;
 }
 
-:where(.packets-ui .horizontal-layout-item):has(input-text, input-number) {
+:where(.packets-ui .horizontal-layout-item):has(
+        input-text,
+        input-number,
+        dropdown-multi-select,
+        dropdown-single-select
+    ) {
     @apply w-full;
 }
 
