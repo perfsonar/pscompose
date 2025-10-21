@@ -95,7 +95,7 @@
                             "confirmMessage",
                             JSON.stringify(["Something went wrong.", "Error"]),
                         );
-                        window.location = window.location.pathname;
+                        processLastMessage();
                     }
                 } catch (error) {
                     console.error("Error:", error);
