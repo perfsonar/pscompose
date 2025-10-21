@@ -75,6 +75,11 @@
                     window.location = window.location.pathname + "?" + params;
                 } catch (error) {
                     console.error("Error:", error);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                    processLastMessage();
                 }
             });
     });
