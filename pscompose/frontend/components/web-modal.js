@@ -15,26 +15,17 @@ export class WebModal extends HTMLElement {
     }
 
     attachListeners() {
-        const yes = this.querySelector("#confirm-yes");
-        const no = this.querySelector("#confirm-no");
-        const underlay = this.querySelector(".modal-underlay");
-
-        yes.onclick = () => {
+        // yes
+        this.querySelector("#confirm-yes").onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
-            const confirmEvent = new CustomEvent("confirm-yes-clicked", {
-                bubbles: true,
-            });
-            document.body.dispatchEvent(confirmEvent);
-
-            // Update logic after updating save logic
-            if (this.getAttribute("link")) window.location = this.getAttribute("link");
+            this.dispatchEvent(new CustomEvent("confirm-yes-clicked", { bubbles: true }));
         };
 
-        no.onclick = () => {
+        // escape
+        this.querySelector("#confirm-no").onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
         };
-
-        underlay.onclick = () => {
+        this.querySelector(".modal-underlay").onclick = () => {
             document.getElementById("confirm-modal").style.display = "none";
         };
     }
@@ -70,6 +61,7 @@ export class WebModal extends HTMLElement {
                                     ? `data-righticon=${this.getAttribute("icon")}`
                                     : ""
                             }
+                            ${this.getAttribute("link") ? `link=${this.getAttribute("link")}` : ""}
                             ${this.getAttribute("hxAttr") ? `${this.getAttribute("hxAttr")}` : ""}
                             data-label=${this.getAttribute("confirm-label")}
                             data-theme=${this.getAttribute("theme")}
