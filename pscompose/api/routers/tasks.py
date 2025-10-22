@@ -54,9 +54,29 @@ def get_existing_form(item_id: str):
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Task with id: {item_id} not found")
 
+    try:
+        groups = backend.get_results(datatype=DataTypes.GROUP)
+        tests = backend.get_results(datatype=DataTypes.TEST)
+        schedules = backend.get_results(datatype=DataTypes.SCHEDULE)
+        archives = backend.get_results(datatype=DataTypes.ARCHIVE)
+        tools = backend.get_results(datatype="tool")  # TODO: Get this from pScheduler
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch data: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=TASK_SCHEMA,
+        updates={
+            "group": groups,
+            "test": tests,
+            "schedule": schedules,
+            "archives": archives,
+            "tools": tools,
+        },
+    )
+
     payload = {
         "ui_schema": TASK_UI_SCHEMA,
-        "json_schema": TASK_SCHEMA,
+        "json_schema": enriched_schema,
         "form_data": response_json,
     }
     return JSONResponse(content=payload)
