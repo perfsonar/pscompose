@@ -731,35 +731,25 @@ TASK_UI_SCHEMA = {
             ],
         },
         {
-            "type": "HorizontalLayout",
-            "elements": [
-                {
-                    "type": "Control",
-                    "scope": "#/properties/group",
-                    "customComponent": "dropdown-single-select",
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/test",
-                    "customComponent": "dropdown-single-select",
-                },
-            ],
+            "type": "Control",
+            "scope": "#/properties/group",
+            "customComponent": "dropdown-single-select",
         },
         {
-            "type": "HorizontalLayout",
-            "elements": [
-                {
-                    "type": "Control",
-                    "scope": "#/properties/archives",
-                    "customComponent": "dropdown-multi-select",
-                    "output": "list",
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/schedule",
-                    "customComponent": "dropdown-single-select",
-                },
-            ],
+            "type": "Control",
+            "scope": "#/properties/test",
+            "customComponent": "dropdown-single-select",
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/archives",
+            "customComponent": "dropdown-multi-select",
+            "output": "list",
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/schedule",
+            "customComponent": "dropdown-single-select",
         },
         {
             "type": "HorizontalLayout",
