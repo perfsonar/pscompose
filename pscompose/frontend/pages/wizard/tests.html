@@ -34,7 +34,7 @@
             <div class="step-box-left">
                 <dropdown-single-select label="Test" options=""> </dropdown-single-select>
                 <web-button
-                    id="new-test-btn"
+                    id="new-btn"
                     data-label="New Test"
                     data-theme="Shadow"
                     data-lefticon="flask-conical"
@@ -49,13 +49,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector("#new-test-btn").addEventListener("click", () => {
-        let container = document.querySelector(".step-box-right");
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/data_forms/tests/test_new_form.html" 
-                                    hx-trigger="load"></div>`;
-        htmx.process(container);
-    });
-</script>
+<script src="/partials/wizardRenderer.js"></script>

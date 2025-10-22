@@ -19,7 +19,7 @@
             </web-button>
         </div>
     </div>
-    <div class="step-section">
+    <div class="step-section create_template">
         <h2 class="step-title">Step 7) Create Template</h2>
         <p class="step-text">
             You’ve reached the final step!
@@ -28,7 +28,8 @@
             your changes.
         </p>
         <div class="step-box-column">
-            <input-text label="Name" placeholder="New Template"></input-text>
+            <div class="w-full" hx-get="/partials/new_form.html" hx-trigger="load"></div>
+            <!-- <input-text label="Name" placeholder="New Template"></input-text>
             <dropdown-multi-select label="Tasks" options=""> </dropdown-multi-select>
             <input-text-area label="Other Meta" placeholder="Enter Json"></input-text-area>
             <div class="save-cancel">
@@ -45,7 +46,7 @@
                     data-theme="Primary"
                     data-righticon="x"
                 ></web-button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
