@@ -25,7 +25,7 @@
             <div class="step-box-left">
                 <dropdown-single-select label="Address" options=""> </dropdown-single-select>
                 <web-button
-                    id="new-address-btn"
+                    id="new-btn"
                     data-label="New Address"
                     data-theme="Shadow"
                     data-lefticon="hard-drive-download"
@@ -40,60 +40,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    // SET LIST OF ADDRESSES TO DROPDOWN SELECT
-    try {
-        fetch(psCompose.metadata.wizard[0].list_endpoint)
-            .then((response) => {
-                if (!response.ok) {
-                    let errorMsg = "Something went wrong.";
-                    alert(errorMsg);
-                    console.error("Error:", errorMsg);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const addressList = data.map((item) => ({
-                    const: item.id,
-                    title: item.name,
-                }));
-                document
-                    .querySelector("dropdown-single-select")
-                    .setAttribute("options", JSON.stringify(addressList));
-            });
-    } catch (error) {
-        console.error("Error:", error);
-    }
-
-    /* RENDER JSON FORM */
-    // 1. set id param and redirect
-    document.querySelector("dropdown-single-select").addEventListener("change", (evt) => {
-        let newUrlParam = new URLSearchParams();
-        newUrlParam.set("id", JSON.parse(evt.target.value));
-        window.location = window.location.pathname + "?" + newUrlParam;
-    });
-
-    // 2.1 take id param and render existing address json form
-    let urlParam = new URLSearchParams(window.location.search);
-    if (urlParam.size > 0 && !!urlParam.get("id")) {
-        document
-            .querySelector("dropdown-single-select")
-            .setAttribute("value", JSON.stringify(urlParam.get("id")));
-
-        let container = document.querySelector(".step-box-right");
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/data_forms/addresses/address_edit_form.html"
-                                    hx-trigger="load"></div>`;
-        htmx.process(container);
-    }
-
-    // 2.2 render new address json form
-    document.querySelector("#new-address-btn").addEventListener("click", () => {
-        let container = document.querySelector(".step-box-right");
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/data_forms/addresses/address_new_form.html" 
-                                    hx-trigger="load"></div>`;
-        htmx.process(container);
-    });
-</script>
+<script src="/partials/wizardRenderer.js"></script>

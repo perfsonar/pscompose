@@ -37,7 +37,7 @@
             <div class="step-box-left">
                 <dropdown-single-select label="Schedule" options=""> </dropdown-single-select>
                 <web-button
-                    id="new-schedule-btn"
+                    id="new-btn"
                     data-label="New Schedule"
                     data-theme="Shadow"
                     data-lefticon="calendar-check"
@@ -52,13 +52,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector("#new-schedule-btn").addEventListener("click", () => {
-        let container = document.querySelector(".step-box-right");
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/data_forms/schedules/schedule_new_form.html" 
-                                    hx-trigger="load"></div>`;
-        htmx.process(container);
-    });
-</script>
+<script src="/partials/wizardRenderer.js"></script>

@@ -36,7 +36,7 @@
             <div class="step-box-left">
                 <dropdown-single-select label="Archive" options=""> </dropdown-single-select>
                 <web-button
-                    id="new-archive-btn"
+                    id="new-btn"
                     data-label="New Archive"
                     data-theme="Shadow"
                     data-lefticon="database"
@@ -51,13 +51,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector("#new-archive-btn").addEventListener("click", () => {
-        let container = document.querySelector(".step-box-right");
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/data_forms/archives/archive_new_form.html" 
-                                    hx-trigger="load"></div>`;
-        htmx.process(container);
-    });
-</script>
+<script src="/partials/wizardRenderer.js"></script>
