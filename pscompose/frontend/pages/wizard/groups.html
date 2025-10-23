@@ -20,8 +20,17 @@
     <div class="step-section">
         <h2>Step 2) Groups</h2>
         <p class="step-text">
-            Then you need to create host groups. Make sure all your group are in the list. If not,
-            add them now.
+            Groups describe how addresses are combined when building the list of tasks. Make sure
+            that all groups required for your tasks are included in the list below. You can read
+            more about different types of groups
+            <a
+                href="https://docs.perfsonar.net/psconfig_templates_intro.html#groups"
+                target="_blank"
+                >here</a
+            >.
+            <br />
+            <br />
+            Use the <b>New Group</b> button to add new groups as needed.
         </p>
         <div class="step-box">
             <div class="step-box-left">
@@ -44,6 +53,52 @@
 </div>
 
 <script>
+    // SET LIST OF GROUPS TO DROPDOWN SELECT
+    try {
+        fetch(psCompose.metadata.wizard[1].list_endpoint)
+            .then((response) => {
+                if (!response.ok) {
+                    let errorMsg = "Something went wrong.";
+                    alert(errorMsg);
+                    console.error("Error:", errorMsg);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const groupList = data.map((item) => ({
+                    const: item.id,
+                    title: item.name,
+                }));
+                document
+                    .querySelector("dropdown-single-select")
+                    .setAttribute("options", JSON.stringify(groupList));
+            });
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+    /* RENDER JSON FORM */
+    // 1. set id param and redirect
+    document.querySelector("dropdown-single-select").addEventListener("change", (evt) => {
+        let newUrlParam = new URLSearchParams();
+        newUrlParam.set("id", JSON.parse(evt.target.value));
+        window.location = window.location.pathname + "?" + newUrlParam;
+    });
+
+    // 2.1 take id param and render existing group json form
+    let urlParam = new URLSearchParams(window.location.search);
+    if (urlParam.size > 0 && !!urlParam.get("id")) {
+        document
+            .querySelector("dropdown-single-select")
+            .setAttribute("value", JSON.stringify(urlParam.get("id")));
+
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/groups/group_edit_form.html"
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    }
+
     document.querySelector("#new-group-btn").addEventListener("click", () => {
         let container = document.querySelector(".step-box-right");
         container.innerHTML = `<div class="w-full" 

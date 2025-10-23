@@ -1,5 +1,5 @@
 class TextInputCheckbox extends HTMLElement {
-    static observedAttributes = ["label", "checked"];
+    static observedAttributes = ["label", "value"];
 
     constructor() {
         super();
@@ -21,7 +21,7 @@ class TextInputCheckbox extends HTMLElement {
             <div class="container">
                 <div class="input-checkbox-wrapper">
                     <input type="checkbox" ${
-                        this.getAttribute("checked") === "true" ? "checked" : ""
+                        JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
                     } />
                     <label>
                         ${this.getAttribute("label")}
@@ -34,17 +34,26 @@ class TextInputCheckbox extends HTMLElement {
                         }
                     </label>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
 
             <div class="checkbox-container-disabled">
-                <label>${this.getAttribute("label")}</label>        
-                <p> ${this.getAttribute("checked")}</p>
+                <label>${this.getAttribute("label")}</label> 
+                <div class="wrapper">       
+                    <p> ${JSON.parse(this.getAttribute("value"))}</p>
+                </div>
             </div>
         `;
 
-        this.querySelector('input[type="checkbox"]').addEventListener("change", (event) => {
-            this.setAttribute("checked", event.target.checked ? "true" : "false");
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            const boolVal = event.target.checked ? true : false;
+            this.setAttribute("value", JSON.stringify(boolVal));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

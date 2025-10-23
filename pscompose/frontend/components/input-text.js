@@ -27,15 +27,22 @@ export class TextInput extends HTMLElement {
                             : ""
                     }
                 </label>
-                <div class="input-wrapper">
+                <div class="wrapper">
                     <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
-                        this.getAttribute("value") || ""
+                        JSON.parse(this.getAttribute("value")) || ""
                     }" />
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
-        this.querySelector("input").addEventListener("change", () => {
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", JSON.stringify(input.value));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

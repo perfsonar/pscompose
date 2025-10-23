@@ -27,6 +27,9 @@ function processLastMessage() {
                                     <h6>${confirmMsg}</h6>`;
             container.style.backgroundColor = `rgba(var(--error-color-rgb), 0.5)`;
         }
+
+        lucide.createIcons({ root: container });
+
         container.classList.add("show");
         sessionStorage.removeItem(key);
         setTimeout(() => {

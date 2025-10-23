@@ -1,87 +1,85 @@
 <div class="datatype edit-form" hx-ext="dynamic-url">
     <div class="page">
-        <h2>Edit Group</h2>
+        <div class="header">
+            <h2 id="data-name"></h2>
+            <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
+        </div>
         <div class="content">
-            <form id="my-form">
-                <fieldset
-                    id="content"
-                    hx-get="http://0.0.0.0:8000/api/group/{id}/form"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                >
+            <form id="data-form" method="GET">
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
 
-                <script src="/partials/customRenderer.js" type="module"></script>
                 <script id="example-template" type="nunjucks">
                     <json-form
                       id="my-json-form"
-                      form-data='{{ form_data | dump }}'
+                      form-data='{{ form_data |
+                          logger("logging form-data:") |
+                          escape_property("_meta") |
+                          dump }}'
                       schema-data='{{ json_schema | dump }}'
                       layout-data='{{ ui_schema | dump }}'
                       readonly='true'
                     ></json-form>
                 </script>
 
-                <div class="save-cancel">
-                    <web-button
-                        data-label="Delete"
-                        data-theme="error"
-                        data-righticon="trash-2"
-                        data-redirect="/groups/"
-                        hx-delete="http://0.0.0.0:8000/api/group/{id}"
-                        hx-confirm="Are you sure you want to delete this group?"
-                    >
-                    </web-button>
-
-                    <web-button data-label="Save" data-theme="Secondary" data-righticon="save">
-                    </web-button>
-
-                    <web-button data-label="Cancel" data-theme="Primary" data-righticon="x">
-                    </web-button>
-                </div>
+                <div hx-get="/partials/edit-save-cancel.html" hx-trigger="load"></div>
             </form>
-            <!-- Response container -->
-            <div id="response-container"></div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
-        event.preventDefault(); // stop default form submission
+    // Setting the hx-get attribute dynamically
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${window.API_BASE_URL}/group/{id}/form`);
 
-        const elem = document.querySelector("json-form");
-        const form_data = JSON.parse(elem.serializeForm());
-        const { name, ...rest } = form_data; // Need to remove name from the form
+    // Save and submit the form and edit to readonly state
+    document.getElementById("data-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-        const now = new Date();
+        document
+            .querySelector("#save-modal")
+            .addEventListener("confirm-yes-clicked", async function (event) {
+                const jsonForm = document.querySelector("json-form");
+                const formData = JSON.parse(jsonForm.serializeForm());
+                const { name, ...rest } = formData; // Need to remove name from the form
 
-        // TODO: How would ref_set be updated?
-        const updated_data = {
-            json: rest,
-            name: name,
-            last_edited_at: now.toISOString(),
-            last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-        };
+                // TODO: How would ref_set be updated? -> in backend sanitize_data function
+                const updatedData = {
+                    // Additional properties needed in order to sanitize the data
+                    schema: JSON.parse(jsonForm.schemaData),
+                    group_type: rest.type,
 
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        try {
-            const response = await fetch(`http://0.0.0.0:8000/api/group/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updated_data),
+                    ref_set: [],
+                    json: rest,
+                    name: name,
+                    last_edited_at: new Date().toISOString(),
+                    last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                    // url: "",
+                };
+
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/group/${id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updatedData),
+                    });
+                    const result = await response.json();
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(
+                            response.ok
+                                ? ["Group saved successfully!", "Success"]
+                                : ["Something went wrong.", "Error"],
+                        ),
+                    );
+                    params.delete("edit");
+                    window.location = window.location.pathname + "?" + params;
+                } catch (error) {
+                    console.error("Error:", error);
+                }
             });
-
-            const result = await response.json();
-            console.log("Success:", result);
-            document.getElementById("response-container").innerText = "Group saved successfully!";
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById("response-container").innerText = "Something went wrong.";
-        }
     });
 </script>

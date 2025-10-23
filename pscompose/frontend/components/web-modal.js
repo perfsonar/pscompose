@@ -1,5 +1,5 @@
 export class WebModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "message", "hxAttr"];
+    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon"];
 
     constructor() {
         super();
@@ -15,22 +15,18 @@ export class WebModal extends HTMLElement {
     }
 
     attachListeners() {
-        const yes = document.querySelector("#confirm-yes");
-        const no = document.querySelector("#confirm-no");
-        const underlay = document.querySelector(".modal-underlay");
+        // yes
+        this.querySelector("#confirm-yes").onclick = () => {
+            document.querySelector("web-modal").style.display = "none";
+            this.dispatchEvent(new CustomEvent("confirm-yes-clicked", { bubbles: true }));
+        };
 
-        yes.onclick = function () {
-            document.getElementById("confirm-modal").style.display = "none";
-            const confirmEvent = new CustomEvent("confirm-yes-clicked", {
-                bubbles: true,
-            });
-            document.body.dispatchEvent(confirmEvent);
+        // escape
+        this.querySelector("#confirm-no").onclick = () => {
+            document.querySelector("web-modal").style.display = "none";
         };
-        no.onclick = function () {
-            document.getElementById("confirm-modal").style.display = "none";
-        };
-        underlay.onclick = function () {
-            document.getElementById("confirm-modal").style.display = "none";
+        this.querySelector(".modal-underlay").onclick = () => {
+            document.querySelector("web-modal").style.display = "none";
         };
     }
 
@@ -53,23 +49,21 @@ export class WebModal extends HTMLElement {
                 <div class="modal-underlay"></div>
 
                 <div class="modal-content" style="border-color:${accentColor}" >
-                    <i  style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide=  "alert-triangle">
+                    <i style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide="alert-triangle">
                     </i>
-                    <h4 id="confirm-question">${this.getAttribute("message")}</h4>
+                    <h4 id="confirm-question">${this.getAttribute("question")}</h4>
+                    ${this.getAttribute("message") ? this.getAttribute("message") : ""}
+                    <p id="confirm-find"></p>
                     <div class="save-cancel">
                         <web-button id="confirm-no" data-label="Cancel" data-theme="Shadow"></web-button>
                         <web-button
                             id="confirm-yes"
                             ${
-                                this.getAttribute("link")
-                                    ? `data-link=${this.getAttribute("link")}`
-                                    : ""
-                            }
-                            ${
                                 this.getAttribute("icon")
                                     ? `data-righticon=${this.getAttribute("icon")}`
                                     : ""
                             }
+                            ${this.getAttribute("link") ? `link=${this.getAttribute("link")}` : ""}
                             ${this.getAttribute("hxAttr") ? `${this.getAttribute("hxAttr")}` : ""}
                             data-label=${this.getAttribute("confirm-label")}
                             data-theme=${this.getAttribute("theme")}

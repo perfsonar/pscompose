@@ -1,4 +1,4 @@
-<nav class="backdrop" hx-ext="client-side-templates">
+<div class="menu">
     <div class="left-nav">
         <ul>
             <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
@@ -46,7 +46,7 @@
     <div class="submenu-container"></div>
 
     <script id="submenu-template" type="nunjucks">
-        <div class='submenu show' id='submenu-content'>
+        <div class='submenu' id='submenu-content'>
             <div class="submenu-header">
                 <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
                 <web-button data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}" data-theme="AddBtn" data-lefticon="plus" data-label="New">
@@ -70,7 +70,7 @@
             </ul>
         </div>
     </script>
-</nav>
+</div>
 
 <script>
     function filterSubmenuItems(searchValue) {
@@ -91,6 +91,8 @@
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = psCompose.activeMenuItem;
         container.classList.remove("hidden");
+        container.offsetWidth;
+        container.classList.remove("close");
         container.innerHTML = `
           <div
             hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
@@ -99,13 +101,47 @@
             nunjucks-array-template="submenu-template"
             hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
           </div>`;
+        container.classList.add("open");
         htmx.process(container);
     }
 
     function hideSubmenu() {
         let container = document.querySelector(".submenu-container");
         psCompose.toggledMenuItem = null;
-        container.classList.add("hidden");
+        container.classList.remove("open");
+        container.classList.add("close");
+        setTimeout(() => {
+            container.classList.add("hidden");
+            container.classList.remove("close");
+        }, 200);
+    }
+
+    function switchSubmenu() {
+        return new Promise((transitioned) => {
+            let container = document.querySelector(".submenu-container");
+            psCompose.toggledMenuItem = psCompose.activeMenuItem;
+            container.classList.remove("open");
+            container.classList.add("close");
+
+            // Update container content
+            container.innerHTML = `
+            <div
+                hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+                hx-trigger='load'
+                hx-target='.submenu-container'
+                nunjucks-array-template="submenu-template"
+                hx-context='{ "psCompose": ${JSON.stringify(psCompose)} }'>
+            </div>`;
+            htmx.process(container);
+
+            // Wait on close transition before opening submenu
+            container.addEventListener("transitionend", function switched() {
+                container.classList.remove("close");
+                container.removeEventListener("transitionend", switched);
+                container.classList.add("open");
+                transitioned();
+            });
+        });
     }
 
     function renderHighlight() {
@@ -136,7 +172,7 @@
     renderHighlight();
 
     document.querySelectorAll(`.left-nav .parent-item`).forEach((elem) => {
-        elem.addEventListener("click", function () {
+        elem.addEventListener("click", async function () {
             const clickedMenu = elem.getAttribute("data-submenu");
             if (psCompose.toggledMenuItem === clickedMenu && elem.classList.contains("active")) {
                 // If clicking the already active item, untoggle
@@ -146,21 +182,25 @@
                 } else if (psCompose.activeRoute?.page_url?.split("/")[1]) {
                     psCompose.activeMenuItem = psCompose.activeRoute.page_url.split("/")[1];
                 }
-
                 hideSubmenu();
-                updateShortCutsVisibility();
-                renderHighlight();
             } else {
-                // Remove active from all, set new active, and show submenu
                 document
                     .querySelectorAll(`.left-nav .parent-item`)
                     .forEach((e) => e.classList.remove("active"));
                 elem.classList.add("active");
                 psCompose.activeMenuItem = clickedMenu;
-                updateShortCutsVisibility();
-                showSubmenu();
-                renderHighlight();
+                if (psCompose.toggledMenuItem != null) {
+                    // Locking menu width to prevent blip while switching between submenus
+                    const menu = document.querySelector(".menu");
+                    menu.style.width = menu.getBoundingClientRect().width + "px";
+                    await switchSubmenu();
+                    menu.style.width = "";
+                } else {
+                    showSubmenu();
+                }
             }
+            updateShortCutsVisibility();
+            renderHighlight();
         });
     });
 </script>
