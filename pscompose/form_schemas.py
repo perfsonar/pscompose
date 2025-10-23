@@ -331,7 +331,7 @@ SCHEDULE_SCHEMA = {
         "slip": {
             "type": "string",
             "title": "Slip",
-            "description": "ISO8601 DURATION that allows the start of each run to be as much as the DURATION later than their ideal scheduled time. Default is 5 minutes (PT5M)",
+            "description": "ISO8601 Duration that allows the start of each run to be as much as the Duration later than their ideal scheduled time. Default is 5 minutes (PT5M)",
             "default": "PT5M",
         },
         "sliprand": {
@@ -343,7 +343,7 @@ SCHEDULE_SCHEMA = {
         "repeat": {
             "type": "string",
             "title": "Repeat",
-            "description": "ISO8601 duration that repeats runs at the specified duration",
+            "description": "ISO8601 Duration that repeats runs at the specified duration.<br>Examples:<br> PT5M (5 minutes)<br> PT10M (10 minutes)",
         },
         # "start": {
         #     "type": "string",
@@ -364,7 +364,7 @@ SCHEDULE_SCHEMA = {
         "_meta": {
             "type": "string",
             "title": "Other Meta",
-            "description": "Fill in information such as display-name and display-set as an object",
+            "description": "This field should be a JSON object with keys such as 'display-name' and 'display-set'",
             "default": "",
         },
     },
