@@ -145,11 +145,11 @@
         document
             .querySelector("#delete-modal")
             .addEventListener("confirm-yes-clicked", async function (event) {
-                const deleteSuccessMsg = "Successfully deleted " + dataType + "!";
-                const deleteFailMsg = "Something went wrong while deleting" + dataType + ".";
+                const deleteSuccessMsg = "Successfully deleted " + datatype + "!";
+                const deleteFailMsg = "Something went wrong while deleting" + datatype + ".";
 
                 try {
-                    const response = await fetch(`${window.API_BASE_URL}/${dataType}/${id}`, {
+                    const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}`, {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                     });
