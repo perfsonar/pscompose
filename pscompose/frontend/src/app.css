@@ -132,6 +132,10 @@ nav {
     @apply text-copyAlt;
 }
 
+.menu {
+    @apply flex flex-row;
+}
+
 .left-nav {
     @apply w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
@@ -164,13 +168,36 @@ nav {
 
 .submenu-container {
     @apply flex-1 bg-surface_2;
+    transform-origin: left center;
+    transform: scaleX(0);
+    opacity: 0;
+    transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.submenu-container.open {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+.submenu-container.close {
+    transform: scaleX(0);
+    opacity: 0;
+}
+
+.submenu-container.close.hidden {
+    transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .submenu {
-    @apply hidden transition-opacity duration-300 ease-in-out flex-1;
+    @apply hidden flex-1;
 }
 
-.submenu.show {
+.submenu {
     @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px] mb-xxlg;
 }
 
@@ -194,8 +221,9 @@ nav {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 .submenu .submenu-header {
-    @apply flex flex-row justify-between items-center mb-lg;
+    @apply flex flex-row justify-between items-center mb-xsm gap-lg;
 }
+
 .submenu #submenu-search {
     @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
 }
@@ -307,8 +335,16 @@ th {
 }
 
 .step-text {
-    @apply text-copy_2_sans;
+    @apply text-copy_2_sans pr-xlg;
 }
+
+.step-text a {
+    @apply underline text-success;
+}
+
+/* .step-text b {
+    @apply bg-shadow px-xsm py-xxsm rounded-full;
+} */
 
 .step-box {
     @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
@@ -398,7 +434,11 @@ th {
     @apply w-auto;
 }
 
-:where(.packets-ui .horizontal-layout-item):has(input-text, input-number) {
+:where(.packets-ui .horizontal-layout-item):has(
+        input-text,
+        dropdown-multi-select,
+        dropdown-single-select
+    ) {
     @apply w-full;
 }
 
@@ -414,8 +454,16 @@ th {
     @apply hidden;
 }
 
+.edit-form:has(json-form[readonly="false"]) .edit-save-cancel {
+    @apply flex flex-row justify-end gap-md mt-lg;
+}
+
+.edit-form:has(json-form[readonly="false"]) #edit-icon {
+    @apply hidden;
+}
+
 .save-cancel {
-    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-9;
+    @apply flex flex-row justify-end items-end py-3 gap-[10px] w-full h-16 mt-1;
 }
 
 .copy-json {

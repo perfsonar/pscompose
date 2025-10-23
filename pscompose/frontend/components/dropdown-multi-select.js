@@ -1,5 +1,5 @@
 export class MultiSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected"];
+    static observedAttributes = ["label", "options", "value", "output"];
 
     constructor() {
         super();
@@ -18,10 +18,20 @@ export class MultiSelectDropdown extends HTMLElement {
         lucide.createIcons();
     }
 
+    sanitizeOutput(sv) {
+        if (this.getAttribute("output") == "object") {
+            let mapping = sv.map((val) => {
+                return { name: val };
+            });
+            return mapping;
+        }
+        return sv;
+    }
+
     attachToggleDropdown() {
         const options = this.querySelector(".options");
         if (!options) return;
-        this.querySelector(".select").addEventListener("click", () => {
+        this.querySelector(".wrapper").addEventListener("click", () => {
             options.classList.toggle("open");
             this.querySelector(".dropdown").classList.toggle("active");
             this.attachOptionListeners();
@@ -34,8 +44,11 @@ export class MultiSelectDropdown extends HTMLElement {
                 const value = item.getAttribute("data-value");
                 if (value && !this.selectedValues.includes(value)) {
                     this.selectedValues.unshift(value); // Value to selectedValue array
-                    this.setAttribute("selected", JSON.stringify(this.selectedValues)); // set Attribute
-                    this.dispatchEvent(new Event("select", { bubbles: true }));
+                    this.setAttribute(
+                        "value",
+                        JSON.stringify(this.sanitizeOutput(this.selectedValues)),
+                    ); // set Attribute
+                    this.dispatchEvent(new Event("change", { bubbles: true }));
                     this.render();
                     lucide.createIcons();
                 }
@@ -48,8 +61,11 @@ export class MultiSelectDropdown extends HTMLElement {
             btn.addEventListener("click", () => {
                 const value = btn.getAttribute("data-value");
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
-                this.setAttribute("selected", JSON.stringify(this.selectedValues));
-                this.dispatchEvent(new Event("select", { bubbles: true }));
+                this.setAttribute(
+                    "value",
+                    JSON.stringify(this.sanitizeOutput(this.selectedValues)),
+                ); // set Attribute
+                this.dispatchEvent(new Event("change", { bubbles: true }));
                 this.render();
                 lucide.createIcons();
             });
@@ -57,12 +73,16 @@ export class MultiSelectDropdown extends HTMLElement {
     }
 
     selectedSetUp() {
-        const selected = this.getAttribute("selected")
-            ? JSON.parse(this.getAttribute("selected"))
-            : [];
-        this.selectedValues = selected.map((item) =>
-            typeof item === "object" ? item.const : item,
-        );
+        const selected = this.getAttribute("value") ? JSON.parse(this.getAttribute("value")) : [];
+        if (this.getAttribute("output") == "object") {
+            this.selectedValues = selected.map((item) =>
+                typeof item === "object" ? item.name : item,
+            );
+        } else {
+            this.selectedValues = selected.map((item) =>
+                typeof item === "object" ? item.const : item,
+            );
+        }
     }
 
     attachSearchHandler() {
@@ -89,13 +109,11 @@ export class MultiSelectDropdown extends HTMLElement {
 
         const tagsHTML = this.selectedValues
             .map((val) => {
-                const label = options.find((opt) => opt.const === val)?.title || val;
+                const label = options.find((opt) => opt.const === val)?.title || "Option Not Found";
                 return `
                     <span class="tag">
                         ${label}
-                        <button class="remove-tag" data-value="${val}">
-                            <i style="width: 16px; height: 16px; color: white;" data-lucide="x"></i>
-                        </button>
+                        <web-button class="remove-tag" type="button" data-value="${val}" data-righticon="x" data-theme="Icon-Small" />
                     </span>`;
             })
             .join("");
@@ -113,7 +131,7 @@ export class MultiSelectDropdown extends HTMLElement {
                 }
                 </label>
                 <div class="dropdown">
-                    <div class="select">
+                    <div class="wrapper">
                         <input type="search" id="dropdown-search" placeholder='Select ${this.getAttribute(
                             "label",
                         )}'/>
@@ -136,7 +154,11 @@ export class MultiSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;

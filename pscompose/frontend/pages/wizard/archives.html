@@ -20,8 +20,17 @@
     <div class="step-section">
         <h2>Step 3) Archives</h2>
         <p class="step-text">
-            Next is Archives. Archives are where the test results are stored. If your archive is
-            listed, move to the next step. If not, create it now.
+            Archives are optional components that specify where the results of your tasks will be
+            stored. Make sure that all archives required for your tasks are included in the list
+            below. You can read more about archives
+            <a
+                href="https://docs.perfsonar.net/psconfig_templates_intro.html#archives"
+                target="_blank"
+                >here</a
+            >.
+            <br />
+            <br />
+            Use the <b>New Archive</b> button to add new archives as needed.
         </p>
         <div class="step-box">
             <div class="step-box-left">
@@ -42,3 +51,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector("#new-archive-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/archives/archive_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>

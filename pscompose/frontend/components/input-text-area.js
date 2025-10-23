@@ -27,13 +27,22 @@ export class TextInputArea extends HTMLElement {
                             : ""
                     }
                 </label>
-                <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
-                    this.getAttribute("value") || ""
-                }</textarea>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                <div class="wrapper">
+                    <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
+                        JSON.parse(this.getAttribute("value")) || ""
+                    }</textarea>
+                </div>
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
-        this.querySelector("textarea").addEventListener("change", () => {
+        const textarea = this.querySelector("textarea");
+        textarea.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", JSON.stringify(textarea.value));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

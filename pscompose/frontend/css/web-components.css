@@ -5,6 +5,7 @@
     flex: 1 1 auto;
     font-size: 16px;
 }
+
 .container label {
     display: flex;
     flex-direction: row;
@@ -13,82 +14,90 @@
     font-weight: 600;
     white-space: nowrap;
 }
+
 .container ::placeholder {
     color: var(--copyAlt-color);
 }
-.container required {
+
+.container .required {
     color: var(--copyAlt-color);
     text-align: right;
     font-size: 12px;
 }
-.container:has(:disabled) required {
+
+.disabled .required {
     display: none;
 }
 
-/* INPUT-TEXT */
+.disabled web-tooltip {
+    display: none;
+}
 
-.container .input-wrapper {
+.container .wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding: 0 0 0 12px;
 
     background-color: var(--surface2-color);
     color: var(--copy-color);
 
     width: 100%;
-    height: 40px;
+    min-width: 200px;
+    height: auto;
 
     border: 1px solid #c3c7d9;
 }
 
-.container .input-wrapper .buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 8px;
-}
-
-.container .input-wrapper:has(input:focus) {
-    border: 1.5px solid var(--success-color);
-}
-
-.container .input-wrapper:has(:disabled) {
+.disabled .wrapper {
     background-color: transparent;
     border: none;
     font-family: "Source Code Pro";
     cursor: not-allowed;
     color: var(--copyAlt-color);
-    height: 24px;
+
+    padding: 0px 4px;
 }
 
-.container .input-wrapper:has(:disabled) input {
-    padding: 0;
-}
-
-.container .input-wrapper:has(:disabled) .buttons {
-    display: none;
-}
-
-.container .input-wrapper input {
+/* INPUT-TEXT */
+.container .wrapper input {
     border: none;
     appearance: none;
     outline: none;
     background-color: transparent;
 
     width: 100%;
+    height: 40px;
     flex: 1 1 auto;
-    padding: 0 12px;
 }
 
-.container .input-wrapper input:focus {
+.disabled input:placeholder-shown::placeholder {
+    color: transparent;
+}
+
+.container .wrapper:has(input:focus) {
+    border: 1.5px solid var(--success-color);
+}
+
+.container .wrapper input:focus {
     border: none;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    /* Removing Default Spinner */
-    -webkit-appearance: none;
-    margin: 0;
+.container .wrapper .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
+}
+
+.disabled .container .wrapper input {
+    pointer-events: none;
+    user-select: none;
+    cursor: not-allowed;
+    height: 24px;
+}
+
+.disabled .container .wrapper .buttons {
     display: none;
 }
 
@@ -101,15 +110,24 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    /* Removing Default Spinner */
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+
 /* INPUT-CHECKBOX */
+
 .container:has(input[type="checkbox"]) .input-checkbox-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 12px;
-    /* margin-top: 32px; */
     height: 40px;
 }
+
 .container input[type="checkbox"] {
     width: 24px;
     height: 24px;
@@ -127,6 +145,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .container input[type="checkbox"]:checked {
     background: var(--success-color);
 }
+
 .container input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
@@ -140,35 +159,42 @@ input[type="number"]::-webkit-outer-spin-button {
     pointer-events: none;
     display: block;
 }
+
 .checkbox-container-disabled {
     display: none;
 }
-.container:has(input[type="checkbox"]:disabled) {
+
+.disabled .container:has(input[type="checkbox"]) {
     display: none;
+    pointer-events: none;
+    user-select: none;
+    cursor: not-allowed;
 }
-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled {
+
+.disabled .checkbox-container-disabled {
     display: flex;
     flex-direction: column;
     gap: 8px;
     flex: 1 1 auto;
+    min-width: 200px;
 }
-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled label {
+
+.disabled .checkbox-container-disabled label {
     white-space: nowrap;
     font-weight: 600;
 }
-input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled p {
+
+.disabled .checkbox-container-disabled p {
     font-family: "Source Code Pro";
     color: var(--copyAlt-color);
     height: 24px;
+    align-items: center;
 }
 
 /* INPUT-TEXT-AREA */
 
 .container textarea {
-    padding: 8px;
-
-    background-color: var(--surface2-color);
-    color: var(--copy-color);
+    padding: 8px 0;
 
     width: 100%;
     max-width: 100%;
@@ -176,23 +202,37 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     max-height: 35vh;
     resize: vertical;
 
-    border: 1px solid #c3c7d9;
+    border: none;
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+
+    width: 100%;
+    flex: 1 1 auto;
 }
 
-.container textarea:focus {
+.container .wrapper:has(textarea:focus) {
     outline: none;
     border: 1.5px solid var(--success-color);
 }
 
-.container textarea:disabled {
+.container .wrapper textarea:focus {
+    outline: none;
+    border: none;
+}
+
+.disabled .container textarea {
     background-color: transparent;
     border: none;
-    cursor: not-allowed;
     padding: 0;
     resize: none;
     color: var(--copyAlt-color);
     height: auto;
     min-height: 0;
+
+    pointer-events: none;
+    user-select: none;
+    cursor: not-allowed;
 }
 
 /* DROPDOWN-SELECT */
@@ -201,24 +241,13 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0px 8px;
-    background-color: var(--surface2-color);
-    border: 1px solid #c3c7d9;
 }
 
-.container .dropdown .select {
+.container .dropdown .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-left: 8px;
-    gap: 16px;
-
-    color: var(--copy-color);
-
-    width: 100%;
-    min-height: 40px;
-    max-height: 40px;
 }
 
 .container .dropdown.active {
@@ -226,17 +255,11 @@ input-checkbox:has(input[type="checkbox"]:disabled) .checkbox-container-disabled
     border: 1.5px solid var(--success-color);
 }
 
-.container .select input {
-    appearance: none;
-    background-color: transparent;
-    width: 100%;
-}
-
-.container .select input:focus {
+.container .dropdown .wrapper:has(input:focus) {
     outline: none;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
+.container .dropdown input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
 }
@@ -245,9 +268,9 @@ input[type="search"]::-webkit-search-cancel-button {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    border-top: 1px solid var(--copy-color);
     gap: 10px;
     cursor: pointer;
+    background-color: var(--surface2-color);
 
     max-height: 0;
     opacity: 0;
@@ -266,28 +289,29 @@ input[type="search"]::-webkit-search-cancel-button {
     scrollbar-color: var(--copyAlt-color) var(--copy-color);
 }
 
-.container .dropdown .option {
+.container .dropdown li {
     display: flex;
+    flex-direction: row;
     padding: 4px;
 }
 
-.container .dropdown .option.active {
+.container .dropdown li:has(.option.active) {
     background-color: rgba(var(--success-color-rgb), 0.5);
+    align-items: center;
+    justify-content: space-between;
 }
 
-.container .dropdown.disabled {
-    background-color: transparent;
-    border: none;
+.container .dropdown .option {
+    flex: 1;
+}
+
+.disabled .container .dropdown {
+    pointer-events: none;
+    user-select: none;
     cursor: not-allowed;
-    padding: 0;
-    color: transparent;
 }
 
-.container .dropdown.disabled web-button {
-    display: none;
-}
-
-.container .dropdown.disabled p {
+.disabled .container .dropdown web-button {
     display: none;
 }
 
@@ -319,29 +343,17 @@ input[type="search"]::-webkit-search-cancel-button {
     border: none;
     padding: 0;
 }
-dropdown-multi-select .container select:disabled {
-    background-color: transparent;
-    border: none;
-    cursor: not-allowed;
-    padding: 0;
-    color: transparent;
-}
 
-dropdown-multi-select .container:has(.dropdown.disabled) .select {
+dropdown-multi-select.disabled .container .dropdown .wrapper {
     display: none;
 }
 
-.container:has(.dropdown.disabled) .tags {
-    display: flex;
-    height: 24px;
-}
-
-.container:has(.dropdown.disabled) .tag {
+.disabled .container .tag {
     padding: 4px 12px;
     align-self: flex-start;
 }
 
-.container:has(.dropdown.disabled) .remove-tag {
+.disabled .container .remove-tag {
     display: none;
 }
 
@@ -353,13 +365,37 @@ dropdown-multi-select .container:has(.dropdown.disabled) .select {
     gap: 0.5rem;
     align-items: start;
     margin-bottom: 0.5rem;
+
+    opacity: 0;
+    transform: translateY(-20px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
-.dropdown-container {
+.container .excludes-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.container .excludes-container.removing {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.container .excludes-container .dropdown-container {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     flex: 1;
+}
+
+.container .excludes-container .dropdown-container label {
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .container .excludes-container .dropdown-container dropdown-single-select,
@@ -368,16 +404,55 @@ dropdown-multi-select {
 }
 
 .container .excludes-container #excludes-minus-btn {
+    display: flex;
     margin-top: 14px;
 }
 
-#excludes-add-btn {
+.container .excludes-table {
+    display: none;
+}
+
+.disabled .container .excludes-container {
+    display: none;
+}
+
+.disabled .container .excludes-table {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.disabled .container .excludes-table tr {
+    display: flex;
+    border-bottom: 2px solid rgba(var(--shadow-color-rgb), 0.3);
+}
+
+.disabled .container .excludes-table th {
+    width: 100%;
+    padding: 8px;
+    background-color: rgba(var(--surface2-color-rgb), 0.3);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.disabled .container .excludes-table td {
+    width: 100%;
+    font-family: "Source Code Pro";
+    color: var(--copyAlt-color);
+    padding: 8px;
+}
+
+.disabled .container .excludes-container #excludes-minus-btn {
+    display: none;
+}
+
+dropdown-excludes #excludes-add-btn {
+    display: flex;
     margin-top: 8px;
 }
 
-.container .excludes-container .dropdown-container label {
-    font-size: 14px;
-    font-weight: 500;
+dropdown-excludes.disabled #excludes-add-btn {
+    display: none;
 }
 
 /* WEB-BUTTON */
@@ -495,6 +570,23 @@ web-button[data-theme="Icon-Success"] button:hover {
     background-color: var(--surface1-color);
 }
 
+web-button[data-theme="Icon-Small"] button {
+    background-color: transparent;
+    color: var(--copy-color);
+    border: none;
+    padding: 0.3rem;
+}
+
+web-button[data-theme="Icon-Small"] button:hover {
+    background-color: rgba(var(--surface1-color-rgb), 0.5);
+    padding: 0.3rem;
+}
+
+web-button[data-theme="Icon-Small"] button svg {
+    width: 16px;
+    height: 16px;
+}
+
 web-button[data-theme="Small"] button {
     gap: 4px;
     padding: 0.2rem 1rem;
@@ -504,7 +596,7 @@ web-button[data-theme="Small"] button {
     border: 2px solid var(--shadow-color);
 
     font-weight: 600;
-    font: 14px;
+    font-size: 14px;
 }
 
 web-button[data-theme="Small"] button svg {
@@ -519,10 +611,14 @@ web-button[data-theme="Small"] button:hover {
 web-button[data-theme="AddBtn"] button {
     background-color: var(--surface1-color);
     color: var(--copy-color);
-    border: 2px solid var(--copy-color);
-    font-weight: 600;
-    border-radius: 6px;
-    padding: 0.25rem 0.5rem;
+    border: 1.5px solid var(--copyAlt-color);
+
+    gap: 3px;
+    padding: 0.3rem;
+    padding: 4px 12px 4px 8px;
+
+    font-weight: 500;
+    font-size: 16px;
 }
 
 web-button[data-theme="AddBtn"] button:hover {
@@ -536,14 +632,17 @@ web-button[data-theme="AddBtn"] button:hover {
     display: inline-block;
     cursor: pointer;
 }
+
 .tooltip-container .info-icon {
     position: relative;
     z-index: 20;
 }
+
 .tooltip-container .icon-wrapper svg {
     width: 20px;
     height: 20px;
 }
+
 .tooltip-container .tooltip-bubble {
     position: absolute;
     bottom: 100%;
@@ -556,10 +655,12 @@ web-button[data-theme="AddBtn"] button:hover {
     transition: opacity 0.1s ease;
     z-index: 10;
 }
+
 .tooltip-container .tooltip-bubble.show {
     opacity: 1;
     pointer-events: auto;
 }
+
 .tooltip-container .tooltip.left {
     background-color: #f2f2f2;
     color: #3d3d3d;
@@ -574,6 +675,7 @@ web-button[data-theme="AddBtn"] button:hover {
     bottom: -4px;
     white-space: normal;
 }
+
 .tooltip-container .tooltip.right {
     background-color: #f2f2f2;
     color: #3d3d3d;
@@ -588,17 +690,19 @@ web-button[data-theme="AddBtn"] button:hover {
     bottom: -4px;
     white-space: normal;
 }
+
 .tooltip-container .indicator {
     position: relative;
     z-index: 1;
     left: -140px;
     bottom: 8px;
 }
-.container:has(:disabled) label svg {
-    display: none;
-}
 
 /* WEB-MODAL */
+
+web-modal {
+    display: none;
+}
 
 #confirm-modal {
     /* Underlay covers entire screen. */
@@ -643,8 +747,8 @@ web-button[data-theme="AddBtn"] button:hover {
     background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
     padding-top: 2rem;
     padding-bottom: 2rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     --tw-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 4px 5px -1px rgba(0, 0, 0, 0.1);
     --tw-shadow-colored: 0px 2px 3px -1px var(--tw-shadow-color),
         0px 4px 5px -1px var(--tw-shadow-color);
@@ -668,6 +772,20 @@ web-button[data-theme="AddBtn"] button:hover {
     animation-name: zoomOut;
     animation-duration: 150ms;
     animation-timing-function: ease;
+}
+
+#confirm-modal .confirm-message {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+    font-weight: 400;
+    color: var(--copyAlt-color);
+}
+
+#confirm-modal .confirm-message ul {
+    list-style-type: disc;
+    padding-left: 1rem;
 }
 
 @keyframes fadeIn {

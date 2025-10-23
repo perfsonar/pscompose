@@ -47,12 +47,16 @@
         <script src="/components/dropdown-multi-select.js" type="module"></script>
         <script src="/components/dropdown-single-select.js" type="module"></script>
         <script src="/components/dropdown-excludes.js" type="module"></script>
-        <script src="/components/message-banner.js" type="module"></script>
+        <script src="/partials/customRenderer.js" type="module"></script>
+        <script src="/components/message-banner.js"></script>
 
         <script>
             document.addEventListener("htmx:afterRequest", function (evt) {
                 lucide.createIcons();
             });
+
+            window.API_BASE_URL = "http://0.0.0.0:8000/api";
+
             // probably we'll need something like this too:
             /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
                 outboundReq.headers.push(["my auth header"])
@@ -72,6 +76,7 @@
             </main>
             <div id="short" hx-get="/partials/recently_edited.html" hx-trigger="load"></div>
         </div>
+        <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
         <script>
             // nunjucks environment setup: add 'logger' and 'escape_property' filters
             document.addEventListener("htmx:nunjucks-environment", (event) => {
@@ -157,7 +162,7 @@
                             singular: "Group",
                             plural: "Groups",
                             page_template: "/pages/wizard/groups.html",
-                            list_endpoint: "/dummy_api/test_list.json",
+                            list_endpoint: "http://localhost:8000/api/group/",
                             icon: "group",
                         },
                         {
@@ -251,7 +256,7 @@
                         page_url: "/groups/",
                         page_template: "/pages/groups/groups.html",
                         list_endpoint: "http://localhost:8000/api/group/",
-                        icon: "hard-drive-download",
+                        icon: "group",
                     },
                     schedules: {
                         singular: "Schedule",
@@ -309,7 +314,7 @@
                 "/import/1/import_template/": psCompose.metadata["import"][0],
                 "/import/2/import_template_saved/": psCompose.metadata["import"][1],
                 "/addresses/": psCompose.metadata["addresses"],
-                "/addresses/new/": psCompose.metadata["addresses"], // TODO: Perhaps want to avoid this pattern of duplication since /addresses is defined above
+                "/addresses/new/": psCompose.metadata["addresses"],
                 "/archives/": psCompose.metadata["archives"],
                 "/archives/new/": psCompose.metadata["archives"],
                 "/contexts/": psCompose.metadata["contexts"],

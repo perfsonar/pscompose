@@ -1,77 +1,68 @@
 from fastapi import HTTPException
 from fastapi_versioning import version
-from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
-from pscompose.utils import generate_router
+from fastapi.responses import JSONResponse
+
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
-from fastapi.responses import JSONResponse
-from copy import deepcopy
-from typing import Dict, List
+from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
+from pscompose.utils import generate_router, enrich_schema
 
 # Setup CRUD endpoints
-# - GET /api/group
-# - POST /api/group
-# - PUT /api/group/uuid-slug
-# - DELETE /api/group/uuid-slug
-# - GET /api/group/uuid-slug
-# - GET /api/group/uuid-slug/json
 router = generate_router("group")
 
 
-# Helper function to ensure unique items while preserving order
-def _unique_keep_order(seq):
-    """Return a new list with duplicate items removed while preserving order."""
-    seen, out = set(), []
-    for item in seq:
-        if item not in seen:
-            seen.add(item)
-            out.append(item)
-    return out
+# Custom sanitize function to transform the data for the backend
+def sanitize_data(data):
+    json_data = data["json"]
+
+    # Cleaning up the data
+    if "schema" in data and "group_type" in data:
+        schema = data["schema"]
+        group_type = data["group_type"]
+
+        # Find the matching schema for the relevant group type
+        type_schema = next(
+            (
+                item
+                for item in schema.get("allOf", [])
+                if item.get("if", {}).get("properties", {}).get("type", {}).get("const")
+                == group_type
+            ),
+            None,
+        )
+
+        if not type_schema:
+            raise ValueError(f"No schema found for type {group_type}")
+
+        # Filter json_data to only include properties that are allowed for this type
+        allowed_keys = type_schema.get("then", {}).get("properties", {}).keys()
+        filtered_json = {k: json_data[k] for k in allowed_keys if k in json_data}
+
+        # Remove these keys from the main data dictionary
+        if "schema" in data:
+            del data["schema"]
+
+        if "group_type" in data:
+            del data["group_type"]
+
+        data["json"] = filtered_json
+
+    ref_set = data["ref_set"]
+    for key in ("addresses", "a-addresses", "b-addresses"):
+        if json_data.get(key) is not None:
+            for address in json_data.get(key, []):
+                name = address["name"]
+                if name not in ref_set:
+                    ref_set.append(name)
+
+    data["ref_set"] = ref_set
+    return data
 
 
-# Helper function to enrich the group schema with address IDs and labels
-def enrich_group_schema(
-    base_schema: Dict, properties: List[str], address_rows: List
-) -> (Dict, Dict):
-    """
-    Returns a copy of the group JSON-schema and UI-schema where the
-    addresses property contains
-        - items.oneOf -> dictionary containing unique IDs and label
-    """
-    ids: List[str] = []
-    labels: List[str] = []
-
-    for row in address_rows:
-        ids.append(str(row.id))
-        labels.append(str(row.name))
-
-    ids = _unique_keep_order(ids)
-
-    # Update JSON Schema
-    schema_copy = deepcopy(base_schema)
-    for branch in schema_copy.get("allOf", []):
-        then_part = branch.get("then")
-        if not then_part:
-            continue
-
-        props = then_part.get("properties", {})
-        if not any(k in props for k in properties):
-            continue
-
-        # inject the enum of IDs into the JSON‑schema
-        for prop in properties:
-            if prop not in props:
-                continue
-            addr_items = props[prop]["items"]
-            for id in ids:
-                res = {"const": id, "title": labels[ids.index(id)]}
-                addr_items["oneOf"].append(res)
-
-    return schema_copy
+router.sanitize = sanitize_data
 
 
 # Custom endpoints
-# TODO: Do these need trailing slashes?
 @router.get("/api/group/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
@@ -80,10 +71,14 @@ def get_new_form():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
 
-    enriched_schema = enrich_group_schema(
+    enriched_schema = enrich_schema(
         base_schema=GROUP_SCHEMA,
-        properties=["addresses", "a-addresses", "b-addresses", "excludes"],
-        address_rows=address_rows
+        updates={
+            "addresses": address_rows,
+            "a-addresses": address_rows,
+            "b-addresses": address_rows,
+            "excludes": address_rows,
+        },
     )
 
     payload = {"ui_schema": GROUP_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
@@ -103,9 +98,24 @@ def get_existing_form(item_id: str):
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
 
+    try:
+        address_rows = backend.get_results(datatype=DataTypes.ADDRESS)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch addresses: {str(e)}")
+
+    enriched_schema = enrich_schema(
+        base_schema=GROUP_SCHEMA,
+        updates={
+            "addresses": address_rows,
+            "a-addresses": address_rows,
+            "b-addresses": address_rows,
+            "excludes": address_rows,
+        },
+    )
+
     payload = {
         "ui_schema": GROUP_UI_SCHEMA,
-        "json_schema": GROUP_SCHEMA,
+        "json_schema": enriched_schema,
         "form_data": response_json,
     }
     return JSONResponse(content=payload)

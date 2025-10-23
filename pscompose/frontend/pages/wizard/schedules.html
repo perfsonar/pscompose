@@ -20,7 +20,19 @@
     </div>
     <div class="step-section">
         <h2>Step 4) Schedules</h2>
-        <p class="step-text">You also need schedules for how often the tests will run.</p>
+        <p class="step-text">
+            Schedules are optional components that specify how often to run each task. Make sure
+            that all schedules required for your tasks are included in the list below. You can read
+            more about schedules
+            <a
+                href="https://docs.perfsonar.net/psconfig_templates_intro.html#schedules"
+                target="_blank"
+                >here</a
+            >.
+            <br />
+            <br />
+            Use the New Schedule button to add new schedules as needed.
+        </p>
         <div class="step-box">
             <div class="step-box-left">
                 <dropdown-single-select label="Schedule" options=""> </dropdown-single-select>
@@ -40,3 +52,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector("#new-schedule-btn").addEventListener("click", () => {
+        let container = document.querySelector(".step-box-right");
+        container.innerHTML = `<div class="w-full" 
+                                    hx-get="/partials/data_forms/schedules/schedule_new_form.html" 
+                                    hx-trigger="load"></div>`;
+        htmx.process(container);
+    });
+</script>

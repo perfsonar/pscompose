@@ -19,15 +19,13 @@ export class TextInputNum extends HTMLElement {
     onPlusClick() {
         const input = document.querySelector('input[type="number"]');
         input.stepUp();
-        this.setAttribute("value", input.value);
-        this.dispatchEvent(new Event("change", { bubbles: true }));
+        input.dispatchEvent(new Event("change"));
     }
 
     onMinusClick() {
         const input = document.querySelector('input[type="number"]');
         input.stepDown();
-        this.setAttribute("value", input.value);
-        this.dispatchEvent(new Event("change", { bubbles: true }));
+        input.dispatchEvent(new Event("change"));
     }
 
     render() {
@@ -43,10 +41,10 @@ export class TextInputNum extends HTMLElement {
                             : ""
                     }
                 </label>
-                <div class="input-wrapper">
+                <div class="wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
-                            value="${this.getAttribute("value") || ""}" 
+                            value="${JSON.parse(this.getAttribute("value")) || ""}" 
                             step="${this.getAttribute("step") || 1}"
                             min="${this.getAttribute("min") || 0}"
                             max="${this.getAttribute("max") || 100}"
@@ -56,13 +54,20 @@ export class TextInputNum extends HTMLElement {
                         <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
                     </div>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
             </div>
         `;
 
         this.querySelector("#plus-btn").addEventListener("click", this.onPlusClick);
         this.querySelector("#minus-btn").addEventListener("click", this.onMinusClick);
-        this.querySelector("input").addEventListener("change", () => {
+        const input = this.querySelector("input");
+        input.addEventListener("change", (event) => {
+            event.stopPropagation();
+            this.setAttribute("value", JSON.stringify(input.value));
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }

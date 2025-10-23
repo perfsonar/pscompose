@@ -1,10 +1,13 @@
+from copy import deepcopy
+from typing import Dict, List
+from fastapi import Body
 from fastapi_versioning import version
-from fastapi.responses import Response
 from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, HTTPException
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
 from pscompose.logger import logger
+from pydantic import ValidationError
 
 
 def generate_router(datatype: str):
@@ -16,6 +19,11 @@ def generate_router(datatype: str):
     """
 
     router = APIRouter(tags=[f"{datatype}"])
+
+    def sanitize_input(data):
+        return data
+
+    router.sanitize = sanitize_input
 
     # Endpoint for retrieving all records of a given datatype (e.g., GET /template)
     # List endpoint (e.g., GET /api/template)
@@ -30,10 +38,19 @@ def generate_router(datatype: str):
     @router.post(f"/api/{datatype}", summary=f"Create a new {datatype}")
     @version(1)
     def create_item(
-        data: DataTableBase,
+        data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        logger.debug("Create item data:", data)
+        logger.debug("CREATE Unsanitized data:", data)
+        sanitized_data = router.sanitize(data)
+        logger.debug("CREATE Sanitized data:", sanitized_data)
+        # Convert sanitized dict into a proper DataTableBase object
+        try:
+            data = DataTableBase(**sanitized_data)
+        except ValidationError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
+        # TODO: Fix the created_by and last_edited_by
         try:
             response = backend.create_datatype(
                 ref_set=data.ref_set,
@@ -45,10 +62,6 @@ def generate_router(datatype: str):
                 last_edited_by=data.last_edited_by,
                 # last_edited_by=user.name,
             )
-
-            # TODO: See comment below?
-            # Do we need to update on each of the child objects when a new type is created?
-
             return {"message": f"{datatype} created successfully", "id": response.id}
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
@@ -65,17 +78,25 @@ def generate_router(datatype: str):
     @version(1)
     def update_item(
         item_id: str,
-        updated_data: DataTableUpdate,
+        updated_data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        logger.debug("Create item data:", updated_data)
+        logger.debug("UPDATE Unsanitized data:", updated_data)
+        sanitized_data = router.sanitize(updated_data)
+        logger.debug("UPDATE sanitized data:", sanitized_data)
+
+        # Convert sanitized dict into a proper DataTableUpdate object
+        try:
+            updated_data = DataTableUpdate(**sanitized_data)
+        except ValidationError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
         existing_result = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_result:
             raise HTTPException(
                 status_code=404, detail=f"{datatype.capitalize()} with ID {item_id} not found"
             )
 
-        # TODO: In this, how will ref_set be updated?
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
@@ -91,6 +112,11 @@ def generate_router(datatype: str):
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
         logger.debug("Deleting item with ID:", item_id)
+
+        # Find all ref_set references to this item_id and remove them
+        # Also, update the JSON
+        cleanup_response = backend.remove_references(item_id)  # noqa: F841
+
         existing_item = backend.get_datatype(datatype=datatype, item_id=item_id)
         if not existing_item:
             raise HTTPException(
@@ -99,12 +125,7 @@ def generate_router(datatype: str):
 
         response = backend.delete_datatype(existing_item)
         logger.debug("Delete response:", response)
-        # Return success response with redirect
-        # TODO: This isn't working
-        return Response(
-            status_code=200,
-            headers={"HX-Redirect": "http://localhost:5001"},  # Redirect after success
-        )
+        return response
 
     # Endpoint for retrieving a specific item by ID
     @router.get(
@@ -119,19 +140,91 @@ def generate_router(datatype: str):
             )
         return response
 
-    # Endpoint for retrieving a specific item's json
+    # Endpoint for retrieving list of records which reference a particular item
     @router.get(
-        f"/api/{datatype}/{{item_id}}/json",
-        summary=f"Retrieve the JSON of a specific {datatype} record",
+        f"/api/{datatype}/{{item_id}}/find",
+        summary="Retrieve the records which reference a particular record",
     )
-    def get_item_json(item_id: str):
+    def find_records(item_id: str):
         try:
-            response = backend.get_datatype(datatype=datatype, item_id=item_id)
-            response_json = response.json
+            response = backend.find_records(target_id=item_id)
         except HTTPException:
-            raise HTTPException(
-                status_code=404, detail=f"{datatype.capitalize()} with id: {item_id} not found"
-            )
-        return response_json
+            raise HTTPException(status_code=404, detail="Error in finding records")
+        return response
 
     return router
+
+
+# Helper function to ensure unique items while preserving order
+def _unique_keep_order(seq):
+    """Return a new list with duplicate items removed while preserving order."""
+    seen, out = set(), []
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            out.append(item)
+    return out
+
+
+def enrich_schema(base_schema: Dict, updates: Dict[str, List]) -> Dict:
+    """
+    Enrich a JSON schema by injecting 'oneOf' options for multiple properties at once.
+
+    Args:
+        base_schema: JSON schema to enrich.
+        updates: Mapping of property name -> rows list
+                 (e.g., {"group": groups, "addresses": address_rows})
+
+    Returns:
+        Updated copy of the schema.
+    """
+    schema_copy = deepcopy(base_schema)
+
+    def inject_items(props: Dict, prop_name: str, rows: List):
+        """Inject oneOf entries for a single property."""
+        if prop_name not in props:
+            return
+
+        prop_def = props[prop_name]
+
+        # Determine where the 'oneOf' list lives
+        if prop_def.get("type") == "array":
+            items = prop_def.get("items")
+            if not items or "oneOf" not in items:
+                return
+            oneof_target = items["oneOf"]
+        else:
+            if "oneOf" not in prop_def:
+                prop_def["oneOf"] = []
+            oneof_target = prop_def["oneOf"]
+
+        # Clear existing options
+        oneof_target.clear()
+
+        # Handle empty rows
+        if not rows:
+            oneof_target.append({"const": "", "title": "No options available"})
+            return
+
+        # Prepare unique IDs and labels
+        ids = _unique_keep_order([str(row.id) for row in rows])
+        labels = [str(row.name) for row in rows if str(row.id) in ids]
+
+        for id_, label in zip(ids, labels):
+            oneof_target.append({"const": id_, "title": label})
+
+    # Update top-level properties
+    if "properties" in schema_copy:
+        for prop_name, rows in updates.items():
+            inject_items(schema_copy["properties"], prop_name, rows)
+
+    # Update nested allOf → then → properties
+    for branch in schema_copy.get("allOf", []):
+        then_part = branch.get("then")
+        if not then_part:
+            continue
+        props = then_part.get("properties", {})
+        for prop_name, rows in updates.items():
+            inject_items(props, prop_name, rows)
+
+    return schema_copy

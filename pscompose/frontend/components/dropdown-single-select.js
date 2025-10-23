@@ -1,5 +1,5 @@
 export class SingleSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "selected"];
+    static observedAttributes = ["label", "options", "value"];
 
     constructor() {
         super();
@@ -17,7 +17,7 @@ export class SingleSelectDropdown extends HTMLElement {
     attachToggleDropdown() {
         const options = this.querySelector(".options");
         if (!options) return;
-        this.querySelector(".select").addEventListener("click", () => {
+        this.querySelector(".wrapper").addEventListener("click", () => {
             options.classList.toggle("open");
             this.querySelector(".dropdown").classList.toggle("active");
             this.attachOptionListeners();
@@ -31,10 +31,21 @@ export class SingleSelectDropdown extends HTMLElement {
         });
     }
 
+    attachDeselectHandler() {
+        const deselectBtn = this.querySelector("#deselect-btn");
+        if (deselectBtn) {
+            deselectBtn.addEventListener("click", () => {
+                this.removeAttribute("value");
+                this.render();
+                this.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+        }
+    }
+
     selectOption(value, title) {
-        this.setAttribute("selected", value);
+        this.setAttribute("value", JSON.stringify(value));
         this.render();
-        this.dispatchEvent(new Event("select", { bubbles: true }));
+        this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     attachSearchHandler() {
@@ -55,7 +66,7 @@ export class SingleSelectDropdown extends HTMLElement {
         const options = this.getAttribute("options")
             ? JSON.parse(this.getAttribute("options"))
             : [];
-        const selectedValue = this.getAttribute("selected") || "";
+        const selectedValue = JSON.parse(this.getAttribute("value")) || "";
         const selectedOption = options ? options.find((opt) => opt.const === selectedValue) : null;
 
         this.innerHTML = `
@@ -71,7 +82,7 @@ export class SingleSelectDropdown extends HTMLElement {
                     }
                 </label>
                 <div class="dropdown">
-                    <div class="select">
+                    <div class="wrapper">
                         <input type="search" id="dropdown-search"
                         ${
                             selectedOption
@@ -88,26 +99,38 @@ export class SingleSelectDropdown extends HTMLElement {
                                 ? options
                                       .map(
                                           (option) => `
-                            <li ${
-                                option.const == selectedValue
-                                    ? 'class="option active"'
-                                    : 'class="option"'
-                            }
-                            data-value="${option.const}">
-                            ${option.title}
-                            </li>
-                        `,
+                            <li>
+                                <div ${
+                                    option.const == selectedValue
+                                        ? 'class="option active"'
+                                        : 'class="option"'
+                                }
+                                data-value="${option.const}"
+                                >
+                                ${option.title}
+                                </div>
+                                ${
+                                    option.const == selectedValue
+                                        ? '<web-button id="deselect-btn" type="button" data-righticon="x" data-theme="Icon-Small" />'
+                                        : ""
+                                }
+                            </li>`,
                                       )
                                       .join("")
                                 : ""
                         }
                     </ul>
                 </div>
-                ${this.getAttribute("required") == "true" ? `<required>Required<required>` : ""}
-            </div>
+                ${
+                    this.getAttribute("required") == "true"
+                        ? `<div class="required">Required</div>`
+                        : ""
+                }
+           </div>
         `;
         this.attachToggleDropdown();
         this.attachSearchHandler();
+        this.attachDeselectHandler();
     }
 }
 

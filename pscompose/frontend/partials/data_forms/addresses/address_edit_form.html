@@ -5,17 +5,10 @@
             <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
         </div>
         <div class="content">
-            <form id="my-form" method="GET">
-                <fieldset
-                    id="content"
-                    hx-get="http://0.0.0.0:8000/api/address/{id}/form"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                >
+            <form id="data-form" method="GET">
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     Loading Form...
                 </fieldset>
-
-                <script src="/partials/customRenderer.js" type="module"></script>
 
                 <script id="example-template" type="nunjucks">
                     <json-form
@@ -30,142 +23,64 @@
                     ></json-form>
                 </script>
 
-                <div class="edit-save-cancel">
-                    <web-button
-                        id="delete-btn"
-                        type="button"
-                        data-label="Delete"
-                        data-theme="Error"
-                        data-righticon="trash-2"
-                        hx-delete="http://0.0.0.0:8000/api/address/{id}"
-                        data-link="/addresses/"
-                        data-modalconfirm="Are you sure you want to delete this address?"
-                        data-modaltheme="Error"
-                    >
-                    </web-button>
-
-                    <web-button
-                        id="save-btn"
-                        type="submit"
-                        data-label="Save"
-                        data-theme="Secondary"
-                        data-righticon="save"
-                        data-modalconfirm="Are you sure you want to save this address?"
-                        data-modaltheme="Success"
-                    >
-                    </web-button>
-
-                    <web-button
-                        type="button"
-                        data-label="Cancel"
-                        data-theme="Primary"
-                        data-righticon="x"
-                        data-link="javascript:history.back()"
-                    >
-                    </web-button>
-                </div>
+                <div hx-get="/partials/edit-save-cancel.html" hx-trigger="load"></div>
             </form>
         </div>
     </div>
 </div>
 
 <script>
-    // TOGGLED SUBMENU
-    if (psCompose.activeRoute.page_url == window.location.pathname) {
-        showSubmenu();
-    }
-    if (psCompose.activeRoute.section == "wizard") {
-        document.querySelector("#save-btn").setAttribute("data-modaltheme", "Warning");
-    }
-
-    let editlink = new URLSearchParams(window.location.search);
-    editlink.append("edit", "true");
+    // Setting the hx-get attribute dynamically
     document
-        .getElementById("edit-icon")
-        .setAttribute("data-link", window.location.pathname + "?" + editlink);
-
-    // SET ADDRESS NAME AS HEADER & SET READONLY STATE TO EDIT STATE
-    document.body.addEventListener("json-form:mounted", (event) => {
-        console.log("json-form mounted event:", event);
-        let elem = event.detail[0].target;
-        if (elem?.data?.name) {
-            document.getElementById("data-name").textContent = elem?.data?.name;
-        }
-
-        let searchParams = new URLSearchParams(window.location.search);
-        let editMode = searchParams.get("edit");
-        if (!!editMode) {
-            const jsonForm = document.querySelector("json-form");
-            jsonForm.setAttribute("readonly", "false");
-            document.querySelector(".edit-save-cancel").style =
-                "display: flex; flex-direction: row; justify-content: flex-end; gap: 10px; margin-top: 2.25rem; ";
-            document.getElementById("edit-icon").style.display = "none";
-
-            // Hide submenu when in edit mode
-            let submenu = document.querySelector(".submenu-container");
-            hideSubmenu();
-        }
-    });
+        .getElementById("content")
+        .setAttribute("hx-get", `${window.API_BASE_URL}/address/{id}/form`);
 
     // SAVE & FORM SUBMIT & EDIT TO READONLY STATE
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            const elem = document.querySelector("json-form");
+        document
+            .querySelector("#save-modal")
+            .addEventListener("confirm-yes-clicked", async function (event) {
+                const jsonForm = document.querySelector("json-form");
+                const formData = JSON.parse(jsonForm.serializeForm());
+                const { name, ...rest } = formData; // Need to remove name from the form
 
-            const form_data = JSON.parse(elem.serializeForm());
-            const { name, ...rest } = form_data; // Need to remove name from the form
+                // TODO: How would ref_set be updated? -> in backend sanitize_data function
+                const updatedData = {
+                    ref_set: [],
+                    json: rest,
+                    name: name,
+                    last_edited_at: new Date().toISOString(),
+                    last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                    // url: "",
+                };
 
-            const now = new Date();
-
-            // TODO: How would ref_set be updated?
-            const updated_data = {
-                json: rest,
-                name: name,
-                last_edited_at: now.toISOString(),
-                last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-            };
-
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
-            try {
-                const response = await fetch(`http://0.0.0.0:8000/api/address/${id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(updated_data),
-                });
-
-                const result = await response.json();
-                console.log("Success:", result);
-                params.delete("edit");
-
-                // Adding save message to sessionStorage
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Address saved successfully!", "Success"]),
-                );
-                window.location = window.location.pathname + "?" + params;
-            } catch (error) {
-                console.error("Error:", error);
-                sessionStorage.setItem(
-                    "confirmMessage",
-                    JSON.stringify(["Something went wrong.", "rgba(var(--error-color-rgb), 0.5)"]),
-                );
-                // document.getElementById("response-container").innerText = "Something went wrong.";
-            }
-        });
-    });
-
-    document.querySelector("#delete-btn").addEventListener("click", async function (event) {
-        document.body.addEventListener("confirm-yes-clicked", async function (event) {
-            // Adding delete message to sessionStorage
-            sessionStorage.setItem(
-                "confirmMessage",
-                JSON.stringify(["Address deleted successfully!", "Success"]),
-            );
-        });
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/address/${id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updatedData),
+                    });
+                    const result = await response.json();
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(
+                            response.ok
+                                ? ["Address saved successfully!", "Success"]
+                                : ["Something went wrong.", "Error"],
+                        ),
+                    );
+                    params.delete("edit");
+                    window.location = window.location.pathname + "?" + params;
+                } catch (error) {
+                    console.error("Error:", error);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                    processLastMessage();
+                }
+            });
     });
 </script>

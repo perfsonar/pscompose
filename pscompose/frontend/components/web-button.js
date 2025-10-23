@@ -7,8 +7,7 @@ export class WebButton extends HTMLElement {
         "data-lefticon",
         "data-righticon",
         "data-link",
-        "data-modalconfirm",
-        "data-modaltheme",
+        "confirm-modal",
     ];
     passthroughAttributes = {};
     passthroughAttributeMatchers = [new RegExp(/hx-.*/), new RegExp(/data-.*/)];
@@ -36,16 +35,14 @@ export class WebButton extends HTMLElement {
         lucide.createIcons();
     }
 
-    render() {
-        const hasModalConfirm = !!this.getAttribute("data-modalconfirm");
-        const hxAttrs = Array.from(this.attributes)
-            .filter((attr) => attr.name.startsWith("hx-"))
-            .map((attr) => `${attr.name}="${attr.value}"`)
-            .join(" ");
+    openModal() {
+        document.getElementById(this.getAttribute("confirm-modal")).style.display = "block";
+    }
 
+    render() {
         this.innerHTML = `
             ${
-                this.getAttribute("data-link") && !hasModalConfirm
+                this.getAttribute("data-link")
                     ? `<a href="${this.getAttribute("data-link")}" style="text-decoration: none;">`
                     : ""
             }
@@ -78,37 +75,8 @@ export class WebButton extends HTMLElement {
             }
         });
 
-        if (this.getAttribute("data-modalconfirm")) {
-            btn.addEventListener("click", () => {
-                this.modalInnerHTML = `<web-modal
-                        ${
-                            this.getAttribute("data-link")
-                                ? `link=${this.getAttribute("data-link")}`
-                                : ""
-                        }
-                        ${
-                            this.getAttribute("data-righticon")
-                                ? `icon=${this.getAttribute("data-righticon")}`
-                                : ""
-                        }
-                        ${
-                            this.getAttribute("data-lefticon")
-                                ? `icon=${this.getAttribute("data-lefticon")}`
-                                : ""
-                        }
-                        ${hxAttrs ? `hxAttrs=${hxAttrs}` : ""}
-
-                        theme="${this.getAttribute("data-modaltheme")}"
-                        message="${this.getAttribute("data-modalconfirm")}"
-                        confirm-label = "${this.getAttribute("data-label")}"
-                        ${hxAttrs}
-                    ></web-modal>`;
-
-                const responseContainer = document.getElementById("response-container");
-                if (responseContainer) {
-                    responseContainer.innerHTML = this.modalInnerHTML;
-                }
-            });
+        if (this.getAttribute("confirm-modal")) {
+            btn.addEventListener("click", () => this.openModal());
         }
     }
 }

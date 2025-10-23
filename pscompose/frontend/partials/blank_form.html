@@ -1,0 +1,12 @@
+<div class="datatype error-form" hx-ext="dynamic-url">
+    <div class="page">
+        <h4>Select to continue.</h4>
+    </div>
+</div>
+
+<script>
+    showSubmenu();
+
+    const article = /^[aeiou]/i.test(dataType) ? "an" : "a";
+    document.querySelector(".page h4").textContent = `Select ${article} ${dataType} to continue.`;
+</script>

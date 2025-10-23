@@ -4,9 +4,21 @@ from enum import Enum
 from typing import List
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.ext.mutable import MutableDict, MutableList
 from pydantic import BaseModel as PydanticValidationModel
 from pscompose.settings import POSTGRES_USER_NAME, POSTGRES_DB_NAME, TOKEN_SCOPES
-from sqlalchemy import create_engine, Column, LargeBinary, Integer, Text, String, DateTime, func
+from sqlalchemy import (
+    create_engine,
+    Column,
+    LargeBinary,
+    Integer,
+    Text,
+    String,
+    DateTime,
+    func,
+    ARRAY,
+    JSON,
+)
 
 # Pydantic Validation Model subclasses will model input and output types from the API.
 # SQLAlchemy Storage subclasses will model data as stored in the DB.
@@ -85,10 +97,10 @@ class DataTable(SQLAlchemyStorage):
 
     __tablename__ = "data"
     id = Column(String(12), primary_key=True, default=generate_uuid)
-    ref_set = Column(postgresql.ARRAY(String))
+    ref_set = Column(MutableList.as_mutable(ARRAY(String)))
     type = Column(Text)
-    json = Column(postgresql.JSON)
-    name = Column(Text)
+    json = Column(MutableDict.as_mutable(JSON))
+    name = Column(Text, nullable=False)
     url = Column(Text)
     created_by = Column(Text)
     created_at = Column(
