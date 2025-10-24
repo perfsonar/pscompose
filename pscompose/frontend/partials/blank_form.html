@@ -7,6 +7,7 @@
 <script>
     showSubmenu();
 
-    const article = /^[aeiou]/i.test(dataType) ? "an" : "a";
-    document.querySelector(".page h4").textContent = `Select ${article} ${dataType} to continue.`;
+    const datatype = psCompose.activeRoute.singular.toLowerCase();
+    const article = /^[aeiou]/i.test(datatype) ? "an" : "a";
+    document.querySelector(".page h4").textContent = `Select ${article} ${datatype} to continue.`;
 </script>

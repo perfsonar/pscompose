@@ -12,44 +12,17 @@
     theme="Error"
     question="Are you sure mate?"
     confirm-label="Delete"
-    icon="trash"
+    icon="trash-2"
 >
 </web-modal>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    const dataType = psCompose.activeRoute.singular.toLowerCase();
-
-    // Set Up JSON Form in Edit Page -> maybe rename confirm-modals.js since this isn't modal stuff
-    if (psCompose.activeRoute.page_url == window.location.pathname) {
-        showSubmenu();
-
-        document.body.addEventListener("json-form:mounted", (event) => {
-            let elem = event.detail[0].target;
-
-            // Header
-            document.getElementById("data-name").textContent = elem?.data?.name;
-            document
-                .getElementById("edit-icon")
-                .setAttribute(
-                    "data-link",
-                    `/${psCompose.activeRoute.plural.toLowerCase()}/?id=${id}&edit=true`,
-                );
-
-            if (!!params.get("edit")) {
-                document.querySelector("json-form").setAttribute("readonly", "false");
-                hideSubmenu();
-            }
-        });
-    }
-
     // Insert api/find results
     function resultToHtml(result) {
         if (result.length === 0) return;
         return `
         <div class="confirm-message">
-            <h5>Saving changes to this ${dataType} will impact the following:</h5>
+            <h5>Saving changes to this ${datatype} will impact the following:</h5>
             <ul>
                 ${result
                     .map((item) => `<li>${capitalizeFirstLetter(item.type)} ${item.name}</li>`)
@@ -62,7 +35,7 @@
     (async () => {
         let result = [];
         try {
-            const response = await fetch(`${window.API_BASE_URL}/${dataType}/${id}/find`, {
+            const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/find`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,36 +50,13 @@
 
     // Save Datatype
     const saveBtn = document.querySelector("#save-modal");
-    const saveMsg = "Are you sure you want to save this " + dataType + " ?";
+    const saveMsg = "Are you sure you want to save this " + datatype + " ?";
     saveBtn.setAttribute("question", saveMsg);
 
     // Delete Datatype
     const deleteModal = document.querySelector("#delete-modal");
-    const deleteMsg = "Are you sure you want to delete this " + dataType + " ?";
+    const deleteMsg = "Are you sure you want to delete this " + datatype + " ?";
     deleteModal.setAttribute("question", deleteMsg);
-
-    deleteModal.addEventListener("confirm-yes-clicked", async function (event) {
-        const deleteSuccessMsg = "Successfully deleted " + dataType + "!";
-        const deleteFailMsg = "Something went wrong while deleting" + dataType + ".";
-
-        try {
-            const response = await fetch(`${window.API_BASE_URL}/${dataType}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            sessionStorage.setItem(
-                "confirmMessage",
-                JSON.stringify(
-                    response.ok ? [deleteSuccessMsg, "Success"] : [deleteFailMsg, "Error"],
-                ),
-            );
-            window.location = psCompose.activeRoute.page_url;
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    });
 
     function capitalizeFirstLetter(str) {
         if (!str) return str;

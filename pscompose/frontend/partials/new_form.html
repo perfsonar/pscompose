@@ -1,12 +1,12 @@
 <div class="datatype new-form" hx-ext="dynamic-url">
     <div class="page">
         <div class="header">
-            <h2 id="data-name">New Address</h2>
+            <h2 id="data-name"></h2>
         </div>
         <div class="content">
-            <form id="my-form">
+            <form id="data-form">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
-                    Loading Form...
+                    <!-- Loading Form... -->
                 </fieldset>
 
                 <script id="example-template" type="nunjucks">
@@ -27,6 +27,7 @@
                         confirm-modal="save-modal"
                     >
                     </web-button>
+                    <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
                 </div>
             </form>
         </div>
@@ -34,17 +35,25 @@
 </div>
 
 <script>
-    // Setting the hx-get attribute dynamically
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const datatype = psCompose.activeRoute.singular.toLowerCase();
+
+    // Setting attributes dynamically
+    document.querySelector(".header #data-name").textContent =
+        "New " + psCompose.activeRoute.singular;
     document
         .getElementById("content")
-        .setAttribute("hx-get", `${window.API_BASE_URL}/address/new/form`);
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}new/form`);
 
-    document.getElementById("my-form").addEventListener("submit", async function (event) {
+    // Save
+    document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         document
             .querySelector("#save-modal")
             .addEventListener("confirm-yes-clicked", async function (event) {
+                // 1. Retrieve jsonform data
                 const elem = document.querySelector("json-form");
                 const form_data = JSON.parse(elem.serializeForm());
                 const { name, ...rest } = form_data; // Need to remove name from the form
@@ -52,7 +61,7 @@
                 // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
                 const data = {
                     ref_set: [],
-                    type: "address",
+                    type: datatype,
                     json: rest,
                     name: name,
                     created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
@@ -60,41 +69,36 @@
                     // url: ""
                 };
 
+                // 1.1 Additional properties added according to datatype
+                if (datatype == "group") {
+                    data.schema = JSON.parse(elem.schemaData);
+                    data.group_type = rest.type;
+                }
+
+                // 2. Post request to api
                 try {
-                    const response = await fetch(`${window.API_BASE_URL}/address`, {
+                    const response = await fetch(`${psCompose.activeRoute.list_endpoint}`, {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(data),
                     });
 
-                    if (response.ok) {
-                        const result = await response.json();
+                    if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                    const result = await response.json();
 
-                        // Adding save message to sessionStorage
-                        sessionStorage.setItem(
-                            "confirmMessage",
-                            JSON.stringify(["Address saved successfully!", "Success"]),
-                        );
+                    savemsg = psCompose.activeRoute.singular + " saved successfully!";
+                    sessionStorage.setItem("confirmMessage", JSON.stringify([savemsg, "Success"]));
 
-                        // Depends on if wizard page or not
-                        let pathName = window.location.pathname;
-                        if (pathName.includes("new")) {
-                            window.location = "/addresses/?id=" + result.id;
-                        } else {
-                            window.location = pathName + "?id=" + result.id;
-                        }
-                    } else {
-                        console.error("Error:", "Something went wrong.");
-                        sessionStorage.setItem(
-                            "confirmMessage",
-                            JSON.stringify(["Something went wrong.", "Error"]),
-                        );
-                        processLastMessage();
-                    }
+                    // 3. Redirect
+                    let pathName = window.location.pathname;
+                    window.location = psCompose.activeRoute.page_url + "?id=" + result.id;
                 } catch (error) {
                     console.error("Error:", error);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Something went wrong.", "Error"]),
+                    );
+                    processLastMessage();
                 }
             });
     });
