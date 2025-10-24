@@ -33,6 +33,7 @@ function createCustomRenderer(componentName) {
         elemToReturn.props.path = path;
         elemToReturn.props.label = schema.schema.title;
         elemToReturn.props.required = schema.required;
+        elemToReturn.props.errors = schema.errors;
         elemToReturn.props.onChange = (event) => {
             if (event.target.tagName == toAllCaps(schema.uischema.customComponent)) {
                 handleChange(path, JSON.parse(event.target.getAttribute("value")));
