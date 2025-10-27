@@ -5,9 +5,11 @@
         </div>
         <div class="content">
             <form id="data-form">
-                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
-                    <!-- Loading Form... -->
-                </fieldset>
+                <fieldset
+                    id="content"
+                    hx-trigger="load"
+                    nunjucks-template="example-template"
+                ></fieldset>
 
                 <script id="example-template" type="nunjucks">
                     <json-form
@@ -50,56 +52,74 @@
     document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        document
-            .querySelector("#save-modal")
-            .addEventListener("confirm-yes-clicked", async function (event) {
-                // 1. Retrieve jsonform data
-                const elem = document.querySelector("json-form");
-                const form_data = JSON.parse(elem.serializeForm());
-                const { name, ...rest } = form_data; // Need to remove name from the form
+        if (!document.querySelector("json-form").validate()) {
+            sessionStorage.setItem(
+                "confirmMessage",
+                JSON.stringify(["Form fields not all valid", "Error"]),
+            );
+            processLastMessage();
 
-                // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
-                const data = {
-                    ref_set: [],
-                    type: datatype,
-                    json: rest,
-                    name: name,
-                    created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-                    last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
-                    // url: ""
-                };
-
-                // 1.1 Additional properties added according to datatype
-                if (datatype == "group") {
-                    data.schema = JSON.parse(elem.schemaData);
-                    data.group_type = rest.type;
-                }
-
-                // 2. Post request to api
-                try {
-                    const response = await fetch(`${psCompose.activeRoute.list_endpoint}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(data),
-                    });
-
-                    if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                    const result = await response.json();
-
-                    savemsg = psCompose.activeRoute.singular + " saved successfully!";
-                    sessionStorage.setItem("confirmMessage", JSON.stringify([savemsg, "Success"]));
-
-                    // 3. Redirect
-                    let pathName = window.location.pathname;
-                    window.location = psCompose.activeRoute.page_url + "?id=" + result.id;
-                } catch (error) {
-                    console.error("Error:", error);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Something went wrong.", "Error"]),
-                    );
-                    processLastMessage();
-                }
+            // Render "is required property" errors
+            document.querySelectorAll("input-message").forEach((event) => {
+                if (event.errors == "is a required property")
+                    event.querySelector(".input-message").classList.add("error");
             });
+        } else {
+            document.querySelector("json-form").dispatchEvent(new Event("validated"));
+            document
+                .querySelector("#save-modal")
+                .addEventListener("confirm-yes-clicked", async function (event) {
+                    // 1. Retrieve jsonform data
+                    const elem = document.querySelector("json-form");
+                    const form_data = JSON.parse(elem.serializeForm());
+                    const { name, ...rest } = form_data; // Need to remove name from the form
+
+                    // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
+                    const data = {
+                        ref_set: [],
+                        type: datatype,
+                        json: rest,
+                        name: name,
+                        created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        // url: ""
+                    };
+
+                    // 1.1 Additional properties added according to datatype
+                    if (datatype == "group") {
+                        data.schema = JSON.parse(elem.schemaData);
+                        data.group_type = rest.type;
+                    }
+
+                    // 2. Post request to api
+                    try {
+                        const response = await fetch(`${psCompose.activeRoute.list_endpoint}`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data),
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                        const result = await response.json();
+
+                        savemsg = psCompose.activeRoute.singular + " saved successfully!";
+                        sessionStorage.setItem(
+                            "confirmMessage",
+                            JSON.stringify([savemsg, "Success"]),
+                        );
+
+                        // 3. Redirect
+                        let pathName = window.location.pathname;
+                        window.location = psCompose.activeRoute.page_url + "?id=" + result.id;
+                    } catch (error) {
+                        console.error("Error:", error);
+                        sessionStorage.setItem(
+                            "confirmMessage",
+                            JSON.stringify(["Something went wrong.", "Error"]),
+                        );
+                        processLastMessage();
+                    }
+                });
+        }
     });
 </script>
