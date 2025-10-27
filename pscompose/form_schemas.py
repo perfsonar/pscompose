@@ -11,13 +11,11 @@ ADDRESS_SCHEMA = {
             "type": "string",
             "title": "Host Name",
             "description": "A string to identify this host",
-            "default": "",
         },
         "address": {
             "type": "string",
             "title": "Address",
             "description": "The host address",
-            "default": "",
         },
         "no-agent": {
             "type": "boolean",
@@ -50,7 +48,6 @@ ADDRESS_SCHEMA = {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": "",
         },
     },
     "required": [
@@ -136,7 +133,6 @@ GROUP_SCHEMA = {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": "",
                     },
                 },
                 "required": ["addresses"],
@@ -177,7 +173,6 @@ GROUP_SCHEMA = {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": "",
                     },
                 },
                 "required": ["a-addresses", "b-addresses"],
@@ -203,7 +198,6 @@ GROUP_SCHEMA = {
                         "type": "string",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
-                        "default": "",
                     },
                 },
                 "required": ["addresses"],
@@ -326,7 +320,6 @@ SCHEDULE_SCHEMA = {
             "type": "string",
             "title": "Schedule Name",
             "description": "A string to identify this schedule",
-            "default": "",
         },
         "slip": {
             "type": "string",
@@ -365,7 +358,6 @@ SCHEDULE_SCHEMA = {
             "type": "string",
             "title": "Other Meta",
             "description": "This field should be a JSON object with keys such as 'display-name' and 'display-set'",
-            "default": "",
         },
     },
     "required": [
@@ -411,7 +403,6 @@ ARCHIVE_SCHEMA = {
             "type": "string",
             "title": "Archive Name",
             "description": "A string to identify this archive",
-            "default": "",
         },
         # TODO: Fetch these options from pScheduler
         "archiver": {
@@ -436,7 +427,6 @@ ARCHIVE_SCHEMA = {
             "type": "string",
             "title": "Data",
             "description": "JSON object that specifies archive-specific parameters. Archive objects in pSConfig are taken directly from pScheduler. Eg: _url",
-            "default": "",
         },
         "schema": {
             "type": "integer",
@@ -447,7 +437,6 @@ ARCHIVE_SCHEMA = {
             "type": "string",
             "title": "TTL",
             "description": "ISO8601 duration that specifies the ttl",
-            "default": "",
         },
         "label": {
             "type": "string",
@@ -458,13 +447,11 @@ ARCHIVE_SCHEMA = {
             "type": "string",
             "title": "Transform",
             "description": "",
-            "default": "",
         },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": "",
         },
     },
     "required": [
@@ -514,7 +501,6 @@ TEST_SCHEMA = {
             "type": "string",
             "title": "Test Name",
             "description": "A string to identify this test",
-            "default": "",
         },
         # TODO: Fetch these options from pScheduler
         "type": {
@@ -552,13 +538,11 @@ TEST_SCHEMA = {
         "spec": {
             "type": "string",
             "title": "Spec",
-            "default": "",
         },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": "",
         },
     },
     "required": [
@@ -591,7 +575,6 @@ CONTEXT_SCHEMA = {
             "type": "string",
             "title": "Context Name",
             "description": "A string to identify this context",
-            "default": "",
         },
         # TODO: Fetch these options from pScheduler
         "context": {
@@ -609,13 +592,11 @@ CONTEXT_SCHEMA = {
             "type": "string",
             "title": "Data",
             "description": "JSON object that specifies archive-specific parameters. Archive objects in pSConfig are taken directly from pScheduler. Eg: _url",
-            "default": "",
         },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": "",
         },
     },
     "required": [
@@ -649,7 +630,6 @@ TASK_SCHEMA = {
             "type": "string",
             "title": "Task Name",
             "description": "A string to identify this task",
-            "default": "",
         },
         # "scheduled-by": {
         #     "title": "Scheduled By",
@@ -703,13 +683,11 @@ TASK_SCHEMA = {
         "reference": {
             "type": "string",
             "title": "Reference",
-            "default": "",
         },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
-            "default": "",
         },
     },
     "required": ["name", "group", "test"],
@@ -784,7 +762,6 @@ TEMPLATE_SCHEMA = {
             "type": "string",
             "title": "Template Name",
             "description": "A string to identify this template",
-            "default": "",
         },
         "tasks": {
             "type": "array",
@@ -794,7 +771,6 @@ TEMPLATE_SCHEMA = {
         "_meta": {
             "type": "string",
             "title": "Other Meta",
-            "default": "",
         },
     },
     "required": ["name", "tasks"],
