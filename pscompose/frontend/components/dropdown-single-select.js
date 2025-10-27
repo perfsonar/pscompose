@@ -89,7 +89,7 @@ export class SingleSelectDropdown extends HTMLElement {
                                 ? `value="${selectedOption.title}"`
                                 : `placeholder="Select ${this.getAttribute("label")}"`
                         }
-                        />
+                        </input>
                         <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
                     </div>
 
@@ -121,11 +121,9 @@ export class SingleSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                ${
-                    this.getAttribute("required") == "true"
-                        ? `<div class="required">Required</div>`
-                        : ""
-                }
+                <input-message errors="${this.getAttribute(
+                    "errors",
+                )}" required="${this.getAttribute("required")}"></input-message>
            </div>
         `;
         this.attachToggleDropdown();

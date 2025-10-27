@@ -32,11 +32,9 @@ export class TextInputArea extends HTMLElement {
                         JSON.parse(this.getAttribute("value")) || ""
                     }</textarea>
                 </div>
-                ${
-                    this.getAttribute("required") == "true"
-                        ? `<div class="required">Required</div>`
-                        : ""
-                }
+                <input-message errors="${this.getAttribute(
+                    "errors",
+                )}" required="${this.getAttribute("required")}"></input-message>
             </div>
         `;
         const textarea = this.querySelector("textarea");

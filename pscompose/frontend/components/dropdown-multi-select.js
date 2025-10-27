@@ -134,7 +134,8 @@ export class MultiSelectDropdown extends HTMLElement {
                     <div class="wrapper">
                         <input type="search" id="dropdown-search" placeholder='Select ${this.getAttribute(
                             "label",
-                        )}'/>
+                        )}'
+                        </input>
                         <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
                     </div>
                     <ul class="options">
@@ -154,11 +155,9 @@ export class MultiSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                ${
-                    this.getAttribute("required") == "true"
-                        ? `<div class="required">Required</div>`
-                        : ""
-                }
+                <input-message errors="${this.getAttribute(
+                    "errors",
+                )}" required="${this.getAttribute("required")}"></input-message>
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;
