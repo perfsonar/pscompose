@@ -22,7 +22,8 @@ class TextInputCheckbox extends HTMLElement {
                 <div class="input-checkbox-wrapper">
                     <input type="checkbox" ${
                         JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
-                    } />
+                    } >
+                    </input>
                     <label>
                         ${this.getAttribute("label")}
                         ${
@@ -34,11 +35,9 @@ class TextInputCheckbox extends HTMLElement {
                         }
                     </label>
                 </div>
-                ${
-                    this.getAttribute("required") == "true"
-                        ? `<div class="required">Required</div>`
-                        : ""
-                }
+                <input-message errors="${this.getAttribute(
+                    "errors",
+                )}" required="${this.getAttribute("required")}"></input-message>
             </div>
 
             <div class="checkbox-container-disabled">

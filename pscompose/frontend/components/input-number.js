@@ -48,17 +48,16 @@ export class TextInputNum extends HTMLElement {
                             step="${this.getAttribute("step") || 1}"
                             min="${this.getAttribute("min") || 0}"
                             max="${this.getAttribute("max") || 100}"
-                            />
+                            >
+                    </input>
                     <div class="buttons">
                         <web-button type="button" id="plus-btn" data-theme="Icon" data-righticon="plus"></web-button>
                         <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
                     </div>
                 </div>
-                ${
-                    this.getAttribute("required") == "true"
-                        ? `<div class="required">Required</div>`
-                        : ""
-                }
+                <input-message errors="${this.getAttribute(
+                    "errors",
+                )}" required="${this.getAttribute("required")}"></input-message>
             </div>
         `;
 
@@ -67,7 +66,7 @@ export class TextInputNum extends HTMLElement {
         const input = this.querySelector("input");
         input.addEventListener("change", (event) => {
             event.stopPropagation();
-            this.setAttribute("value", JSON.stringify(input.value));
+            this.setAttribute("value", input.value);
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
