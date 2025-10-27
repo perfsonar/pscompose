@@ -23,9 +23,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    color: transparent;
 }
 
-.container .errors {
+.container .input-message.error {
     color: #eb3321;
     /* color / core /red / 500 */
     text-align: left;
