@@ -22,10 +22,10 @@
         if (result.length === 0) return;
         return `
         <div class="confirm-message">
-            <h5>Saving changes to this ${datatype} will impact the following:</h5>
+            <h5>Making changes to this ${datatype} will impact the following:</h5>
             <ul>
                 ${result
-                    .map((item) => `<li>${capitalizeFirstLetter(item.type)} ${item.name}</li>`)
+                    .map((item) => `<li>${capitalizeFirstLetter(item.type)}: ${item.name}</li>`)
                     .join("")}
             </ul>
         </div>
