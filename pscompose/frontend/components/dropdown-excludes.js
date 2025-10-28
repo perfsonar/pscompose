@@ -114,15 +114,11 @@ export class excludesDropdown extends HTMLElement {
                 <dropdown-single-select
                     label="Local Address" 
                     options='${JSON.stringify(this.getAvailableLocalAddresses())}'
-                    errors=""
-                    required=""
                     >
                 </dropdown-single-select>
                 <dropdown-multi-select
                     label="Target Addresses" 
                     options='${this.getAttribute("options")}'
-                    errors=""
-                    required=""
                     >
                 </dropdown-multi-select>
             </div>
@@ -161,16 +157,12 @@ export class excludesDropdown extends HTMLElement {
                         label="Local Address" 
                         options='${this.getAttribute("options")}'
                         value='${JSON.stringify(selectedLocalAddress)}'
-                        errors=""
-                        required=""
                         >
                     </dropdown-single-select>
                     <dropdown-multi-select
                         label="Target Addresses" 
                         options='${this.getAttribute("options")}'
                         value='${JSON.stringify(selectedTargetAddresses)}'
-                        errors=""
-                        required=""
                         >
                     </dropdown-multi-select>
                 </div>

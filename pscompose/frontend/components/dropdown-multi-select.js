@@ -148,9 +148,9 @@ export class MultiSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;
