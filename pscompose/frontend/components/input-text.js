@@ -1,4 +1,4 @@
-export class TextInput extends HTMLElement {
+export class InputText extends HTMLElement {
     static observedAttributes = ["label", "value"];
 
     constructor() {
@@ -47,4 +47,4 @@ export class TextInput extends HTMLElement {
     }
 }
 
-customElements.define("input-text", TextInput);
+customElements.define("input-text", InputText);
