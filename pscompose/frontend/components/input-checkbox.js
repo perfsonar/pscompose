@@ -24,16 +24,9 @@ class InputCheckbox extends HTMLElement {
                         JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
                     } >
                     </input>
-                    <label>
-                        ${this.getAttribute("label")}
-                        ${
-                            this.getAttribute("description")
-                                ? `<web-tooltip description="${this.getAttribute(
-                                      "description",
-                                  )}"> </web-tooltip>`
-                                : ""
-                        }
-                    </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 </div>
                 <input-message errors="${this.getAttribute(
                     "errors",

@@ -17,16 +17,9 @@ export class InputText extends HTMLElement {
     render() {
         this.innerHTML = `
             <div class="container">
-                <label>
-                    ${this.getAttribute("label")}
-                    ${
-                        this.getAttribute("description")
-                            ? `<web-tooltip description="${this.getAttribute(
-                                  "description",
-                              )}"> </web-tooltip>`
-                            : ""
-                    }
-                </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 <div class="wrapper">
                     <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
                         JSON.parse(this.getAttribute("value")) || ""
