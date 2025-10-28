@@ -94,6 +94,10 @@ def get_existing_form(item_id: str):
     try:
         response = backend.get_datatype(datatype=DataTypes.GROUP, item_id=item_id)
         response_json = response.json
+        response_json = {
+            k: v for k, v in response_json.items() if v is not None
+        }  # Need to remove null fields
+
         response_json["name"] = response.name  # Adding "name" since it's not present in the json
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
