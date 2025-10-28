@@ -15,16 +15,18 @@ export class InputMessage extends HTMLElement {
     }
 
     render() {
-        const error = this.getAttribute("errors");
         const required = JSON.parse(this.getAttribute("required") || "false");
 
-        const errorExist = error && error.trim() !== "";
-        const errorRequired = error !== "is a required property";
+        const errorExist =
+            this.getAttribute("errors") != "null" ? this.getAttribute("errors") : false;
+        const errorRequired = this.getAttribute("errors") !== "is a required property";
         const errorState = errorExist && errorRequired;
 
         this.innerHTML = `                
         <div class="input-message ${errorState ? "error" : ""}">
-            <div class="errors">${error || ""}</div>
+            <div class="errors">${
+                this.getAttribute("errors") ? this.getAttribute("errors") : ""
+            }</div>
             <div class="required">${required ? "Required" : ""}</div>
         </div>
     `;
