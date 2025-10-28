@@ -7,11 +7,13 @@ class TooltipBubble extends HTMLElement {
 
     connectedCallback() {
         this.render();
+        lucide.createIcons();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         this[name] = newValue;
         this.render();
+        lucide.createIcons();
     }
 
     attachToggleListener() {
