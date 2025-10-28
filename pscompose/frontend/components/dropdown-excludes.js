@@ -221,16 +221,9 @@ export class excludesDropdown extends HTMLElement {
 
         this.innerHTML = `
         <div class="container">
-            <label>
-                ${this.getAttribute("label")}
-                ${
-                    this.getAttribute("description")
-                        ? `<web-tooltip description="${this.getAttribute(
-                              "description",
-                          )}"> </web-tooltip>`
-                        : ""
-                }
-            </label>
+            <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                "description",
+            )}'></input-label>
             ${selectedHTML}
             ${tableSelectedHTML}
         </div>

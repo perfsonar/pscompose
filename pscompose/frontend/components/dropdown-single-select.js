@@ -71,16 +71,9 @@ export class SingleSelectDropdown extends HTMLElement {
 
         this.innerHTML = `
             <div class="container">
-                <label>
-                    ${this.getAttribute("label")}
-                    ${
-                        this.getAttribute("description")
-                            ? `<web-tooltip description="${this.getAttribute(
-                                  "description",
-                              )}"> </web-tooltip>`
-                            : ""
-                    }
-                </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 <div class="dropdown">
                     <div class="wrapper">
                         <input type="search" id="dropdown-search"
