@@ -48,9 +48,9 @@ export class InputNum extends HTMLElement {
                         <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
                     </div>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
         `;
 

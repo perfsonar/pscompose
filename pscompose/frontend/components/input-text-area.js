@@ -25,9 +25,9 @@ export class InputTextArea extends HTMLElement {
                         JSON.parse(this.getAttribute("value")) || ""
                     }</textarea>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
         `;
         const textarea = this.querySelector("textarea");
