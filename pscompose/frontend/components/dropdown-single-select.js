@@ -114,9 +114,9 @@ export class SingleSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
            </div>
         `;
         this.attachToggleDropdown();
