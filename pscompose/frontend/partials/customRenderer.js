@@ -83,6 +83,14 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
     });
 });
 
+/* RERENDER JSON FORM WHEN SCHEMA UPDATED */
+
+document.body.addEventListener("change", (event) => {
+    window.setTimeout(() => {
+        event.target.render();
+    }, 5);
+});
+
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
