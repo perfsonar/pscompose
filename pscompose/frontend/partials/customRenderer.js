@@ -31,12 +31,18 @@ function createCustomRenderer(componentName) {
             id: schema?.uischema?.scope || "",
             path: schema_path,
             label: schema?.schema?.title || "",
-            required: schema?.required || false,
+            required:
+                schema?.required ||
+                schema?.rootSchema?.allOf?.some((obj) =>
+                    obj?.then?.required.includes(schema_path),
+                ) ||
+                false,
             errors: schema?.errors || [],
-            description: schema.schema?.description || null,
-            value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || null,
+            description: schema.schema?.description || undefined,
+            value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || undefined,
         };
 
+        // onChange
         props.onChange = (event) => {
             if (event.target.tagName == toAllCaps(schema.uischema.customComponent)) {
                 let value = JSON.parse(event.target.getAttribute("value"));
@@ -58,10 +64,7 @@ function createCustomRenderer(componentName) {
         if (schema?.schema?.items?.oneOf) props.options = JSON.stringify(schema.schema.items.oneOf);
         if (schema.uischema?.output) props.output = schema.uischema.output;
 
-        return {
-            tag: componentName,
-            props,
-        };
+        return { tag: componentName, props };
     };
 }
 
