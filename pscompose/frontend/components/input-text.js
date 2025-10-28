@@ -26,9 +26,9 @@ export class InputText extends HTMLElement {
                     }" >
                     </input>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
         `;
         const input = this.querySelector("input");
