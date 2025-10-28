@@ -160,6 +160,7 @@
 
     // Delete
     document.getElementById("delete-btn").addEventListener("click", async function (event) {
+        document.querySelector("json-form").dispatchEvent(new Event("validated"));
         document
             .querySelector("#delete-modal")
             .addEventListener("confirm-yes-clicked", async function (event) {
