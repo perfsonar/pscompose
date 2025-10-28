@@ -6,17 +6,16 @@
         </div>
         <div class="content">
             <form id="data-form" method="GET">
-                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
-                    <!-- Loading Form... -->
-                </fieldset>
+                <fieldset
+                    id="content"
+                    hx-trigger="load"
+                    nunjucks-template="example-template"
+                ></fieldset>
 
                 <script id="example-template" type="nunjucks">
                     <json-form
                       id="my-json-form"
-                      form-data='{{ form_data |
-                          logger("logging form-data:") |
-                          escape_property("_meta") |
-                          dump }}'
+                      form-data='{{ form_data | dump }}'
                       schema-data='{{ json_schema | dump }}'
                       layout-data='{{ ui_schema | dump }}'
                       readonly='true'
@@ -91,6 +90,7 @@
         event.preventDefault();
 
         if (!document.querySelector("json-form").validate()) {
+            // GROUP FORM CANT BE SUBMITTED -> mIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
