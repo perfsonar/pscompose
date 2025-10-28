@@ -1,4 +1,4 @@
-class TextInputCheckbox extends HTMLElement {
+class InputCheckbox extends HTMLElement {
     static observedAttributes = ["label", "value"];
 
     constructor() {
@@ -58,4 +58,4 @@ class TextInputCheckbox extends HTMLElement {
     }
 }
 
-customElements.define("input-checkbox", TextInputCheckbox);
+customElements.define("input-checkbox", InputCheckbox);
