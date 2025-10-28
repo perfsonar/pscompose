@@ -121,7 +121,7 @@ GROUP_SCHEMA = {
             ],
         },
     },
-    "required": ["name", "type", "addresses", "a-addresses", "b-addresses"],
+    "required": ["name", "type"],
     "allOf": [
         {
             "if": {"properties": {"type": {"const": "list"}}},
