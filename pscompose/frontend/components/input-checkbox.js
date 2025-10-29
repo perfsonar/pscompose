@@ -1,4 +1,4 @@
-class TextInputCheckbox extends HTMLElement {
+class InputCheckbox extends HTMLElement {
     static observedAttributes = ["label", "value"];
 
     constructor() {
@@ -24,20 +24,13 @@ class TextInputCheckbox extends HTMLElement {
                         JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
                     } >
                     </input>
-                    <label>
-                        ${this.getAttribute("label")}
-                        ${
-                            this.getAttribute("description")
-                                ? `<web-tooltip description="${this.getAttribute(
-                                      "description",
-                                  )}"> </web-tooltip>`
-                                : ""
-                        }
-                    </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
 
             <div class="checkbox-container-disabled">
@@ -58,4 +51,4 @@ class TextInputCheckbox extends HTMLElement {
     }
 }
 
-customElements.define("input-checkbox", TextInputCheckbox);
+customElements.define("input-checkbox", InputCheckbox);
