@@ -27,6 +27,8 @@ function createCustomTester(componentName) {
 
 function createCustomRenderer(componentName) {
     return function (data, handleChange, path, schema) {
+        console.log("Custom Renderer Invoked for ", componentName);
+        console.log("Custom Renderer title ", schema.schema.title, schema);
         let elemToReturn = { tag: componentName, props: {} };
         elemToReturn.props.id = schema.uischema.scope;
         elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
@@ -61,6 +63,7 @@ function createCustomRenderer(componentName) {
 /* REGISTER RENDERERS */
 
 document.body.addEventListener("json-form:beforeMount", (event) => {
+    console.log("JSON Form Before Mount Event Fired");
     let elem = event.detail[0].target;
     if (!elem) return;
 
@@ -76,11 +79,12 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
+    console.log("JSON Form Mounted Event Fired");
     if (event.detail[0].target.readonly == "true") {
-        webComponents.forEach((compoenent) => {
+        webComponents.forEach((component) => {
             document
                 .querySelector("form")
-                .querySelectorAll(compoenent)
+                .querySelectorAll(component)
                 .forEach((comp) => {
                     comp.classList.add("disabled");
                 });
@@ -89,10 +93,11 @@ document.body.addEventListener("json-form:mounted", (event) => {
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    webComponents.forEach((compoenent) => {
+    console.log("JSON Form Updated Event Fired");
+    webComponents.forEach((component) => {
         document
             .querySelector("form")
-            .querySelectorAll(compoenent)
+            .querySelectorAll(component)
             .forEach((comp) => {
                 if (event.detail[0].target.readonly == "true") {
                     comp.classList.add("disabled");

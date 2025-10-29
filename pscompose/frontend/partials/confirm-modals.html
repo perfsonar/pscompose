@@ -19,17 +19,29 @@
 <script>
     // Insert api/find results
     function resultToHtml(result) {
-        if (result.length === 0) return;
-        return `
-        <div class="confirm-message">
-            <h5>Making changes to this ${datatype} will impact the following:</h5>
-            <ul>
-                ${result
-                    .map((item) => `<li>${capitalizeFirstLetter(item.type)}: ${item.name}</li>`)
-                    .join("")}
-            </ul>
-        </div>
+        if (result.length === 0) {
+            return `
+            <div class="confirm-message">
+                <h5>Making changes to this ${datatype} will not affect any existing data</h5>
+            </div>
         `;
+        } else {
+            return `
+            <div class="confirm-message">
+                <h5>Making changes to this ${datatype} will impact the following:</h5>
+                <ul>
+                    ${result
+                        .map(
+                            (item) =>
+                                `<li>${capitalizeFirstLetter(item.type)}: <a href="/${pluralWord(
+                                    item.type,
+                                )}/?id=${item.id}" target="_blank">${item.name}</a></li>`,
+                        )
+                        .join("")}
+                </ul>
+            </div>
+            `;
+        }
     }
 
     (async () => {
@@ -45,7 +57,7 @@
         } catch (error) {
             console.error("Error:", error);
         }
-        if (result.length > 0) deleteModal.setAttribute("message", resultToHtml(result));
+        deleteModal.setAttribute("message", resultToHtml(result));
     })();
 
     // Save Datatype
@@ -61,5 +73,11 @@
     function capitalizeFirstLetter(str) {
         if (!str) return str;
         return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function pluralWord(str) {
+        if (!str) return str;
+        if (str === "address") return "addresses";
+        else return str + "s";
     }
 </script>
