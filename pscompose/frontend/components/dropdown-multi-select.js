@@ -120,16 +120,9 @@ export class MultiSelectDropdown extends HTMLElement {
 
         this.innerHTML = `
             <div class="container">
-                <label>
-                ${this.getAttribute("label")}
-                ${
-                    this.getAttribute("description")
-                        ? `<web-tooltip description="${this.getAttribute(
-                              "description",
-                          )}"> </web-tooltip>`
-                        : ""
-                }
-                </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 <div class="dropdown">
                     <div class="wrapper">
                         <input type="search" id="dropdown-search" placeholder='Select ${this.getAttribute(
@@ -155,9 +148,9 @@ export class MultiSelectDropdown extends HTMLElement {
                         }
                     </ul>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
                 <div class="tags">${tagsHTML}</div>
             </div>
         `;

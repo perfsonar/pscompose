@@ -26,37 +26,47 @@ function createCustomTester(componentName) {
 }
 
 function createCustomRenderer(componentName) {
-    return function (data, handleChange, path, schema) {
+    return function (data, handleChange, schema_path, schema) {
         console.log("Custom Renderer Invoked for ", componentName);
         console.log("Custom Renderer title ", schema.schema.title, schema);
-        let elemToReturn = { tag: componentName, props: {} };
-        elemToReturn.props.id = schema.uischema.scope;
-        elemToReturn.props.value = data == null ? schema.schema.default : JSON.stringify(data);
-        elemToReturn.props.path = path;
-        elemToReturn.props.label = schema.schema.title;
-        elemToReturn.props.required = schema.required;
-        elemToReturn.props.errors = schema.errors;
-        elemToReturn.props.onChange = (event) => {
+        const props = {
+            id: schema?.uischema?.scope || "",
+            path: schema_path,
+            label: schema?.schema?.title || "",
+            required:
+                schema?.required ||
+                schema?.rootSchema?.allOf?.some((obj) =>
+                    obj?.then?.required.includes(schema_path),
+                ) ||
+                false,
+            errors: schema?.errors || [],
+            description: schema.schema?.description || undefined,
+            value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || undefined,
+        };
+
+        // onChange
+        props.onChange = (event) => {
             if (event.target.tagName == toAllCaps(schema.uischema.customComponent)) {
-                handleChange(path, JSON.parse(event.target.getAttribute("value")));
+                let value = JSON.parse(event.target.getAttribute("value"));
+                let validValue =
+                    typeof value === "string" && value.trim() === "" ? undefined : value;
+                handleChange(schema_path, validValue);
             }
         };
-        if (schema?.schema?.description) elemToReturn.props.description = schema.schema.description;
 
         // Input Number
-        if (schema?.schema?.minimum) elemToReturn.props.min = schema.schema.minimum;
-        if (schema?.schema?.maximum) elemToReturn.props.max = schema.schema.maximum;
-        if (schema?.schema?.multipleOf) elemToReturn.props.step = schema.schema.multipleOf;
+        if (schema?.schema?.minimum) props.min = schema.schema.minimum;
+        if (schema?.schema?.maximum) props.max = schema.schema.maximum;
+        if (schema?.schema?.multipleOf) props.step = schema.schema.multipleOf;
 
         // Single Select Dropdown
-        if (schema?.schema?.oneOf) elemToReturn.props.options = JSON.stringify(schema.schema.oneOf);
+        if (schema?.schema?.oneOf) props.options = JSON.stringify(schema.schema.oneOf);
 
         // Multi Select Dropdown & Exclude Dropdown
-        if (schema?.schema?.items?.oneOf)
-            elemToReturn.props.options = JSON.stringify(schema.schema.items.oneOf);
-        if (schema.uischema?.output) elemToReturn.props.output = schema.uischema.output;
+        if (schema?.schema?.items?.oneOf) props.options = JSON.stringify(schema.schema.items.oneOf);
+        if (schema.uischema?.output) props.output = schema.uischema.output;
 
-        return elemToReturn;
+        return { tag: componentName, props };
     };
 }
 
@@ -74,6 +84,14 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
         };
         elem.appendRenderer(renderer);
     });
+});
+
+/* RERENDER JSON FORM WHEN SCHEMA UPDATED */
+
+document.body.addEventListener("change", (event) => {
+    window.setTimeout(() => {
+        event.target.render();
+    }, 5);
 });
 
 /* READONLY MODE */

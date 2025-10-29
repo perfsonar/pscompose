@@ -1,4 +1,4 @@
-export class TextInputArea extends HTMLElement {
+export class InputTextArea extends HTMLElement {
     static observedAttributes = ["label", "value"];
 
     constructor() {
@@ -17,24 +17,17 @@ export class TextInputArea extends HTMLElement {
     render() {
         this.innerHTML = `
             <div class="container">
-                <label>          
-                    ${this.getAttribute("label")}
-                    ${
-                        this.getAttribute("description")
-                            ? `<web-tooltip description="${this.getAttribute(
-                                  "description",
-                              )}"> </web-tooltip>`
-                            : ""
-                    }
-                </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 <div class="wrapper">
                     <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
                         JSON.parse(this.getAttribute("value")) || ""
                     }</textarea>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
         `;
         const textarea = this.querySelector("textarea");
@@ -46,4 +39,4 @@ export class TextInputArea extends HTMLElement {
     }
 }
 
-customElements.define("input-text-area", TextInputArea);
+customElements.define("input-text-area", InputTextArea);

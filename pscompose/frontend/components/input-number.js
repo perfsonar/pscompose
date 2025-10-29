@@ -1,4 +1,4 @@
-export class TextInputNum extends HTMLElement {
+export class InputNum extends HTMLElement {
     static observedAttributes = ["label", "value", "step", "min", "max", "description"];
 
     constructor() {
@@ -31,16 +31,9 @@ export class TextInputNum extends HTMLElement {
     render() {
         this.innerHTML = `
             <div class="container">
-                <label>
-                    ${this.getAttribute("label")}
-                    ${
-                        this.getAttribute("description")
-                            ? `<web-tooltip description="${this.getAttribute(
-                                  "description",
-                              )}"> </web-tooltip>`
-                            : ""
-                    }
-                </label>
+                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
+                    "description",
+                )}'></input-label>
                 <div class="wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
@@ -55,9 +48,9 @@ export class TextInputNum extends HTMLElement {
                         <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
                     </div>
                 </div>
-                <input-message errors="${this.getAttribute(
+                <input-message errors='${this.getAttribute(
                     "errors",
-                )}" required="${this.getAttribute("required")}"></input-message>
+                )}' required='${this.getAttribute("required")}'></input-message>
             </div>
         `;
 
@@ -72,4 +65,4 @@ export class TextInputNum extends HTMLElement {
     }
 }
 
-customElements.define("input-number", TextInputNum);
+customElements.define("input-number", InputNum);
