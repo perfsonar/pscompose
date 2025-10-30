@@ -1,5 +1,5 @@
 export class InputTextArea extends HTMLElement {
-    static observedAttributes = ["label", "value"];
+    static observedAttributes = ["label", "value", "description", "required", "errors"];
 
     constructor() {
         super();
