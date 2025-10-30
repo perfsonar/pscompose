@@ -39,7 +39,7 @@ function createCustomRenderer(componentName) {
                     obj?.then?.required.includes(schema_path),
                 ) ||
                 false,
-            errors: schema?.errors || [],
+            errors: schema?.errors || undefined,
             description: schema.schema?.description || undefined,
             value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || undefined,
         };
@@ -88,11 +88,11 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
 /* RERENDER JSON FORM WHEN SCHEMA UPDATED */
 
-document.body.addEventListener("change", (event) => {
-    window.setTimeout(() => {
-        event.target.render();
-    }, 5);
-});
+// document.body.addEventListener("change", (event) => {
+//     window.setTimeout(() => {
+//         event.target.render();
+//     }, 5);
+// });
 
 /* READONLY MODE */
 
