@@ -1,5 +1,5 @@
 export class SingleSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "value"];
+    static observedAttributes = ["label", "options", "value", "errors", "description", "required"];
 
     constructor() {
         super();
