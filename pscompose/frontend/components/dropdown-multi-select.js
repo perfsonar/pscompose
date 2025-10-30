@@ -1,5 +1,13 @@
 export class MultiSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "value", "output"];
+    static observedAttributes = [
+        "label",
+        "options",
+        "value",
+        "output",
+        "errors",
+        "description",
+        "required",
+    ];
 
     constructor() {
         super();
