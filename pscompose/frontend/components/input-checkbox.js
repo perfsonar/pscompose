@@ -1,5 +1,5 @@
 class InputCheckbox extends HTMLElement {
-    static observedAttributes = ["label", "value"];
+    static observedAttributes = ["label", "value", "errors", "description", "required"];
 
     constructor() {
         super();
