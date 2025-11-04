@@ -9,6 +9,15 @@ export class SingleSelectDropdown extends HTMLElement {
         this.render();
     }
 
+    sanitizeOptions(options) {
+        if (options.length > 0 && typeof options[0] !== "object") {
+            return options.map((opt) => {
+                return { const: opt, title: opt };
+            });
+        }
+        return options;
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
         this[name] = newValue;
         this.render();
@@ -63,17 +72,19 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 
     render() {
-        const options = this.getAttribute("options")
-            ? JSON.parse(this.getAttribute("options"))
-            : [];
+        let options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
+        options = this.sanitizeOptions(options);
         const selectedValue = JSON.parse(this.getAttribute("value")) || "";
-        const selectedOption = options ? options.find((opt) => opt.const === selectedValue) : null;
+        const selectedOption = options
+            ? options.find((opt) => String(opt.const) === selectedValue)
+            : null;
+
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
 
         this.innerHTML = `
             <div class="container">
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 <div class="dropdown">
                     <div class="wrapper">
                         <input type="search" id="dropdown-search"

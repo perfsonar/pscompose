@@ -17,6 +17,9 @@ class InputCheckbox extends HTMLElement {
     }
 
     render() {
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
+
         this.innerHTML = `
             <div class="container">
                 <div class="input-checkbox-wrapper">
@@ -24,9 +27,7 @@ class InputCheckbox extends HTMLElement {
                         JSON.parse(this.getAttribute("value")) === true ? "checked" : ""
                     } >
                     </input>
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 </div>
                 <input-message errors='${this.getAttribute(
                     "errors",
