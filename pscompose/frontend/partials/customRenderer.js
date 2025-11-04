@@ -27,8 +27,8 @@ function createCustomTester(componentName) {
 
 function createCustomRenderer(componentName) {
     return function (data, handleChange, schema_path, schema) {
-        console.log("Custom Renderer Invoked for ", componentName);
-        console.log("Custom Renderer title ", schema.schema.title, schema);
+        // console.log("Custom Renderer Invoked for ", componentName);
+        // console.log("Custom Renderer title ", schema.schema.title, schema);
         const props = {
             id: schema?.uischema?.scope || "",
             path: schema_path,
@@ -61,6 +61,7 @@ function createCustomRenderer(componentName) {
 
         // Single Select Dropdown
         if (schema?.schema?.oneOf) props.options = JSON.stringify(schema.schema.oneOf);
+        if (schema?.schema?.enum) props.options = JSON.stringify(schema.schema.enum);
 
         // Multi Select Dropdown & Exclude Dropdown
         if (schema?.schema?.items?.oneOf) props.options = JSON.stringify(schema.schema.items.oneOf);
@@ -73,7 +74,7 @@ function createCustomRenderer(componentName) {
 /* REGISTER RENDERERS */
 
 document.body.addEventListener("json-form:beforeMount", (event) => {
-    console.log("JSON Form Before Mount Event Fired");
+    // console.log("JSON Form Before Mount Event Fired");
     let elem = event.detail[0].target;
     if (!elem) return;
 
@@ -88,16 +89,17 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
 /* RERENDER JSON FORM WHEN SCHEMA UPDATED */
 
-// document.body.addEventListener("change", (event) => {
-//     window.setTimeout(() => {
-//         event.target.render();
-//     }, 5);
-// });
+document.body.addEventListener("change", (event) => {
+    // console.log("Change event fired - re-rendering JSON Form");
+    window.setTimeout(() => {
+        event?.target?.render();
+    }, 5);
+});
 
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
-    console.log("JSON Form Mounted Event Fired");
+    // console.log("JSON Form Mounted Event Fired");
     if (event.detail[0].target.readonly == "true") {
         webComponents.forEach((component) => {
             document
@@ -111,7 +113,7 @@ document.body.addEventListener("json-form:mounted", (event) => {
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    console.log("JSON Form Updated Event Fired");
+    // console.log("JSON Form Updated Event Fired");
     webComponents.forEach((component) => {
         document
             .querySelector("form")

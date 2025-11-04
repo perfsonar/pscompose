@@ -31,11 +31,12 @@ export class InputNum extends HTMLElement {
     };
 
     render() {
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
+
         this.innerHTML = `
             <div class="container">
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 <div class="wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
