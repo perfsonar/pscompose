@@ -1,3 +1,6 @@
+import requests
+
+from copy import deepcopy
 from fastapi import HTTPException
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
@@ -17,7 +20,24 @@ router = generate_router("archive")
 @router.get("/api/archive/new/form", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    payload = {"ui_schema": ARCHIVE_UI_SCHEMA, "json_schema": ARCHIVE_SCHEMA, "form_data": {}}
+    # TODO: This is just a placeholder
+    url = "https://chic-ps-lat.es.net/pscheduler/archivers"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=503, detail=f"Failed to fetch external data: {str(e)}")
+
+    # Extract just the archive names (last part of each URL)
+    archives = [el.split("/")[-1] for el in data]
+    one_of = [{"const": name, "title": name.upper()} for name in archives]
+
+    # Clone and enrich the schema dynamically
+    enriched_schema = deepcopy(ARCHIVE_SCHEMA)
+    enriched_schema["properties"]["archiver"]["oneOf"] = one_of
+
+    payload = {"ui_schema": ARCHIVE_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
 
