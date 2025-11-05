@@ -52,7 +52,12 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 
     selectOption(value, title) {
-        this.setAttribute("value", JSON.stringify(value));
+        const options = JSON.parse(this.getAttribute("options"));
+        if (options.length > 0 && typeof options[0] === "object") {
+            this.setAttribute("value", JSON.stringify(value));
+        } else {
+            this.setAttribute("value", value);
+        }
         this.render();
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
@@ -76,7 +81,12 @@ export class SingleSelectDropdown extends HTMLElement {
         options = this.sanitizeOptions(options);
         const selectedValue = JSON.parse(this.getAttribute("value")) || "";
         const selectedOption = options
-            ? options.find((opt) => String(opt.const) === selectedValue)
+            ? options.find((opt) => {
+                  if (typeof opt === "object" && opt !== null) {
+                      return JSON.stringify(opt.const) === JSON.stringify(selectedValue);
+                  }
+                  return String(opt) === String(selectedValue);
+              })
             : null;
 
         const desc = this.getAttribute("description");
