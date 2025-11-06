@@ -100,7 +100,7 @@ def get_existing_form(item_id: str):
 
         response_json["name"] = response.name  # Adding "name" since it's not present in the json
     except HTTPException:
-        raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
+        raise HTTPException(status_code=404, detail=f"Group with id: {item_id} not found")
 
     try:
         address_rows = backend.get_results(datatype=DataTypes.ADDRESS)

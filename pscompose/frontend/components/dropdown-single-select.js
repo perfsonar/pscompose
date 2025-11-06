@@ -1,5 +1,5 @@
 export class SingleSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "value"];
+    static observedAttributes = ["label", "options", "value", "errors", "description", "required"];
 
     constructor() {
         super();
@@ -7,6 +7,15 @@ export class SingleSelectDropdown extends HTMLElement {
 
     connectedCallback() {
         this.render();
+    }
+
+    sanitizeOptions(options) {
+        if (options.length > 0 && typeof options[0] !== "object") {
+            return options.map((opt) => {
+                return { const: opt, title: opt };
+            });
+        }
+        return options;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -43,7 +52,12 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 
     selectOption(value, title) {
-        this.setAttribute("value", JSON.stringify(value));
+        const options = JSON.parse(this.getAttribute("options"));
+        if (options.length > 0 && typeof options[0] === "object") {
+            this.setAttribute("value", JSON.stringify(value));
+        } else {
+            this.setAttribute("value", value);
+        }
         this.render();
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
@@ -63,17 +77,24 @@ export class SingleSelectDropdown extends HTMLElement {
     }
 
     render() {
-        const options = this.getAttribute("options")
-            ? JSON.parse(this.getAttribute("options"))
-            : [];
+        let options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
+        options = this.sanitizeOptions(options);
         const selectedValue = JSON.parse(this.getAttribute("value")) || "";
-        const selectedOption = options ? options.find((opt) => opt.const === selectedValue) : null;
+        const selectedOption = options
+            ? options.find((opt) => {
+                  if (typeof opt === "object" && opt !== null) {
+                      return JSON.stringify(opt.const) === JSON.stringify(selectedValue);
+                  }
+                  return String(opt) === String(selectedValue);
+              })
+            : null;
+
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
 
         this.innerHTML = `
             <div class="container">
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 <div class="dropdown">
                     <div class="wrapper">
                         <input type="search" id="dropdown-search"

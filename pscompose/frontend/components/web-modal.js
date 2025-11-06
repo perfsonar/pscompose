@@ -56,11 +56,11 @@ export class WebModal extends HTMLElement {
                     <p id="confirm-find"></p>
                     <div class="save-cancel">
                         <web-button 
+                            type="button" 
                             id="confirm-no" 
                             data-label="Cancel" 
                             data-theme="Shadow" 
                             data-righticon="x" 
-                            data-link="javascript:history.back()"
                         ></web-button>
                         <web-button
                             id="confirm-yes"

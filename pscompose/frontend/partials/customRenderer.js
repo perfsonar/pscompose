@@ -37,7 +37,7 @@ function createCustomRenderer(componentName) {
                     obj?.then?.required.includes(schema_path),
                 ) ||
                 false,
-            errors: schema?.errors || [],
+            errors: schema?.errors || undefined,
             description: schema.schema?.description || undefined,
             value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || undefined,
         };
@@ -59,6 +59,7 @@ function createCustomRenderer(componentName) {
 
         // Single Select Dropdown
         if (schema?.schema?.oneOf) props.options = JSON.stringify(schema.schema.oneOf);
+        if (schema?.schema?.enum) props.options = JSON.stringify(schema.schema.enum);
 
         // Multi Select Dropdown & Exclude Dropdown
         if (schema?.schema?.items?.oneOf) props.options = JSON.stringify(schema.schema.items.oneOf);
@@ -71,6 +72,7 @@ function createCustomRenderer(componentName) {
 /* REGISTER RENDERERS */
 
 document.body.addEventListener("json-form:beforeMount", (event) => {
+    // console.log("JSON Form Before Mount Event Fired");
     let elem = event.detail[0].target;
     if (!elem) return;
 
@@ -86,19 +88,21 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 /* RERENDER JSON FORM WHEN SCHEMA UPDATED */
 
 document.body.addEventListener("change", (event) => {
+    // console.log("Change event fired - re-rendering JSON Form");
     window.setTimeout(() => {
-        event.target.render();
+        event?.target?.render();
     }, 5);
 });
 
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
+    // console.log("JSON Form Mounted Event Fired");
     if (event.detail[0].target.readonly == "true") {
-        webComponents.forEach((compoenent) => {
+        webComponents.forEach((component) => {
             document
                 .querySelector("form")
-                .querySelectorAll(compoenent)
+                .querySelectorAll(component)
                 .forEach((comp) => {
                     comp.classList.add("disabled");
                 });
@@ -107,10 +111,11 @@ document.body.addEventListener("json-form:mounted", (event) => {
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    webComponents.forEach((compoenent) => {
+    // console.log("JSON Form Updated Event Fired");
+    webComponents.forEach((component) => {
         document
             .querySelector("form")
-            .querySelectorAll(compoenent)
+            .querySelectorAll(component)
             .forEach((comp) => {
                 if (event.detail[0].target.readonly == "true") {
                     comp.classList.add("disabled");
