@@ -61,7 +61,6 @@ export class WebModal extends HTMLElement {
                             data-label="Cancel" 
                             data-theme="Shadow" 
                             data-righticon="x" 
-                            data-link="javascript:history.back()"
                         ></web-button>
                         <web-button
                             id="confirm-yes"
