@@ -106,7 +106,6 @@
 
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
                         const result = await response.json();
-
                         savemsg = psCompose.activeRoute.singular + " saved successfully!";
                         sessionStorage.setItem(
                             "confirmMessage",
