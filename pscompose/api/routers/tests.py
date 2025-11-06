@@ -3,7 +3,10 @@ from copy import deepcopy
 from fastapi import HTTPException
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
+
+from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
+from pscompose.backends.postgres import backend
 from pscompose.form_schemas import TEST_SCHEMA, TEST_UI_SCHEMA
 
 # Setup CRUD endpoints
@@ -53,27 +56,40 @@ router.sanitize = sanitize_data
 #     return results
 
 
-@router.get("/api/test/new/form", summary="Return the form to be rendered")
-@version(1)
-def get_form():
-    # TODO: This is just a placeholder
+def fetch_pscheduler_test_list() -> list[str]:
+    """Fetch available test types from the pScheduler API"""
     url = "https://chic-ps-lat.es.net/pscheduler/tests"
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         data = response.json()
+        return [el.split("/")[-1] for el in data]
     except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=503, detail=f"Failed to fetch external data: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail=f"Failed to fetch external data: {str(e)}",
+        )
 
-    # Extract just the test names (last part of each URL)
-    tests = [el.split("/")[-1] for el in data]
-    one_of = [{"const": name, "title": name.upper()} for name in tests]
 
+@router.get("/api/test/new/form", summary="Return the form to be rendered")
+@version(1)
+def get_form():
     # Clone and enrich the schema dynamically
+    tests = fetch_pscheduler_test_list()
     enriched_schema = deepcopy(TEST_SCHEMA)
-    enriched_schema["properties"]["type"]["oneOf"] = one_of
+    enriched_schema["properties"]["type"]["oneOf"] = [
+        {"const": name, "title": name.upper()} for name in tests
+    ]
 
-    payload = {"ui_schema": TEST_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
+    # Remove "spec" from TEST_UI_SCHEMA for the new form
+    enriched_schema["properties"].pop("spec", None)
+
+    enriched_ui_schema = deepcopy(TEST_UI_SCHEMA)
+    enriched_ui_schema["elements"] = [
+        elem for elem in enriched_ui_schema["elements"] if elem.get("scope") != "#/properties/spec"
+    ]
+
+    payload = {"ui_schema": enriched_ui_schema, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
 
@@ -152,7 +168,7 @@ def retrieve_form(testType: str):
                                 "title": "Starting Comment",
                             },
                         },
-                        "required": ["duration"],
+                        "required": ["duration", "schema"],
                         "type": "object",
                     },
                 },
@@ -220,3 +236,35 @@ def retrieve_form(testType: str):
         },
     }
     return JSONResponse(content=idle_schema)
+
+
+@router.get(
+    "/api/test/{item_id}/form",
+    summary="Get the JSON Data and form data identified by the uuid-slug",
+)
+@version(1)
+def get_existing_form(item_id: str):
+    try:
+        response = backend.get_datatype(datatype=DataTypes.TEST, item_id=item_id)
+        response_json = response.json
+        response_json = {
+            k: v for k, v in response_json.items() if v is not None
+        }  # Need to remove null fields
+
+        response_json["name"] = response.name  # Adding "name" since it's not present in the json
+    except HTTPException:
+        raise HTTPException(status_code=404, detail=f"Test with id: {item_id} not found")
+
+    # Clone and enrich the schema dynamically
+    tests = fetch_pscheduler_test_list()
+    enriched_schema = deepcopy(TEST_SCHEMA)
+    enriched_schema["properties"]["type"]["oneOf"] = [
+        {"const": name, "title": name.upper()} for name in tests
+    ]
+
+    payload = {
+        "ui_schema": TEST_UI_SCHEMA,
+        "json_schema": enriched_schema,
+        "form_data": response_json,
+    }
+    return JSONResponse(content=payload)

@@ -27,8 +27,6 @@ function createCustomTester(componentName) {
 
 function createCustomRenderer(componentName) {
     return function (data, handleChange, schema_path, schema) {
-        // console.log("Custom Renderer Invoked for ", componentName);
-        // console.log("Custom Renderer title ", schema.schema.title, schema);
         const props = {
             id: schema?.uischema?.scope || "",
             path: schema_path,

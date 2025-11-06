@@ -508,6 +508,10 @@ TEST_SCHEMA = {
             "description": "Type of test to be performed",
             "oneOf": [],
         },
+        "spec": {
+            "type": "string",
+            "title": "Spec",
+        },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
@@ -530,6 +534,7 @@ TEST_UI_SCHEMA = {
             "scope": "#/properties/type",
             "customComponent": "dropdown-single-select",
         },
+        {"type": "Control", "scope": "#/properties/spec", "customComponent": "input-text-area"},
         # Dynamically fill this out
         {
             "type": "Group",
