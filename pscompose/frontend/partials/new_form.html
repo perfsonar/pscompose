@@ -41,6 +41,9 @@
     const id = params.get("id");
     const datatype = psCompose.activeRoute.singular.toLowerCase();
 
+    let selectedType = null;
+    let additionalSchema = null;
+
     // Setting attributes dynamically
     document.querySelector(".header #data-name").textContent =
         "New " + psCompose.activeRoute.singular;
@@ -85,6 +88,8 @@
                         // url: ""
                     };
 
+                    console.log("Submitting data ", data);
+
                     // 1.1 Additional properties added according to datatype
                     if (datatype == "group") {
                         data.schema = JSON.parse(elem.schemaData);
@@ -101,7 +106,6 @@
 
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
                         const result = await response.json();
-
                         savemsg = psCompose.activeRoute.singular + " saved successfully!";
                         sessionStorage.setItem(
                             "confirmMessage",
@@ -120,6 +124,151 @@
                         processLastMessage();
                     }
                 });
+        }
+    });
+
+    document.getElementById("data-form").addEventListener("change", async function (event) {
+        console.log(
+            "Change event detected:",
+            event.target.name,
+            event.target.label,
+            event.target.value,
+        );
+
+        // Dynamically update schema for certain types
+        if (psCompose.activeMenuItem === "tests") {
+            const elem = document.querySelector("json-form");
+
+            // --- Handle test type change ---
+            if (event.target.label === "Type") {
+                selectedType = JSON.parse(event.target.value);
+                additionalSchema = await getAdditionalSchema(selectedType);
+                handleTypeChange(selectedType, additionalSchema);
+            }
+
+            // --- Fetch from FastAPI backend ---
+            async function getAdditionalSchema(type) {
+                try {
+                    const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form`;
+                    const res = await fetch(url, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    if (!res.ok) throw new Error(`Failed to fetch schema: ${res.status}`);
+                    const data = await res.json();
+                    return data;
+                } catch (err) {
+                    console.error("Error fetching schema:", err);
+                }
+            }
+
+            // --- Handle version change ---
+            if (event.target.label === "Version") {
+                const newVersion = JSON.parse(event.target.value);
+                updateIdleVersion(newVersion, additionalSchema);
+            }
+
+            function findGroup(layout) {
+                return layout.elements.find(
+                    (el) =>
+                        el.type === "Group" && el.rule?.condition?.scope === "#/properties/type",
+                );
+            }
+
+            function mergeSchema(baseSchema, versionData) {
+                Object.assign(baseSchema.properties, versionData.properties);
+                baseSchema.required = [
+                    ...new Set([...(baseSchema.required || []), ...(versionData.required || [])]),
+                ];
+            }
+
+            function mergeLayout(group, uiVersionData) {
+                // Keep version dropdown, replace the rest
+                group.elements = group.elements.slice(0, 1).concat(uiVersionData.elements);
+            }
+
+            function ensureVersionDropdown(group) {
+                group.elements = Array.isArray(group.elements) ? group.elements : [];
+                if (!group.elements.some((e) => e.scope === "#/properties/version")) {
+                    group.elements.unshift({
+                        type: "Control",
+                        scope: "#/properties/version",
+                        customComponent: "dropdown-single-select",
+                    });
+                }
+            }
+
+            function handleTypeChange(selectedType, additionalSchema) {
+                console.log("Selected type ", selectedType, additionalSchema);
+
+                const versions = (additionalSchema?.spec?.versions || []).filter((v) => v !== null);
+                if (!versions.length) return;
+
+                const highestVersion = versions.sort((a, b) => Number(b) - Number(a))[0];
+                console.log("Highest version:", highestVersion);
+
+                const baseSchema = JSON.parse(elem.schemaData);
+                const baseLayout = JSON.parse(elem.layoutData);
+
+                const group = findGroup(baseLayout);
+                if (!group) return;
+
+                // Show condition and add dropdown
+                group.rule.condition.schema.const = selectedType;
+                ensureVersionDropdown(group);
+
+                // --- Add Version field to JSON and UI schema to show list of versions ---
+                if (!baseSchema.properties.version) {
+                    baseSchema.properties.version = {
+                        type: "string",
+                        title: "Version",
+                        oneOf: versions.map((v) => ({
+                            const: v,
+                            title: `Version ${v}`,
+                        })),
+                        default: highestVersion,
+                    };
+                }
+
+                // Load schema and UI schema for highest version
+                const versionData = additionalSchema.spec.jsonschema.versions[highestVersion];
+                const uiVersionData = additionalSchema.spec.uischema.versions[highestVersion];
+
+                mergeSchema(baseSchema, versionData);
+                mergeLayout(group, uiVersionData);
+
+                // --- APPLY TO FORM ---
+                elem.setAttribute("schema-data", JSON.stringify(baseSchema));
+                elem.setAttribute("layout-data", JSON.stringify(baseLayout));
+
+                console.log("Idle Schema:", baseSchema);
+                console.log("Idle UI Schema:", baseLayout);
+            }
+
+            function updateIdleVersion(selectedVersion, additionalSchema) {
+                console.log("Updating to Idle version:", selectedVersion, additionalSchema);
+                const elem = document.querySelector("json-form");
+                const currentSchema = JSON.parse(elem.schemaData);
+                const currentLayout = JSON.parse(elem.layoutData);
+
+                const versionData = additionalSchema.spec.jsonschema.versions[selectedVersion];
+                const uiVersionData = additionalSchema.spec.uischema.versions[selectedVersion];
+
+                if (!versionData || !uiVersionData) return;
+
+                mergeSchema(currentSchema, versionData);
+
+                const group = findGroup(currentLayout);
+                if (!group) return;
+
+                mergeLayout(group, uiVersionData);
+
+                elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+                elem.setAttribute("layout-data", JSON.stringify(currentLayout));
+
+                console.log("New Idle Schema:", currentSchema);
+                console.log("New Idle UI Schema:", currentLayout);
+            }
         }
     });
 </script>

@@ -1,5 +1,5 @@
 export class InputTextArea extends HTMLElement {
-    static observedAttributes = ["label", "value"];
+    static observedAttributes = ["label", "value", "description", "required", "errors"];
 
     constructor() {
         super();
@@ -15,11 +15,12 @@ export class InputTextArea extends HTMLElement {
     }
 
     render() {
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
+
         this.innerHTML = `
             <div class="container">
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 <div class="wrapper">
                     <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
                         JSON.parse(this.getAttribute("value")) || ""

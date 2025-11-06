@@ -1,5 +1,5 @@
 export class InputNum extends HTMLElement {
-    static observedAttributes = ["label", "value", "step", "min", "max", "description"];
+    static observedAttributes = ["label", "step", "min", "max", "description", "value", "errors"];
 
     constructor() {
         super();
@@ -16,24 +16,27 @@ export class InputNum extends HTMLElement {
         lucide.createIcons();
     }
 
-    onPlusClick() {
-        const input = document.querySelector('input[type="number"]');
+    onPlusClick = () => {
+        const input = this.querySelector("input");
+        if (!input) return;
         input.stepUp();
-        input.dispatchEvent(new Event("change"));
-    }
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
 
-    onMinusClick() {
-        const input = document.querySelector('input[type="number"]');
+    onMinusClick = () => {
+        const input = this.querySelector("input");
+        if (!input) return;
         input.stepDown();
-        input.dispatchEvent(new Event("change"));
-    }
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
 
     render() {
+        const desc = this.getAttribute("description");
+        const descAttr = desc != null ? ` desc='${desc}'` : "";
+
         this.innerHTML = `
             <div class="container">
-                <input-label label='${this.getAttribute("label")}' desc='${this.getAttribute(
-                    "description",
-                )}'></input-label>
+                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
                 <div class="wrapper">
                     <input  type="number" 
                             placeholder="Enter ${this.getAttribute("label")}" 
