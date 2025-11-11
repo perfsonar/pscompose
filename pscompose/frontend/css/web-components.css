@@ -1,3 +1,5 @@
+/* FORM-CONTROL */
+
 .container {
     display: flex;
     flex-direction: column;
@@ -19,30 +21,11 @@
     color: var(--copyAlt-color);
 }
 
-.container .input-message {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    color: transparent;
-}
-
-.container .input-message.error {
-    color: #eb3321;
-    /* color / core /red / 500 */
-    text-align: left;
-}
-
-.container .required {
-    color: var(--copyAlt-color);
-    text-align: right;
-    font-size: 12px;
-}
-
-.disabled .input-message {
+[disabled] .container input-message {
     display: none;
 }
 
-.disabled web-tooltip {
+[disabled] web-tooltip {
     display: none;
 }
 
@@ -68,7 +51,7 @@
         rgba(222, 0, 0, 0.26);
 }
 
-.disabled .container .wrapper {
+[disabled] .container .wrapper {
     background-color: transparent;
     border: none;
     font-family: "Source Code Pro";
@@ -78,9 +61,28 @@
     padding: 0px 4px;
 }
 
-.disabled .container:has(.input-message.error) .wrapper {
+[disabled] .container:has(.input-message.error) .wrapper {
     border: none;
     box-shadow: none;
+}
+
+/* INPUT-MESSAGE */
+
+.container input-message {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container input-message .error {
+    color: #eb3321;
+    text-align: left;
+}
+
+.container input-message .required {
+    color: var(--copyAlt-color);
+    text-align: right;
+    font-size: 12px;
 }
 
 /* INPUT-TEXT */
@@ -95,7 +97,7 @@
     flex: 1 1 auto;
 }
 
-.disabled input:placeholder-shown::placeholder {
+[disabled] input:placeholder-shown::placeholder {
     color: transparent;
 }
 
@@ -114,14 +116,14 @@
     padding: 0 8px;
 }
 
-.disabled .container .wrapper input {
+[disabled] .container .wrapper input {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
     height: 24px;
 }
 
-.disabled .container .wrapper .buttons {
+[disabled] .container .wrapper .buttons {
     display: none;
 }
 
@@ -144,41 +146,46 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* INPUT-CHECKBOX */
 
-.container:has(input[type="checkbox"]) .input-checkbox-wrapper {
+.container:has(input[type="checkbox"]) {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
-    height: 40px;
+    height: 100%;
 }
 
-.container input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
+.container:has(input[type="checkbox"]) input-label {
+    order: 2;
+}
+
+.container:has(input[type="checkbox"]) .wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 32px;
+    height: 32px;
     background: var(--surface1-color);
     accent-color: var(--success-color);
     border: 2px solid var(--copyAlt-color);
     border-radius: 8px;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
+    min-width: 0;
+    order: 1;
     position: relative;
-    outline: none;
 }
 
-.container input[type="checkbox"]:checked {
+.container:has(input[type="checkbox"]:checked) .wrapper {
     background: var(--success-color);
 }
 
 .container input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
-    left: 6.5px;
+    left: 8px;
     top: 2px;
-    width: 7px;
-    height: 12px;
+    width: 12px;
+    height: 17px;
     border: solid white;
-    border-width: 0 3px 3px 0;
+    border-width: 0 4px 4px 0;
     transform: rotate(45deg);
     pointer-events: none;
     display: block;
@@ -186,33 +193,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .checkbox-container-disabled {
     display: none;
-}
-
-.disabled .container:has(input[type="checkbox"]) {
-    display: none;
-    pointer-events: none;
-    user-select: none;
-    cursor: not-allowed;
-}
-
-.disabled .checkbox-container-disabled {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1 1 auto;
-    min-width: 200px;
-}
-
-.disabled .checkbox-container-disabled label {
-    white-space: nowrap;
-    font-weight: 600;
-}
-
-.disabled .checkbox-container-disabled p {
-    font-family: "Source Code Pro";
-    color: var(--copyAlt-color);
-    height: 24px;
-    align-items: center;
 }
 
 /* INPUT-TEXT-AREA */
@@ -245,7 +225,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border: none;
 }
 
-.disabled .container textarea {
+[disabled] .wrapper textarea {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -259,7 +239,7 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: not-allowed;
 }
 
-.disabled textarea:placeholder-shown::placeholder {
+[disabled] textarea:placeholder-shown::placeholder {
     color: transparent;
 }
 
@@ -278,7 +258,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
 }
 
-.container .dropdown.active {
+.container .dropdown:has(.options.open) {
     outline: none;
     border: 1.5px solid var(--success-color);
 }
@@ -321,25 +301,22 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: row;
     padding: 4px;
+    flex: 1;
 }
 
-.container .dropdown li:has(.option.active) {
+.container .dropdown li.active {
     background-color: rgba(var(--success-color-rgb), 0.5);
     align-items: center;
     justify-content: space-between;
 }
 
-.container .dropdown .option {
-    flex: 1;
-}
-
-.disabled .container .dropdown {
+[disabled] .container .dropdown {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
 }
 
-.disabled .container .dropdown web-button {
+[disabled] .container .dropdown web-button {
     display: none;
 }
 
@@ -372,16 +349,16 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
-dropdown-multi-select.disabled .container .dropdown .wrapper {
+dropdown-multi-select[disabled] .dropdown {
     display: none;
 }
 
-.disabled .container .tag {
+[disabled] .tag {
     padding: 4px 12px;
     align-self: flex-start;
 }
 
-.disabled .container .remove-tag {
+[disabled] #remove-tag {
     display: none;
 }
 
@@ -440,22 +417,22 @@ dropdown-multi-select {
     display: none;
 }
 
-.disabled .container .excludes-container {
+[disabled] .container .excludes-container {
     display: none;
 }
 
-.disabled .container .excludes-table {
+[disabled] .container .excludes-table {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.disabled .container .excludes-table tr {
+[disabled] .container .excludes-table tr {
     display: flex;
     border-bottom: 2px solid rgba(var(--shadow-color-rgb), 0.3);
 }
 
-.disabled .container .excludes-table th {
+[disabled] .container .excludes-table th {
     width: 100%;
     padding: 8px;
     background-color: rgba(var(--surface2-color-rgb), 0.3);
@@ -463,14 +440,14 @@ dropdown-multi-select {
     font-size: 14px;
 }
 
-.disabled .container .excludes-table td {
+[disabled] .container .excludes-table td {
     width: 100%;
     font-family: "Source Code Pro";
     color: var(--copyAlt-color);
     padding: 8px;
 }
 
-.disabled .container .excludes-container #excludes-minus-btn {
+[disabled] .container .excludes-container #excludes-minus-btn {
     display: none;
 }
 
@@ -479,7 +456,7 @@ dropdown-excludes #excludes-add-btn {
     margin-top: 8px;
 }
 
-dropdown-excludes.disabled #excludes-add-btn {
+dropdown-excludes[disabled] #excludes-add-btn {
     display: none;
 }
 
