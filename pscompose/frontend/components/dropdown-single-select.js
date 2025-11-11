@@ -45,6 +45,7 @@ export class SingleSelectDropdown extends FormControl {
     attachToggleDropdown() {
         if (this.querySelector("#deselect-btn")) return;
         this.wrapperEl.addEventListener("click", () => {
+            this.markDirty();
             this.optionsEl.classList.toggle("open");
         });
     }
