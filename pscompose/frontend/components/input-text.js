@@ -15,6 +15,7 @@ export class InputText extends FormControl {
     attachEventListener() {
         this.inputEl?.addEventListener("change", (e) => {
             e.preventDefault();
+            this.markDirty();
             switch (this.inputEl.type) {
                 case "number":
                     this.value = this.inputEl.value === "" ? undefined : Number(this.inputEl.value);
@@ -27,6 +28,8 @@ export class InputText extends FormControl {
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
+        this.inputEl?.addEventListener("input", () => this.markDirty(), { once: true });
+        this.inputEl?.addEventListener("blur", () => this.markDirty(), { once: true });
     }
 
     render() {
