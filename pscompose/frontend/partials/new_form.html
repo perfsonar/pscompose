@@ -141,7 +141,7 @@
 
             // --- Handle test type change ---
             if (event.target.label === "Type") {
-                selectedType = JSON.parse(event.target.value);
+                selectedType = event.target.value;
                 additionalSchema = await getAdditionalSchema(selectedType);
                 handleTypeChange(selectedType, additionalSchema);
             }
