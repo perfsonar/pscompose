@@ -1,42 +1,27 @@
-export class InputTextArea extends HTMLElement {
-    static observedAttributes = ["label", "value", "description", "required", "errors"];
+import { FormControl } from "./form-control.js";
 
+export class InputTextArea extends FormControl {
     constructor() {
         super();
+        this.slotEl = `
+            <div class='wrapper'>
+                <textarea></textarea>
+            </div>`;
+        this.textAreaEl = null;
     }
 
-    connectedCallback() {
-        this.render();
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
+    attachEventListener() {
+        this.textAreaEl?.addEventListener("change", (e) => {
+            this.value = this.textAreaEl.value;
+            this.dispatchEvent(new Event("change", { bubbles: true }));
+        });
     }
 
     render() {
-        const desc = this.getAttribute("description");
-        const descAttr = desc != null ? ` desc='${desc}'` : "";
-
-        this.innerHTML = `
-            <div class="container">
-                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
-                <div class="wrapper">
-                    <textarea type="text" placeholder="Enter ${this.getAttribute("label")}">${
-                        JSON.parse(this.getAttribute("value")) || ""
-                    }</textarea>
-                </div>
-                <input-message errors='${this.getAttribute(
-                    "errors",
-                )}' required='${this.getAttribute("required")}'></input-message>
-            </div>
-        `;
-        const textarea = this.querySelector("textarea");
-        textarea.addEventListener("change", (event) => {
-            event.stopPropagation();
-            this.setAttribute("value", JSON.stringify(textarea.value));
-            this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        this.textAreaEl = this.querySelector("textarea");
+        this.textAreaEl.placeholder = `Enter ${this.label}`;
+        if (this.value) this.textAreaEl.value = this.value;
+        this.attachEventListener();
     }
 }
 
