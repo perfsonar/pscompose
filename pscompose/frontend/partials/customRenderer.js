@@ -28,28 +28,24 @@ function createCustomTester(componentName) {
 function createCustomRenderer(componentName) {
     return function (data, handleChange, schema_path, schema) {
         const props = {
-            id: schema?.uischema?.scope || "",
+            id: schema?.uischema?.scope ?? false,
             path: schema_path,
-            label: schema?.schema?.title || "",
+            label: schema?.schema?.title ?? false,
             required:
                 schema?.required ||
                 schema?.rootSchema?.allOf?.some((obj) =>
                     obj?.then?.required.includes(schema_path),
                 ) ||
                 false,
-            errors: schema?.errors || undefined,
-            description: schema.schema?.description || undefined,
-            value: JSON.stringify(data) || JSON.stringify(schema.schema.default) || undefined,
+            error: schema?.errors ?? false,
+            description: schema.schema?.description ?? false,
+            value: data ?? schema.schema.default ?? undefined,
         };
 
-        // onChange
+        //onChange
         props.onChange = (event) => {
-            if (event.target.tagName == toAllCaps(schema.uischema.customComponent)) {
-                let value = JSON.parse(event.target.getAttribute("value"));
-                let validValue =
-                    typeof value === "string" && value.trim() === "" ? undefined : value;
-                handleChange(schema_path, validValue);
-            }
+            if (event.target.tagName !== toAllCaps(schema.uischema.customComponent)) return;
+            handleChange(schema_path, event.target.value);
         };
 
         // Input Number
@@ -72,7 +68,6 @@ function createCustomRenderer(componentName) {
 /* REGISTER RENDERERS */
 
 document.body.addEventListener("json-form:beforeMount", (event) => {
-    // console.log("JSON Form Before Mount Event Fired");
     let elem = event.detail[0].target;
     if (!elem) return;
 
@@ -85,42 +80,31 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
     });
 });
 
-/* RERENDER JSON FORM WHEN SCHEMA UPDATED */
-
-document.body.addEventListener("change", (event) => {
-    // console.log("Change event fired - re-rendering JSON Form");
-    window.setTimeout(() => {
-        event?.target?.render();
-    }, 5);
-});
-
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
-    // console.log("JSON Form Mounted Event Fired");
     if (event.detail[0].target.readonly == "true") {
         webComponents.forEach((component) => {
             document
                 .querySelector("form")
                 .querySelectorAll(component)
                 .forEach((comp) => {
-                    comp.classList.add("disabled");
+                    comp.disabled = true;
                 });
         });
     }
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    // console.log("JSON Form Updated Event Fired");
     webComponents.forEach((component) => {
         document
             .querySelector("form")
             .querySelectorAll(component)
             .forEach((comp) => {
                 if (event.detail[0].target.readonly == "true") {
-                    comp.classList.add("disabled");
+                    comp.disabled = true;
                 } else {
-                    comp.classList.remove("disabled");
+                    comp.disabled = false;
                 }
             });
     });
