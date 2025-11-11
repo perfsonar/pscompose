@@ -26,7 +26,7 @@ try {
 // 1. set param and redirect
 document.querySelector("dropdown-single-select").addEventListener("change", (evt) => {
     let newUrlParam = new URLSearchParams();
-    newUrlParam.set("id", JSON.parse(evt.target.value));
+    newUrlParam.set("id", evt.target.value);
     window.location = window.location.pathname + "?" + newUrlParam;
 });
 
