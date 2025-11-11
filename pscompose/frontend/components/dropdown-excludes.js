@@ -147,7 +147,6 @@ export class excludesDropdown extends FormControl {
 
         const options = this.options;
         const selectedValues = Array.isArray(this.value) ? this.value : [];
-        console.log("seelcte length: ", selectedValues.length);
 
         const optionsMap = new Map(options.map((opt) => [opt.const, opt.title]));
         const labelElement = container.querySelector("input-label");
