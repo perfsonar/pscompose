@@ -1,5 +1,21 @@
 export class InputMessage extends HTMLElement {
-    static observedAttributes = ["required", "errors"];
+    static get observedAttributes() {
+        return ["required", "error"];
+    }
+
+    get error() {
+        return this.getAttribute("error") ?? "";
+    }
+    set error(v) {
+        this.setAttribute("error", v ?? "");
+    }
+
+    get required() {
+        return this.hasAttribute("required");
+    }
+    set required(v) {
+        v ? this.setAttribute("required", "") : this.removeAttribute("required");
+    }
 
     constructor() {
         super();
@@ -9,25 +25,14 @@ export class InputMessage extends HTMLElement {
         this.render();
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
+    attributeChangedCallback(name, oldVal, newVal) {
+        if (oldVal !== newVal) this.render();
     }
 
     render() {
-        const required = JSON.parse(this.getAttribute("required") || "false");
-
-        const errorExist =
-            this.getAttribute("errors") != "null" ? this.getAttribute("errors") : false;
-        const error = this.getAttribute("errors") != "null" ? this.getAttribute("errors") : "";
-        const errorRequired = this.getAttribute("errors") !== "is a required property";
-        const errorState = errorExist && errorRequired;
-
         this.innerHTML = `                
-        <div class="input-message ${errorState ? "error" : ""}">
-            <div class="errors">${error}</div>
-            <div class="required">${required ? "Required" : ""}</div>
-        </div>
+            <div class="error">${this.error}</div>
+            <div class="required">${this.required ? "Required" : ""}</div>
     `;
     }
 }
