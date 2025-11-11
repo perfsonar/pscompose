@@ -6,6 +6,7 @@ export class FormControl extends HTMLElement {
     constructor() {
         super();
         this.slotEl = "";
+        this._dirty = false;
     }
 
     get value() {
@@ -50,6 +51,17 @@ export class FormControl extends HTMLElement {
         v ? this.setAttribute("required", "") : this.removeAttribute("required");
     }
 
+    get dirty() {
+        return this._dirty;
+    }
+
+    markDirty() {
+        if (!this._dirty) {
+            this._dirty = true;
+            this.connectedCallback(); // re-render to show errors, etc.
+        }
+    }
+
     connectedCallback() {
         this.renderControl();
         this.render();
@@ -63,11 +75,15 @@ export class FormControl extends HTMLElement {
     renderControl() {
         this.innerHTML = `
             <div class="container">
-                <input-label label="${this.label}" desc="${this.description}"></input-label>
+                <input-label 
+                    label="${this.label}" 
+                    desc="${this.description}">
+                </input-label>
                 ${this.slotEl || ""}
-                <input-message error="${this.error}" ${
-                    this.required ? "required" : ""
-                }></input-message>
+                <input-message 
+                    error="${this.dirty ? this.error : ""}" 
+                    ${this.required ? "required" : ""}>
+                </input-message>
             </div>
         `;
         this.containerEl = this.querySelector(".container");
