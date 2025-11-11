@@ -12,9 +12,13 @@ export class InputTextArea extends FormControl {
 
     attachEventListener() {
         this.textAreaEl?.addEventListener("change", (e) => {
+            e.preventDefault();
+            this.markDirty();
             this.value = this.textAreaEl.value;
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
+        this.textAreaEl?.addEventListener("input", () => this.markDirty(), { once: true });
+        this.textAreaEl?.addEventListener("blur", () => this.markDirty(), { once: true });
     }
 
     render() {
