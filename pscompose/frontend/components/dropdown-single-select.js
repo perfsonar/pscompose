@@ -1,148 +1,119 @@
-export class SingleSelectDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "value", "errors", "description", "required"];
+import { FormControl } from "./form-control.js";
+
+export class SingleSelectDropdown extends FormControl {
+    static get observedAttributes() {
+        return [
+            "class",
+            "label",
+            "options",
+            "value",
+            "placeholder",
+            "description",
+            "disabled",
+            "error",
+            "required",
+        ];
+    }
+
+    get options() {
+        const options = JSON.parse(this.getAttribute("options")) || [];
+        return options.length && typeof options[0] !== "object"
+            ? options.map((opt) => ({ const: opt, title: opt }))
+            : options;
+    }
+    set options(v) {
+        this.setAttribute("options", v ?? "");
+    }
 
     constructor() {
         super();
-    }
-
-    connectedCallback() {
-        this.render();
-    }
-
-    sanitizeOptions(options) {
-        if (options.length > 0 && typeof options[0] !== "object") {
-            return options.map((opt) => {
-                return { const: opt, title: opt };
-            });
-        }
-        return options;
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
+        this.slotEl = `
+            <div class="dropdown">
+                <div class="wrapper">
+                    <input type="search" />
+                    <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
+                </div>
+                <ul class="options"></ul>
+            </div>
+        `;
+        this.inputEl = null;
+        this.wrapperEl = null;
+        this.optionsEl = null;
+        this.actionBtn = null;
     }
 
     attachToggleDropdown() {
-        const options = this.querySelector(".options");
-        if (!options) return;
-        this.querySelector(".wrapper").addEventListener("click", () => {
-            options.classList.toggle("open");
-            this.querySelector(".dropdown").classList.toggle("active");
-            this.attachOptionListeners();
+        if (this.querySelector("#deselect-btn")) return;
+        this.wrapperEl.addEventListener("click", () => {
+            this.optionsEl.classList.toggle("open");
         });
     }
 
-    attachOptionListeners() {
-        document.querySelectorAll(".option").forEach((item) => {
-            item.onclick = () =>
-                this.selectOption(item.getAttribute("data-value"), item.textContent);
-        });
+    parseValue(value) {
+        if (value === "true") return true;
+        if (value === "false") return false;
+        if (!isNaN(value) && value.trim() !== "") return Number(value);
+        return value;
     }
 
     attachDeselectHandler() {
-        const deselectBtn = this.querySelector("#deselect-btn");
-        if (deselectBtn) {
-            deselectBtn.addEventListener("click", () => {
-                this.removeAttribute("value");
-                this.render();
-                this.dispatchEvent(new Event("change", { bubbles: true }));
-            });
-        }
-    }
-
-    selectOption(value, title) {
-        const options = JSON.parse(this.getAttribute("options"));
-        if (options.length > 0 && typeof options[0] === "object") {
-            this.setAttribute("value", JSON.stringify(value));
-        } else {
-            this.setAttribute("value", value);
-        }
-        this.render();
-        this.dispatchEvent(new Event("change", { bubbles: true }));
+        this.querySelector("#deselect-btn")?.addEventListener("click", () => {
+            this.removeAttribute("value");
+            this.dispatchEvent(new Event("change", { bubbles: true }));
+        });
     }
 
     attachSearchHandler() {
-        const searchInput = this.querySelector("#dropdown-search");
-        const optionsList = this.querySelector(".options");
-        if (!searchInput || !optionsList) return;
-
-        searchInput.addEventListener("input", (event) => {
+        this.inputEl.addEventListener("input", (event) => {
             const filter = event.target.value.toLowerCase();
-            optionsList.querySelectorAll("li.option").forEach((option) => {
-                const text = option.textContent.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
+            this.optionsEl.querySelectorAll("li").forEach((li) => {
+                li.style.display = li.textContent.toLowerCase().includes(filter) ? "" : "none";
             });
+        });
+    }
+
+    handleOptionClick(e) {
+        const target = e.target.closest("li");
+        if (!target || !target.dataset.value) return;
+
+        this.value = this.parseValue(target.dataset.value);
+        this.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    attachOptionClickHandler() {
+        this.optionsEl.replaceChildren();
+        this.options.forEach((option) => {
+            const li = document.createElement("li");
+            li.dataset.value = option.const;
+            li.textContent = option.title;
+            if (option.const === this.value) li.classList.add("active");
+            li.addEventListener("click", (e) => this.handleOptionClick(e));
+            this.optionsEl.appendChild(li);
         });
     }
 
     render() {
-        let options = this.getAttribute("options") ? JSON.parse(this.getAttribute("options")) : [];
-        options = this.sanitizeOptions(options);
-        const selectedValue = JSON.parse(this.getAttribute("value")) || "";
-        const selectedOption = options
-            ? options.find((opt) => {
-                  if (typeof opt === "object" && opt !== null) {
-                      return JSON.stringify(opt.const) === JSON.stringify(selectedValue);
-                  }
-                  return String(opt) === String(selectedValue);
-              })
-            : null;
+        if (!this.options) return;
+        this.inputEl = this.querySelector("input");
+        this.wrapperEl = this.querySelector(".wrapper");
+        this.optionsEl = this.querySelector(".options");
+        this.actionBtn = this.querySelector("web-button");
 
-        const desc = this.getAttribute("description");
-        const descAttr = desc != null ? ` desc='${desc}'` : "";
+        const selectedOption = this.options.find((opt) => opt.const === this.value);
+        if (selectedOption) {
+            this.inputEl.value = selectedOption.title;
+            this.actionBtn.setAttribute("id", "deselect-btn");
+            this.actionBtn.setAttribute("data-righticon", "x");
+        } else {
+            this.inputEl.value = "";
+            this.inputEl.placeholder = `Select ${this.label}`;
+        }
 
-        this.innerHTML = `
-            <div class="container">
-                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
-                <div class="dropdown">
-                    <div class="wrapper">
-                        <input type="search" id="dropdown-search"
-                        ${
-                            selectedOption
-                                ? `value="${selectedOption.title}"`
-                                : `placeholder="Select ${this.getAttribute("label")}"`
-                        }
-                        </input>
-                        <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
-                    </div>
-
-                    <ul class="options">
-                        ${
-                            options
-                                ? options
-                                      .map(
-                                          (option) => `
-                            <li>
-                                <div ${
-                                    option.const == selectedValue
-                                        ? 'class="option active"'
-                                        : 'class="option"'
-                                }
-                                data-value="${option.const}"
-                                >
-                                ${option.title}
-                                </div>
-                                ${
-                                    option.const == selectedValue
-                                        ? '<web-button id="deselect-btn" type="button" data-righticon="x" data-theme="Icon-Small" />'
-                                        : ""
-                                }
-                            </li>`,
-                                      )
-                                      .join("")
-                                : ""
-                        }
-                    </ul>
-                </div>
-                <input-message errors='${this.getAttribute(
-                    "errors",
-                )}' required='${this.getAttribute("required")}'></input-message>
-           </div>
-        `;
+        this.attachOptionClickHandler();
         this.attachToggleDropdown();
         this.attachSearchHandler();
         this.attachDeselectHandler();
+        lucide.createIcons();
     }
 }
 
