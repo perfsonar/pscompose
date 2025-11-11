@@ -1,43 +1,40 @@
-export class InputText extends HTMLElement {
-    static observedAttributes = ["label", "value", "description", "required", "errors"];
+import { FormControl } from "./form-control.js";
 
+export class InputText extends FormControl {
     constructor() {
         super();
+        this.slotEl = `
+            <div class="wrapper">
+                <input type='text' />
+            </div>
+        `;
+        this.inputEl = null;
+        this.wrapperEl = null;
     }
 
-    connectedCallback() {
-        this.render();
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
+    attachEventListener() {
+        this.inputEl?.addEventListener("change", (e) => {
+            e.preventDefault();
+            switch (this.inputEl.type) {
+                case "number":
+                    this.value = this.inputEl.value === "" ? undefined : Number(this.inputEl.value);
+                    break;
+                case "checkbox":
+                    this.value = Boolean(this.inputEl.checked);
+                    break;
+                default:
+                    this.value = this.inputEl.value === "" ? undefined : this.inputEl.value;
+            }
+            this.dispatchEvent(new Event("change", { bubbles: true }));
+        });
     }
 
     render() {
-        const desc = this.getAttribute("description");
-        const descAttr = desc != null ? ` desc='${desc}'` : "";
-
-        this.innerHTML = `
-            <div class="container">
-                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
-                <div class="wrapper">
-                    <input type="text" placeholder="Enter ${this.getAttribute("label")}" value="${
-                        JSON.parse(this.getAttribute("value")) || ""
-                    }" >
-                    </input>
-                </div>
-                <input-message errors='${this.getAttribute(
-                    "errors",
-                )}' required='${this.getAttribute("required")}'></input-message>
-            </div>
-        `;
-        const input = this.querySelector("input");
-        input.addEventListener("change", (event) => {
-            event.stopPropagation();
-            this.setAttribute("value", JSON.stringify(input.value));
-            this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        this.inputEl = this.querySelector("input");
+        this.wrapperEl = this.querySelector(".wrapper");
+        this.inputEl.placeholder = `Enter ${this.label}`;
+        if (this.value) this.inputEl.value = this.value;
+        this.attachEventListener();
     }
 }
 
