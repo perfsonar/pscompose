@@ -1,108 +1,106 @@
-export class excludesDropdown extends HTMLElement {
-    static observedAttributes = ["label", "options", "value"];
+import { FormControl } from "./form-control.js";
+
+export class excludesDropdown extends FormControl {
+    static get observedAttributes() {
+        return [
+            "class",
+            "label",
+            "options",
+            "value",
+            "description",
+            "disabled",
+            "error",
+            "required",
+        ];
+    }
+
+    get options() {
+        return JSON.parse(this.getAttribute("options")) || [];
+    }
+    set options(v) {
+        this.setAttribute("options", v ?? "");
+    }
 
     constructor() {
         super();
-        this.selectedValues = [];
-    }
-
-    connectedCallback() {
-        this.allAddresses = this.getAttribute("options")
-            ? JSON.parse(this.getAttribute("options"))
-            : [];
-        this.selectedSetUp();
-        this.render();
-        lucide.createIcons();
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
-        lucide.createIcons();
+        this.slotEl = `
+            <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
+        `;
     }
 
     getSelectedLocalAddresses() {
-        const containers = this.querySelectorAll(
-            ".container .excludes-container dropdown-single-select",
+        return Array.from(this.querySelectorAll("dropdown-single-select")).map(
+            (dropdown) => dropdown.value,
         );
-        return Array.from(containers).map((singledropdown) => singledropdown.value);
     }
 
     getAvailableLocalAddresses() {
-        const selectedLocalAddresses = this.getSelectedLocalAddresses();
-        return this.allAddresses.filter((obj) => !selectedLocalAddresses.includes(obj.const));
+        const selected = this.getSelectedLocalAddresses();
+        return this.options.filter((opt) => !selected.includes(opt.const));
     }
 
     attachMinusListeners() {
         this.querySelectorAll("#excludes-minus-btn").forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                e.target.closest(".excludes-container").classList.add("removing");
-                e.target.closest(".excludes-container").remove();
+            btn.onclick = (e) => {
+                const container = e.target.closest(".excludes-container");
+                if (!container) return;
+                container.classList.add("removing");
+                container.remove();
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
-            });
+            };
         });
     }
 
     attachDropdownListeners() {
-        this.querySelectorAll("dropdown-single-select").forEach((dropdown) =>
-            dropdown.addEventListener("change", () => {
+        this.querySelectorAll("dropdown-single-select").forEach((dropdown) => {
+            dropdown.onchange = () => {
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
-            }),
-        );
-        this.querySelectorAll("dropdown-multi-select").forEach((dropdown) =>
-            dropdown.addEventListener("change", () => {
-                this.updateSelectedValues();
-            }),
-        );
+            };
+        });
+
+        this.querySelectorAll("dropdown-multi-select").forEach((dropdown) => {
+            dropdown.onchange = () => this.updateSelectedValues();
+        });
     }
 
-    // Update local address dropdown options to exclude already selected local addresses
     updateLocalAddressesOptions() {
-        this.querySelectorAll(".container .excludes-container dropdown-single-select").forEach(
-            (singledropdown) => {
-                const currentSelectionValue = singledropdown.selected; // "const" value
-                const currentSelection = this.allAddresses.find(
-                    (opt) => opt.const === currentSelectionValue,
-                ); // {const, title} object
+        this.querySelectorAll("dropdown-single-select").forEach((dropdown) => {
+            const currentValue = dropdown.value;
+            const currentSelection = this.options.find((opt) => opt.const === currentValue);
+            const available = [...this.getAvailableLocalAddresses()];
 
-                if (currentSelection) {
-                    const newOptions = [...this.getAvailableLocalAddresses(), currentSelection]; // Include current selection
-                    newOptions.sort((a, b) => a.title.localeCompare(b.title)); // Sort options alphabetically to keep order consistent
-                    singledropdown.setAttribute("options", JSON.stringify(newOptions));
-                    singledropdown.setAttribute("value", JSON.stringify(currentSelectionValue));
-                }
-            },
-        );
-    }
-
-    selectedSetUp() {
-        this.selectedValues = this.getAttribute("value")
-            ? JSON.parse(this.getAttribute("value"))
-            : [];
+            if (currentSelection) {
+                available.push(currentSelection);
+                available.sort((a, b) => a.title.localeCompare(b.title));
+                dropdown.options = JSON.stringify(available);
+                dropdown.value = currentSelection.const;
+            }
+        });
     }
 
     // Update this.selectedValues as {"local-address": {"name": id }, "target-addresses": [{"name": id}, ...]} objects
     updateSelectedValues() {
-        const selectedValues = [];
-        const containers = this.querySelectorAll(".excludes-container");
-        for (const container of containers) {
-            const localDropdown = container.querySelector("dropdown-single-select");
-            const targetDropdown = container.querySelector("dropdown-multi-select");
-            const localAddressValue = localDropdown.getAttribute("value")
-                ? { name: JSON.parse(localDropdown.getAttribute("value")) }
-                : {};
-            const targetAddressValue = targetDropdown.getAttribute("value")
-                ? JSON.parse(targetDropdown.getAttribute("value")).map((id) => ({ name: id }))
-                : [];
-            selectedValues.push({
-                "local-address": localAddressValue,
-                "target-addresses": targetAddressValue,
-            });
-        }
+        const selectedValues = Array.from(this.querySelectorAll(".excludes-container")).map(
+            (container) => {
+                const localDropdown = container.querySelector("dropdown-single-select");
+                const targetDropdown = container.querySelector("dropdown-multi-select");
+
+                const localValue = localDropdown?.getAttribute("value");
+                const targetValue = targetDropdown?.getAttribute("value");
+
+                return {
+                    "local-address": localValue ? { name: JSON.parse(localValue) } : {},
+                    "target-addresses": targetValue
+                        ? JSON.parse(targetValue).map((id) => ({ name: id }))
+                        : [],
+                };
+            },
+        );
+
         this.selectedValues = selectedValues;
-        this.setAttribute("value", JSON.stringify(this.selectedValues));
+        this.setAttribute("value", JSON.stringify(selectedValues));
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
@@ -111,20 +109,22 @@ export class excludesDropdown extends HTMLElement {
         newContainer.classList.add("excludes-container");
         newContainer.innerHTML = `
             <div class="dropdown-container">
-                <dropdown-single-select
-                    label="Local Address" 
-                    options='${JSON.stringify(this.getAvailableLocalAddresses())}'
-                    >
+                <dropdown-single-select label="Local Address" options='${JSON.stringify(
+                    this.getAvailableLocalAddresses(),
+                )}'>
                 </dropdown-single-select>
-                <dropdown-multi-select
-                    label="Target Addresses" 
-                    options='${this.getAttribute("options")}'
-                    >
+                <dropdown-multi-select label="Target Addresses" options='${JSON.stringify(
+                    this.options,
+                )}'>
                 </dropdown-multi-select>
             </div>
             <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
         `;
-        this.querySelector(".container").appendChild(newContainer);
+
+        const container = this.querySelector(".container");
+        const children = container.children;
+
+        container.insertBefore(newContainer, children[children.length - 2]);
 
         newContainer.offsetHeight;
         newContainer.classList.add("show");
@@ -134,99 +134,98 @@ export class excludesDropdown extends HTMLElement {
         this.attachDropdownListeners();
     }
 
-    render() {
-        const options = this.getAttribute("options")
-            ? JSON.parse(this.getAttribute("options"))
-            : [];
-        const selectedHTML =
-            this.selectedValues.length > 0
-                ? this.selectedValues
-                      .map((val) => {
-                          const selectedLocalAddress =
-                              Object.keys(val["local-address"]).length != 0
-                                  ? val["local-address"]["name"]
-                                  : "";
-
-                          const selectedTargetAddresses = val["target-addresses"]
-                              ? val["target-addresses"].map((targetAdd) => targetAdd["name"])
-                              : "";
-                          return `
-            <div class="excludes-container show">
-                <div class="dropdown-container">
-                    <dropdown-single-select
-                        label="Local Address" 
-                        options='${this.getAttribute("options")}'
-                        value='${JSON.stringify(selectedLocalAddress)}'
-                        >
-                    </dropdown-single-select>
-                    <dropdown-multi-select
-                        label="Target Addresses" 
-                        options='${this.getAttribute("options")}'
-                        value='${JSON.stringify(selectedTargetAddresses)}'
-                        >
-                    </dropdown-multi-select>
-                </div>
-                <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
-            </div>`;
-                      })
-                      .join("")
-                : "";
-
-        const tableSelectedHTML =
-            this.selectedValues.length > 0
-                ? `<table class="excludes-table">
-                <thead>
-                <tr>
-                    <th>Local Address</th>
-                    <th>Target Addresses</th>
-                </tr>
-                </thead>
-                <tbody>
-                ${this.selectedValues
-                    .map((val, index) => {
-                        const selectedLocalAddress =
-                            Object.keys(val["local-address"]).length !== 0
-                                ? options.find((opt) => opt.const === val["local-address"]["name"])
-                                      ?.title || "Option Not Found"
-                                : "";
-                        const selectedTargetAddresses = val["target-addresses"]
-                            ? val["target-addresses"]
-                                  .map((val) => {
-                                      const label =
-                                          options.find((opt) => opt.const === val["name"])?.title ||
-                                          "Option Not Found";
-                                      return `<span class="tag">${label}</span>`;
-                                  })
-                                  .join("")
-                            : "";
-                        return `
-                        <tr data-index="${index}">
-                        <td>${selectedLocalAddress}</td>
-                        <td class="tags">${selectedTargetAddresses}</td>
-                        </tr>
-                    `;
-                    })
-                    .join("")}
-                </tbody>
-             </table> `
-                : "";
-
-        const desc = this.getAttribute("description");
-        const descAttr = desc != null ? ` desc='${desc}'` : "";
-
-        this.innerHTML = `
-        <div class="container">
-            <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
-            ${selectedHTML}
-            ${tableSelectedHTML}
-        </div>
-        <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
-    `;
-        this.querySelector("#excludes-add-btn").addEventListener(
+    attachAddBtn() {
+        this.querySelector("#excludes-add-btn")?.addEventListener(
             "click",
             this.addExcludesContainer.bind(this),
         );
+    }
 
+    render() {
+        const container = this.querySelector(".container");
+        if (!container) return;
+
+        const options = this.options;
+        const selectedValues = Array.isArray(this.value) ? this.value : [];
+        console.log("seelcte length: ", selectedValues.length);
+
+        const optionsMap = new Map(options.map((opt) => [opt.const, opt.title]));
+        const labelElement = container.querySelector("input-label");
+
+        container
+            .querySelectorAll(".excludes-container, .excludes-table")
+            .forEach((el) => el.remove());
+
+        if (!this.disabled && selectedValues.length) {
+            const selectedHTML = selectedValues
+                .map((val) => {
+                    const localAddress = val["local-address"]?.name || "";
+                    const targetAddresses = val["target-addresses"]?.map((t) => t.name) || [];
+
+                    return `
+                    <div class="excludes-container show">
+                        <div class="dropdown-container">
+                            <dropdown-single-select
+                                label="Local Address"
+                                options='${JSON.stringify(options)}'
+                                value='${JSON.stringify(localAddress)}'>
+                            </dropdown-single-select>
+                            <dropdown-multi-select
+                                label="Target Addresses"
+                                options='${JSON.stringify(options)}'
+                                value='${JSON.stringify(targetAddresses)}'>
+                            </dropdown-multi-select>
+                        </div>
+                        <web-button
+                            id="excludes-minus-btn"
+                            type="button"
+                            data-righticon="trash-2"
+                            data-theme="Icon">
+                        </web-button>
+                    </div>`;
+                })
+                .join("");
+
+            labelElement.insertAdjacentHTML("afterend", selectedHTML);
+        }
+
+        if (this.disabled && selectedValues.length) {
+            const tableRows = selectedValues
+                .map((val, index) => {
+                    const localAddress =
+                        optionsMap.get(val["local-address"]?.name) || "Option Not Found";
+                    const targetHTML = val["target-addresses"]
+                        .map(
+                            (t) =>
+                                `<span class="tag">${
+                                    optionsMap.get(t.name) || "Option Not Found"
+                                }</span>`,
+                        )
+                        .join("");
+
+                    return `
+                    <tr data-index="${index}">
+                        <td>${localAddress}</td>
+                        <td class="tags">${targetHTML}</td>
+                    </tr>`;
+                })
+                .join("");
+
+            const tableHTML = `
+                <table class="excludes-table">
+                    <thead>
+                        <tr>
+                            <th>Local Address</th>
+                            <th>Target Addresses</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                </table>
+            `;
+            labelElement.insertAdjacentHTML("afterend", tableHTML);
+        }
+
+        this.attachAddBtn();
         this.updateLocalAddressesOptions();
         this.attachDropdownListeners();
         this.attachMinusListeners();
