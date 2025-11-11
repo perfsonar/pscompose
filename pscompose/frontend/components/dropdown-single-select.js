@@ -45,7 +45,11 @@ export class SingleSelectDropdown extends FormControl {
     attachToggleDropdown() {
         if (this.querySelector("#deselect-btn")) return;
         this.wrapperEl.addEventListener("click", () => {
-            this.markDirty();
+            if (this.optionsEl.classList.contains("open")) {
+                this.optionsEl.classList.toggle("open");
+                this.markDirty();
+                return;
+            }
             this.optionsEl.classList.toggle("open");
         });
     }
@@ -58,14 +62,21 @@ export class SingleSelectDropdown extends FormControl {
     }
 
     attachDeselectHandler() {
+        if (this.querySelector("#down-btn")) return;
+        this.inputEl.addEventListener("click", () => {
+            this.optionsEl.classList.toggle("open");
+        });
         this.querySelector("#deselect-btn")?.addEventListener("click", () => {
+            this.markDirty();
             this.removeAttribute("value");
+            this.optionsEl.classList.remove("open");
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
 
     attachSearchHandler() {
         this.inputEl.addEventListener("input", (event) => {
+            this.optionsEl.classList.toggle("open");
             const filter = event.target.value.toLowerCase();
             this.optionsEl.querySelectorAll("li").forEach((li) => {
                 li.style.display = li.textContent.toLowerCase().includes(filter) ? "" : "none";
