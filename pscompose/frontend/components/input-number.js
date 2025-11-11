@@ -1,71 +1,89 @@
-export class InputNum extends HTMLElement {
-    static observedAttributes = ["label", "step", "min", "max", "description", "value", "errors"];
+import { InputText } from "./input-text.js";
+
+export class InputNumber extends InputText {
+    static get observedAttributes() {
+        return [
+            "class",
+            "value",
+            "placeholder",
+            "description",
+            "disabled",
+            "error",
+            "required",
+            "step",
+            "min",
+            "max",
+        ];
+    }
+
+    get min() {
+        return this.getAttribute("min") ?? null;
+    }
+    set min(v) {
+        this.setAttribute("min", v ?? "");
+    }
+
+    get max() {
+        return this.getAttribute("max") ?? null;
+    }
+    set max(v) {
+        this.setAttribute("max", v ?? "");
+    }
+
+    get step() {
+        return this.getAttribute("step") ?? null;
+    }
+    set step(v) {
+        this.setAttribute("step", v ?? "");
+    }
 
     constructor() {
         super();
+        this._addBtn = null;
+        this._minusBtn = null;
     }
 
-    connectedCallback() {
-        this.render();
-        lucide.createIcons();
+    disconnectedCallback() {
+        this._addBtn.removeEventListener("click", () => this._changeValue(1));
+        this._minusBtn.removeEventListener("click", () => this._changeValue(-1));
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        this[name] = newValue;
-        this.render();
-        lucide.createIcons();
+    _attachAdditionalListeners() {
+        this._addBtn.addEventListener("click", () => this._changeValue(1));
+        this._minusBtn.addEventListener("click", () => this._changeValue(-1));
     }
 
-    onPlusClick = () => {
-        const input = this.querySelector("input");
-        if (!input) return;
-        input.stepUp();
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-    };
+    _changeValue = (direction) => {
+        const step = this.inputEl.hasAttribute("step") ? parseFloat(this.inputEl.step) : 1;
+        const min = this.inputEl.hasAttribute("min") ? parseFloat(this.inputEl.min) : -Infinity;
+        const max = this.inputEl.hasAttribute("max") ? parseFloat(this.inputEl.max) : Infinity;
+        let currentValue = parseFloat(this.inputEl.value);
 
-    onMinusClick = () => {
-        const input = this.querySelector("input");
-        if (!input) return;
-        input.stepDown();
-        input.dispatchEvent(new Event("change", { bubbles: true }));
+        if (isNaN(currentValue)) currentValue = 0;
+
+        let newValue = currentValue + direction * step;
+        newValue = Math.min(max, Math.max(min, newValue));
+        this.inputEl.value = newValue;
     };
 
     render() {
-        const desc = this.getAttribute("description");
-        const descAttr = desc != null ? ` desc='${desc}'` : "";
+        super.render();
+        this.inputEl?.setAttribute("type", "number");
+        if (this.min !== null) this.inputEl?.setAttribute("min", this.min);
+        if (this.max !== null) this.inputEl?.setAttribute("max", this.max);
+        if (this.step !== null) this.inputEl?.setAttribute("step", this.step);
 
-        this.innerHTML = `
-            <div class="container">
-                <input-label label='${this.getAttribute("label")}'${descAttr}></input-label>
-                <div class="wrapper">
-                    <input  type="number" 
-                            placeholder="Enter ${this.getAttribute("label")}" 
-                            value="${JSON.parse(this.getAttribute("value")) || ""}" 
-                            step="${this.getAttribute("step") || 1}"
-                            min="${this.getAttribute("min") || 0}"
-                            max="${this.getAttribute("max") || 100}"
-                            >
-                    </input>
-                    <div class="buttons">
-                        <web-button type="button" id="plus-btn" data-theme="Icon" data-righticon="plus"></web-button>
-                        <web-button type="button" id="minus-btn" data-theme="Icon" data-righticon="minus"></web-button>
-                    </div>
-                </div>
-                <input-message errors='${this.getAttribute(
-                    "errors",
-                )}' required='${this.getAttribute("required")}'></input-message>
-            </div>
-        `;
+        const actionBtns = ` 
+            <div class="buttons">
+                <web-button type="button" id="addBtn" data-theme="Icon" data-righticon="plus"></web-button>
+                <web-button type="button" id="minusBtn" data-theme="Icon" data-righticon="minus"></web-button>
+            </div>`;
+        this.wrapperEl.insertAdjacentHTML("beforeend", actionBtns);
 
-        this.querySelector("#plus-btn").addEventListener("click", this.onPlusClick);
-        this.querySelector("#minus-btn").addEventListener("click", this.onMinusClick);
-        const input = this.querySelector("input");
-        input.addEventListener("change", (event) => {
-            event.stopPropagation();
-            this.setAttribute("value", input.value);
-            this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        this._addBtn = this.wrapperEl.querySelector("#addBtn");
+        this._minusBtn = this.wrapperEl.querySelector("#minusBtn");
+        this._attachAdditionalListeners();
     }
 }
 
-customElements.define("input-number", InputNum);
+customElements.define("input-number", InputNumber);
