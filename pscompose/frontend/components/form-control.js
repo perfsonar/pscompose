@@ -58,7 +58,6 @@ export class FormControl extends HTMLElement {
     markDirty() {
         if (!this._dirty) {
             this._dirty = true;
-            this.connectedCallback(); // re-render to show errors, etc.
         }
     }
 
@@ -67,7 +66,8 @@ export class FormControl extends HTMLElement {
         this.render();
     }
 
-    attributeChangedCallback() {
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue == newValue) return;
         this.renderControl();
         this.render();
     }
@@ -81,7 +81,7 @@ export class FormControl extends HTMLElement {
                 </input-label>
                 ${this.slotEl || ""}
                 <input-message 
-                    error="${this.dirty ? this.error : ""}" 
+                    error='${this.dirty ? this.error : ""}'
                     ${this.required ? "required" : ""}>
                 </input-message>
             </div>
