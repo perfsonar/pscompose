@@ -61,12 +61,6 @@
                 JSON.stringify(["Form fields not all valid", "Error"]),
             );
             processLastMessage();
-
-            // Render "is required property" errors
-            document.querySelectorAll("input-message").forEach((event) => {
-                if (event.errors == "is a required property")
-                    event.querySelector(".input-message").classList.add("error");
-            });
         } else {
             document.querySelector("json-form").dispatchEvent(new Event("validated"));
             document
