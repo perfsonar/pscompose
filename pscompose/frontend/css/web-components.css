@@ -359,6 +359,10 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
+dropdown-multi-select[disabled] .container .dropdown {
+    display: none;
+}
+
 [disabled] .tag {
     padding: 4px 12px;
     align-self: flex-start;
