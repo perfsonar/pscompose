@@ -31,7 +31,7 @@ export class InputMessage extends HTMLElement {
 
     render() {
         this.innerHTML = `                
-            <div class="error">${this.error}</div>
+            <div class='error ${this.error ? "show" : ""}'>${this.error}</div>
             <div class="required">${this.required ? "Required" : ""}</div>
     `;
     }
