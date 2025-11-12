@@ -28,8 +28,8 @@ export class InputText extends FormControl {
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
-        this.inputEl?.addEventListener("input", () => this.markDirty(), { once: true });
-        this.inputEl?.addEventListener("blur", () => this.markDirty(), { once: true });
+        // this.inputEl?.addEventListener("input", () => this.markDirty(), { once: true });
+        // this.inputEl?.addEventListener("blur", () => this.markDirty(), { once: true });
     }
 
     render() {
