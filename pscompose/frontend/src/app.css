@@ -166,7 +166,7 @@ nav {
     @apply relative;
 }
 
-.submenu-container {
+/* .submenu-container {
     @apply flex-1 bg-surface_2;
     transform-origin: left center;
     transform: scaleX(0);
@@ -184,6 +184,27 @@ nav {
 
 .submenu-container.close {
     transform: scaleX(0);
+    opacity: 0;
+} */
+
+.submenu-container {
+    @apply flex-1 bg-surface_2;
+    width: 0;
+    opacity: 0;
+    overflow: hidden; /* hides content during collapse */
+    transition:
+        width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.submenu-container.open {
+    width: 20vw; /* or whatever target width you want */
+    opacity: 1;
+}
+
+.submenu-container.close {
+    width: 0;
     opacity: 0;
 }
 
@@ -341,10 +362,6 @@ th {
 .step-text a {
     @apply underline text-success;
 }
-
-/* .step-text b {
-    @apply bg-shadow px-xsm py-xxsm rounded-full;
-} */
 
 .step-box {
     @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
