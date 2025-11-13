@@ -6,7 +6,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.ext.mutable import MutableDict, MutableList
 from pydantic import BaseModel as PydanticValidationModel
-from pscompose.settings import POSTGRES_USER_NAME, POSTGRES_DB_NAME, TOKEN_SCOPES
+from pscompose.settings import DATABASE_URL, TOKEN_SCOPES
 from sqlalchemy import (
     create_engine,
     Column,
@@ -22,15 +22,6 @@ from sqlalchemy import (
 
 # Pydantic Validation Model subclasses will model input and output types from the API.
 # SQLAlchemy Storage subclasses will model data as stored in the DB.
-
-DB_HOST = "localhost"  # For local development
-# DB_HOST = "postgres"  # Service name from docker-compose.yml
-DB_PORT = 5432
-DB_USER = POSTGRES_USER_NAME
-DB_NAME = POSTGRES_DB_NAME
-DB_PASSWORD = "password"  # Fetch securely in production
-
-DATABASE_URL = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_engine(DATABASE_URL)
 
@@ -92,12 +83,18 @@ def generate_uuid():
     return str(uuid.uuid4()).replace("-", "")[:12]
 
 
+if "sqlite" in DATABASE_URL:
+    ref_column = Column(MutableList.as_mutable(JSON))
+else:
+    ref_column = Column(MutableList.as_mutable(ARRAY(String)))
+
+
 class DataTable(SQLAlchemyStorage):
     """The DataTable model defines what's stored in the Postgres 'data' table."""
 
     __tablename__ = "data"
     id = Column(String(12), primary_key=True, default=generate_uuid)
-    ref_set = Column(MutableList.as_mutable(ARRAY(String)))
+    ref_set = ref_column
     type = Column(Text)
     json = Column(MutableDict.as_mutable(JSON))
     name = Column(Text, nullable=False)
