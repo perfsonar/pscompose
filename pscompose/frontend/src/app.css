@@ -222,7 +222,7 @@ nav {
 }
 
 .submenu .submenu-header {
-    @apply flex flex-row mb-xsm gap-lg;
+    @apply flex flex-col mb-xsm gap-lg;
 
     @apply lg:flex-col lg:items-start lg:gap-md;
     @apply xl:flex-row xl:justify-between xl:items-center;
