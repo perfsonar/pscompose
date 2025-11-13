@@ -125,8 +125,9 @@
         });
     }
 
-    function showSubmenu() {
+    async function showSubmenu() {
         if (submenuContainer.classList.contains("open")) return;
+        await hideShortcuts();
 
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
@@ -147,6 +148,8 @@
 
     async function hideSubmenu() {
         if (submenuContainer.classList.contains("hidden")) return;
+        showShortcuts();
+
         submenuContainer.classList.remove("open");
         submenuContainer.classList.add("close");
 
@@ -189,8 +192,6 @@
             elem.classList.add("active");
             psCompose.activeMenuItem = clickedMenu;
             showSubmenu();
-
-            updateShortCutsVisibility?.();
         });
     });
 </script>
