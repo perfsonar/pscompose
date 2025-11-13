@@ -2,19 +2,16 @@
     <div class="page">
         <div class="header">
             <h2 id="data-name"></h2>
-            <web-button id="edit-icon" data-righticon="edit" data-theme="Icon"></web-button>
+            <web-button id="edit-icon" data-theme="Icon"></web-button>
         </div>
         <div class="content">
             <form id="data-form" method="GET">
-                <fieldset
-                    id="content"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                ></fieldset>
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
+                    <i class="spinner" data-lucide="loader-circle"></i>
+                </fieldset>
 
                 <script id="example-template" type="nunjucks">
                     <json-form
-                      id="my-json-form"
                       form-data='{{ form_data | dump }}'
                       schema-data='{{ json_schema | dump }}'
                       layout-data='{{ ui_schema | dump }}'
@@ -78,6 +75,7 @@
         document
             .getElementById("edit-icon")
             .setAttribute("data-link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
+        document.getElementById("edit-icon").setAttribute("data-righticon", "edit");
 
         if (!!params.get("edit")) {
             document.querySelector("json-form").setAttribute("readonly", "false");

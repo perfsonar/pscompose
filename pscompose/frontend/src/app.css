@@ -487,3 +487,64 @@ th {
 .copy-json {
     @apply flex flex-row justify-start items-start py-3 gap-[10px];
 }
+
+json-form {
+    @apply w-full;
+}
+
+fieldset {
+    @apply flex w-full justify-center items-center;
+}
+
+.spinner {
+    display: inline-block;
+    animation: spin 0.1s linear infinite;
+    transform-origin: 50% 50%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.5;
+    }
+    10% {
+        transform: rotate(36deg);
+        opacity: 0.55;
+    }
+    20% {
+        transform: rotate(72deg);
+        opacity: 0.6;
+    }
+    30% {
+        transform: rotate(108deg);
+        opacity: 0.65;
+    }
+    40% {
+        transform: rotate(144deg);
+        opacity: 0.7;
+    }
+    50% {
+        transform: rotate(180deg);
+        opacity: 0.75;
+    }
+    60% {
+        transform: rotate(216deg);
+        opacity: 0.8;
+    }
+    70% {
+        transform: rotate(252deg);
+        opacity: 0.85;
+    }
+    80% {
+        transform: rotate(288deg);
+        opacity: 0.9;
+    }
+    90% {
+        transform: rotate(324deg);
+        opacity: 0.95;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 1;
+    }
+}
