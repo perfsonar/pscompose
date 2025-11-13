@@ -17,6 +17,8 @@
 </web-modal>
 
 <script>
+    var datatype = psCompose.activeRoute.singular.toLowerCase();
+
     // Insert api/find results
     function resultToHtml(result) {
         if (result.length === 0) {
@@ -61,13 +63,13 @@
     })();
 
     // Save Datatype
-    const saveBtn = document.querySelector("#save-modal");
-    const saveMsg = "Are you sure you want to save this " + datatype + " ?";
+    var saveBtn = document.querySelector("#save-modal");
+    var saveMsg = "Are you sure you want to save this " + datatype + " ?";
     saveBtn.setAttribute("question", saveMsg);
 
     // Delete Datatype
-    const deleteModal = document.querySelector("#delete-modal");
-    const deleteMsg = "Are you sure you want to delete this " + datatype + " ?";
+    var deleteModal = document.querySelector("#delete-modal");
+    var deleteMsg = "Are you sure you want to delete this " + datatype + " ?";
     deleteModal.setAttribute("question", deleteMsg);
 
     function capitalizeFirstLetter(str) {
