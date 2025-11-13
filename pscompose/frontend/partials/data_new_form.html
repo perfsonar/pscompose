@@ -37,19 +37,22 @@
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    const datatype = psCompose.activeRoute.singular.toLowerCase();
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
+    var datatype = psCompose.activeRoute.singular.toLowerCase();
 
-    let selectedType = null;
-    let additionalSchema = null;
+    var selectedType = null;
+    var additionalSchema = null;
 
-    // Setting attributes dynamically
-    document.querySelector(".header #data-name").textContent =
-        "New " + psCompose.activeRoute.singular;
+    // Setting the hx-get attribute dynamically
     document
         .getElementById("content")
         .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}new/form`);
+
+    // Set Up JSON Form
+    document.body.addEventListener("json-form:mounted", () => {
+        document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
+    });
 
     // Save
     document.getElementById("data-form").addEventListener("submit", async function (event) {
@@ -107,7 +110,6 @@
                         );
 
                         // 3. Redirect
-                        let pathName = window.location.pathname;
                         window.location = psCompose.activeRoute.page_url + "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);
