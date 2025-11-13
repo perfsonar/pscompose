@@ -1,0 +1,196 @@
+<div class="menu">
+    <div class="left-nav">
+        <ul>
+            <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
+                <i data-lucide="locate" style="width: 2rem; height: 2rem"></i>
+                <p>Templates</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="tasks" data-submenu="tasks">
+                <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem"></i>
+                <p>Tasks</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="contexts" data-submenu="contexts">
+                <i data-lucide="file-question" style="width: 2rem; height: 2rem"></i>
+                <p>Contexts</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="tests" data-submenu="tests">
+                <i data-lucide="flask-conical" style="width: 2rem; height: 2rem"></i>
+                <p>Tests</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="archives" data-submenu="archives">
+                <i data-lucide="database" style="width: 2rem; height: 2rem"></i>
+                <p>Archives</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="schedules" data-submenu="schedules">
+                <i data-lucide="calendar-check" style="width: 2rem; height: 2rem"></i>
+                <p>Schedules</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="groups" data-submenu="groups">
+                <i data-lucide="group" style="width: 2rem; height: 2rem"></i>
+                <p>Groups</p>
+            </li>
+
+            <li class="parent-item left-nav-item" id="addresses" data-submenu="addresses">
+                <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem"></i>
+                <p>Addresses</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="submenu-container hidden"></div>
+
+    <script id="submenu-template" type="nunjucks">
+        <div class='submenu' id='submenu-content'>
+            <div class="submenu-header">
+                <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
+                <web-button
+                    data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}"
+                    data-theme="AddBtn"
+                    data-lefticon="plus"
+                    data-label="New">
+                </web-button>
+            </div>
+            <input
+                type="text"
+                id="submenu-search"
+                placeholder="Search {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}"
+            />
+            <ul id="submenu-list">
+                {% for item in data %}
+                <li id="{{item.id}}" class="submenu-item">
+                    <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
+                    <h5>{{item.name}}</h5>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </script>
+</div>
+
+<script>
+    const menuContainer = document.querySelector(".menu");
+    const submenuContainer = document.querySelector(".submenu-container");
+    const parentMenuItems = document.querySelectorAll(".left-nav .parent-item");
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const clearActiveClasses = (selector) => {
+        document.querySelectorAll(selector).forEach((el) => el.classList.remove("active"));
+    };
+
+    function highlightActiveSubmenu(activeId) {
+        if (!activeId) return;
+        clearActiveClasses(".submenu li.active");
+        const activeElement = document.querySelector(`.submenu [id="${activeId}"]`);
+        if (activeElement) activeElement.classList.add("active");
+    }
+
+    function renderHighlight() {
+        clearActiveClasses(".left-nav .parent-item");
+        const activeMenuItem = document.querySelector(`.left-nav #${psCompose.activeMenuItem}`);
+        if (activeMenuItem) activeMenuItem.classList.add("active");
+        highlightActiveSubmenu(psCompose.activeRoute?.id);
+    }
+
+    function loadSubMenuPage(url, id) {
+        if (!url || !id) return;
+
+        const newUrl = `${url}?id=${id}`;
+        if (window.location.pathname !== url) {
+            window.location = newUrl;
+            return;
+        }
+
+        window.history.pushState({}, "", newUrl);
+        psCompose.activeRoute.id = id;
+
+        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-target");
+        highlightActiveSubmenu(id);
+    }
+
+    function filterSubmenuItems(searchValue) {
+        const filter = searchValue.trim().toLowerCase();
+        const items = document.querySelectorAll("#submenu-list li");
+
+        items.forEach((li) => {
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(filter) ? "" : "none";
+        });
+    }
+
+    function showSubmenu() {
+        if (submenuContainer.classList.contains("open")) return;
+
+        submenuContainer.classList.remove("hidden");
+        submenuContainer.offsetWidth; // Force reflow
+        submenuContainer.classList.remove("close");
+
+        submenuContainer.innerHTML = `
+          <div
+            hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+            hx-trigger='load'
+            hx-target='.submenu-container'
+            nunjucks-array-template="submenu-template"
+            hx-context='${JSON.stringify({ psCompose })}'>
+          </div>`;
+
+        htmx.process(submenuContainer);
+        submenuContainer.classList.add("open");
+    }
+
+    async function hideSubmenu() {
+        if (submenuContainer.classList.contains("hidden")) return;
+        submenuContainer.classList.remove("open");
+        submenuContainer.classList.add("close");
+
+        await wait(200);
+
+        submenuContainer.classList.add("hidden");
+        submenuContainer.classList.remove("close");
+    }
+
+    submenuContainer.addEventListener("input", (e) => {
+        if (e.target.id === "submenu-search") {
+            filterSubmenuItems(e.target.value);
+        }
+    });
+
+    submenuContainer.addEventListener("click", (e) => {
+        const li = e.target.closest("li.submenu-item");
+        if (!li) return;
+        const url = psCompose.menu[psCompose.activeMenuItem].page_url;
+        loadSubMenuPage(url, li.id);
+    });
+
+    document.body.addEventListener("htmx:afterSwap", (e) => {
+        if (e.target.classList.contains("submenu-container") && psCompose.activeRoute?.id) {
+            highlightActiveSubmenu(psCompose.activeRoute.id);
+        }
+    });
+
+    parentMenuItems.forEach((elem) => {
+        elem.addEventListener("click", async () => {
+            const clickedMenu = elem.dataset.submenu;
+            await hideSubmenu();
+
+            if (psCompose.activeMenuItem === clickedMenu) {
+                psCompose.activeMenuItem = null;
+                return;
+            }
+
+            clearActiveClasses(".left-nav .parent-item");
+            elem.classList.add("active");
+            psCompose.activeMenuItem = clickedMenu;
+            showSubmenu();
+
+            updateShortCutsVisibility?.();
+        });
+    });
+</script>
