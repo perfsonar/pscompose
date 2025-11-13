@@ -194,10 +194,6 @@ nav {
 }
 
 .submenu {
-    @apply hidden flex-1;
-}
-
-.submenu {
     @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px] mb-xxlg;
 }
 
@@ -284,10 +280,36 @@ th {
 
 /* SHORT CUT PANEL  */
 
-.short-cuts {
-    @apply flex flex-col min-w-[25rem] bg-surface_1 min-h-[calc(100vh-4rem)] items-center py-xlg px-lg gap-md;
+.shortcuts {
+    @apply flex flex-col min-w-[25rem] bg-surface_1 items-center py-xlg px-lg gap-md h-full;
 }
 
+.shortcuts-container {
+    @apply flex-1 bg-surface_2;
+    width: 0;
+    opacity: 0;
+    overflow: hidden; /* hides content during collapse */
+    transition:
+        width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.shortcuts-container.open {
+    width: 20vw; /* or whatever target width you want */
+    opacity: 1;
+}
+
+.shortcuts-container.close {
+    width: 0;
+    opacity: 0;
+}
+
+.shortcuts-container.close.hidden {
+    transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 /* BOX */
 
 .list-box {

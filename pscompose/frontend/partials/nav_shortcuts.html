@@ -1,0 +1,76 @@
+<div class="shortcuts-container open">
+    <div class="shortcuts">
+        <h2 class="shortcuts-title">Recently Edited</h2>
+        <!-- {% if recently_edited_list %}
+            {% for item in recently_edited_list %}
+                <div class="list-box">
+                    <div class="box-header">
+                    <i class="lucide" data-lucide="{{item.datatype.icon}}" style="height: 32px;"></i>           
+                    <h4 class="box-name">{{item.name}}</h4>
+                    </div>
+                    <p class="box-text">{{item.date}}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No recent items.</p>
+        {% endif %} -->
+        <div class="list-box">
+            <div class="box-header">
+                <i class="lucide" data-lucide="locate" style="width: 1.5rem; height: 1.5rem"></i>
+                <h4 class="box-name">Test Template</h4>
+            </div>
+            <p class="box-text">September 7, 2024 08:50</p>
+        </div>
+        <div class="list-box">
+            <div class="box-header">
+                <i class="lucide" data-lucide="group" style="width: 1.5rem; height: 1.5rem"></i>
+                <h4 class="box-name">ESnet Test Group</h4>
+            </div>
+            <p class="box-text">September 6, 2024 09:15</p>
+        </div>
+        <div class="list-box">
+            <div class="box-header">
+                <i class="lucide" data-lucide="locate" style="width: 1.5rem; height: 1.5rem"></i>
+                <h4 class="box-name">Andy’s Template</h4>
+            </div>
+            <p class="box-text">September 6, 2024 00:23</p>
+        </div>
+        <h3 class="shortcuts-title" style="padding-top: 3rem">Favorites</h3>
+        <div class="list-box">
+            <div class="box-header">
+                <i
+                    class="lucide"
+                    data-lucide="flask-conical"
+                    style="width: 1.5rem; height: 1.5rem"
+                ></i>
+                <h4 class="box-name">My Favorite Test</h4>
+            </div>
+            <p class="box-text">September 6, 2024 00:23</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const shortcutsContainer = document.querySelector(".shortcuts-container");
+
+    function showShortcuts() {
+        if (shortcutsContainer.classList.contains("open") || window.location.pathname != "/")
+            return;
+
+        shortcutsContainer.classList.remove("hidden");
+        shortcutsContainer.offsetWidth; // Force reflow
+        shortcutsContainer.classList.remove("close");
+        shortcutsContainer.classList.add("open");
+    }
+
+    async function hideShortcuts() {
+        if (shortcutsContainer.classList.contains("hidden")) return;
+        shortcutsContainer.classList.remove("open");
+        shortcutsContainer.classList.add("close");
+
+        await wait(200);
+
+        shortcutsContainer.classList.add("hidden");
+        shortcutsContainer.classList.remove("close");
+    }
+</script>
