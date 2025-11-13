@@ -57,9 +57,9 @@
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    const datatype = psCompose.activeRoute.singular.toLowerCase();
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
+    var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Open submenu when not wizard page
     if (psCompose.activeRoute.section != "wizard") showSubmenu();
@@ -96,12 +96,6 @@
                 JSON.stringify(["Form fields not all valid", "Error"]),
             );
             processLastMessage();
-
-            // Render "is required property" errors
-            document.querySelectorAll("input-message").forEach((event) => {
-                if (event.errors == "is a required property")
-                    event.querySelector(".input-message").classList.add("error");
-            });
         } else {
             document.querySelector("json-form").dispatchEvent(new Event("validated"));
             document

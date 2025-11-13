@@ -1,16 +1,16 @@
-<div id="test-form-container"></div>
-
+<div id="form-container"></div>
 <script>
-    let elem = document.createElement("div");
-    let url = "/partials/edit_form.html";
+    var elem = document.createElement("div");
+    var url = "/partials/data_edit_form.html";
     if (psCompose.subsection == "new") {
-        url = "/partials/new_form.html";
+        url = "/partials/data_new_form.html";
     } else if (psCompose.subsection == "" && window.location.search == "") {
-        url = "/partials/blank_form.html";
+        url = "/partials/data_blank_form.html";
     }
+
     elem.setAttribute("hx-get", url);
     elem.setAttribute("hx-trigger", "load");
-    let container = document.getElementById("test-form-container");
+    var container = document.getElementById("form-container");
     container.appendChild(elem);
     htmx.process(container);
 </script>
