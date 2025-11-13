@@ -475,7 +475,7 @@ json-form {
     @apply w-full;
 }
 
-fieldset {
+#content {
     @apply flex w-full justify-center items-center;
 }
 
