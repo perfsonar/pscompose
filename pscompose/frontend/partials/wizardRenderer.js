@@ -1,59 +1,111 @@
-// Set list of existing data to select dropdown
-try {
-    fetch(psCompose.activeRoute.list_endpoint)
-        .then((response) => {
-            if (!response.ok) {
-                let errorMsg = "Something went wrong.";
-                alert(errorMsg);
-                console.error("Error:", errorMsg);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            const dataList = data.map((item) => ({
-                const: item.id,
-                title: item.name,
-            }));
-            document
-                .querySelector("dropdown-single-select")
-                .setAttribute("options", JSON.stringify(dataList));
-        });
-} catch (error) {
-    console.error("Error:", error);
-}
+(async function renderWizardStep() {
+    const { activeRoute, metadata } = psCompose || {};
+    const step = activeRoute?.step ?? 1;
+    const meta = metadata?.wizard?.[step - 1];
+    if (!meta) return console.error(`No metadata for step ${step}`);
 
-/* RENDER JSON FORM */
-// 1. set param and redirect
-document.querySelector("dropdown-single-select").addEventListener("change", (evt) => {
-    let newUrlParam = new URLSearchParams();
-    newUrlParam.set("id", evt.target.value);
-    window.location = window.location.pathname + "?" + newUrlParam;
-});
+    const totalSteps = metadata.wizard.length - 1;
 
-document.querySelector("#new-btn").addEventListener("click", () => {
-    let newUrlParam = new URLSearchParams();
-    newUrlParam.set("new", true);
-    window.location = window.location.pathname + "?" + newUrlParam;
-});
+    // Build desc
+    const baseDesc = meta.desc || "";
+    const learnMoreLink = meta.link ? `<a href="${meta.link}" target="_blank">Learn More</a>` : "";
+    const stepInstruction =
+        step < totalSteps
+            ? `${baseDesc} ${learnMoreLink}<br/><br/>Use the <b>New ${meta.singular}</b> button to add new <b>${meta.plural}</b> as needed.`
+            : baseDesc;
 
-// 2 take param and render existing/new data json form
-let urlParam = new URLSearchParams(window.location.search);
-let container = document.querySelector(".step-box-right");
+    // Build rendering context
+    const context = {
+        step,
+        headerTitle: `New ${meta.singular}`,
+        singular: meta.singular,
+        plural: meta.plural,
+        stepText: stepInstruction.trim(),
+        leftIcon: meta.icon || "info",
+        prevLink: step > 1 ? metadata.wizard[step - 2].page_url : "/",
+        nextLink: step < totalSteps ? metadata.wizard[step]?.page_url : "",
+        prevButton: step > 1 ? "Previous" : "Cancel",
+        nextButton: step >= totalSteps ? "Save" : "Next",
+    };
 
-if (urlParam.size > 0) {
-    if (!!urlParam.get("id")) {
+    // Render wizard template
+    const template = document.getElementById("wizard-step-template").innerHTML;
+    const container = document.getElementById("wizard-container");
+    container.innerHTML = nunjucks.renderString(template, context);
+
+    lucide.createIcons();
+    htmx.process(container);
+
+    // Render new template form
+    if (step === totalSteps) {
+        const stepBox = container.querySelector(".step-box");
+        if (stepBox) {
+            stepBox.classList.replace("step-box", "step-box-column");
+            stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_new_form.html" hx-trigger="load"></div>`;
+            htmx.process(stepBox);
+            document.querySelector("#next-btn").setAttribute("type", "submit");
+            document.querySelector("#next-btn").setAttribute("confirm-modal", "save-modal");
+        }
+        return;
+    }
+
+    await populateDropdown(activeRoute?.list_endpoint);
+    setupEventListeners(meta.icon);
+})();
+
+async function populateDropdown(endpoint) {
+    try {
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error(`Failed to fetch data: ${response.statusText}`);
+
+        const data = await response.json();
+        const dataList = data.map((item) => ({
+            const: item.id,
+            title: item.name,
+        }));
         document
             .querySelector("dropdown-single-select")
-            .setAttribute("value", JSON.stringify(urlParam.get("id")));
+            .setAttribute("options", JSON.stringify(dataList));
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
 
-        container.innerHTML = `<div class="w-full" 
-                                    hx-get="/partials/edit_form.html" 
-                                    hx-trigger="load"></div>`;
+function setupEventListeners(defaultIcon = "info") {
+    const container = document.querySelector(".step-box-right");
+    const dropdown = document.querySelector("dropdown-single-select");
+    const newBtn = document.getElementById("new-btn");
+
+    function loadForm({ id = null, isNew = false } = {}) {
+        const url = new URL(window.location.href);
+        url.search = "";
+
+        if (isNew) {
+            url.searchParams.set("new", "true");
+            dropdown.setAttribute("value", "");
+            container.innerHTML = `
+                <div class="w-full" 
+                    hx-get="/partials/data_new_form.html" 
+                    hx-trigger="load">
+                </div>`;
+        } else if (id) {
+            url.searchParams.set("id", id);
+            psCompose.activeRoute.id = id;
+            container.innerHTML = `
+                <div class="w-full" 
+                    hx-get="/partials/data_edit_form.html" 
+                    hx-trigger="load">
+                </div>`;
+        } else {
+            container.innerHTML = `<i style="color: var(--shadow-color); width: 150; height: 150" data-lucide='${defaultIcon}'></i>`;
+        }
+
+        window.history.pushState({}, "", url.toString());
+        htmx.process(container);
+        lucide.createIcons();
     }
-    if (!!urlParam.get("new")) {
-        container.innerHTML = `<div class="w-full" 
-                        hx-get="/partials/new_form.html" 
-                        hx-trigger="load"></div>`;
-    }
-    htmx.process(container);
+
+    // 🟡 Attach Event Listeners
+    dropdown?.addEventListener("change", (evt) => loadForm({ id: evt.target.value }));
+    newBtn?.addEventListener("click", () => loadForm({ isNew: true }));
 }
