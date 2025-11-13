@@ -5,15 +5,12 @@
         </div>
         <div class="content">
             <form id="data-form">
-                <fieldset
-                    id="content"
-                    hx-trigger="load"
-                    nunjucks-template="example-template"
-                ></fieldset>
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
+                    <i class="spinner" data-lucide="loader-circle"></i>
+                </fieldset>
 
                 <script id="example-template" type="nunjucks">
                     <json-form
-                      id="my-json-form"
                       form-data='{{ form_data | dump }}'
                       schema-data='{{ json_schema | dump }}'
                       layout-data='{{ ui_schema | dump }}'
