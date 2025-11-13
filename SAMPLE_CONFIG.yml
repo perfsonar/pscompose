@@ -1,0 +1,14 @@
+environment: test # Options: production, test
+database:
+    db_name: pscompose
+    user_name: pscompose_user
+    password: password
+    host: localhost
+    port: 5432
+    connection_string: "sqlite:///pscompose.sqlite" # NB: this setting is only used in 'test' environment. This uses a local sqlite file and ignores the above settings.
+
+auth:
+    read_scope: "pscompose:read"
+    write_scope: "pscompose:write"
+    publish_scope: "pscompose:publish"
+    admin_scope: "pscompose:admin"

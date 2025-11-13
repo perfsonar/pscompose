@@ -44,7 +44,7 @@ echo "Running table creation script..."
 python3 /app/pscompose/create_tables.py
 
 # Q : Should we extract database name from settings.py?
-# DB_NAME=$(python3 -c "from pscompose.settings import POSTGRES_DB_NAME; print(POSTGRES_DB_NAME)")
+# DB_NAME=$(python3 -c "from pscompose.settings import DATABASE_DB_NAME; print(DATABASE_DB_NAME)")
 # sudo -u postgres createdb "$DB_NAME"
 
 # TODO: Run FastAPI

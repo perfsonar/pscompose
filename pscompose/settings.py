@@ -18,11 +18,21 @@ except Exception as e:
 if conf is None:
     conf = {}
 
-POSTGRES = conf.get("postgres", {})  # default to empty dict so we can set further defaults
+ENVIRONMENT = conf.get("environment", "production")
+DATABASE = conf.get("database", {})  # default to empty dict so we can set further defaults
 AUTH = conf.get("auth", {})
 
-POSTGRES_DB_NAME = POSTGRES.get("db_name", "pscompose")
-POSTGRES_USER_NAME = POSTGRES.get("user_name", "pscompose_user")
+DATABASE_NAME = DATABASE.get("db_name", "pscompose")
+DATABASE_USER = DATABASE.get("user_name", "pscompose_user")
+DATABASE_HOST = DATABASE.get("host", "localhost")
+DATABASE_PORT = DATABASE.get("port", 5432)
+DATABASE_PASSWORD = DATABASE.get("password", "password")
+
+DATABASE_URL = f"postgresql+psycopg://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}"  # noqa: E501
+
+if ENVIRONMENT == "test":
+    # allow config to override postgres connection string in testing environments
+    DATABASE_URL = DATABASE.get("connection_string", DATABASE_URL)
 
 TOKEN_SCOPES = {
     "read": AUTH.get("read_scope", "pscompose:read"),

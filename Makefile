@@ -1,4 +1,10 @@
 
+ifdef PSCOMPOSE_SETTINGS
+TEST_CONFIG := $(PSCOMPOSE_SETTINGS)
+else
+TEST_CONFIG := ./SAMPLE_CONFIG.yml
+endif
+
 .PHONY: run-api
 run-api:
 	uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000
@@ -22,3 +28,10 @@ css-watch:
 run-frontend:
 	@echo "Starting simple HTTP server on http://localhost:5001/"
 	cd pscompose/frontend && python3 server.py --port=5001
+
+.PHONY: test
+test:
+	@echo "Running pytest test harness for Frontend (playwright/pytest) and Backend (standard pytest) tests..."
+	source venv/bin/activate && pip install -r dev_requirements.txt
+	playwright install
+	source venv/bin/activate && PSCOMPOSE_SETTINGS=$(TEST_CONFIG) python3 -m pytest -v -s tests/*.py
