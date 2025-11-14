@@ -2,6 +2,7 @@
     <div class="page">
         <div class="header">
             <h2 id="data-name"></h2>
+            <input-checkbox-star></input-checkbox-star>
         </div>
         <div class="content">
             <form id="data-form">
@@ -69,7 +70,8 @@
                     // 1. Retrieve jsonform data
                     const elem = document.querySelector("json-form");
                     const form_data = JSON.parse(elem.serializeForm());
-                    const { name, ...rest } = form_data; // Need to remove name from the form
+                    const { name, favorited, ...rest } = form_data; // Need to remove name from the form
+                    const favoritedBool = document.querySelector("input-checkbox-star").value;
 
                     // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
                     const data = {
@@ -79,6 +81,7 @@
                         name: name,
                         created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
                         last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        favorited: favoritedBool,
                         // url: ""
                     };
 

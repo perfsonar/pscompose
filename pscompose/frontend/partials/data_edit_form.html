@@ -2,6 +2,7 @@
     <div class="page">
         <div class="header">
             <h2 id="data-name"></h2>
+            <input-checkbox-star></input-checkbox-star>
             <web-button id="edit-icon" data-theme="Icon"></web-button>
         </div>
         <div class="content">
@@ -72,6 +73,8 @@
 
         // Header
         document.getElementById("data-name").textContent = elem?.data?.name;
+        document.querySelector("input-checkbox-star").value = elem?.data?.favorited;
+
         document
             .getElementById("edit-icon")
             .setAttribute("data-link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
@@ -102,7 +105,8 @@
                     // 1. Retrieve jsonform data
                     const elem = document.querySelector("json-form");
                     const form_data = JSON.parse(elem.serializeForm());
-                    const { name, ...rest } = form_data; // Need to remove name from the form
+                    const { name, favorited, ...rest } = form_data; // Need to remove name from the form
+                    const favoritedBool = document.querySelector("input-checkbox-star").value;
 
                     // TODO: How would ref_set be updated? -> in backend sanitize_data function
                     const updated_data = {
@@ -111,6 +115,7 @@
                         name: name,
                         last_edited_at: new Date().toISOString(),
                         last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        favorited: favoritedBool,
                         // url: "",
                     };
 
