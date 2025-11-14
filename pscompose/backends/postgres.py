@@ -15,7 +15,9 @@ class PostgresBackend:
         DataTable.__table__.create(bind=engine, checkfirst=True)
         self.session = sessionmaker(bind=engine)()
 
-    def create_datatype(self, ref_set, datatype, json, name, created_by, last_edited_by):
+    def create_datatype(
+        self, ref_set, datatype, json, name, created_by, last_edited_by, favorited
+    ):
         try:
             new_type = DataTable(
                 ref_set=ref_set,
@@ -24,6 +26,7 @@ class PostgresBackend:
                 name=name,
                 created_by=created_by,
                 last_edited_by=last_edited_by,
+                favorited=favorited,
                 # created_at = created_at,
                 # last_edited_at = last_edited_at,
                 # url = url
@@ -61,6 +64,7 @@ class PostgresBackend:
                 "ref_set": existing_result.ref_set,
                 "last_edited_by": existing_result.last_edited_by,
                 "last_edited_at": existing_result.last_edited_at,
+                "favorited": existing_result.favorited,
             }
         except Exception as e:
             self.session.rollback()
@@ -178,6 +182,21 @@ class PostgresBackend:
             raise HTTPException(status_code=404, detail=f"No records found for id : {id}")
         else:
             return result
+
+    def get_recently_edited(self, limit: int = 5):
+        query = self.session.query(DataTable).order_by(DataTable.created_at.desc()).limit(limit)
+        rows = query.all()
+        return [row for row in rows]
+
+    def get_favorites(self, limit: int = 5):
+        query = (
+            self.session.query(DataTable)
+            .filter_by(favorited=True)
+            .order_by(DataTable.created_at.desc())
+            .limit(limit)
+        )
+        rows = query.all()
+        return [row for row in rows]
 
 
 backend = PostgresBackend()

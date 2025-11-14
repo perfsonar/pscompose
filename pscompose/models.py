@@ -13,6 +13,7 @@ from sqlalchemy import (
     LargeBinary,
     Integer,
     Text,
+    Boolean,
     String,
     DateTime,
     func,
@@ -115,3 +116,4 @@ class DataTable(SQLAlchemyStorage):
         onupdate=func.now(),
         nullable=False,  # enforces that every record has a timestamp
     )
+    favorited = Column(Boolean, default=False)

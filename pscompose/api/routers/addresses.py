@@ -62,6 +62,7 @@ def get_existing_form(item_id: str):
         }  # Need to remove null fields
 
         response_json["name"] = response.name  # Adding "name" since it's not present in the json
+        response_json["favorited"] = response.favorited
     except HTTPException:
         raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
 

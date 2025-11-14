@@ -345,6 +345,7 @@ class DataTableBase(BaseModel):
     last_edited_by: str
     last_edited_at: Optional[datetime] = None
     url: Optional[str] = None
+    favorited: bool = Field(default=False)
 
     class Config:
         orm_mode = True
@@ -371,6 +372,7 @@ class DataTableUpdate(BaseModel):
     last_edited_by: Optional[str] = None
     last_edited_at: Optional[datetime] = None
     url: Optional[str] = None
+    favorited: bool = Field(default=False)
 
 
 pSConfigSchema.update_forward_refs()
