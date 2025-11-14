@@ -102,6 +102,13 @@ export class SingleSelectDropdown extends FormControl {
             li.addEventListener("click", (e) => this.handleOptionClick(e));
             this.optionsEl.appendChild(li);
         });
+        document.addEventListener("click", (e) => this.closeDropdownOutside(e));
+    }
+
+    closeDropdownOutside(e) {
+        if (!this.contains(e.target)) {
+            this.optionsEl.classList.remove("open");
+        }
     }
 
     render() {
