@@ -42,8 +42,10 @@
         <script src="/components/web-modal.js" type="module"></script>
         <script src="/components/input-text.js" type="module"></script>
         <script src="/components/input-text-area.js" type="module"></script>
+        <script src="/components/input-text-autocomplete.js" type="module"></script>
         <script src="/components/input-number.js" type="module"></script>
         <script src="/components/input-checkbox.js" type="module"></script>
+        <script src="/components/input-checkbox-star.js" type="module"></script>
         <script src="/components/input-label.js" type="module"></script>
         <script src="/components/input-message.js" type="module"></script>
         <script src="/components/progress-bar.js" type="module"></script>
@@ -246,7 +248,7 @@
                             icon: "locate",
                         },
                     ],
-                    addresses: {
+                    address: {
                         singular: "Address",
                         plural: "Addresses",
                         page_url: "/addresses/",
@@ -254,7 +256,7 @@
                         list_endpoint: "http://localhost:8000/api/address/",
                         icon: "hard-drive-download",
                     },
-                    archives: {
+                    archive: {
                         singular: "Archive",
                         plural: "Archives",
                         page_url: "/archives/",
@@ -262,7 +264,7 @@
                         list_endpoint: "http://localhost:8000/api/archive/",
                         icon: "database",
                     },
-                    contexts: {
+                    context: {
                         singular: "Context",
                         plural: "Contexts",
                         page_url: "/contexts/",
@@ -270,7 +272,7 @@
                         list_endpoint: "http://localhost:8000/api/context/",
                         icon: "file-question",
                     },
-                    groups: {
+                    group: {
                         singular: "Group",
                         plural: "Groups",
                         page_url: "/groups/",
@@ -278,7 +280,7 @@
                         list_endpoint: "http://localhost:8000/api/group/",
                         icon: "group",
                     },
-                    schedules: {
+                    schedule: {
                         singular: "Schedule",
                         plural: "Schedules",
                         page_url: "/schedules/",
@@ -286,7 +288,7 @@
                         list_endpoint: "http://localhost:8000/api/schedule/",
                         icon: "calendar-check",
                     },
-                    tasks: {
+                    task: {
                         singular: "Task",
                         plural: "Tasks",
                         page_url: "/tasks/",
@@ -294,7 +296,7 @@
                         list_endpoint: "http://localhost:8000/api/task/",
                         icon: "clipboard-list",
                     },
-                    templates: {
+                    template: {
                         singular: "Template",
                         plural: "Templates",
                         page_url: "/templates/",
@@ -302,7 +304,7 @@
                         list_endpoint: "http://localhost:8000/api/template/",
                         icon: "locate",
                     },
-                    tests: {
+                    test: {
                         singular: "Test",
                         plural: "Tests",
                         page_url: "/tests/",
@@ -313,14 +315,14 @@
                 },
             };
             psCompose.menu = {
-                addresses: psCompose.metadata["addresses"],
-                archives: psCompose.metadata["archives"],
-                contexts: psCompose.metadata["contexts"],
-                groups: psCompose.metadata["groups"],
-                schedules: psCompose.metadata["schedules"],
-                tasks: psCompose.metadata["tasks"],
-                templates: psCompose.metadata["templates"],
-                tests: psCompose.metadata["tests"],
+                address: psCompose.metadata["address"],
+                archive: psCompose.metadata["archive"],
+                context: psCompose.metadata["context"],
+                group: psCompose.metadata["group"],
+                schedule: psCompose.metadata["schedule"],
+                task: psCompose.metadata["task"],
+                template: psCompose.metadata["template"],
+                test: psCompose.metadata["test"],
             };
             psCompose.router = {
                 "/wizard/1/addresses/": psCompose.metadata["wizard"][0],
@@ -333,22 +335,22 @@
                 "/wizard/8/template/": psCompose.metadata["wizard"][7],
                 "/import/1/import_template/": psCompose.metadata["import"][0],
                 "/import/2/import_template_saved/": psCompose.metadata["import"][1],
-                "/addresses/": psCompose.metadata["addresses"],
-                "/addresses/new/": psCompose.metadata["addresses"],
-                "/archives/": psCompose.metadata["archives"],
-                "/archives/new/": psCompose.metadata["archives"],
-                "/contexts/": psCompose.metadata["contexts"],
-                "/contexts/new/": psCompose.metadata["contexts"],
-                "/groups/": psCompose.metadata["groups"],
-                "/groups/new/": psCompose.metadata["groups"],
-                "/schedules/": psCompose.metadata["schedules"],
-                "/schedules/new/": psCompose.metadata["schedules"],
-                "/tasks/": psCompose.metadata["tasks"],
-                "/tasks/new/": psCompose.metadata["tasks"],
-                "/templates/": psCompose.metadata["templates"],
-                "/templates/new/": psCompose.metadata["templates"],
-                "/tests/": psCompose.metadata["tests"],
-                "/tests/new/": psCompose.metadata["tests"],
+                "/addresses/": psCompose.metadata["address"],
+                "/addresses/new/": psCompose.metadata["address"],
+                "/archives/": psCompose.metadata["archive"],
+                "/archives/new/": psCompose.metadata["archive"],
+                "/contexts/": psCompose.metadata["context"],
+                "/contexts/new/": psCompose.metadata["context"],
+                "/groups/": psCompose.metadata["group"],
+                "/groups/new/": psCompose.metadata["group"],
+                "/schedules/": psCompose.metadata["schedule"],
+                "/schedules/new/": psCompose.metadata["schedule"],
+                "/tasks/": psCompose.metadata["task"],
+                "/tasks/new/": psCompose.metadata["task"],
+                "/templates/": psCompose.metadata["template"],
+                "/templates/new/": psCompose.metadata["template"],
+                "/tests/": psCompose.metadata["test"],
+                "/tests/new/": psCompose.metadata["test"],
             };
 
             // the actual URL router
@@ -358,7 +360,7 @@
                     return "/pages/index.html";
                 }
                 psCompose.activeRoute = psCompose.router[path];
-                psCompose.activeMenuItem = path.split("/")[1];
+                psCompose.activeMenuItem = psCompose.router[path].singular.toLowerCase();
                 psCompose.subsection = path.split("/")[2];
                 psCompose.pathParts = path.split("/");
 
