@@ -40,7 +40,7 @@ function createCustomRenderer(componentName) {
                 ) ||
                 false,
             error: schema?.errors ?? false,
-            description: schema.schema?.description ?? false,
+            description: schema.schema?.description ?? undefined,
             value: data ?? schema.schema.default ?? undefined,
         };
 
