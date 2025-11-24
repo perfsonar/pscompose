@@ -310,6 +310,12 @@ th {
         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.shortcuts .recently-edited-container,
+.favorites-container {
+    @apply flex flex-col w-full items-center gap-md;
+}
+
 /* BOX */
 
 .list-box {
