@@ -50,6 +50,10 @@ class HostNamePort(BaseModel):
     )
 
 
+class HostNameVar(BaseModel):
+    __root__: constr(regex=r"^\{% [a-zA-Z_][a-zA-Z0-9_]*(\[\d+\])? %}$")
+
+
 class IPAddress(BaseModel):
     __root__: Union[IPv4Address, IPv6Address]
 
@@ -67,7 +71,7 @@ class Timestamp(BaseModel):
 
 
 class Host(BaseModel):
-    __root__: Union[HostName, IPAddress]
+    __root__: Union[HostName, HostNameVar, IPAddress]
 
 
 class TimestampAbsoluteRelative(BaseModel):
@@ -345,6 +349,7 @@ class DataTableBase(BaseModel):
     last_edited_by: str
     last_edited_at: Optional[datetime] = None
     url: Optional[str] = None
+    favorited: bool = Field(default=False)
 
     class Config:
         orm_mode = True
@@ -371,6 +376,7 @@ class DataTableUpdate(BaseModel):
     last_edited_by: Optional[str] = None
     last_edited_at: Optional[datetime] = None
     url: Optional[str] = None
+    favorited: bool = Field(default=False)
 
 
 pSConfigSchema.update_forward_refs()

@@ -60,6 +60,7 @@ def generate_router(datatype: str):
                 created_by=data.created_by,
                 # created_by=user.name,
                 last_edited_by=data.last_edited_by,
+                favorited=data.favorited,
                 # last_edited_by=user.name,
             )
             return {"message": f"{datatype} created successfully", "id": response.id}

@@ -1,6 +1,6 @@
 import { InputText } from "./input-text.js";
 
-class InputCheckbox extends InputText {
+export class InputCheckbox extends InputText {
     render() {
         super.render();
         this.inputEl.checked = this.value === "true" || this.value === true;

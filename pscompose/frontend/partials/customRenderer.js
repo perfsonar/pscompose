@@ -8,8 +8,10 @@ function toAllCaps(str) {
 const webComponents = [
     "input-text",
     "input-text-area",
+    "input-text-autocomplete",
     "input-number",
     "input-checkbox",
+    "input-checkbox-star",
     "dropdown-single-select",
     "dropdown-multi-select",
     "dropdown-excludes",
@@ -38,7 +40,7 @@ function createCustomRenderer(componentName) {
                 ) ||
                 false,
             error: schema?.errors ?? false,
-            description: schema.schema?.description ?? false,
+            description: schema.schema?.description ?? undefined,
             value: data ?? schema.schema.default ?? undefined,
         };
 
@@ -85,27 +87,21 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 document.body.addEventListener("json-form:mounted", (event) => {
     if (event.detail[0].target.readonly == "true") {
         webComponents.forEach((component) => {
-            document
-                .querySelector("form")
-                .querySelectorAll(component)
-                .forEach((comp) => {
-                    comp.disabled = true;
-                });
+            document.querySelectorAll(component).forEach((comp) => {
+                comp.disabled = true;
+            });
         });
     }
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
     webComponents.forEach((component) => {
-        document
-            .querySelector("form")
-            .querySelectorAll(component)
-            .forEach((comp) => {
-                if (event.detail[0].target.readonly == "true") {
-                    comp.disabled = true;
-                } else {
-                    comp.disabled = false;
-                }
-            });
+        document.querySelectorAll(component).forEach((comp) => {
+            if (event.detail[0].target.readonly == "true") {
+                comp.disabled = true;
+            } else {
+                comp.disabled = false;
+            }
+        });
     });
 });
