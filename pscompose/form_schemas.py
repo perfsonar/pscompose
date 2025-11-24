@@ -89,12 +89,12 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/lead-bind-address",
-            "customComponent": "input-text",
+            "customComponent": "input-text-autocomplete",
         },
         {
             "type": "Control",
             "scope": "#/properties/pscheduler-address",
-            "customComponent": "input-text",
+            "customComponent": "input-text-autocomplete",
         },
         {
             "type": "Control",
