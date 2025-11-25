@@ -11,6 +11,7 @@ from pscompose.api.routers import (
     tasks,
     templates,
     tests,
+    home,
 )
 
 # initialize FastAPI application
@@ -25,7 +26,7 @@ app.add_middleware(
 )
 
 # include submodule routers
-for lib in [addresses, archives, basic_auth, contexts, groups, schedules, tasks, templates, tests]:
+for lib in [addresses, archives, basic_auth, contexts, groups, schedules, tasks, templates, tests, home]:
     app.include_router(lib.router)
 
 
