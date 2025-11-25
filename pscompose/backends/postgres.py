@@ -179,5 +179,10 @@ class PostgresBackend:
         else:
             return result
 
+    def get_recently_edited(self, limit: int = 5):
+        query = self.session.query(DataTable).order_by(DataTable.created_at.desc()).limit(limit)
+        rows = query.all()
+        return [row for row in rows]
+
 
 backend = PostgresBackend()
