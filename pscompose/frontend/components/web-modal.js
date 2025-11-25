@@ -17,16 +17,16 @@ export class WebModal extends HTMLElement {
     attachListeners() {
         // yes
         this.querySelector("#confirm-yes").onclick = () => {
-            document.querySelector("web-modal").style.display = "none";
+            this.style.display = "none";
             this.dispatchEvent(new CustomEvent("confirm-yes-clicked", { bubbles: true }));
         };
 
         // escape
         this.querySelector("#confirm-no").onclick = () => {
-            document.querySelector("web-modal").style.display = "none";
+            this.style.display = "none";  // Hide current modal instance
         };
         this.querySelector(".modal-underlay").onclick = () => {
-            document.querySelector("web-modal").style.display = "none";
+            this.style.display = "none";  // Hide current modal instance
         };
     }
 
