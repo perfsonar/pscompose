@@ -42,15 +42,16 @@
             // Pre-format last_edited_at
             data.forEach((item) => {
                 item.formatted_date = formatDate(item.last_edited_at);
-                item.type = singularToPlural[item.type] ||item.type;
+                item.icon = psCompose.metadata[singularToPlural[item.type]].icon;
             });
+
 
             const template = `
                 {% if data.length > 0 %}
                     {% for item in data %}
                         <div class="list-box">
                             <div class="box-header" id="{{ item.id }}">
-                                <i data-lucide="{{ psCompose.metadata[item.type].icon }}" style="height: 32px;"></i>
+                                <i data-lucide="{{ item.icon }}" style="height: 32px;"></i>
                                 <h4 class="box-name">{{ item.name }}</h4>
                             </div>
                             <p class="box-text">{{ item.formatted_date }}</p>
