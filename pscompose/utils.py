@@ -26,16 +26,16 @@ def generate_router(datatype: str):
     router.sanitize = sanitize_input
 
     # Endpoint for retrieving all records of a given datatype (e.g., GET /template)
-    # List endpoint (e.g., GET /api/template)
-    @router.get(f"/api/{datatype}", summary=f"List all {datatype}s")
+    # List endpoint (e.g., GET /template)
+    @router.get(f"/{datatype}/", summary=f"List all {datatype}s")
     @version(1)
     def list_items():
         rows = backend.get_results(datatype=datatype)
         return rows
 
     # Endpoint for CREATING a new record
-    # Create endpoint (e.g., POST /api/template)
-    @router.post(f"/api/{datatype}", summary=f"Create a new {datatype}")
+    # Create endpoint (e.g., POST /template)
+    @router.post(f"/{datatype}/", summary=f"Create a new {datatype}")
     @version(1)
     def create_item(
         data=Body(...),
@@ -73,8 +73,8 @@ def generate_router(datatype: str):
             raise HTTPException(status_code=500, detail=str(e))
 
     # Endpoint for UPDATING an existing record
-    # Update endpoint (e.g., PUT /api/template/uuid-slug)
-    @router.put(f"/api/{datatype}/{{item_id}}", summary=f"Update a {datatype}")
+    # Update endpoint (e.g., PUT /template/uuid-slug)
+    @router.put(f"/{datatype}/{{item_id}}/", summary=f"Update a {datatype}")
     @version(1)
     def update_item(
         item_id: str,
@@ -105,7 +105,7 @@ def generate_router(datatype: str):
 
     # Endpoint for DELETING an existing record
     # Delete endpoint (e.g., DELETE /template)
-    @router.delete(f"/api/{datatype}/{{item_id}}", summary=f"Delete a {datatype}")
+    @router.delete(f"/{datatype}/{{item_id}}/", summary=f"Delete a {datatype}")
     @version(1)
     def delete_item(
         item_id: str,
@@ -129,7 +129,7 @@ def generate_router(datatype: str):
 
     # Endpoint for retrieving a specific item by ID
     @router.get(
-        f"/api/{datatype}/{{item_id}}", summary=f"Retrieve a specific {datatype} record by its ID"
+        f"/{datatype}/{{item_id}}/", summary=f"Retrieve a specific {datatype} record by its ID"
     )
     def get_item(item_id: str):
         try:
@@ -142,7 +142,7 @@ def generate_router(datatype: str):
 
     # Endpoint for retrieving list of records which reference a particular item
     @router.get(
-        f"/api/{datatype}/{{item_id}}/find",
+        f"/{datatype}/{{item_id}}/find/",
         summary="Retrieve the records which reference a particular record",
     )
     def find_records(item_id: str):
