@@ -1,70 +1,71 @@
-<div class="menu">
-    <div class="left-nav">
-        <ul>
-            <li class="parent-item left-nav-item" id="templates" data-submenu="templates">
-                <i data-lucide="locate" style="width: 2rem; height: 2rem"></i>
-                <p>Templates</p>
-            </li>
+<nav class="menu" aria-label="Menu Navigation">
+    <ul class="left-nav" role="menu" aria-label="Primary menu" aria-orientation="vertical">
+        <li role="menuitem" class="parent-item left-nav-item" id="templates" data-submenu="templates" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-templates">
+            <i data-lucide="locate" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Templates</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="tasks" data-submenu="tasks">
-                <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem"></i>
-                <p>Tasks</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="tasks" data-submenu="tasks" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-tasks">
+            <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Tasks</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="contexts" data-submenu="contexts">
-                <i data-lucide="file-question" style="width: 2rem; height: 2rem"></i>
-                <p>Contexts</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="contexts" data-submenu="contexts" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-contexts">
+            <i data-lucide="file-question" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Contexts</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="tests" data-submenu="tests">
-                <i data-lucide="flask-conical" style="width: 2rem; height: 2rem"></i>
-                <p>Tests</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="tests" data-submenu="tests" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-tests">
+            <i data-lucide="flask-conical" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Tests</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="archives" data-submenu="archives">
-                <i data-lucide="database" style="width: 2rem; height: 2rem"></i>
-                <p>Archives</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="archives" data-submenu="archives" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-archives">
+            <i data-lucide="database" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Archives</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="schedules" data-submenu="schedules">
-                <i data-lucide="calendar-check" style="width: 2rem; height: 2rem"></i>
-                <p>Schedules</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="schedules" data-submenu="schedules" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-schedules">
+            <i data-lucide="calendar-check" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Schedules</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="groups" data-submenu="groups">
-                <i data-lucide="group" style="width: 2rem; height: 2rem"></i>
-                <p>Groups</p>
-            </li>
+        <li role="menuitem" class="parent-item left-nav-item" id="groups" data-submenu="groups" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-groups">
+            <i data-lucide="group" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Groups</p>
+        </li>
 
-            <li class="parent-item left-nav-item" id="addresses" data-submenu="addresses">
-                <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem"></i>
-                <p>Addresses</p>
-            </li>
-        </ul>
-    </div>
+        <li role="menuitem" class="parent-item left-nav-item" id="addresses" data-submenu="addresses" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-addresses">
+            <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+            <p>Addresses</p>
+        </li>
+    </ul>
 
-    <div class="submenu-container hidden"></div>
+    <div class="submenu-container hidden" role="region" aria-live="polite" aria-label="Submenu content"></div>
 
     <script id="submenu-template" type="nunjucks">
-        <div class='submenu' id='submenu-content'>
+        <div class='submenu' id='submenu-content' role='region' aria-label='{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}} submenu'>
             <div class="submenu-header">
                 <h1>{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}}</h1>
                 <web-button
                     data-link="{{data.psCompose.menu[data.psCompose.activeMenuItem].page_url ~ 'new/'}}"
                     data-theme="AddBtn"
                     data-lefticon="plus"
-                    data-label="New">
+                    data-label="New"
+                    aria-labelledby="submenu-title"
+                    >
                 </web-button>
             </div>
             <input
                 type="text"
                 id="submenu-search"
                 placeholder="Search {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}"
+                aria-label="Search {{data.psCompose.menu[data.psCompose.activeMenuItem].singular}}"
             />
-            <ul id="submenu-list">
+            <ul id="submenu-list" aria-label="Submenu List">
                 {% for item in data %}
                 <li id="{{item.id}}" class="submenu-item">
-                    <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}"></i>
+                    <i data-lucide="{{data.psCompose.menu[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
                     <h5>{{item.name}}</h5>
                     </a>
                 </li>
@@ -72,7 +73,7 @@
             </ul>
         </div>
     </script>
-</div>
+</nav>
 
 <script>
     const menuContainer = document.querySelector(".menu");
@@ -82,7 +83,10 @@
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const clearActiveClasses = (selector) => {
-        document.querySelectorAll(selector).forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(selector).forEach((el) => {
+            el.setAttribute("aria-expanded", "false");
+            el.classList.remove("active");
+        });
     };
 
     function highlightActiveSubmenu(activeId) {
@@ -127,7 +131,7 @@
 
     async function showSubmenu() {
         if (submenuContainer.classList.contains("open")) return;
-        await hideShortcuts();
+        if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
 
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
@@ -148,7 +152,6 @@
 
     async function hideSubmenu() {
         if (submenuContainer.classList.contains("hidden")) return;
-        showShortcuts();
 
         submenuContainer.classList.remove("open");
         submenuContainer.classList.add("close");
@@ -185,11 +188,14 @@
 
             if (psCompose.activeMenuItem === clickedMenu) {
                 psCompose.activeMenuItem = null;
+                if (window.location.pathname == "/") showShortcuts();
+                clearActiveClasses(".left-nav .parent-item");
                 return;
             }
 
             clearActiveClasses(".left-nav .parent-item");
             elem.classList.add("active");
+            elem.setAttribute("aria-expanded", "true");
             psCompose.activeMenuItem = clickedMenu;
             showSubmenu();
         });
