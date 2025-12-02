@@ -45,18 +45,38 @@ def sanitize_data(data):
         if "group_type" in data:
             del data["group_type"]
 
-        data["json"] = filtered_json
-
     ref_set = data["ref_set"]
+
+    # for key in ("addresses", "a-addresses", "b-addresses"):
+    #     if json_data.get(key) is not None:
+    #         for address in json_data.get(key, []):
+    #             name = address["name"]
+    #             if name not in ref_set:
+    #                 ref_set.append(name)
+
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
+            address_id_array = []
             for address in json_data.get(key, []):
-                name = address["name"]
-                if name not in ref_set:
-                    ref_set.append(name)
+                obj = { "name": address }  # or {name: id} based on your variables
+                if address not in ref_set:
+                    ref_set.append(address)
+                address_id_array.append(obj)
+            filtered_json[key] = address_id_array
 
     data["ref_set"] = ref_set
+    data["json"] = filtered_json
     return data
+
+def sanitize_reponse(response_json):
+    json_data = response_json.copy()
+
+    # Transform address fields from list of dicts to list of strings
+    for key in ("addresses", "a-addresses", "b-addresses"):
+        if json_data.get(key) is not None:
+            json_data[key] = [addr["name"] for addr in json_data.get(key, [])]
+
+    return json_data
 
 
 router.sanitize = sanitize_data
@@ -116,10 +136,11 @@ def get_existing_form(item_id: str):
             "excludes": address_rows,
         },
     )
+    print('response_json for existing form:', sanitize_reponse(response_json))
 
     payload = {
         "ui_schema": GROUP_UI_SCHEMA,
         "json_schema": enriched_schema,
-        "form_data": response_json,
+        "form_data": sanitize_reponse(response_json),
     }
     return JSONResponse(content=payload)
