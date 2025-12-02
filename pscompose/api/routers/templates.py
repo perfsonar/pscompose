@@ -12,7 +12,7 @@ router = generate_router("template")
 
 
 # Custom endpoints
-@router.get("/api/template/new/form", summary="Return the new form to be rendered")
+@router.get("/template/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
     try:
@@ -27,7 +27,7 @@ def get_new_form():
 
 
 @router.get(
-    "/api/template/{item_id}/form",
+    "/template/{item_id}/form/",
     summary="Get the JSON Data and form data identified by the uuid-slug",
 )
 @version(1)

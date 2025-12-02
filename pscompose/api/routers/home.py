@@ -6,7 +6,7 @@ router = APIRouter(tags=["home"])
 
 
 @router.get(
-    "/api/recently_edited",
+    "/recently_edited/",
     summary="Return first 3 items of most recently edited",
 )
 def recently_edited():
@@ -15,7 +15,7 @@ def recently_edited():
 
 
 # @router.get(
-#     "/api/favorites",
+#     "/favorites/",
 #     summary="Return first 3 items of favorites",
 # )
 # def favorites():
