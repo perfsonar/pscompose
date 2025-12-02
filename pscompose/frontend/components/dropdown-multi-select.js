@@ -1,18 +1,6 @@
 import { SingleSelectDropdown } from "./dropdown-single-select.js";
 
 export class MultiSelectDropdown extends SingleSelectDropdown {
-    get output() {
-        return this.getAttribute("output") ?? "";
-    }
-    set output(v) {
-        this.setAttribute("output", v ?? "");
-    }
-
-    sanitizeOutput(values) {
-        return this.getAttribute("output") === "object"
-            ? values.map((val) => ({ name: val }))
-            : values;
-    }
 
     handleOptionClick(e) {
         const target = e.target.closest("li");
@@ -22,7 +10,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
 
         if (value && !this.selectedValues.includes(value)) {
             this.selectedValues.unshift(value);
-            this.value = this.sanitizeOutput(this.selectedValues);
+            this.value = this.selectedValues;
             this.dispatchEvent(new Event("change", { bubbles: true }));
         }
     }
@@ -32,7 +20,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
             btn.addEventListener("click", () => {
                 const value = this.parseValue(btn.dataset.value);
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
-                this.value = this.sanitizeOutput(this.selectedValues);
+                this.value = this.selectedValues;
                 this.dispatchEvent(new Event("change", { bubbles: true }));
             });
         });
@@ -54,17 +42,11 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
         });
     }
 
-    selectedValuesSetUp() {
-        if (!this.value) return [];
-        return this.value.map((item) =>
-            this.output === "object" ? item.name : item.const ?? item,
-        );
-    }
 
     render() {
         if (!this.options) return;
 
-        this.selectedValues = this.selectedValuesSetUp();
+        this.selectedValues = this.value || [];
         this.inputEl = this.querySelector("input");
 
         const optionsMap = new Map(this.options.map((opt) => [opt.const, opt.title]));
