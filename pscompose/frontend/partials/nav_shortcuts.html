@@ -67,8 +67,8 @@
         }
     }
 
-    loadSection("http://0.0.0.0:8000/api/recently_edited", ".recently-edited-container")
-    // loadSection("http://0.0.0.0:8000/api/favorites", ".favorites-container");
+    loadSection(`${window.API_BASE_URL}recently_edited/`, ".recently-edited-container")
+    // loadSection(`${window.API_BASE_URL}favorites`, ".favorites-container");
 
     const shortcutsContainer = document.querySelector(".shortcuts-container");
 
