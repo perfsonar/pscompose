@@ -49,10 +49,10 @@ class HostNamePort(BaseModel):
         regex=r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:[0-9]+)?$"
     )
 
-# class HostNameVar(BaseModel):
-#     __root__: constr(
-#         regex=r"^\{% [a-zA-Z_][a-zA-Z0-9_]*(\[\d+\])? %}$"
-#     )
+class HostNameVar(BaseModel):
+    __root__: constr(
+        regex=r"^\{% [a-zA-Z_][a-zA-Z0-9_]*(\[\d+\])? %}$"
+    )
 
 class IPAddress(BaseModel):
     __root__: Union[IPv4Address, IPv6Address]
@@ -71,8 +71,8 @@ class Timestamp(BaseModel):
 
 
 class Host(BaseModel):
-    # __root__: Union[HostName, HostNameVar, IPAddress]
-    __root__: Union[HostName, IPAddress]
+    __root__: Union[HostName, HostNameVar, IPAddress]
+    # __root__: Union[HostName, IPAddress]
 
 
 
@@ -87,7 +87,7 @@ class TimestampAbsoluteRelative(BaseModel):
 
 
 class URLHostPort(BaseModel):
-    __root__: Union[HostNamePort, IPv6RFC2732]
+    __root__: Union[HostNamePort, HostNameVar, IPv6RFC2732]
 
 
 # Selectors
