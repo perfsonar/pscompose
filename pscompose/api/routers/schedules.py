@@ -12,7 +12,7 @@ router = generate_router("schedule")
 
 
 # Custom endpoints
-@router.get("/api/schedule/new/form", summary="Return the new form to be rendered")
+@router.get("/schedule/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
     print("get new form schedule")
@@ -21,7 +21,7 @@ def get_new_form():
 
 
 @router.get(
-    "/api/schedule/{item_id}/form",
+    "/schedule/{item_id}/form/",
     summary="Get the JSON Data and form data identified by the uuid-slug",
 )
 @version(1)
