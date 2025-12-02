@@ -61,7 +61,6 @@ function createCustomRenderer(componentName) {
 
         // Multi Select Dropdown & Exclude Dropdown
         if (schema?.schema?.items?.oneOf) props.options = JSON.stringify(schema.schema.items.oneOf);
-        if (schema.uischema?.output) props.output = schema.uischema.output;
 
         return { tag: componentName, props };
     };
