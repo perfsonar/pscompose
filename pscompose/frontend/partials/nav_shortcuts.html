@@ -24,6 +24,17 @@
         const container = document.querySelector(containerSelector);
         if (!container) return;
 
+        const singularToPlural = {
+            address: "addresses",
+            archive: "archives",
+            context: "contexts",
+            group: "groups",
+            schedule: "schedules",
+            task: "tasks",
+            template: "templates",
+            test: "tests",
+        };
+
         try {
             const response = await fetch(apiEndpoint);
             const data = await response.json();
@@ -31,6 +42,7 @@
             // Pre-format last_edited_at
             data.forEach((item) => {
                 item.formatted_date = formatDate(item.last_edited_at);
+                item.type = singularToPlural[item.type] ||item.type;
             });
 
             const template = `
@@ -55,7 +67,7 @@
         }
     }
 
-    // loadSection("http://0.0.0.0:8000/api/recently_edited", ".recently-edited-container")
+    loadSection("http://0.0.0.0:8000/api/recently_edited", ".recently-edited-container")
     // loadSection("http://0.0.0.0:8000/api/favorites", ".favorites-container");
 
     const shortcutsContainer = document.querySelector(".shortcuts-container");
@@ -79,5 +91,6 @@
         shortcutsContainer.classList.add("hidden");
         shortcutsContainer.classList.remove("close");
     }
+
     if (window.location.pathname == "/") showShortcuts();
 </script>
