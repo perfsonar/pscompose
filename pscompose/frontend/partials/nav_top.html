@@ -1,16 +1,18 @@
-<div class="top-nav">
+<nav class="top-nav" aria-label="Top Navigation">
     <div class="top-left">
-        <a href="/">
-            <img class="Logo" src="/mockups/static/perfsonar-icon.png" />
-            <p class="pscompose">pSCompose</p>
+        <a href="/" aria-label="Go to homepage">
+            <img class="Logo" src="/mockups/static/perfsonar-icon.png" alt="Perfsonar Icon" />
+            <span class="pscompose">pSCompose</span>
         </a>
     </div>
 
     <div class="top-right">
-        <a href="https://docs.perfsonar.net/index.html"><p class="readme">README</p></a>
-        <i
-            data-lucide="user-circle-2"
-            style="width: 36px; height: 36px; color: var(--success-color)"
-        ></i>
+        <a href="https://docs.perfsonar.net/index.html" aria-label="README" class="readme">README</a>
+        <web-button
+            theme="Icon"
+            righticon="user-circle-2"
+            aria-label="User account"
+        >
+        </web-button>
     </div>
-</div>
+</nav>
