@@ -34,7 +34,7 @@ router.sanitize = sanitize_data
 
 
 # Custom endpoints
-@router.get("/api/address/new/form", summary="Return the new form to be rendered")
+@router.get("/address/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
     try:
@@ -49,7 +49,7 @@ def get_new_form():
 
 
 @router.get(
-    "/api/address/{item_id}/form",
+    "/address/{item_id}/form/",
     summary="Get the JSON Data and form data identified by the uuid-slug",
 )
 @version(1)
