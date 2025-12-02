@@ -3,7 +3,7 @@
         <div class="header">
             <h2 id="data-name"></h2>
             <input-checkbox-star></input-checkbox-star>
-            <web-button id="edit-icon" data-theme="Icon"></web-button>
+            <web-button id="edit-icon" theme="Icon"></web-button>
         </div>
         <div class="content">
             <form id="data-form" method="GET">
@@ -24,27 +24,27 @@
                     <web-button
                         id="delete-btn"
                         type="button"
-                        data-label="Delete"
-                        data-theme="Error"
-                        data-righticon="trash-2"
+                        label="Delete"
+                        theme="Error"
+                        righticon="trash-2"
                         confirm-modal="delete-modal"
                     >
                     </web-button>
                     <web-button
                         id="save-btn"
                         type="submit"
-                        data-label="Save"
-                        data-theme="Secondary"
-                        data-righticon="save"
+                        label="Save"
+                        theme="Secondary"
+                        righticon="save"
                         confirm-modal="save-modal"
                     >
                     </web-button>
                     <web-button
                         type="button"
-                        data-label="Cancel"
-                        data-theme="Primary"
-                        data-righticon="x"
-                        data-link="javascript:history.back()"
+                        label="Cancel"
+                        theme="Primary"
+                        righticon="x"
+                        link="javascript:history.back()"
                     >
                     </web-button>
                     <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
@@ -75,8 +75,8 @@
         document.getElementById("data-name").textContent = elem?.data?.name;
         document
             .getElementById("edit-icon")
-            .setAttribute("data-link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
-        document.getElementById("edit-icon").setAttribute("data-righticon", "edit");
+            .setAttribute("link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
+        document.getElementById("edit-icon").setAttribute("righticon", "edit");
 
         if (!!params.get("edit")) {
             document.querySelector("json-form").setAttribute("readonly", "false");

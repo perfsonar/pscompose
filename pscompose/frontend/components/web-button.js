@@ -2,15 +2,18 @@ export class WebButton extends HTMLElement {
     static observedAttributes = [
         "id",
         "type",
-        "data-label",
-        "data-theme",
-        "data-lefticon",
-        "data-righticon",
-        "data-link",
+        "label",
+        "theme",
+        "lefticon",
+        "righticon",
+        "link",
         "confirm-modal",
     ];
     passthroughAttributes = {};
-    passthroughAttributeMatchers = [new RegExp(/hx-.*/), new RegExp(/data-.*/)];
+    passthroughAttributeMatchers = [
+        new RegExp(/aria-.*/),  
+        new RegExp(/role$/),   
+    ];
 
     constructor() {
         super();
@@ -24,9 +27,10 @@ export class WebButton extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue === newValue) return;
         Array.from(this.attributes).forEach((attr) => {
-            this.passthroughAttributeMatchers.forEach((re) => {
+            this.passthroughAttributeMatchers.some((re) => {
                 if (re.test(attr.name)) {
                     this.passthroughAttributes[attr.name] = this.getAttribute(attr.name);
+                    return true; 
                 }
             });
         });
@@ -46,37 +50,34 @@ export class WebButton extends HTMLElement {
     render() {
         this.innerHTML = `
             ${
-                this.getAttribute("data-link")
-                    ? `<a href="${this.getAttribute("data-link")}" style="text-decoration: none;">`
+                this.getAttribute("link")
+                    ? `<a href="${this.getAttribute("link")}" style="text-decoration: none;">`
                     : ""
             }
             <button 
                 ${this.getAttribute("type") ? `type="${this.getAttribute("type")}" ` : ""}
-                ${this.getAttribute("id") ? `id="${this.getAttribute("id")}" ` : ""} >
+                ${this.getAttribute("id") ? `id="${this.getAttribute("id")}" ` : ""} 
+                >
                 
                 ${
-                    this.getAttribute("data-lefticon")
-                        ? `<i data-lucide="${this.getAttribute("data-lefticon")}"></i>`
+                    this.getAttribute("lefticon")
+                        ? `<i data-lucide="${this.getAttribute("lefticon")}"></i>`
                         : ""
                 }
-                ${this.getAttribute("data-label") || ""}
+                ${this.getAttribute("label") || ""}
                 ${
-                    this.getAttribute("data-righticon")
-                        ? `<i data-lucide="${this.getAttribute("data-righticon")}"></i>`
+                    this.getAttribute("righticon")
+                        ? `<i data-lucide="${this.getAttribute("righticon")}"></i>`
                         : ""
                 }
             </button>
-            ${this.getAttribute("data-link") ? `</a>` : ""}
+            ${this.getAttribute("link") ? `</a>` : ""}
         `;
 
         let btn = this.querySelector("button");
         Object.keys(this.passthroughAttributes).forEach((k) => {
-            if (k.startsWith("hx-")) {
-                if (!hasModalConfirm) {
-                    btn.setAttribute(k, this.passthroughAttributes[k]);
-                    this.removeAttribute(k);
-                }
-            }
+            btn.setAttribute(k, this.passthroughAttributes[k]);
+            this.removeAttribute(k);
         });
 
         if (this.getAttribute("confirm-modal")) {

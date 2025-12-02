@@ -7,17 +7,17 @@
             <div class="progress-bar">
                 <web-button
                     id="prev-btn"
-                    data-link="{{ prevLink | default('/') }}"
-                    data-label="{{ prevButton }}"
-                    data-theme="Primary">
+                    link="{{ prevLink | default('/') }}"
+                    label="{{ prevButton }}"
+                    theme="Primary">
                 </web-button>
                 <progress-bar step="{{ step }}"></progress-bar>
                 <web-button
                     id="next-btn"
-                    data-link="{{ nextLink }}"
-                    data-label="{{ nextButton }}"
-                    data-theme="Tertiary"
-                    data-righticon="arrow-right">
+                    link="{{ nextLink }}"
+                    label="{{ nextButton }}"
+                    theme="Tertiary"
+                    righticon="arrow-right">
                 </web-button>
             </div>
         </header>
@@ -32,9 +32,9 @@
                     <dropdown-single-select label="{{ singular }}"></dropdown-single-select>
                     <web-button
                         id="new-btn"
-                        data-label="New {{ singular }}"
-                        data-theme="Shadow"
-                        data-lefticon="{{ leftIcon }}">
+                        label="New {{ singular }}"
+                        theme="Shadow"
+                        lefticon="{{ leftIcon }}">
                     </web-button>
                 </div>
                 <div class="step-box-right">

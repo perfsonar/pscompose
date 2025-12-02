@@ -31,7 +31,7 @@ export class SingleSelectDropdown extends FormControl {
             <div class="dropdown">
                 <div class="wrapper">
                     <input type="search" />
-                    <web-button id="down-btn" type="button" data-righticon="chevron-down" data-theme="Icon"></web-button>
+                    <web-button id="down-btn" type="button" righticon="chevron-down" theme="Icon"></web-button>
                 </div>
                 <ul class="options"></ul>
             </div>
@@ -102,6 +102,13 @@ export class SingleSelectDropdown extends FormControl {
             li.addEventListener("click", (e) => this.handleOptionClick(e));
             this.optionsEl.appendChild(li);
         });
+        document.addEventListener("click", (e) => this.closeDropdownOutside(e));
+    }
+
+    closeDropdownOutside(e) {
+        if (!this.contains(e.target)) {
+            this.optionsEl.classList.remove("open");
+        }
     }
 
     render() {
@@ -115,7 +122,7 @@ export class SingleSelectDropdown extends FormControl {
         if (selectedOption) {
             this.inputEl.value = selectedOption.title;
             this.actionBtn.setAttribute("id", "deselect-btn");
-            this.actionBtn.setAttribute("data-righticon", "x");
+            this.actionBtn.setAttribute("righticon", "x");
         } else {
             this.inputEl.value = "";
             this.inputEl.placeholder = `Select ${this.label}`;
