@@ -21,9 +21,9 @@
                 <div class="save-cancel">
                     <web-button
                         type="submit"
-                        data-label="Save"
-                        data-theme="Secondary"
-                        data-righticon="save"
+                        label="Save"
+                        theme="Secondary"
+                        righticon="save"
                         confirm-modal="save-modal"
                     >
                     </web-button>
@@ -56,7 +56,12 @@
     document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        if (!document.querySelector("json-form").validate()) {
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const group_with_excludes = Boolean(datatype == 'group' && !!form_data["excludes"])
+
+        // don't validate if there is excludes
+        if (!document.querySelector("json-form").validate() && !group_with_excludes ) {
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
@@ -68,8 +73,6 @@
                 .querySelector("#save-modal")
                 .addEventListener("confirm-yes-clicked", async function (event) {
                     // 1. Retrieve jsonform data
-                    const elem = document.querySelector("json-form");
-                    const form_data = JSON.parse(elem.serializeForm());
                     const { name, ...rest } = form_data; // Need to remove name from the form
 
                     // TODO: Do we need to set "url" to something here? Is url going to always remain the same?
