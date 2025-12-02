@@ -71,7 +71,7 @@ def fetch_pscheduler_test_list() -> list[str]:
         )
 
 
-@router.get("/api/test/new/form", summary="Return the form to be rendered")
+@router.get("/test/new/form/", summary="Return the form to be rendered")
 @version(1)
 def get_form():
     # Clone and enrich the schema dynamically
@@ -93,7 +93,7 @@ def get_form():
     return JSONResponse(content=payload)
 
 
-@router.get("/api/test/new/{testType}/form", summary="Return schema for the relevant test type")
+@router.get("/test/new/{testType}/form/", summary="Return schema for the relevant test type")
 @version(1)
 def retrieve_form(testType: str):
     print("Retrieving form for test type:", testType)  # testType will be idle
@@ -239,7 +239,7 @@ def retrieve_form(testType: str):
 
 
 @router.get(
-    "/api/test/{item_id}/form",
+    "/test/{item_id}/form/",
     summary="Get the JSON Data and form data identified by the uuid-slug",
 )
 @version(1)
