@@ -58,21 +58,21 @@ export class WebModal extends HTMLElement {
                         <web-button 
                             type="button" 
                             id="confirm-no" 
-                            data-label="Cancel" 
-                            data-theme="Shadow" 
-                            data-righticon="x" 
+                            label="Cancel" 
+                            theme="Shadow" 
+                            righticon="x" 
                         ></web-button>
                         <web-button
                             id="confirm-yes"
                             ${
                                 this.getAttribute("icon")
-                                    ? `data-righticon=${this.getAttribute("icon")}`
+                                    ? `righticon=${this.getAttribute("icon")}`
                                     : ""
                             }
                             ${this.getAttribute("link") ? `link=${this.getAttribute("link")}` : ""}
                             ${this.getAttribute("hxAttr") ? `${this.getAttribute("hxAttr")}` : ""}
-                            data-label=${this.getAttribute("confirm-label")}
-                            data-theme=${this.getAttribute("theme")}
+                            label=${this.getAttribute("confirm-label")}
+                            theme=${this.getAttribute("theme")}
                         ></web-button>
                     </div>
                 </div>

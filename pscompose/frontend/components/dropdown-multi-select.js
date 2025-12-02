@@ -79,7 +79,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
                     (val) =>
                         `<span class="tag">
                         ${optionsMap.get(val) || "Option Not Found"}
-                        <web-button id="remove-tag" type="button" data-value="${val}" data-righticon="x" data-theme="Icon-Small" />
+                        <web-button id="remove-tag" type="button" value="${val}" righticon="x" theme="Icon-Small" />
                     </span>`,
                 )
                 .join("");

@@ -75,8 +75,8 @@ export class InputNumber extends InputText {
 
         const actionBtns = ` 
             <div class="buttons">
-                <web-button type="button" id="addBtn" data-theme="Icon" data-righticon="plus"></web-button>
-                <web-button type="button" id="minusBtn" data-theme="Icon" data-righticon="minus"></web-button>
+                <web-button type="button" id="addBtn" theme="Icon" righticon="plus"></web-button>
+                <web-button type="button" id="minusBtn" theme="Icon" righticon="minus"></web-button>
             </div>`;
         this.wrapperEl.insertAdjacentHTML("beforeend", actionBtns);
 

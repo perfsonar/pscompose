@@ -24,7 +24,7 @@ export class excludesDropdown extends FormControl {
     constructor() {
         super();
         this.slotEl = `
-            <web-button id="excludes-add-btn" type="button" data-label="Add" data-lefticon="plus" data-theme="Small"></web-button>
+            <web-button id="excludes-add-btn" type="button" label="Add" lefticon="plus" theme="Small"></web-button>
         `;
     }
 
@@ -118,7 +118,7 @@ export class excludesDropdown extends FormControl {
                 )}'>
                 </dropdown-multi-select>
             </div>
-            <web-button id="excludes-minus-btn" type="button" data-righticon="trash-2" data-theme="Icon"></web-button>
+            <web-button id="excludes-minus-btn" type="button" righticon="trash-2" theme="Icon"></web-button>
         `;
 
         const container = this.querySelector(".container");
@@ -178,8 +178,8 @@ export class excludesDropdown extends FormControl {
                         <web-button
                             id="excludes-minus-btn"
                             type="button"
-                            data-righticon="trash-2"
-                            data-theme="Icon">
+                            righticon="trash-2"
+                            theme="Icon">
                         </web-button>
                     </div>`;
                 })
