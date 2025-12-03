@@ -1,6 +1,6 @@
 /* FORM-CONTROL */
 
-.container {
+.form-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -8,7 +8,7 @@
     font-size: 16px;
 }
 
-.container label {
+.form-container label {
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -17,11 +17,11 @@
     white-space: nowrap;
 }
 
-.container ::placeholder {
+.form-container ::placeholder {
     color: var(--copyAlt-color);
 }
 
-[disabled] .container input-message {
+[disabled] .form-container input-message {
     display: none;
 }
 
@@ -29,7 +29,7 @@
     display: none;
 }
 
-.container .wrapper {
+.form-container .wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -45,13 +45,13 @@
     border: 1px solid #c3c7d9;
 }
 
-.container:has(input-message .error.show) .wrapper {
+.form-container:has(input-message .error.show) .wrapper {
     border: 2px solid var(--color-core-red-700, #a6111b);
     box-shadow: var(--size-border-width-none, 0) var(--size-border-width-none, 0) 0.9px 2px
         rgba(222, 0, 0, 0.26);
 }
 
-[disabled] .container .wrapper {
+[disabled] .form-container .wrapper {
     background-color: transparent;
     border: none;
     font-family: "Source Code Pro";
@@ -60,36 +60,36 @@
     padding: 0px 4px;
 }
 
-[disabled] .container:has(input-message .error.show) .wrapper {
+[disabled] .form-container:has(input-message .error.show) .wrapper {
     border: none;
     box-shadow: none;
 }
 
 /* INPUT-MESSAGE */
 
-.container input-message {
+.form-container input-message {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.container input-message .error {
+.form-container input-message .error {
     color: transparent;
 }
 
-.container input-message .error.show {
+.form-container input-message .error.show {
     color: #eb3321;
     text-align: left;
 }
 
-.container input-message .required {
+.form-container input-message .required {
     color: var(--copyAlt-color);
     text-align: right;
     font-size: 12px;
 }
 
 /* INPUT-TEXT */
-.container input {
+.form-container input {
     border: none;
     appearance: none;
     outline: none;
@@ -104,35 +104,35 @@
     color: transparent;
 }
 
-.container .wrapper:has(input:focus) {
+.form-container .wrapper:has(input:focus) {
     border: 1.5px solid var(--success-color);
 }
 
-.container .wrapper input:focus {
+.form-container .wrapper input:focus {
     border: none;
 }
 
-.container .wrapper .buttons {
+.form-container .wrapper .buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 8px;
 }
 
-[disabled] .container .wrapper input {
+[disabled] .form-container .wrapper input {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
     height: 24px;
 }
 
-[disabled] .container .wrapper .buttons {
+[disabled] .form-container .wrapper .buttons {
     display: none;
 }
 
 /* INPUT-NUMBER */
 
-.container input[type="number"] .buttons {
+.form-container input[type="number"] .buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -149,18 +149,18 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* INPUT-CHECKBOX */
 
-.container:has(input[type="checkbox"]) {
+.form-container:has(input[type="checkbox"]) {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 100%;
 }
 
-.container:has(input[type="checkbox"]) input-label {
+.form-container:has(input[type="checkbox"]) input-label {
     order: 2;
 }
 
-.container:has(input[type="checkbox"]) .wrapper {
+.form-container:has(input[type="checkbox"]) .wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -177,16 +177,16 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
-.container .wrapper input[type="checkbox"] {
+.form-container .wrapper input[type="checkbox"] {
     width: 32px;
     height: 32px;
 }
 
-.container:has(input[type="checkbox"]:checked) .wrapper {
+.form-container:has(input[type="checkbox"]:checked) .wrapper {
     background: var(--success-color);
 }
 
-.container .wrapper input[type="checkbox"]:checked::after {
+.form-container .wrapper input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
     left: 8px;
@@ -232,7 +232,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* INPUT-TEXT-AREA */
 
-.container textarea {
+.form-container textarea {
     padding: 8px 0;
 
     width: 100%;
@@ -250,12 +250,12 @@ input[type="number"]::-webkit-outer-spin-button {
     flex: 1 1 auto;
 }
 
-.container .wrapper:has(textarea:focus) {
+.form-container .wrapper:has(textarea:focus) {
     outline: none;
     border: 1.5px solid var(--success-color);
 }
 
-.container .wrapper textarea:focus {
+.form-container .wrapper textarea:focus {
     outline: none;
     border: none;
 }
@@ -280,35 +280,35 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* DROPDOWN-SELECT */
 
-.container .dropdown {
+.form-container .dropdown {
     display: flex;
     flex-direction: column;
     width: 100%;
     min-height: 40px;
 }
 
-.container .dropdown .wrapper {
+.form-container .dropdown .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.container .dropdown:has(.options.open) {
+.form-container .dropdown:has(.options.open) {
     outline: none;
     border: 1.5px solid var(--success-color);
 }
 
-.container .dropdown .wrapper:has(input:focus) {
+.form-container .dropdown .wrapper:has(input:focus) {
     outline: none;
 }
 
-.container .dropdown input[type="search"]::-webkit-search-cancel-button {
+.form-container .dropdown input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
 }
 
-.container .dropdown .options {
+.form-container .dropdown .options {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -325,7 +325,7 @@ input[type="number"]::-webkit-outer-spin-button {
         padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.container .dropdown .options.open {
+.form-container .dropdown .options.open {
     max-height: 350px;
     opacity: 1;
     padding: 8px;
@@ -333,38 +333,38 @@ input[type="number"]::-webkit-outer-spin-button {
     scrollbar-color: var(--copyAlt-color) var(--copy-color);
 }
 
-.container .dropdown li {
+.form-container .dropdown li {
     display: flex;
     flex-direction: row;
     padding: 4px;
     flex: 1;
 }
 
-.container .dropdown li.active {
+.form-container .dropdown li.active {
     background-color: rgba(var(--success-color-rgb), 0.5);
     align-items: center;
     justify-content: space-between;
 }
 
-[disabled] .container .dropdown {
+[disabled] .form-container .dropdown {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
 }
 
-[disabled] .container .dropdown web-button {
+[disabled] .form-container .dropdown web-button {
     display: none;
 }
 
 /* DROPDOWN-MULTI-SELECT */
 
-.container .tags {
+.form-container .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.container .tag {
+.form-container .tag {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -377,7 +377,7 @@ input[type="number"]::-webkit-outer-spin-button {
     font-weight: 600;
 }
 
-.container .remove-tag {
+.form-container .remove-tag {
     display: flex;
     cursor: pointer;
     background: transparent;
@@ -385,7 +385,7 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
-dropdown-multi-select[disabled] .container .dropdown {
+dropdown-multi-select[disabled] .form-container .dropdown {
     display: none;
 }
 
@@ -400,7 +400,7 @@ dropdown-multi-select[disabled] .container .dropdown {
 
 /* EXCLUDES DROPDOWN */
 
-.container .excludes-container {
+.form-container .excludes-container {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
@@ -414,12 +414,12 @@ dropdown-multi-select[disabled] .container .dropdown {
         transform 0.3s ease;
 }
 
-.container .excludes-container.show {
+.form-container .excludes-container.show {
     opacity: 1;
     transform: translateY(0);
 }
 
-.container .excludes-container.removing {
+.form-container .excludes-container.removing {
     opacity: 0;
     transform: translateY(-50px);
     transition:
@@ -427,48 +427,48 @@ dropdown-multi-select[disabled] .container .dropdown {
         transform 0.3s ease;
 }
 
-.container .excludes-container .dropdown-container {
+.form-container .excludes-container .dropdown-container {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     flex: 1;
 }
 
-.container .excludes-container .dropdown-container label {
+.form-container .excludes-container .dropdown-container label {
     font-size: 14px;
     font-weight: 500;
 }
 
-.container .excludes-container .dropdown-container dropdown-single-select,
+.form-container .excludes-container .dropdown-container dropdown-single-select,
 dropdown-multi-select {
     flex: 1;
 }
 
-.container .excludes-container #excludes-minus-btn {
+.form-container .excludes-container #excludes-minus-btn {
     display: flex;
     margin-top: 14px;
 }
 
-.container .excludes-table {
+.form-container .excludes-table {
     display: none;
 }
 
-[disabled] .container .excludes-container {
+[disabled] .form-container .excludes-container {
     display: none;
 }
 
-[disabled] .container .excludes-table {
+[disabled] .form-container .excludes-table {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-[disabled] .container .excludes-table tr {
+[disabled] .form-container .excludes-table tr {
     display: flex;
     border-bottom: 2px solid rgba(var(--shadow-color-rgb), 0.3);
 }
 
-[disabled] .container .excludes-table th {
+[disabled] .form-container .excludes-table th {
     width: 100%;
     padding: 8px;
     background-color: rgba(var(--surface2-color-rgb), 0.3);
@@ -476,14 +476,14 @@ dropdown-multi-select {
     font-size: 14px;
 }
 
-[disabled] .container .excludes-table td {
+[disabled] .form-container .excludes-table td {
     width: 100%;
     font-family: "Source Code Pro";
     color: var(--copyAlt-color);
     padding: 8px;
 }
 
-[disabled] .container .excludes-container #excludes-minus-btn {
+[disabled] .form-container .excludes-container #excludes-minus-btn {
     display: none;
 }
 
@@ -622,7 +622,7 @@ web-button[theme="Icon-Success"] button {
     background-color: transparent;
     color: var(--success-color);
     border: 2px solid var(--success-color);
-    padding: 0.5rem 1rem;
+    padding: 0.2rem 0.5rem;
 }
 
 web-button[theme="Icon-Success"] button:hover {
