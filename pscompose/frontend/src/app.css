@@ -323,7 +323,11 @@ thead {
 /* BOX */
 
 .list-box {
-    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 shadow-mediumInset rounded-2xl;
+    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 rounded-2xl;
+}
+
+.list-box:hover {
+    @apply translate-y-[-1px] scale-[1.02];
 }
 
 .box-header {
