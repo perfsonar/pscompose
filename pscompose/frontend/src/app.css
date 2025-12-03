@@ -55,12 +55,15 @@ h6 {
     @apply text-h6_sans font-sans;
 }
 
+svg {
+    @apply flex-shrink-0;
+}
+
 /* PAGE SETUP */
 
 html,
 body {
-    @apply flex min-h-full m-none text-copy;
-    font-size: 16px;
+    @apply flex min-h-full m-none text-copy text-base;
 }
 
 .packets-ui {
@@ -76,7 +79,7 @@ body {
 }
 
 #page-content {
-    @apply flex-grow;
+    @apply flex flex-col md:flex-row flex-grow;
 }
 
 /* MESSAGE BANNER */
@@ -145,9 +148,7 @@ nav {
 }
 
 .left-nav-item:hover {
-    @apply text-copyAlt;
-    transform: translateX(1px);
-    transition: transform 0.2s ease-in-out;
+    @apply text-copyAlt translate-x-[1px] transition-transform duration-200 ease-in-out;
 }
 
 .left-nav-item p {
@@ -165,29 +166,33 @@ nav {
 /* SUB NAVIGATION */
 
 .parent-item {
-    @apply relative;
+    @apply relative md:transition-all;
 }
 
 .submenu-container {
     @apply flex-1 bg-surface_2;
     width: 0;
     opacity: 0;
-    overflow: hidden; /* hides content during collapse */
+    overflow: hidden;
     transition:
         width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+
+    @apply fixed inset-0 h-screen left-[7.5rem] top-16;
+    @apply md:static md:inset-auto md:h-auto;
 }
 
 .submenu-container.open {
-    width: 20vw; /* or whatever target width you want */
-    opacity: 1;
+    width: calc(100vw - 7.5rem);
+    @apply md:w-[25rem] opacity-100;
 }
 
 .submenu-container.close {
     width: 0;
     opacity: 0;
 }
+
 
 .submenu-container.close.hidden {
     transition:
@@ -196,7 +201,7 @@ nav {
 }
 
 .submenu {
-    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-[20vw] min-w-[220px] mb-xxlg;
+    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-full mb-xxlg;
 }
 
 .submenu h1 {
@@ -212,9 +217,7 @@ nav {
 }
 
 .submenu li:hover {
-    @apply text-copyAlt;
-    transform: translateX(1px);
-    transition: transform 0.2s ease-in-out;
+    @apply text-copyAlt translate-x-[1px] transition-transform duration-200 ease-in-out;
 }
 
 .submenu .active {
@@ -226,10 +229,7 @@ nav {
 }
 
 .submenu .submenu-header {
-    @apply flex flex-col mb-xsm gap-lg;
-
-    @apply lg:flex-col lg:items-start lg:gap-md;
-    @apply xl:flex-row xl:justify-between xl:items-center;
+    @apply flex flex-row justify-between items-center mb-xsm gap-lg;
 }
 
 .submenu #submenu-search {
@@ -250,7 +250,11 @@ nav {
 }
 
 .getting-started-boxes {
-    @apply flex flex-row gap-md;
+    @apply flex flex-col gap-md md:flex-row;
+}
+
+.published-templates {
+    @apply flex flex-col gap-md;
 }
 
 .table-container {
@@ -275,15 +279,13 @@ thead {
 }
 
 .th-content svg {
-    flex-shrink: 0; /* Icons NEVER shrink */
     width: 24px;
     height: 24px;
-    flex-basis: 24px; /* Fixed base size */
+    flex-basis: 24px; 
 }
 
 .th-content span {
-    @apply flex-1 text-h5_sans whitespace-nowrap overflow-hidden text-ellipsis;
-    min-width: 0; /* Allow text to shrink */
+    @apply flex-1 text-h5_sans whitespace-nowrap overflow-hidden;
 }
 
 .td-content {
@@ -297,11 +299,11 @@ thead {
 /* SHORT CUT PANEL  */
 
 .shortcuts {
-    @apply flex flex-col bg-surface_1 items-center py-xlg px-lg gap-lg h-full;
+    @apply flex flex-col items-center gap-md w-full;
 }
 
 .shortcuts-container {
-    @apply flex-1 bg-surface_2;
+    @apply flex flex-col flex-1 bg-background gap-xlg md:bg-surface_1 py-xlg px-xxlg md:px-xlg ;
     width: 0;
     opacity: 0;
     overflow: hidden; 
@@ -309,11 +311,11 @@ thead {
         width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+
 }
 
 .shortcuts-container.open {
-    width: 20vw; 
-    opacity: 1;
+    @apply w-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100;
 }
 
 .shortcuts-container.close {
@@ -336,18 +338,22 @@ thead {
     @apply flex flex-col w-full gap-md;
 }
 
-/* BOX */
-
-.list-box {
-    @apply flex flex-col p-md gap-md w-full bg-surface_2 rounded-2xl w-full;
-}
-
 .shortcuts .list-box:hover {
     @apply translate-y-[-1px] scale-[1.02];
 }
 
+/* BOX */
+
+.list-box {
+    @apply flex flex-col p-lg gap-md w-full bg-surface_2 rounded-2xl w-full;
+}
+
 .box-header {
     @apply flex items-center flex-row gap-xsm;
+}
+
+.box-header svg {
+    @apply w-lg h-lg;
 }
 
 .box-name {
@@ -355,7 +361,7 @@ thead {
 }
 
 .box-text {
-    @apply font-[0.8rem];
+    @apply font-[0.8rem] text-copyAlt;
 }
 
 /* WIZARD  */
