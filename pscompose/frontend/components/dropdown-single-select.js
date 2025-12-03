@@ -31,7 +31,7 @@ export class SingleSelectDropdown extends FormControl {
             <div class="dropdown">
                 <div class="wrapper">
                     <input type="search" />
-                    <web-button id="down-btn" type="button" righticon="chevron-down" theme="Icon"></web-button>
+                    <web-button id="down-btn" type="button" righticon="chevron-down" theme="Icon-Simple"></web-button>
                 </div>
                 <ul class="options"></ul>
             </div>
