@@ -1,6 +1,5 @@
 <div class="shortcuts-container" aria-label="Shortcuts panel">
-    <section class="shortcuts" aria-labelledby="shortcuts-heading">
-        <section class="shortcuts-section" aria-labelledby="recently-edited-heading">
+        <section class="shortcuts" aria-labelledby="recently-edited-heading">
             <h3 id="recently-edited-heading" class="shortcuts-title">Recently Edited</h3>
             <ul
                 class="recently-edited-container"
@@ -11,7 +10,7 @@
                 <p>No items found.</p>
             </ul>
         </section>
-        <section class="shortcuts-section" aria-labelledby="favorites-heading">
+        <section class="shortcuts" aria-labelledby="favorites-heading">
             <h3 id="favorites-heading" class="shortcuts-title">Favorites</h3>
             <ul
                 class="favorites-container"
@@ -70,14 +69,14 @@
                     {% for item in data %}
                     <a href="{{ item.link }}"
                         <li class="list-box" aria-labelledby="shortcut-{{ item.id }}">
-                            <header class="box-header" id="shortcut-{{ item.id }}">
+                            <div class="box-header" id="shortcut-{{ item.id }}">
                                 <i
                                     data-lucide="{{ item.icon }}"
                                     class="shortcut-icon"
                                     aria-hidden="true"
                                 ></i>
                                 <h4 class="box-name">{{ item.name }}</h4>
-                            </header>
+                            </div>
                             <p class="box-text">
                                 <span class="visually-hidden">Last edited </span>
                                 <br/>
@@ -124,4 +123,5 @@
     }
 
     if (window.location.pathname == "/") showShortcuts();
+    if (window.location.pathname != "/") hideShortcuts();
 </script>
