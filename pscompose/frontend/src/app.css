@@ -202,7 +202,17 @@ nav {
 }
 
 .submenu li {
-    @apply flex flex-row items-start gap-4 px-md py-xxsm;
+    @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer;
+}
+
+.submenu li {
+    @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
+}
+
+.submenu li:hover {
+    @apply text-copyAlt;
+    transform: translateX(1px);
+    transition: transform 0.2s ease-in-out;
 }
 
 .submenu .active {
@@ -285,7 +295,7 @@ thead {
 /* SHORT CUT PANEL  */
 
 .shortcuts {
-    @apply flex flex-col bg-surface_1 items-center py-xlg px-lg gap-md h-full;
+    @apply flex flex-col bg-surface_1 items-center py-xlg px-lg gap-lg h-full;
 }
 
 .shortcuts-container {
@@ -320,13 +330,17 @@ thead {
     @apply flex flex-col w-full items-center gap-md;
 }
 
+.shortcuts-section {
+    @apply flex flex-col w-full gap-md;
+}
+
 /* BOX */
 
 .list-box {
-    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 rounded-2xl;
+    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 rounded-2xl w-full;
 }
 
-.list-box:hover {
+.shortcuts .list-box:hover {
     @apply translate-y-[-1px] scale-[1.02];
 }
 
