@@ -141,7 +141,13 @@ nav {
 }
 
 .left-nav-item {
-    @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm;
+    @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
+}
+
+.left-nav-item:hover {
+    @apply text-copyAlt;
+    transform: translateX(1px);
+    transition: transform 0.2s ease-in-out;
 }
 
 .left-nav-item p {
@@ -201,11 +207,7 @@ nav {
     @apply flex flex-col gap-xsm;
 }
 
-.submenu li {
-    @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer;
-}
-
-.submenu li {
+.submenu-item {
     @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
 }
 
