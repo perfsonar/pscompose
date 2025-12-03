@@ -71,7 +71,7 @@ body {
 }
 
 #router-target {
-    @apply flex justify-start items-center flex-col py-xlg px-xxlg gap-5;
+    @apply flex w-full justify-start items-center flex-col py-xlg px-xxlg gap-5;
 }
 
 .backdrop {
@@ -79,13 +79,13 @@ body {
 }
 
 #page-content {
-    @apply flex flex-col md:flex-row flex-grow;
+    @apply flex flex-col w-full mb-xxlg md:flex-row md:mb-none flex-grow;
 }
 
 /* MESSAGE BANNER */
 
 #response-container:not(:has(#confirm-modal)) {
-    @apply flex flex-row overflow-hidden w-full max-h-0 pt-0 pb-0 opacity-0 bg-copyAlt text-center text-copy justify-center items-center gap-xsm;
+    @apply flex flex-row overflow-hidden max-h-0 pt-0 pb-0 opacity-0 bg-copyAlt text-center text-copy justify-center items-center gap-xsm;
     transition:
         max-height 1.2s ease,
         padding-top 1.2s ease,
@@ -303,8 +303,9 @@ thead {
 }
 
 .shortcuts-container {
-    @apply flex flex-col flex-1 bg-background gap-xlg md:bg-surface_1 py-xlg px-xxlg md:px-xlg ;
+    @apply flex flex-col flex-1 bg-background gap-xlg md:bg-surface_1;
     width: 0;
+    height: 0;
     opacity: 0;
     overflow: hidden; 
     transition:
@@ -315,7 +316,7 @@ thead {
 }
 
 .shortcuts-container.open {
-    @apply w-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100;
+    @apply w-full h-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100 py-xlg px-xxlg md:px-xlg ;
 }
 
 .shortcuts-container.close {
@@ -364,7 +365,13 @@ thead {
     @apply font-[0.8rem] text-copyAlt;
 }
 
-/* WIZARD  */
+/* IMPORT */
+
+.import-page {
+    @apply flex flex-col gap-xlg items-center;
+}
+
+/* WIZARD */
 
 .wizard-page {
     @apply flex flex-col gap-xlg items-center;
@@ -451,7 +458,7 @@ thead {
 
 .datatype.edit-form .content,
 .datatype.new-form .content {
-    @apply flex flex-col gap-lg w-[50vw] pb-xxlg;
+    @apply flex flex-col gap-lg w-full md:w-[50vw] pb-xxlg;
 }
 
 :where(.packets-ui .vertical-layout) {
