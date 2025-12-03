@@ -7,7 +7,7 @@ endif
 
 .PHONY: run-api
 run-api:
-	uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000
+	uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000 --root-path /api
 
 .PHONY: docker-build
 docker-build:
