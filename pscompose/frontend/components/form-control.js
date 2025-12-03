@@ -74,7 +74,7 @@ export class FormControl extends HTMLElement {
 
     renderControl() {
         this.innerHTML = `
-            <div class="container">
+            <div class="form-container">
                 <input-label 
                     label="${this.label}" 
                     desc="${this.description}">
