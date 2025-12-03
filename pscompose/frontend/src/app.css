@@ -339,7 +339,7 @@ thead {
 /* BOX */
 
 .list-box {
-    @apply flex flex-col p-md gap-xsm w-full bg-surface_2 rounded-2xl w-full;
+    @apply flex flex-col p-md gap-md w-full bg-surface_2 rounded-2xl w-full;
 }
 
 .shortcuts .list-box:hover {
