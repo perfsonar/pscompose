@@ -160,6 +160,7 @@
 
         submenuContainer.classList.add("hidden");
         submenuContainer.classList.remove("close");
+        psCompose.activeMenuItem = null;
     }
 
     submenuContainer.addEventListener("input", (e) => {
@@ -184,10 +185,10 @@
     parentMenuItems.forEach((elem) => {
         elem.addEventListener("click", async () => {
             const clickedMenu = elem.dataset.submenu;
+            const curActiveMenuItem = psCompose.activeMenuItem;
             await hideSubmenu();
 
-            if (psCompose.activeMenuItem === clickedMenu) {
-                psCompose.activeMenuItem = null;
+            if (curActiveMenuItem === clickedMenu) {
                 if (window.location.pathname == "/") showShortcuts();
                 clearActiveClasses(".left-nav .parent-item");
                 return;
