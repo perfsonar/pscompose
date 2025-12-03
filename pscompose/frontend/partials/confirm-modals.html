@@ -17,6 +17,8 @@
 </web-modal>
 
 <script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Insert api/find results
