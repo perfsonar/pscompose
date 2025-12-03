@@ -86,7 +86,7 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 document.body.addEventListener("json-form:mounted", (event) => {
     if (event.detail[0].target.readonly == "true") {
         webComponents.forEach((component) => {
-            document.querySelector('#data-form').querySelectorAll(component).forEach((comp) => {
+            document.querySelector('.datatype').querySelectorAll(component).forEach((comp) => {
                 comp.disabled = true;
             });
         });
@@ -95,7 +95,7 @@ document.body.addEventListener("json-form:mounted", (event) => {
 
 document.body.addEventListener("json-form:updated", (event) => {
     webComponents.forEach((component) => {
-        document.querySelector('#data-form').querySelectorAll(component).forEach((comp) => {
+        document.querySelector('.datatype').querySelectorAll(component).forEach((comp) => {
             if (event.detail[0].target.readonly == "true") {
                 comp.disabled = true;
             } else {
