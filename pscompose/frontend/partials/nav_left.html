@@ -121,6 +121,17 @@
         highlightActiveSubmenu(id);
     }
 
+    window.addEventListener("popstate", (event) => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) return;
+
+        psCompose.activeRoute.id = id;
+        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-target");
+        highlightActiveSubmenu(id);
+    });
+
     function filterSubmenuItems(searchValue) {
         const filter = searchValue.trim().toLowerCase();
         const items = document.querySelectorAll("#submenu-list li");
@@ -135,13 +146,15 @@
         if (submenuContainer.classList.contains("open")) return;
         if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
 
+        if (!psCompose.activeMenuItem) psCompose.activeMenuItem = window.location.pathname.split("/")[1];
+
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
         submenuContainer.classList.remove("close");
 
         submenuContainer.innerHTML = `
           <div
-            hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}'
+            hx-get='${psCompose.menu[psCompose.activeMenuItem].list_endpoint}/'
             hx-trigger='load'
             hx-target='.submenu-container'
             nunjucks-array-template="submenu-template"
