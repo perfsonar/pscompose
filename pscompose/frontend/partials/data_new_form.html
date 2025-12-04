@@ -5,7 +5,7 @@
             <input-checkbox-star></input-checkbox-star>
         </div>
         <div class="content">
-            <form id="data-form">
+            <form id="data-new-form">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     <i class="spinner" data-lucide="loader-circle"></i>
                 </fieldset>
@@ -52,7 +52,7 @@
     });
 
     // Save
-    document.getElementById("data-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-new-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const elem = document.querySelector("json-form");
@@ -123,7 +123,7 @@
         }
     });
 
-    document.getElementById("data-form").addEventListener("change", async function (event) {
+    document.getElementById("data-new-form").addEventListener("change", async function (event) {
         console.log(
             "Change event detected:",
             event.target.name,
