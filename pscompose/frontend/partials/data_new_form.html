@@ -58,10 +58,10 @@
 
         const elem = document.querySelector("json-form");
         const form_data = JSON.parse(elem.serializeForm());
-        const group_with_excludes = Boolean(datatype == 'group' && !!form_data["excludes"])
+        const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
 
         // don't validate if there is excludes
-        if (!document.querySelector("json-form").validate() && !group_with_excludes ) {
+        if (!document.querySelector("json-form").validate() && !group_with_excludes) {
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
@@ -173,9 +173,20 @@
             }
 
             function mergeSchema(baseSchema, versionData) {
+                // Remove old version-specific properties but keep name, type, _meta, and version
+                const keysToKeep = ["name", "type", "_meta", "version"];
+                const keysToRemove = Object.keys(baseSchema.properties).filter(
+                    (key) => !keysToKeep.includes(key),
+                );
+                keysToRemove.forEach((key) => delete baseSchema.properties[key]);
+
+                // Add new version's properties
                 Object.assign(baseSchema.properties, versionData.properties);
+
+                // Set required fields - keep base required fields plus new version's required
+                const baseRequired = ["name", "type"];
                 baseSchema.required = [
-                    ...new Set([...(baseSchema.required || []), ...(versionData.required || [])]),
+                    ...new Set([...baseRequired, ...(versionData.required || [])]),
                 ];
             }
 
@@ -215,17 +226,17 @@
                 ensureVersionDropdown(group);
 
                 // --- Add Version field to JSON and UI schema to show list of versions ---
-                if (!baseSchema.properties.version) {
-                    baseSchema.properties.version = {
-                        type: "string",
-                        title: "Version",
-                        oneOf: versions.map((v) => ({
-                            const: v,
-                            title: `Version ${v}`,
-                        })),
-                        default: highestVersion,
-                    };
-                }
+                console.log("baseSchema.properties.version ", baseSchema.properties.version);
+                baseSchema.properties.version = {
+                    type: "string",
+                    title: "Version",
+                    oneOf: versions.map((v) => ({
+                        const: v,
+                        title: `Version ${v}`,
+                    })),
+                    default: highestVersion,
+                };
+                console.log("AFTER baseSchema.properties.version ", baseSchema.properties.version);
 
                 // Load schema and UI schema for highest version
                 const versionData = additionalSchema.spec.jsonschema.versions[highestVersion];
@@ -234,19 +245,42 @@
                 mergeSchema(baseSchema, versionData);
                 mergeLayout(group, uiVersionData);
 
+                // Get current form data and initialize with default values
+                const currentFormData = JSON.parse(elem.serializeForm());
+
+                // Initialize all version-specific fields with their default values or clear them
+                Object.keys(versionData.properties).forEach((key) => {
+                    const property = versionData.properties[key];
+                    if (property.default !== undefined) {
+                        // Set to default value
+                        currentFormData[key] = property.default;
+                    } else {
+                        // No default, clear the field
+                        delete currentFormData[key];
+                    }
+                });
+
+                currentFormData.version = String(highestVersion);
+                currentFormData.schema = highestVersion;
+
                 // --- APPLY TO FORM ---
                 elem.setAttribute("schema-data", JSON.stringify(baseSchema));
                 elem.setAttribute("layout-data", JSON.stringify(baseLayout));
+                elem.setAttribute("form-data", JSON.stringify(currentFormData));
 
-                console.log("Idle Schema:", baseSchema);
-                console.log("Idle UI Schema:", baseLayout);
+                console.log("Schema:", baseSchema);
+                console.log("UI Schema:", baseLayout);
+                console.log("Form Data:", currentFormData);
             }
 
             function updateIdleVersion(selectedVersion, additionalSchema) {
-                console.log("Updating to Idle version:", selectedVersion, additionalSchema);
+                console.log("Updating to version:", selectedVersion, additionalSchema);
                 const elem = document.querySelector("json-form");
                 const currentSchema = JSON.parse(elem.schemaData);
                 const currentLayout = JSON.parse(elem.layoutData);
+
+                // Get current form values from the serialized form, not the initial formData
+                const currentFormData = JSON.parse(elem.serializeForm());
 
                 const versionData = additionalSchema.spec.jsonschema.versions[selectedVersion];
                 const uiVersionData = additionalSchema.spec.uischema.versions[selectedVersion];
@@ -260,11 +294,43 @@
 
                 mergeLayout(group, uiVersionData);
 
+                // Clean up form data - remove fields that are no longer in the new version's schema
+                // and reset fields to their new default values (or empty if no default)
+                const newSchemaProperties = new Set(Object.keys(versionData.properties));
+                newSchemaProperties.add("name"); // Keep base fields
+                newSchemaProperties.add("type");
+                newSchemaProperties.add("_meta");
+                newSchemaProperties.add("version");
+
+                // Remove fields that don't exist in the new version
+                Object.keys(currentFormData).forEach((key) => {
+                    if (!newSchemaProperties.has(key)) {
+                        delete currentFormData[key];
+                    }
+                });
+
+                // Reset all version-specific fields to their default values or clear them
+                Object.keys(versionData.properties).forEach((key) => {
+                    const property = versionData.properties[key];
+                    if (property.default !== undefined) {
+                        // Set to new default value
+                        currentFormData[key] = property.default;
+                    } else {
+                        // No default, clear the field if it exists
+                        delete currentFormData[key];
+                    }
+                });
+
+                // Keep version as string in form data so dropdown can match it
+                currentFormData.version = String(selectedVersion);
+
                 elem.setAttribute("schema-data", JSON.stringify(currentSchema));
                 elem.setAttribute("layout-data", JSON.stringify(currentLayout));
+                elem.setAttribute("form-data", JSON.stringify(currentFormData));
 
-                console.log("New Idle Schema:", currentSchema);
-                console.log("New Idle UI Schema:", currentLayout);
+                console.log("New Schema:", currentSchema);
+                console.log("New UI Schema:", currentLayout);
+                console.log("New Form Data:", currentFormData);
             }
         }
     });
