@@ -4,7 +4,7 @@
             <h2 id="data-name"></h2>
             <div class="header-icons">
                 <input-checkbox-star></input-checkbox-star>
-                <web-button id="edit-icon" theme="Icon"></web-button>
+                <web-button id="edit-icon" righticon="edit" theme="Icon"></web-button>
             </div>
         </div>
         <div class="content">
@@ -65,28 +65,31 @@
         showSubmenu();
     } 
 
-    // Setting the hx-get attribute dynamically
-    // Include edit parameter if in edit mode
-    var editParam = params.get("edit") ? "?edit=true" : "";
+    function editMode(bool) {
+        document.querySelector("json-form").setAttribute("readonly", String(!bool));
+        if (bool) hideSubmenu();
+    }
+
+    // Setting the hx-get attribute dynamically 
     document
         .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}/${id}/form/${editParam}`);
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}/${id}/form/`);
 
     // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
-
-        // Header
         document.getElementById("data-name").textContent = elem?.data?.name;
-        document
-            .getElementById("edit-icon")
-            .setAttribute("link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
-        document.getElementById("edit-icon").setAttribute("righticon", "edit");
+        editMode(params.get("edit"))
+    });
 
-        if (!!params.get("edit")) {
-            document.querySelector("json-form").setAttribute("readonly", "false");
-            hideSubmenu();
-        }
+    document.getElementById("edit-icon").addEventListener("click", (event) => {
+        const editURL = `${psCompose.activeRoute.page_url}?id=${id}&edit=true`;
+        window.history.pushState({}, "", editURL);
+        editMode(true);
+    })
+
+    window.addEventListener("popstate", (event) => {
+        editMode(params.get("edit"))
     });
 
     // Save
