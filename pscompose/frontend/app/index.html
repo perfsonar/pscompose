@@ -55,12 +55,14 @@
         <script src="/partials/customRenderer.js" type="module"></script>
         <script src="/components/message-banner.js"></script>
 
+        <script src="/static/settings.js"></script>
         <script>
             document.addEventListener("htmx:afterRequest", function (evt) {
                 lucide.createIcons();
             });
 
-            window.API_BASE_URL = "http://0.0.0.0:8000/";
+            if(!window.BASE_URL) window.BASE_URL = window.location.origin;
+            if (!window.API_BASE_URL) window.API_BASE_URL = `${window.BASE_URL}/api`
 
             // probably we'll need something like this too:
             /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
@@ -76,10 +78,12 @@
         <div class="backdrop">
             <nav hx-get="/partials/nav_left.html" hx-trigger="load"></nav>
             <main id="page-content">
-                <div id="response-container"></div>
-                <div id="router-target"></div>
+                <div class="flex flex-col w-full">
+                    <div id="response-container"></div>
+                    <div id="router-target"></div>
+                </div>
+                <div class="inline-flex" hx-get="/partials/nav_shortcuts.html" hx-trigger="load"></div>
             </main>
-            <div class="flex" hx-get="/partials/nav_shortcuts.html" hx-trigger="load"></div>
         </div>
         <script>
             // nunjucks environment setup: add 'logger' and 'escape_property' filters
@@ -156,7 +160,7 @@
                             plural: "Addresses",
                             page_url: "/wizard/1/addresses/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}address/`,
+                            list_endpoint: `${window.API_BASE_URL}/address/`,
                             icon: "hard-drive-download",
                             desc: "Addresses represent the systems involved in your tests and measurements. Make sure that all addresses required for your groups are present in the list below.",
                         },
@@ -168,7 +172,7 @@
                             plural: "Groups",
                             page_url: "/wizard/2/groups/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}group/`,
+                            list_endpoint: `${window.API_BASE_URL}/group/`,
                             icon: "group",
                             desc: "Groups describe how addresses are combined when building the list of tasks. Make sure that all groups required for your tasks are included in the list below.",
                             link: "https://docs.perfsonar.net/psconfig_templates_intro.html#groups",
@@ -181,7 +185,7 @@
                             plural: "Archives",
                             page_url: "/wizard/3/archives/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}archive/`,
+                            list_endpoint: `${window.API_BASE_URL}/archive/`,
                             icon: "database",
                             desc: "Archives are optional components that specify where the results of your tasks will be stored. Make sure that all archives required for your tasks are included in the list below.",
                             link: "https://docs.perfsonar.net/psconfig_templates_intro.html#archives",
@@ -194,7 +198,7 @@
                             plural: "Schedules",
                             page_url: "/wizard/4/schedules/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}schedule/`,
+                            list_endpoint: `${window.API_BASE_URL}/schedule/`,
                             icon: "calendar-check",
                             desc: "Schedules are optional components that specify how often to run each task. Make sure that all schedules required for your tasks are included in the list below.",
                             link: "https://docs.perfsonar.net/psconfig_templates_intro.html#schedules",
@@ -207,7 +211,7 @@
                             plural: "Tests",
                             page_url: "/wizard/5/tests/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}test/`,
+                            list_endpoint: `${window.API_BASE_URL}/test/`,
                             icon: "flask-conical",
                             desc: "Tests define the parameters of the job to be carried out by the task. Make sure that all tests required for your tasks are included in the list below.",
                             link: "https://docs.perfsonar.net/psconfig_templates_intro.html#tests",
@@ -220,7 +224,7 @@
                             plural: "Tasks",
                             page_url: "/wizard/6/tasks/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}task/`,
+                            list_endpoint: `${window.API_BASE_URL}/task/`,
                             icon: "clipboard-list",
                             desc: "Tasks are jobs that include a set of input addresses (defined by a group), a test with the necessary parameters, and an optional schedule and/or archive. Make sure that all tasks required for your template are included in the list below.",
                         },
@@ -232,7 +236,7 @@
                             plural: "Templates",
                             page_url: "/wizard/7/create_template/",
                             page_template: "/pages/wizard/wizard.html",
-                            list_endpoint: `${window.API_BASE_URL}template/`,
+                            list_endpoint: `${window.API_BASE_URL}/template/`,
                             icon: "locate",
                             desc: "You have reached the final step!<br />Please enter a name for the template, select all tasks you want to include, and save your changes.",
                         },
@@ -244,7 +248,7 @@
                             plural: "Templates",
                             page_url: "/wizard/8/template/",
                             page_template: "/pages/wizard/saved_template.html",
-                            list_endpoint: `${window.API_BASE_URL}template/`,
+                            list_endpoint: `${window.API_BASE_URL}/template/`,
                             icon: "locate",
                         },
                     ],
@@ -253,7 +257,7 @@
                         plural: "Addresses",
                         page_url: "/addresses/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}address/`,
+                        list_endpoint: `${window.API_BASE_URL}/address/`,
                         icon: "hard-drive-download",
                     },
                     archives: {
@@ -261,7 +265,7 @@
                         plural: "Archives",
                         page_url: "/archives/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}archive/`,
+                        list_endpoint: `${window.API_BASE_URL}/archive/`,
                         icon: "database",
                     },
                     contexts: {
@@ -269,7 +273,7 @@
                         plural: "Contexts",
                         page_url: "/contexts/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}ontext/`,
+                        list_endpoint: `${window.API_BASE_URL}/context/`,
                         icon: "file-question",
                     },
                     groups: {
@@ -277,7 +281,7 @@
                         plural: "Groups",
                         page_url: "/groups/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}group/`,
+                        list_endpoint: `${window.API_BASE_URL}/group/`,
                         icon: "group",
                     },
                     schedules: {
@@ -285,7 +289,7 @@
                         plural: "Schedules",
                         page_url: "/schedules/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}schedule/`,
+                        list_endpoint: `${window.API_BASE_URL}/schedule/`,
                         icon: "calendar-check",
                     },
                     tasks: {
@@ -293,7 +297,7 @@
                         plural: "Tasks",
                         page_url: "/tasks/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}api/task/`,
+                        list_endpoint: `${window.API_BASE_URL}/task/`,
                         icon: "clipboard-list",
                     },
                     templates: {
@@ -301,7 +305,7 @@
                         plural: "Templates",
                         page_url: "/templates/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}template/`,
+                        list_endpoint: `${window.API_BASE_URL}/template/`,
                         icon: "locate",
                     },
                     tests: {
@@ -309,7 +313,7 @@
                         plural: "Tests",
                         page_url: "/tests/",
                         page_template: "/pages/data_form.html",
-                        list_endpoint: `${window.API_BASE_URL}test/`,
+                        list_endpoint: `${window.API_BASE_URL}/test/`,
                         icon: "flask-conical",
                     },
                 },
