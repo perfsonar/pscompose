@@ -1,10 +1,27 @@
-<div class="shortcuts-container">
-    <div class="shortcuts">
-        <h2 class="shortcuts-title">Recently Edited</h2>
-        <div class="recently-edited-container"><p>No items found.</p></div>
-        <h3 class="shortcuts-title" style="padding-top: 3rem">Favorites</h3>
-        <div class="favorites-container"><p>No items found.</p></div>
-    </div>
+<div class="shortcuts-container" aria-label="Shortcuts panel">
+        <section class="shortcuts" aria-labelledby="recently-edited-heading">
+            <h3 id="recently-edited-heading" class="shortcuts-title">Recently Edited</h3>
+            <ul
+                class="recently-edited-container"
+                role="status"
+                aria-live="polite"
+                aria-busy="true"
+            >
+                <p>No items found.</p>
+            </ul>
+        </section>
+        <section class="shortcuts" aria-labelledby="favorites-heading">
+            <h3 id="favorites-heading" class="shortcuts-title">Favorites</h3>
+            <ul
+                class="favorites-container"
+                role="status"
+                aria-live="polite"
+                aria-busy="true"
+            >
+                <p>No items found.</p>
+            </ul>
+        </section>
+    </section>
 </div>
 
 <script>
@@ -43,33 +60,45 @@
             data.forEach((item) => {
                 item.formatted_date = formatDate(item.last_edited_at);
                 item.icon = psCompose.metadata[singularToPlural[item.type]].icon;
+                item.link = psCompose.metadata[singularToPlural[item.type]].page_url + '?id=' + item.id;
             });
 
 
             const template = `
                 {% if data.length > 0 %}
                     {% for item in data %}
-                        <div class="list-box">
-                            <div class="box-header" id="{{ item.id }}">
-                                <i data-lucide="{{ item.icon }}" style="height: 32px;"></i>
+                    <a href="{{ item.link }}"
+                        <li class="list-box" aria-labelledby="shortcut-{{ item.id }}">
+                            <div class="box-header" id="shortcut-{{ item.id }}">
+                                <i
+                                    data-lucide="{{ item.icon }}"
+                                    class="shortcut-icon"
+                                    aria-hidden="true"
+                                ></i>
                                 <h4 class="box-name">{{ item.name }}</h4>
                             </div>
-                            <p class="box-text">{{ item.formatted_date }}</p>
-                        </div>
+                            <p class="box-text">
+                                <span class="visually-hidden">Last edited </span>
+                                <br/>
+                                {{ item.formatted_date }}
+                            </p>
+                        </li>
+                    </a>
                     {% endfor %}
                 {% else %}
                     <p>No items found.</p>
                 {% endif %}
             `;
             container.innerHTML = nunjucks.renderString(template, { data, psCompose });
+            lucide.createIcons();
         } catch (err) {
             console.error(`Error loading ${apiEndpoint}:`, err);
-            container.innerHTML = "<p>Failed to load items.</p>";
+            container.innerHTML = "<p role='alert'>Failed to load items. Please try again later.</p>";
         }
     }
 
-    loadSection(`${window.API_BASE_URL}recently_edited/`, ".recently-edited-container")
-    // loadSection(`${window.API_BASE_URL}favorites`, ".favorites-container");
+    loadSection(`${window.API_BASE_URL}/recently_edited/`, ".recently-edited-container")
+    // loadSection(`${window.API_BASE_URL}/favorites`, ".favorites-container");
 
     const shortcutsContainer = document.querySelector(".shortcuts-container");
 
@@ -94,4 +123,5 @@
     }
 
     if (window.location.pathname == "/") showShortcuts();
+    if (window.location.pathname != "/") hideShortcuts();
 </script>

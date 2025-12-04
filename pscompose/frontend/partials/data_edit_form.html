@@ -47,7 +47,6 @@
                         righticon="x"
                     >
                     </web-button>
-                    <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
                 </div>
             </form>
         </div>
@@ -125,7 +124,7 @@
 
                     // 2. Put request to api
                     try {
-                        const response = await fetch(`${window.API_BASE_URL}${datatype}/${id}/`, {
+                        const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/`, {
                             method: "PUT",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(updated_data),
@@ -163,7 +162,7 @@
                 const deleteFailMsg = "Something went wrong while deleting" + datatype + ".";
 
                 try {
-                    const response = await fetch(`${window.API_BASE_URL}${datatype}/${id}/`, {
+                    const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/`, {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                     });
