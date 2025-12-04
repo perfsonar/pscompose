@@ -66,7 +66,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
                 )
                 .join("");
             const tags = `<div class="tags">${tagsHTML}</div>`;
-            this.querySelector(".container").insertAdjacentHTML("beforeend", tags);
+            this.querySelector(".form-container").insertAdjacentHTML("beforeend", tags);
         }
 
         this.attachOptionClickHandler();

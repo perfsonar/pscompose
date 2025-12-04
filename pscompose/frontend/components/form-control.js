@@ -86,7 +86,7 @@ export class FormControl extends HTMLElement {
                 </input-message>
             </div>
         `;
-        this.containerEl = this.querySelector(".container");
+        this.containerEl = this.querySelector(".form-container");
     }
 
     render() {}
