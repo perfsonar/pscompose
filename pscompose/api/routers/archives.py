@@ -64,3 +64,340 @@ def get_existing_form(item_id: str):
         "form_data": response_json,
     }
     return JSONResponse(content=payload)
+
+
+@router.get("/api/archive/new/{archiver}/form", summary="Return schema for the relevant archiver")
+@version(1)
+def retrieve_form(archiver: str):
+    print("Retrieving form for archiver type:", archiver)  # archiver will be http
+    if archiver != "http":
+        return JSONResponse(content={})
+
+    http_schema = {
+        "schema": 1,
+        "name": "http",
+        "description": "Send a raw JSON result to a HTTP server",
+        "version": "1.0",
+        "maintainer": {
+            "name": "perfSONAR Development Team",
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+        },
+        "spec": {
+            "jsonschema": {
+                "versions": {
+                    1: {
+                        "type": "object",
+                        "properties": {
+                            "schema": {"title": "Schema Version", "type": "integer", "enum": [1]},
+                            "_url": {
+                                "title": "URL",
+                                "type": "string",
+                                "format": "uri",
+                            },
+                            "op": {
+                                "title": "Operation",
+                                "type": "string",
+                                "enum": [
+                                    "put",
+                                    "post",
+                                ],
+                            },
+                            "bind": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255,
+                                "pattern": r"^[A-Za-z0-9_][A-Za-z0-9\-]{0,62}(\.[A-Za-z0-9][A-Za-z0-9\-]{1,62})*\.?$",  # noqa: E501
+                            },
+                            # "retry-policy": {
+                            #     "type": "array",
+                            #     "items": {
+                            #         "$ref": "#/pScheduler/RetryPolicyEntry"
+                            #     }
+                            # }
+                        },
+                        "required": ["_url"],
+                        "additionalProperties": False,
+                    },
+                    2: {
+                        "type": "object",
+                        "properties": {
+                            "schema": {"title": "Schema Version", "type": "integer", "enum": [2]},
+                            "_url": {
+                                "title": "URL",
+                                "type": "string",
+                                "format": "uri",
+                            },
+                            "op": {
+                                "title": "Operation",
+                                "type": "string",
+                                "enum": [
+                                    "put",
+                                    "post",
+                                ],
+                            },
+                            "_headers": {
+                                "title": "Headers",
+                                "type": "object",
+                            },
+                            # Not complete
+                            "bind": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255,
+                                "pattern": r"^[A-Za-z0-9_][A-Za-z0-9\-]{0,62}(\.[A-Za-z0-9][A-Za-z0-9\-]{1,62})*\.?$",  # noqa: E501
+                            },
+                            # "retry-policy": {
+                            #     "type": "array",
+                            #     "items": {
+                            #         "$ref": "#/pScheduler/RetryPolicyEntry"
+                            #     }
+                            # }
+                        },
+                        "required": ["schema", "_url"],
+                        "additionalProperties": False,
+                    },
+                    3: {
+                        "type": "object",
+                        "properties": {
+                            "schema": {"title": "Schema Version", "type": "integer", "enum": [3]},
+                            "_url": {
+                                "title": "URL",
+                                "type": "string",
+                                "format": "uri",
+                            },
+                            "op": {
+                                "title": "Operation",
+                                "type": "string",
+                                "enum": [
+                                    "put",
+                                    "post",
+                                ],
+                            },
+                            "verify-ssl": {"title": "Verify SSL Certificate", "type": "boolean"},
+                            "_headers": {
+                                "type": "object",
+                            },
+                            # Not complete
+                            "bind": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255,
+                                "pattern": r"^[A-Za-z0-9_][A-Za-z0-9\-]{0,62}(\.[A-Za-z0-9][A-Za-z0-9\-]{1,62})*\.?$",  # noqa: E501
+                            },
+                            # "retry-policy": {
+                            #     "type": "array",
+                            #     "items": {
+                            #         "$ref": "#/pScheduler/RetryPolicyEntry"
+                            #     }
+                            # }
+                        },
+                        "required": ["schema", "_url"],
+                        "additionalProperties": False,
+                    },
+                    4: {
+                        "type": "object",
+                        "properties": {
+                            "schema": {"title": "Schema Version", "type": "integer", "enum": [4]},
+                            "_url": {
+                                "title": "URL",
+                                "type": "string",
+                                "format": "uri",
+                            },
+                            "op": {
+                                "title": "Operation",
+                                "type": "string",
+                                "enum": [
+                                    "put",
+                                    "post",
+                                ],
+                            },
+                            "verify-ssl": {"title": "Verify SSL Certificate", "type": "boolean"},
+                            "_headers": {
+                                "title": "Headers",
+                                "type": "object",
+                            },
+                            "timeout": {
+                                "title": "Timeout",
+                                "type": "string",
+                                "pattern": r"^P(?:\d+(?:\.\d+)?W)?(?:\d+(?:\.\d+)?D)?(?:T(?:\d+(?:\.\d+)?H)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?S)?)?$",  # noqa: E501
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            },
+                            # Not complete
+                            "bind": {
+                                "title": "Bind Address",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255,
+                                "pattern": r"^[A-Za-z0-9_][A-Za-z0-9\-]{0,62}(\.[A-Za-z0-9][A-Za-z0-9\-]{1,62})*\.?$",  # noqa: E501
+                            },
+                            # "retry-policy": {
+                            #     "type": "array",
+                            #     "items": {
+                            #         "$ref": "#/pScheduler/RetryPolicyEntry"
+                            #     }
+                            # }
+                        },
+                        "required": ["schema", "_url"],
+                        "additionalProperties": False,
+                    },
+                },
+            },
+            "uischema": {
+                "versions": {
+                    1: {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/schema",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "input-text",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "input-text",
+                            },
+                            # {
+                            #     "type": "Control",
+                            #     "scope": "#/properties/retry-policy",
+                            #     "customComponent": "input-text",
+                            # },
+                        ],
+                    },
+                    2: {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/schema",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "input-text",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_headers",
+                                "customComponent": "input-text-area",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "input-text",
+                            },
+                            # {
+                            #     "type": "Control",
+                            #     "scope": "#/properties/retry-policy",
+                            #     "customComponent": "input-text",
+                            # },
+                        ],
+                    },
+                    3: {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/schema",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "input-text",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/verify-ssl",
+                                "customComponent": "input-checkbox",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_headers",
+                                "customComponent": "input-text-area",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "input-text",
+                            },
+                            # {
+                            #     "type": "Control",
+                            #     "scope": "#/properties/retry-policy",
+                            #     "customComponent": "input-text",
+                            # },
+                        ],
+                    },
+                    4: {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/schema",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "input-text",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "dropdown-single-select",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_headers",
+                                "customComponent": "input-text-area",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/verify-ssl",
+                                "customComponent": "input-checkbox",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/timeout",
+                                "customComponent": "input-text",
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "input-text",
+                            },
+                            # {
+                            #     "type": "Control",
+                            #     "scope": "#/properties/retry-policy",
+                            #     "customComponent": "input-text",
+                            # },
+                        ],
+                    },
+                },
+            },
+            "versions": [None, "1", "2", "3", "4"],
+        },
+    }
+    return JSONResponse(content=http_schema)

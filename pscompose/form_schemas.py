@@ -503,10 +503,6 @@ TEST_SCHEMA = {
             "description": "Type of test to be performed",
             "oneOf": [],
         },
-        "spec": {
-            "type": "string",
-            "title": "Spec",
-        },
         "_meta": {
             "type": "string",
             "title": "Other Meta",
@@ -529,7 +525,6 @@ TEST_UI_SCHEMA = {
             "scope": "#/properties/type",
             "customComponent": "dropdown-single-select",
         },
-        {"type": "Control", "scope": "#/properties/spec", "customComponent": "input-text-area"},
         # Dynamically fill this out
         {
             "type": "Group",
@@ -540,11 +535,6 @@ TEST_UI_SCHEMA = {
             "elements": [],
         },
         {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
-        # {"type": "Control", "scope": "#/properties/host", "customComponent": "dropdown-single-select"},
-        # {"type": "Control", "scope": "#/properties/host-node", "customComponent": "input-text"},
-        # {"type": "Control", "scope": "#/properties/parting-comment", "customComponent": "input-text"},
-        # {"type": "Control", "scope": "#/properties/schema", "customComponent": "input-text"},
-        # {"type": "Control", "scope": "#/properties/starting-comment", "customComponent": "input-text"},
     ],
 }
 
