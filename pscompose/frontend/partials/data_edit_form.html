@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="content">
-            <form id="data-form" method="GET">
+            <form id="data-edit-form" method="GET">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     <i class="spinner" data-lucide="loader-circle"></i>
                 </fieldset>
@@ -76,7 +76,7 @@
         .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}/${id}/form/`);
 
     // Set Up JSON Form
-    document.body.addEventListener("json-form:mounted", (event) => {
+    document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
         document.getElementById("data-name").textContent = elem?.data?.name;
         editMode(params.get("edit"))
@@ -93,7 +93,7 @@
     });
 
     // Save
-    document.getElementById("data-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-edit-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const elem = document.querySelector("json-form");
