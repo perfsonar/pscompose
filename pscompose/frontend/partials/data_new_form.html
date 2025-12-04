@@ -51,6 +51,8 @@
         document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
     });
 
+    hideSubmenu();
+
     // Save
     document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
