@@ -6,6 +6,7 @@
     gap: 8px;
     flex: 1 1 auto;
     font-size: 16px;
+    min-height: 56px;
 }
 
 .form-container label {
@@ -284,7 +285,6 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 40px;
 }
 
 .form-container .dropdown .wrapper {
