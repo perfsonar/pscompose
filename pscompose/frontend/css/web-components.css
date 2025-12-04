@@ -511,9 +511,10 @@ web-button button {
     border: 2px solid var(--success-color);
 
     font-weight: 700;
+    white-space: nowrap;
 
-  cursor: pointer;
-  transition: all 150ms ease-in-out;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
 }
 
 web-button button:hover {
