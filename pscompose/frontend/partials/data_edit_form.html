@@ -89,8 +89,11 @@
     document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        if (!document.querySelector("json-form").validate()) {
-            // GROUP FORM CANT BE SUBMITTED -> mIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
+
+        if (!document.querySelector("json-form").validate() && !group_with_excludes) {
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
