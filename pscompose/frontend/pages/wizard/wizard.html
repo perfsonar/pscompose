@@ -143,7 +143,7 @@
 
         if (isNew) {
             url.searchParams.set("new", "true");
-            dropdown.setAttribute("value", "");
+            dropdown.value = '';
             container.innerHTML = `
                 <div style='width: 100%' 
                     hx-get="/partials/data_new_form.html" 
@@ -152,6 +152,7 @@
         } else if (id) {
             url.searchParams.set("id", id);
             psCompose.activeRoute.id = id;
+            dropdown.value = id;
             container.innerHTML = `
                 <div style='width: 100%'
                     hx-get="/partials/data_edit_form.html" 
