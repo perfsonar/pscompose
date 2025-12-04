@@ -443,11 +443,15 @@ thead {
 /* HOST EDIT FORM */
 
 .header {
-    @apply flex flex-row items-center w-full;
+    @apply flex flex-col items-start md:items-center w-full gap-xsm md:flex-row ;
 }
 
 .header #data-name {
     @apply flex-1 text-center;
+}
+
+.header .header-icons {
+    @apply flex gap-xsm items-center; 
 }
 
 .datatype.error-form .page,
