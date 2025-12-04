@@ -61,10 +61,8 @@
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Open submenu when not wizard page
-    showSubmenu();
-
-    if (psCompose.activeRoute.section === "wizard" || window.innerWidth < 1025) {
-        hideSubmenu();
+    if (psCompose.activeRoute.section !== "wizard" && window.innerWidth > 1025) {
+        showSubmenu();
     } 
 
     // Setting the hx-get attribute dynamically
@@ -72,7 +70,7 @@
     var editParam = params.get("edit") ? "?edit=true" : "";
     document
         .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/${editParam}`);
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}/${id}/form/${editParam}`);
 
     // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", (event) => {
