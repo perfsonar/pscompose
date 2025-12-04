@@ -2,8 +2,10 @@
     <div class="page">
         <div class="header">
             <h2 id="data-name"></h2>
-            <input-checkbox-star></input-checkbox-star>
-            <web-button id="edit-icon" theme="Icon"></web-button>
+            <div class="header-icons">
+                <input-checkbox-star></input-checkbox-star>
+                <web-button id="edit-icon" theme="Icon"></web-button>
+            </div>
         </div>
         <div class="content">
             <form id="data-form" method="GET">
@@ -59,11 +61,15 @@
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Open submenu when not wizard page
-    if (psCompose.activeRoute.section != "wizard") showSubmenu();
+    showSubmenu();
+
+    if (psCompose.activeRoute.section === "wizard" || window.innerWidth < 1025) {
+        hideSubmenu();
+    } 
 
     // Setting the hx-get attribute dynamically
     // Include edit parameter if in edit mode
-    const editParam = params.get("edit") ? "?edit=true" : "";
+    var editParam = params.get("edit") ? "?edit=true" : "";
     document
         .getElementById("content")
         .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/${editParam}`);
