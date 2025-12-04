@@ -99,7 +99,9 @@
     function renderHighlight() {
         clearActiveClasses(".left-nav .parent-item");
         const activeMenuItem = document.querySelector(`.left-nav #${psCompose.activeMenuItem}`);
-        if (activeMenuItem) activeMenuItem.classList.add("active");
+        if (!activeMenuItem) return;
+        activeMenuItem.classList.add("active");
+        activeMenuItem.setAttribute("aria-expanded", "true");
         highlightActiveSubmenu(psCompose.activeRoute?.id);
     }
 
@@ -136,6 +138,7 @@
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
         submenuContainer.classList.remove("close");
+        if (!psCompose.activeMenuItem) psCompose.activeMenuItem = psCompose.activeRoute.plural.toLowerCase();
 
         submenuContainer.innerHTML = `
           <div
@@ -147,12 +150,14 @@
           </div>`;
 
         htmx.process(submenuContainer);
+        renderHighlight();
         submenuContainer.classList.add("open");
     }
 
     async function hideSubmenu() {
         if (submenuContainer.classList.contains("hidden")) return;
 
+        clearActiveClasses(".left-nav .parent-item");
         submenuContainer.classList.remove("open");
         submenuContainer.classList.add("close");
 
@@ -186,19 +191,17 @@
         elem.addEventListener("click", async () => {
             const clickedMenu = elem.dataset.submenu;
             const curActiveMenuItem = psCompose.activeMenuItem;
+
             await hideSubmenu();
 
             if (curActiveMenuItem === clickedMenu) {
                 if (window.location.pathname == "/") showShortcuts();
-                clearActiveClasses(".left-nav .parent-item");
                 return;
             }
 
-            clearActiveClasses(".left-nav .parent-item");
-            elem.classList.add("active");
-            elem.setAttribute("aria-expanded", "true");
             psCompose.activeMenuItem = clickedMenu;
             showSubmenu();
         });
     });
+
 </script>
