@@ -193,7 +193,6 @@ nav {
     opacity: 0;
 }
 
-
 .submenu-container.close.hidden {
     transition:
         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -281,7 +280,7 @@ thead {
 .th-content svg {
     width: 24px;
     height: 24px;
-    flex-basis: 24px; 
+    flex-basis: 24px;
 }
 
 .th-content span {
@@ -307,16 +306,15 @@ thead {
     width: 0;
     height: 0;
     opacity: 0;
-    overflow: hidden; 
+    overflow: hidden;
     transition:
         width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
-
 }
 
 .shortcuts-container.open {
-    @apply w-full h-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100 py-xlg px-xxlg md:px-xlg ;
+    @apply w-full h-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100 py-xlg px-xxlg md:px-xlg;
 }
 
 .shortcuts-container.close {
@@ -501,6 +499,7 @@ thead {
 
 :where(.packets-ui .horizontal-layout-item):has(
         input-text,
+        input-text-autocomplete,
         input-number,
         dropdown-multi-select,
         dropdown-single-select
