@@ -25,8 +25,8 @@ def generate_router(datatype: str):
 
     router.sanitize = sanitize_input
 
-    # Endpoint for retrieving all records of a given datatype (e.g., GET /template)
-    # List endpoint (e.g., GET /template)
+    # Endpoint for retrieving all records of a given datatype (e.g., GET /template/)
+    # List endpoint (e.g., GET /template/)
     @router.get(f"/{datatype}/", summary=f"List all {datatype}s")
     @version(1)
     def list_items():
@@ -34,7 +34,7 @@ def generate_router(datatype: str):
         return rows
 
     # Endpoint for CREATING a new record
-    # Create endpoint (e.g., POST /template)
+    # Create endpoint (e.g., POST /template/)
     @router.post(f"/{datatype}/", summary=f"Create a new {datatype}")
     @version(1)
     def create_item(
@@ -73,7 +73,7 @@ def generate_router(datatype: str):
             raise HTTPException(status_code=500, detail=str(e))
 
     # Endpoint for UPDATING an existing record
-    # Update endpoint (e.g., PUT /template/uuid-slug)
+    # Update endpoint (e.g., PUT /template/uuid-slug/)
     @router.put(f"/{datatype}/{{item_id}}/", summary=f"Update a {datatype}")
     @version(1)
     def update_item(
@@ -84,7 +84,6 @@ def generate_router(datatype: str):
         logger.debug("UPDATE Unsanitized data:", updated_data)
         sanitized_data = router.sanitize(updated_data)
         logger.debug("UPDATE sanitized data:", sanitized_data)
-
         # Convert sanitized dict into a proper DataTableUpdate object
         try:
             updated_data = DataTableUpdate(**sanitized_data)
@@ -104,7 +103,7 @@ def generate_router(datatype: str):
         return response
 
     # Endpoint for DELETING an existing record
-    # Delete endpoint (e.g., DELETE /template)
+    # Delete endpoint (e.g., DELETE /template/)
     @router.delete(f"/{datatype}/{{item_id}}/", summary=f"Delete a {datatype}")
     @version(1)
     def delete_item(

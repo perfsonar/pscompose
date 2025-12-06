@@ -5,7 +5,7 @@
             <input-checkbox-star></input-checkbox-star>
         </div>
         <div class="content">
-            <form id="data-form">
+            <form id="data-new-form">
                 <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
                     <i class="spinner" data-lucide="loader-circle"></i>
                 </fieldset>
@@ -44,7 +44,7 @@
     // Setting the hx-get attribute dynamically
     document
         .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}new/form`);
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}new/form/`);
 
     // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", () => {
@@ -52,7 +52,7 @@
     });
 
     // Save
-    document.getElementById("data-form").addEventListener("submit", async function (event) {
+    document.getElementById("data-new-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const elem = document.querySelector("json-form");
@@ -136,12 +136,18 @@
     // Store base schema properties when first loaded (before any version merging)
     var baseSchemaPropertiesNew = null;
 
-    document.getElementById("data-form").addEventListener("change", async function (event) {
+    document.getElementById("data-new-form").addEventListener("change", async function (event) {
         console.log(
             "Change event detected:",
             event.target.name,
             event.target.label,
             event.target.value,
+        );
+        console.log(
+            "Change event detected:",
+            psCompose.activeMenuItem,
+            datatype,
+            event.target.label,
         );
 
         // --- Handle test selection change for tasks (update tools dropdown) ---
@@ -221,11 +227,20 @@
         }
 
         // Dynamically update schema for certain types
+        console.log(
+            "Checking type change - activeMenuItem:",
+            psCompose.activeMenuItem,
+            "datatype:",
+            datatype,
+            "event.target.label:",
+            event.target.label,
+        );
         if (psCompose.activeMenuItem === "tests" || psCompose.activeMenuItem === "archives") {
             const elem = document.querySelector("json-form");
 
             // --- Handle type change (test type or archive type) ---
             if (event.target.label === "Type") {
+                console.log("Type changed to:", event.target.value);
                 selectedType = event.target.value;
                 additionalSchema = await getAdditionalSchema(selectedType);
                 handleTypeChange(selectedType, additionalSchema);
@@ -234,7 +249,7 @@
             // --- Fetch from FastAPI backend ---
             async function getAdditionalSchema(type) {
                 try {
-                    const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form`;
+                    const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form/`;
                     const res = await fetch(url, {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },

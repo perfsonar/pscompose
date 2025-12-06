@@ -410,11 +410,19 @@ thead {
 }
 
 .step-box {
-    @apply flex bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
+    @apply flex flex-col lg:flex-row bg-surface_1 border-md border-shadow rounded-xxl w-full flex-1 p-lg gap-xxlg;
 }
 
 .step-box-left {
-    @apply flex flex-col gap-md rounded-l-xxl flex-[0.3];
+    @apply flex flex-row items-end lg:items-start lg:flex-col gap-md rounded-l-xxl flex-[0.3];
+}
+
+.step-box-left dropdown-single-select {
+    @apply w-full;
+}
+
+.step-box-left #new-btn {
+    @apply mb-xxsm;
 }
 
 .step-box-right {
@@ -441,11 +449,15 @@ thead {
 /* HOST EDIT FORM */
 
 .header {
-    @apply flex flex-row items-center w-full;
+    @apply flex flex-col items-start md:items-center w-full gap-xsm md:flex-row;
 }
 
 .header #data-name {
     @apply flex-1 text-center;
+}
+
+.header .header-icons {
+    @apply flex gap-xsm items-center;
 }
 
 .datatype.error-form .page,

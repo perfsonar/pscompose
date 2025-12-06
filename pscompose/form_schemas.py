@@ -1395,37 +1395,39 @@ throughput_schema = {
                         },
                         "source": {
                             "title": "Source",
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
-                            # "default": "{% address[0] %}",
+                            "type": "string",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
+                            "default": "{% address[0] %}",
                         },
                         "source-node": {
                             "title": "Source Node",
                             "type": "string",
-                            # "default": "{% pscheduler_address[0] %}",
+                            "default": "{% pscheduler_address[0] %}",
                         },
                         "dest": {
                             "title": "Destination",
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
-                            # "default": "{% address[1] %}",
+                            "type": "string",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
+                            "default": "{% address[1] %}",
                         },
                         "dest-node": {
                             "title": "Destination Node",
                             "type": "string",
-                            # "default": "{% pscheduler_address[1] %}",
+                            "default": "{% pscheduler_address[1] %}",
                         },
                         "duration": {
                             "title": "Duration",
@@ -1944,37 +1946,42 @@ latency_schema = {
                         "source": {
                             "description": "The address of the entity sending packets in this test",  # noqa: E501
                             "title": "Source",
-                            ""
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
+                            "type": "string",
+                            "default": "{% address[0] %}",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
                         },
                         "source-node": {
                             "description": "The address of the source pScheduler node, if different",  # noqa: E501
                             "title": "Source Node",
                             "type": "string",
+                            "default": "{% pscheduler_address[0] %}",
                         },
                         "dest": {
                             "description": "The address of the entity receiving packets in this test",  # noqa: E501
                             "title": "Destination",
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
+                            "type": "string",
+                            "default": "{% address[1] %}",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
                         },
                         "dest-node": {
                             "description": "The address of the destination pScheduler node, if different",  # noqa: E501
                             "title": "Destination Node",
                             "type": "string",
+                            "default": "{% pscheduler_address[1] %}",
                         },
                         "protocol": {
                             "description": "The protocol to use in making the measurement",
@@ -2068,36 +2075,42 @@ latency_schema = {
                         "source": {
                             "description": "The address of the entity sending packets in this test",  # noqa: E501
                             "title": "Source",
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
+                            "type": "string",
+                            "default": "{% address[0] %}",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
                         },
                         "source-node": {
                             "description": "The address of the source pScheduler node, if different",  # noqa: E501
                             "title": "Source Node",
                             "type": "string",
+                            "default": "{% pscheduler_address[0] %}",
                         },
                         "dest": {
                             "description": "The address of the entity receiving packets in this test",  # noqa: E501
                             "title": "Destination",
-                            "oneOf": [
-                                {"type": "string", "format": "ipv4"},
-                                {"type": "string", "format": "ipv6"},
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
-                                },
-                            ],
+                            "type": "string",
+                            "default": "{% address[1] %}",
+                            # "oneOf": [
+                            #     {"type": "string", "format": "ipv4"},
+                            #     {"type": "string", "format": "ipv6"},
+                            #     {
+                            #         "type": "string",
+                            #         "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",  # noqa: E501
+                            #     },
+                            # ],
                         },
                         "dest-node": {
                             "description": "The address of the destination pScheduler node, if different",  # noqa: E501
                             "title": "Destination Node",
                             "type": "string",
+                            "default": "{% pscheduler_address[1] %}",
                         },
                         "packet-count": {
                             "description": "The number of packets to send",

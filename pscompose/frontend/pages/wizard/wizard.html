@@ -104,6 +104,10 @@
 
         await populateDropdown(activeRoute?.list_endpoint);
         setupEventListeners(meta.icon);
+
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("id")) loadForm({id: params.get("id"), icon: meta.icon});
+        if (params.get("new")) loadForm({ isNew: true, icon: meta.icon });
     })();
 
     async function populateDropdown(endpoint) {
@@ -124,42 +128,42 @@
         }
     }
 
+    const container = document.querySelector(".step-box-right");
+    const dropdown = document.querySelector("dropdown-single-select");
+    const newBtn = document.getElementById("new-btn");
+
     function setupEventListeners(defaultIcon = "info") {
-        const container = document.querySelector(".step-box-right");
-        const dropdown = document.querySelector("dropdown-single-select");
-        const newBtn = document.getElementById("new-btn");
+        dropdown?.addEventListener("change", (evt) => loadForm({ id: evt.target.value, icon: defaultIcon}));
+        newBtn?.addEventListener("click", () => loadForm({ isNew: true, icon: defaultIcon }));
+    }
 
-        function loadForm({ id = null, isNew = false } = {}) {
-            const url = new URL(window.location.href);
-            url.search = "";
+    function loadForm({ id = null, isNew = false,  icon="info" } = {}) {
+        const url = new URL(window.location.href);
+        url.search = "";
 
-            if (isNew) {
-                url.searchParams.set("new", "true");
-                dropdown.setAttribute("value", "");
-                container.innerHTML = `
-                    <div style='width: 100%' 
-                        hx-get="/partials/data_new_form.html" 
-                        hx-trigger="load">
-                    </div>`;
-            } else if (id) {
-                url.searchParams.set("id", id);
-                psCompose.activeRoute.id = id;
-                container.innerHTML = `
-                    <div style='width: 100%'
-                        hx-get="/partials/data_edit_form.html" 
-                        hx-trigger="load">
-                    </div>`;
-            } else {
-                container.innerHTML = `<i style="color: var(--shadow-color); width: 150; height: 150" data-lucide='${defaultIcon}'></i>`;
-            }
-
-            window.history.pushState({}, "", url.toString());
-            htmx.process(container);
-            lucide.createIcons();
+        if (isNew) {
+            url.searchParams.set("new", "true");
+            dropdown.value = '';
+            container.innerHTML = `
+                <div style='width: 100%' 
+                    hx-get="/partials/data_new_form.html" 
+                    hx-trigger="load">
+                </div>`;
+        } else if (id) {
+            url.searchParams.set("id", id);
+            psCompose.activeRoute.id = id;
+            dropdown.value = id;
+            container.innerHTML = `
+                <div style='width: 100%'
+                    hx-get="/partials/data_edit_form.html" 
+                    hx-trigger="load">
+                </div>`;
+        } else {
+            container.innerHTML = `<i style="color: var(--shadow-color); width: 150; height: 150" data-lucide='${defaultIcon}'></i>`;
         }
 
-        // Attach Event Listeners
-        dropdown?.addEventListener("change", (evt) => loadForm({ id: evt.target.value }));
-        newBtn?.addEventListener("click", () => loadForm({ isNew: true }));
+        window.history.pushState({}, "", url.toString());
+        htmx.process(container);
+        lucide.createIcons();
     }
 </script>

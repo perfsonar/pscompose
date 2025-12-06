@@ -1,6 +1,7 @@
 <div class="homepage" role="main" aria-label="pSCompose Homepage">
     <header role="banner" aria-labelledby="getting-started-heading">
         <h1 id="getting-started-heading">Getting Started</h1>
+        <br />
         <p class="getting-started-p" id="welcome-text">
             Welcome to pSCompose!
             <br />
@@ -9,11 +10,16 @@
             Do you need to import an existing template?
         </p>
     </header>
-    
+
     <ul class="getting-started-boxes" aria-label="Template creation options">
         <li class="list-box">
             <div class="box-header">
-                <i class="lucide" style="color: var(--copy-color)" data-lucide="locate" aria-hidden="true"></i>
+                <i
+                    class="lucide"
+                    style="color: var(--copy-color)"
+                    data-lucide="locate"
+                    aria-hidden="true"
+                ></i>
                 <h4 class="box-name">Import Template</h4>
                 <web-button
                     link="/import/1/import_template/"
@@ -23,9 +29,8 @@
                 ></web-button>
             </div>
             <p class="box-text">
-                Import an existing template json by uploading the file or copying and pasting the json directly.
-                <br />
-                You can make edits as needed once imported
+                Import an existing template json by uploading the file or copying and pasting the
+                json directly. You can make edits as needed once imported
             </p>
         </li>
 
@@ -40,13 +45,11 @@
                     aria-label="Create a new template from scratch"
                 ></web-button>
             </div>
-            <p class="box-text">
-                This will walk you through creating a new template from scratch
-            </p>
+            <p class="box-text">This will walk you through creating a new template from scratch</p>
         </li>
     </ul>
 
-    <section class='published-templates' aria-labelledby="published-templates-heading">
+    <section class="published-templates" aria-labelledby="published-templates-heading">
         <h3 id="published-templates-heading">Published Templates</h3>
         <table aria-label="Published Templates Table">
             <thead>
@@ -69,12 +72,12 @@
                             <span>Interval</span>
                         </div>
                     </th>
-                    <th scope="col">
+                    <!-- <th scope="col">
                         <div class="th-content">
                             <i class="lucide" data-lucide="hard-drive-download" aria-hidden="true"></i>
                             <span>Test Members</span>
                         </div>
-                    </th>
+                    </th> -->
                     <th scope="col">
                         <div class="th-content">
                             <i class="lucide" data-lucide="check-circle-2" aria-hidden="true"></i>
@@ -89,10 +92,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody
-                nunjucks-array-template="published-templates-tbody"
-            >
-            </tbody>
+            <tbody nunjucks-array-template="published-templates-tbody"></tbody>
         </table>
     </section>
 </div>
@@ -104,7 +104,7 @@
                 <td class="td-content">{{item.name}}</td>
                 <td class="td-content">{{item.tasks}}</td>
                 <td class="td-content">{{item.interval}}</td>
-                <td class="td-content">{{item.host_members}}</td>
+                <!-- <td class="td-content">{{item.host_members}}</td> -->
                 <td>
                 {% if item.enabled? %}
                 <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)" aria-hidden="true"></i>
@@ -112,13 +112,13 @@
                 <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--copyAlt-color)" aria-hidden="true"></i>
                 {% endif %}
                 </td>
-                <td> 
+                <td>
                 <div class="action-icons">
                     <i class="lucide" data-lucide="settings" style="height: 24;" aria-hidden="true"></i>
                     <i class="lucide" data-lucide="trash-2" style="height: 24;" aria-hidden="true"></i>
                 </div>
                 </td>
-            </tr> 
+            </tr>
         {% endfor %}
     {% else %}
         <tr>
@@ -130,10 +130,10 @@
 </script>
 <script>
     // api call for published templates table
-    const table = document.querySelector('tbody');
-    table.setAttribute('hx-get', psCompose.metadata['templates'].list_endpoint);
+    const table = document.querySelector("tbody");
+    table.setAttribute("hx-get", psCompose.metadata["templates"].list_endpoint);
     table.setAttribute("hx-trigger", "load");
-    htmx.process(table)
+    htmx.process(table);
 </script>
 
 <!-- need to update published templated td-content accordingly -->

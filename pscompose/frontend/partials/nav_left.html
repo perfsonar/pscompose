@@ -1,47 +1,128 @@
 <nav class="menu" aria-label="Menu Navigation">
     <ul class="left-nav" role="menu" aria-label="Primary menu" aria-orientation="vertical">
-        <li role="menuitem" class="parent-item left-nav-item" id="templates" data-submenu="templates" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-templates">
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="templates"
+            data-submenu="templates"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-templates"
+        >
             <i data-lucide="locate" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
             <p>Templates</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="tasks" data-submenu="tasks" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-tasks">
-            <i data-lucide="clipboard-list" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="tasks"
+            data-submenu="tasks"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-tasks"
+        >
+            <i
+                data-lucide="clipboard-list"
+                style="width: 2rem; height: 2rem"
+                aria-hidden="true"
+            ></i>
             <p>Tasks</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="contexts" data-submenu="contexts" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-contexts">
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="contexts"
+            data-submenu="contexts"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-contexts"
+        >
             <i data-lucide="file-question" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
             <p>Contexts</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="tests" data-submenu="tests" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-tests">
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="tests"
+            data-submenu="tests"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-tests"
+        >
             <i data-lucide="flask-conical" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
             <p>Tests</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="archives" data-submenu="archives" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-archives">
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="archives"
+            data-submenu="archives"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-archives"
+        >
             <i data-lucide="database" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
             <p>Archives</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="schedules" data-submenu="schedules" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-schedules">
-            <i data-lucide="calendar-check" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="schedules"
+            data-submenu="schedules"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-schedules"
+        >
+            <i
+                data-lucide="calendar-check"
+                style="width: 2rem; height: 2rem"
+                aria-hidden="true"
+            ></i>
             <p>Schedules</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="groups" data-submenu="groups" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-groups">
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="groups"
+            data-submenu="groups"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-groups"
+        >
             <i data-lucide="group" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
             <p>Groups</p>
         </li>
 
-        <li role="menuitem" class="parent-item left-nav-item" id="addresses" data-submenu="addresses" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-content-addresses">
-            <i data-lucide="hard-drive-download" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+        <li
+            role="menuitem"
+            class="parent-item left-nav-item"
+            id="addresses"
+            data-submenu="addresses"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="submenu-content-addresses"
+        >
+            <i
+                data-lucide="hard-drive-download"
+                style="width: 2rem; height: 2rem"
+                aria-hidden="true"
+            ></i>
             <p>Addresses</p>
         </li>
     </ul>
 
-    <div class="submenu-container hidden" role="region" aria-live="polite" aria-label="Submenu content"></div>
+    <div
+        class="submenu-container hidden"
+        role="region"
+        aria-live="polite"
+        aria-label="Submenu content"
+    ></div>
 
     <script id="submenu-template" type="nunjucks">
         <div class='submenu' id='submenu-content' role='region' aria-label='{{data.psCompose.menu[data.psCompose.activeMenuItem].plural}} submenu'>
@@ -99,7 +180,9 @@
     function renderHighlight() {
         clearActiveClasses(".left-nav .parent-item");
         const activeMenuItem = document.querySelector(`.left-nav #${psCompose.activeMenuItem}`);
-        if (activeMenuItem) activeMenuItem.classList.add("active");
+        if (!activeMenuItem) return;
+        activeMenuItem.classList.add("active");
+        activeMenuItem.setAttribute("aria-expanded", "true");
         highlightActiveSubmenu(psCompose.activeRoute?.id);
     }
 
@@ -119,6 +202,17 @@
         highlightActiveSubmenu(id);
     }
 
+    window.addEventListener("popstate", (event) => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) return;
+
+        psCompose.activeRoute.id = id;
+        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-target");
+        highlightActiveSubmenu(id);
+    });
+
     function filterSubmenuItems(searchValue) {
         const filter = searchValue.trim().toLowerCase();
         const items = document.querySelectorAll("#submenu-list li");
@@ -132,6 +226,16 @@
     async function showSubmenu() {
         if (submenuContainer.classList.contains("open")) return;
         if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
+
+        if (!psCompose.activeMenuItem) {
+            const pathParts = window.location.pathname.split("/");
+            // For wizard URLs like /wizard/3/archives/, extract the actual datatype from part [3]
+            if (pathParts[1] === "wizard" && pathParts[3]) {
+                psCompose.activeMenuItem = pathParts[3];
+            } else {
+                psCompose.activeMenuItem = pathParts[1];
+            }
+        }
 
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
@@ -147,12 +251,15 @@
           </div>`;
 
         htmx.process(submenuContainer);
+        renderHighlight();
         submenuContainer.classList.add("open");
     }
 
     async function hideSubmenu() {
+        psCompose.activeMenuItem = null;
         if (submenuContainer.classList.contains("hidden")) return;
 
+        clearActiveClasses(".left-nav .parent-item");
         submenuContainer.classList.remove("open");
         submenuContainer.classList.add("close");
 
@@ -160,7 +267,6 @@
 
         submenuContainer.classList.add("hidden");
         submenuContainer.classList.remove("close");
-        psCompose.activeMenuItem = null;
     }
 
     submenuContainer.addEventListener("input", (e) => {
@@ -186,19 +292,27 @@
         elem.addEventListener("click", async () => {
             const clickedMenu = elem.dataset.submenu;
             const curActiveMenuItem = psCompose.activeMenuItem;
+
             await hideSubmenu();
 
             if (curActiveMenuItem === clickedMenu) {
                 if (window.location.pathname == "/") showShortcuts();
-                clearActiveClasses(".left-nav .parent-item");
                 return;
             }
 
-            clearActiveClasses(".left-nav .parent-item");
-            elem.classList.add("active");
-            elem.setAttribute("aria-expanded", "true");
             psCompose.activeMenuItem = clickedMenu;
             showSubmenu();
         });
     });
+
+    // Initialize activeMenuItem from URL on page load (important for wizard pages where submenu is hidden)
+    if (!psCompose.activeMenuItem) {
+        const pathParts = window.location.pathname.split("/");
+        // For wizard URLs like /wizard/3/archives/, extract the actual datatype from part [3]
+        if (pathParts[1] === "wizard" && pathParts[3]) {
+            psCompose.activeMenuItem = pathParts[3];
+        } else {
+            psCompose.activeMenuItem = pathParts[1];
+        }
+    }
 </script>

@@ -51,7 +51,7 @@
     (async () => {
         let result = [];
         try {
-            const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/find`, {
+            const response = await fetch(`${psCompose.activeRoute.list_endpoint}${id}/find/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
