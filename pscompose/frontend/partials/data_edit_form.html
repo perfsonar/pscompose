@@ -3,6 +3,7 @@
         <div class="header">
             <h2 id="data-name"></h2>
             <input-checkbox-star></input-checkbox-star>
+            <web-button id="export-json-btn" theme="Icon" style="display: none"></web-button>
             <web-button id="edit-icon" theme="Icon"></web-button>
         </div>
         <div class="content">
@@ -69,7 +70,7 @@
         .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/${editParam}`);
 
     // Set Up JSON Form
-    document.body.addEventListener("json-form:mounted", (event) => {
+    document.body.addEventListener("json-form:mounted", async (event) => {
         let elem = event.detail[0].target;
 
         // Header
@@ -79,9 +80,105 @@
             .setAttribute("link", `${psCompose.activeRoute.page_url}?id=${id}&edit=true`);
         document.getElementById("edit-icon").setAttribute("righticon", "edit");
 
+        // Show export button only for templates in readonly mode
+        if (psCompose.activeMenuItem === "templates" && !params.get("edit")) {
+            const exportBtn = document.getElementById("export-json-btn");
+            exportBtn.style.display = "block";
+            exportBtn.setAttribute("righticon", "download");
+            exportBtn.setAttribute("title", "Export pScheduler JSON");
+
+            exportBtn.addEventListener("click", async () => {
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+
+                    const jsonData = await response.json();
+
+                    // Download as JSON file
+                    const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+                        type: "application/json",
+                    });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${elem?.data?.name || "template"}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error("Error exporting template JSON:", error);
+                    sessionStorage.setItem(
+                        "confirmMessage",
+                        JSON.stringify(["Failed to export template", "Error"]),
+                    );
+                    processLastMessage();
+                }
+            });
+        }
+
         if (!!params.get("edit")) {
             document.querySelector("json-form").setAttribute("readonly", "false");
             hideSubmenu();
+
+            // For tasks in edit mode, filter tools based on the already-selected test
+            if (psCompose.activeMenuItem === "tasks") {
+                const formData = JSON.parse(elem.serializeForm());
+                const testId = formData.test;
+
+                if (testId) {
+                    try {
+                        // Fetch the selected test to get its type
+                        const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
+                            method: "GET",
+                            headers: { "Content-Type": "application/json" },
+                        });
+
+                        if (testResponse.ok) {
+                            const testData = await testResponse.json();
+                            const testType = testData.json?.type;
+
+                            if (testType) {
+                                // Fetch available tools for this test type
+                                const toolsResponse = await fetch(
+                                    `${window.API_BASE_URL}/task/tools/${testType}/`,
+                                    {
+                                        method: "GET",
+                                        headers: { "Content-Type": "application/json" },
+                                    },
+                                );
+
+                                if (toolsResponse.ok) {
+                                    const toolsData = await toolsResponse.json();
+                                    const availableTools = toolsData.tools;
+
+                                    // Update the schema to populate tools dropdown with only compatible tools
+                                    const currentSchema = JSON.parse(elem.schemaData);
+
+                                    // Build oneOf array from available tools
+                                    const toolsOneOf = availableTools.map((toolName) => ({
+                                        const: toolName,
+                                        title: toolName,
+                                    }));
+
+                                    if (currentSchema.properties.tools?.items) {
+                                        currentSchema.properties.tools.items.oneOf = toolsOneOf;
+                                    }
+
+                                    elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+                                    console.log(
+                                        `Populated tools on initial load: ${toolsOneOf.length} compatible tools for test type ${testType}`,
+                                    );
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error populating tools on initial load:", error);
+                    }
+                }
+            }
         }
     });
 
@@ -89,7 +186,14 @@
     document.getElementById("data-form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        if (!document.querySelector("json-form").validate()) {
+        // Check if form is completely empty
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const isFormEmpty = Object.keys(form_data).length === 0;
+        const isValid = elem.validate();
+        const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
+
+        if ((!isValid || isFormEmpty) && !group_with_excludes) {
             // GROUP FORM CANT BE SUBMITTED -> mIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
             sessionStorage.setItem(
                 "confirmMessage",
@@ -101,9 +205,7 @@
             document
                 .querySelector("#save-modal")
                 .addEventListener("confirm-yes-clicked", async function (event) {
-                    // 1. Retrieve jsonform data
-                    const elem = document.querySelector("json-form");
-                    const form_data = JSON.parse(elem.serializeForm());
+                    // 1. Retrieve jsonform data (reuse form_data from above)
                     const { name, ...rest } = form_data; // Need to remove name from the form
 
                     // TODO: How would ref_set be updated? -> in backend sanitize_data function
@@ -121,6 +223,14 @@
                         updated_data.schema = JSON.parse(elem.schemaData);
                         updated_data.group_type = rest.type;
                     }
+
+                    // Map "type" back to "archiver" for archives
+                    if (datatype == "archive") {
+                        updated_data.json.archiver = rest.type;
+                        delete updated_data.json.type;
+                    }
+
+                    console.log("Updated data to be sent: ", updated_data);
 
                     // 2. Put request to api
                     try {
@@ -150,6 +260,325 @@
                     }
                 });
         }
+    });
+
+    // Handle form changes for tasks (update tools dropdown based on selected test)
+    if (!!params.get("edit") && psCompose.activeMenuItem === "tasks") {
+        document.getElementById("data-form").addEventListener("change", async function (event) {
+            console.log(
+                "Change event detected:",
+                event.target.name,
+                event.target.label,
+                event.target.value,
+            );
+
+            // --- Handle test selection change (update tools dropdown) ---
+            if (event.target.label === "Test") {
+                const testId = event.target.value;
+                if (!testId) return;
+
+                try {
+                    // Fetch the selected test to get its type
+                    const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (!testResponse.ok) {
+                        console.error("Failed to fetch test details");
+                        return;
+                    }
+
+                    const testData = await testResponse.json();
+                    const testType = testData.json?.type;
+
+                    if (!testType) {
+                        console.error("Test type not found in test data");
+                        return;
+                    }
+
+                    // Fetch available tools for this test type
+                    const toolsResponse = await fetch(
+                        `${window.API_BASE_URL}/task/tools/${testType}/`,
+                        {
+                            method: "GET",
+                            headers: { "Content-Type": "application/json" },
+                        },
+                    );
+
+                    if (!toolsResponse.ok) {
+                        console.error(`No tools found for test type: ${testType}`);
+                        return;
+                    }
+
+                    const toolsData = await toolsResponse.json();
+                    const availableTools = toolsData.tools;
+
+                    console.log(`Test type: ${testType}, Available tools:`, availableTools);
+
+                    // Update the schema to populate tools dropdown with only compatible tools
+                    const elem = document.querySelector("json-form");
+                    const currentSchema = JSON.parse(elem.schemaData);
+
+                    // Build oneOf array from available tools
+                    const toolsOneOf = availableTools.map((toolName) => ({
+                        const: toolName,
+                        title: toolName,
+                    }));
+
+                    // Update the schema
+                    if (currentSchema.properties.tools?.items) {
+                        currentSchema.properties.tools.items.oneOf = toolsOneOf;
+                    }
+
+                    // Clear existing tool selections to avoid render errors
+                    const currentFormData = JSON.parse(elem.serializeForm());
+                    currentFormData.tools = [];
+
+                    // Apply updated schema
+                    elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+                    elem.setAttribute("form-data", JSON.stringify(currentFormData));
+
+                    console.log(
+                        `Updated tools dropdown: ${toolsOneOf.length} compatible tools for test type ${testType}`,
+                    );
+                    console.log("Updated Schema:", currentSchema);
+                } catch (error) {
+                    console.error("Error updating tools dropdown:", error);
+                }
+            }
+        });
+    }
+
+    // Handle form changes for type/version switching (only in edit mode)
+    if (
+        !!params.get("edit") &&
+        (psCompose.activeMenuItem === "tests" || psCompose.activeMenuItem === "archives")
+    ) {
+        var selectedType = null;
+        var additionalSchema = null;
+        // Store base schema properties when first loaded (before any version merging)
+        var baseSchemaPropertiesEdit = null;
+
+        document.getElementById("data-form").addEventListener("change", async function (event) {
+            console.log(
+                "Change event detected:",
+                event.target.name,
+                event.target.label,
+                event.target.value,
+            );
+
+            const elem = document.querySelector("json-form");
+
+            // --- Handle type change (test type or archive type) ---
+            if (event.target.label === "Type") {
+                selectedType = event.target.value;
+                additionalSchema = await getAdditionalSchema(selectedType);
+                handleTypeChange(selectedType, additionalSchema);
+            }
+
+            // --- Fetch from FastAPI backend ---
+            async function getAdditionalSchema(type) {
+                try {
+                    const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form`;
+                    const res = await fetch(url, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    if (!res.ok) throw new Error(`Failed to fetch schema: ${res.status}`);
+                    const data = await res.json();
+                    return data;
+                } catch (err) {
+                    console.error("Error fetching schema:", err);
+                }
+            }
+
+            // --- Handle version change ---
+            if (event.target.label === "Version") {
+                const newVersion = JSON.parse(event.target.value);
+                updateIdleVersion(newVersion, additionalSchema);
+            }
+
+            function findGroup(layout) {
+                return layout.elements.find(
+                    (el) =>
+                        el.type === "Group" && el.rule?.condition?.scope === "#/properties/type",
+                );
+            }
+
+            function mergeSchema(baseSchema, versionData) {
+                // Capture base properties on first call
+                if (!baseSchemaPropertiesEdit) {
+                    baseSchemaPropertiesEdit = new Set(Object.keys(baseSchema.properties));
+                }
+
+                // Remove old version-specific properties (properties not in base schema)
+                const keysToRemove = Object.keys(baseSchema.properties).filter(
+                    (key) => !baseSchemaPropertiesEdit.has(key),
+                );
+                keysToRemove.forEach((key) => delete baseSchema.properties[key]);
+
+                // Add new version's properties
+                Object.assign(baseSchema.properties, versionData.properties);
+
+                // Set required fields - keep base required fields plus new version's required
+                const baseRequired = ["name", "type"];
+                baseSchema.required = [
+                    ...new Set([...baseRequired, ...(versionData.required || [])]),
+                ];
+            }
+
+            function mergeLayout(group, uiVersionData) {
+                // Keep version dropdown, replace the rest
+                group.elements = group.elements.slice(0, 1).concat(uiVersionData.elements);
+            }
+
+            function ensureVersionDropdown(group) {
+                group.elements = Array.isArray(group.elements) ? group.elements : [];
+                if (!group.elements.some((e) => e.scope === "#/properties/version")) {
+                    group.elements.unshift({
+                        type: "Control",
+                        scope: "#/properties/version",
+                        customComponent: "dropdown-single-select",
+                    });
+                }
+            }
+
+            function handleTypeChange(selectedType, additionalSchema) {
+                console.log("Selected type ", selectedType, additionalSchema);
+
+                const versions = (additionalSchema?.spec?.versions || []).filter((v) => v !== null);
+                if (!versions.length) return;
+
+                const highestVersion = versions.sort((a, b) => Number(b) - Number(a))[0];
+                console.log("Highest version:", highestVersion);
+
+                const baseSchema = JSON.parse(elem.schemaData);
+                const baseLayout = JSON.parse(elem.layoutData);
+
+                const group = findGroup(baseLayout);
+                if (!group) return;
+
+                // Show condition and add dropdown
+                group.rule.condition.schema.const = selectedType;
+                ensureVersionDropdown(group);
+
+                // --- Add Version field to JSON and UI schema to show list of versions ---
+                baseSchema.properties.version = {
+                    type: "string",
+                    title: "Version",
+                    oneOf: versions.map((v) => ({
+                        const: v,
+                        title: `Version ${v}`,
+                    })),
+                    default: highestVersion,
+                };
+
+                // Load schema and UI schema for highest version
+                const versionData = additionalSchema.spec.jsonschema.versions[highestVersion];
+                const uiVersionData = additionalSchema.spec.uischema.versions[highestVersion];
+
+                mergeSchema(baseSchema, versionData);
+                mergeLayout(group, uiVersionData);
+
+                // Get current form data and initialize with default values
+                const currentFormData = JSON.parse(elem.serializeForm());
+
+                // Initialize all version-specific fields with their default values or clear them
+                Object.keys(versionData.properties).forEach((key) => {
+                    const property = versionData.properties[key];
+                    if (property.default !== undefined) {
+                        // Set to default value
+                        currentFormData[key] = property.default;
+                    } else {
+                        // No default, clear the field
+                        delete currentFormData[key];
+                    }
+                });
+
+                currentFormData.version = String(highestVersion);
+                currentFormData.schema = highestVersion;
+
+                // --- APPLY TO FORM ---
+                elem.setAttribute("schema-data", JSON.stringify(baseSchema));
+                elem.setAttribute("layout-data", JSON.stringify(baseLayout));
+                elem.setAttribute("form-data", JSON.stringify(currentFormData));
+
+                console.log("Schema:", baseSchema);
+                console.log("UI Schema:", baseLayout);
+                console.log("Form Data:", currentFormData);
+            }
+
+            function updateIdleVersion(selectedVersion, additionalSchema) {
+                console.log("Updating to version:", selectedVersion, additionalSchema);
+                const elem = document.querySelector("json-form");
+                const currentSchema = JSON.parse(elem.schemaData);
+                const currentLayout = JSON.parse(elem.layoutData);
+
+                // Get current form values from the serialized form, not the initial formData
+                const currentFormData = JSON.parse(elem.serializeForm());
+
+                const versionData = additionalSchema.spec.jsonschema.versions[selectedVersion];
+                const uiVersionData = additionalSchema.spec.uischema.versions[selectedVersion];
+
+                if (!versionData || !uiVersionData) return;
+
+                mergeSchema(currentSchema, versionData);
+
+                const group = findGroup(currentLayout);
+                if (!group) return;
+
+                mergeLayout(group, uiVersionData);
+
+                // Clean up form data - remove fields that are no longer in the new version's schema
+                // and reset fields to their new default values (or empty if no default)
+                const newSchemaProperties = new Set(Object.keys(versionData.properties));
+
+                // Add all base schema properties
+                if (baseSchemaPropertiesEdit) {
+                    baseSchemaPropertiesEdit.forEach((key) => newSchemaProperties.add(key));
+                }
+
+                // Always keep version
+                newSchemaProperties.add("version");
+
+                // Remove fields that don't exist in the new version
+                Object.keys(currentFormData).forEach((key) => {
+                    if (!newSchemaProperties.has(key)) {
+                        delete currentFormData[key];
+                    }
+                });
+
+                // Reset all version-specific fields to their default values or clear them
+                Object.keys(versionData.properties).forEach((key) => {
+                    const property = versionData.properties[key];
+                    if (property.default !== undefined) {
+                        // Set to new default value
+                        currentFormData[key] = property.default;
+                    } else {
+                        // No default, clear the field if it exists
+                        delete currentFormData[key];
+                    }
+                });
+
+                // Keep version as string in form data so dropdown can match it
+                currentFormData.version = String(selectedVersion);
+
+                elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+                elem.setAttribute("layout-data", JSON.stringify(currentLayout));
+                elem.setAttribute("form-data", JSON.stringify(currentFormData));
+
+                console.log("New Schema:", currentSchema);
+                console.log("New UI Schema:", currentLayout);
+                console.log("New Form Data:", currentFormData);
+            }
+        });
+    }
+
+    // Cancel button - go back to readonly mode
+    document.getElementById("cancel-btn").addEventListener("click", function () {
+        // Navigate to the same page but without edit parameter
+        window.location.href = `${psCompose.activeRoute.page_url}?id=${id}`;
     });
 
     // Delete
