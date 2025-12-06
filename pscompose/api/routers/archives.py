@@ -181,7 +181,7 @@ def get_existing_form(item_id: str, edit: bool = False):
     return JSONResponse(content=payload)
 
 
-@router.get("/archive/new/{archiver}/form", summary="Return schema for the relevant archiver")
+@router.get("/archive/new/{archiver}/form/", summary="Return schema for the relevant archiver")
 @version(1)
 def retrieve_form(archiver: str):
     print("Retrieving form for archiver type:", archiver)  # archiver will be http
