@@ -1,7 +1,6 @@
 import { SingleSelectDropdown } from "./dropdown-single-select.js";
 
 export class MultiSelectDropdown extends SingleSelectDropdown {
-
     handleOptionClick(e) {
         const target = e.target.closest("li");
         if (!target || !target.dataset.value) return;
@@ -42,7 +41,6 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
         });
     }
 
-
     render() {
         if (!this.options) return;
 
@@ -66,7 +64,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
                 )
                 .join("");
             const tags = `<div class="tags">${tagsHTML}</div>`;
-            this.querySelector(".container").insertAdjacentHTML("beforeend", tags);
+            this.querySelector(".form-container").insertAdjacentHTML("beforeend", tags);
         }
 
         this.attachOptionClickHandler();
