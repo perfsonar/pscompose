@@ -121,7 +121,7 @@ export class excludesDropdown extends FormControl {
             <web-button id="excludes-minus-btn" type="button" righticon="trash-2" theme="Icon"></web-button>
         `;
 
-        const container = this.querySelector(".container");
+        const container = this.querySelector(".form-container");
         const children = container.children;
 
         container.insertBefore(newContainer, children[children.length - 2]);
@@ -142,7 +142,7 @@ export class excludesDropdown extends FormControl {
     }
 
     render() {
-        const container = this.querySelector(".container");
+        const container = this.querySelector(".form-container");
         if (!container) return;
 
         const options = this.options;
