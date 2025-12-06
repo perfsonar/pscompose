@@ -156,6 +156,14 @@ class ContextSpecification(BaseModel):
     field_meta: Optional[AnyJSON] = Field(None, alias="_meta")
 
 
+class TemplateSpecification(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+    tasks: List[NameType] = None
+    field_meta: Optional[AnyJSON] = Field(None, alias="_meta")
+
+
 class TaskSpecification(BaseModel):
     class Config:
         extra = Extra.forbid
@@ -342,6 +350,7 @@ class DataTableBase(BaseModel):
         ScheduleSpecification,
         TaskSpecification,
         TestSpecification,
+        TemplateSpecification,
         pSConfigSchema,  # Full schema
     ] = Field(None, alias="json")
     name: str = Field(..., min_length=1)
@@ -367,6 +376,7 @@ class DataTableUpdate(BaseModel):
             ScheduleSpecification,
             TaskSpecification,
             TestSpecification,
+            TemplateSpecification,
             pSConfigSchema,
         ]
     ] = Field(None, alias="json")
