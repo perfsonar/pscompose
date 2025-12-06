@@ -58,9 +58,13 @@
         const elem = document.querySelector("json-form");
         const form_data = JSON.parse(elem.serializeForm());
         const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
+        const isValid = elem.validate();
+
+        // Check if form is completely empty
+        const isFormEmpty = Object.keys(form_data).length === 0;
 
         // don't validate if there is excludes
-        if (!document.querySelector("json-form").validate() && !group_with_excludes) {
+        if ((!isValid || isFormEmpty) && !group_with_excludes) {
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
@@ -93,6 +97,12 @@
                         data.group_type = rest.type;
                     }
 
+                    // Map "type" back to "archiver" for archives
+                    if (datatype == "archive") {
+                        data.json.archiver = rest.type;
+                        delete data.json.type;
+                    }
+
                     // 2. Post request to api
                     try {
                         const response = await fetch(`${psCompose.activeRoute.list_endpoint}`, {
@@ -123,6 +133,9 @@
         }
     });
 
+    // Store base schema properties when first loaded (before any version merging)
+    var baseSchemaPropertiesNew = null;
+
     document.getElementById("data-form").addEventListener("change", async function (event) {
         console.log(
             "Change event detected:",
@@ -131,11 +144,87 @@
             event.target.value,
         );
 
+        // --- Handle test selection change for tasks (update tools dropdown) ---
+        if (psCompose.activeMenuItem === "tasks" && event.target.label === "Test") {
+            const testId = event.target.value;
+            if (!testId) return;
+
+            try {
+                // Fetch the selected test to get its type
+                const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+
+                if (!testResponse.ok) {
+                    console.error("Failed to fetch test details");
+                    return;
+                }
+
+                const testData = await testResponse.json();
+                const testType = testData.json?.type;
+
+                if (!testType) {
+                    console.error("Test type not found in test data");
+                    return;
+                }
+
+                // Fetch available tools for this test type
+                const toolsResponse = await fetch(
+                    `${window.API_BASE_URL}/task/tools/${testType}/`,
+                    {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    },
+                );
+
+                if (!toolsResponse.ok) {
+                    console.error(`No tools found for test type: ${testType}`);
+                    return;
+                }
+
+                const toolsData = await toolsResponse.json();
+                const availableTools = toolsData.tools;
+
+                console.log(`Test type: ${testType}, Available tools:`, availableTools);
+
+                // Update the schema to populate tools dropdown with only compatible tools
+                const elem = document.querySelector("json-form");
+                const currentSchema = JSON.parse(elem.schemaData);
+
+                // Build oneOf array from available tools
+                const toolsOneOf = availableTools.map((toolName) => ({
+                    const: toolName,
+                    title: toolName,
+                }));
+
+                // Update the schema
+                if (currentSchema.properties.tools?.items) {
+                    currentSchema.properties.tools.items.oneOf = toolsOneOf;
+                }
+
+                // Clear existing tool selections to avoid render errors
+                const currentFormData = JSON.parse(elem.serializeForm());
+                currentFormData.tools = [];
+
+                // Apply updated schema and form data together
+                elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+                elem.setAttribute("form-data", JSON.stringify(currentFormData));
+
+                console.log(
+                    `Updated tools dropdown: ${toolsOneOf.length} compatible tools for test type ${testType}`,
+                );
+                console.log("Updated Schema:", currentSchema);
+            } catch (error) {
+                console.error("Error updating tools dropdown:", error);
+            }
+        }
+
         // Dynamically update schema for certain types
-        if (psCompose.activeMenuItem === "tests") {
+        if (psCompose.activeMenuItem === "tests" || psCompose.activeMenuItem === "archives") {
             const elem = document.querySelector("json-form");
 
-            // --- Handle test type change ---
+            // --- Handle type change (test type or archive type) ---
             if (event.target.label === "Type") {
                 selectedType = event.target.value;
                 additionalSchema = await getAdditionalSchema(selectedType);
@@ -161,7 +250,7 @@
             // --- Handle version change ---
             if (event.target.label === "Version") {
                 const newVersion = JSON.parse(event.target.value);
-                updateIdleVersion(newVersion, additionalSchema);
+                updateVersion(newVersion, additionalSchema);
             }
 
             function findGroup(layout) {
@@ -172,10 +261,14 @@
             }
 
             function mergeSchema(baseSchema, versionData) {
-                // Remove old version-specific properties but keep name, type, _meta, and version
-                const keysToKeep = ["name", "type", "_meta", "version"];
+                // Capture base properties on first call
+                if (!baseSchemaPropertiesNew) {
+                    baseSchemaPropertiesNew = new Set(Object.keys(baseSchema.properties));
+                }
+
+                // Remove old version-specific properties (properties not in base schema)
                 const keysToRemove = Object.keys(baseSchema.properties).filter(
-                    (key) => !keysToKeep.includes(key),
+                    (key) => !baseSchemaPropertiesNew.has(key),
                 );
                 keysToRemove.forEach((key) => delete baseSchema.properties[key]);
 
@@ -272,7 +365,7 @@
                 console.log("Form Data:", currentFormData);
             }
 
-            function updateIdleVersion(selectedVersion, additionalSchema) {
+            function updateVersion(selectedVersion, additionalSchema) {
                 console.log("Updating to version:", selectedVersion, additionalSchema);
                 const elem = document.querySelector("json-form");
                 const currentSchema = JSON.parse(elem.schemaData);
@@ -296,9 +389,13 @@
                 // Clean up form data - remove fields that are no longer in the new version's schema
                 // and reset fields to their new default values (or empty if no default)
                 const newSchemaProperties = new Set(Object.keys(versionData.properties));
-                newSchemaProperties.add("name"); // Keep base fields
-                newSchemaProperties.add("type");
-                newSchemaProperties.add("_meta");
+
+                // Add all base schema properties
+                if (baseSchemaPropertiesNew) {
+                    baseSchemaPropertiesNew.forEach((key) => newSchemaProperties.add(key));
+                }
+
+                // Always keep version
                 newSchemaProperties.add("version");
 
                 // Remove fields that don't exist in the new version
