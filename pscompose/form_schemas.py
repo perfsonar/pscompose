@@ -866,7 +866,11 @@ http_schema = {
                                 "post",
                             ],
                         },
-                        "verify-ssl": {"title": "Verify SSL Certificate", "type": "boolean"},
+                        "verify-ssl": {
+                            "title": "Verify SSL Certificate",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "_headers": {
                             "type": "object",
                         },
@@ -904,7 +908,11 @@ http_schema = {
                                 "post",
                             ],
                         },
-                        "verify-ssl": {"title": "Verify SSL Certificate", "type": "boolean"},
+                        "verify-ssl": {
+                            "title": "Verify SSL Certificate",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "_headers": {
                             "title": "Headers",
                             "type": "object",
@@ -1315,9 +1323,13 @@ throughput_schema = {
                             "type": "integer",
                             "minimum": 1,
                         },
-                        "udp": {"title": "UDP", "type": "boolean"},
+                        "udp": {"title": "UDP", "type": "boolean", "default": False},
                         "bandwidth": {"title": "Bandwidth", "type": "integer", "minimum": 1},
-                        "bandwidth-strict": {"title": "Bandwidth Strict", "type": "boolean"},
+                        "bandwidth-strict": {
+                            "title": "Bandwidth Strict",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "burst-size": {"title": "Burst Size", "type": "integer", "minimum": 1},
                         "fq-rate": {"title": "FQ Rate", "type": "integer", "minimum": 1},
                         "window-size": {
@@ -1359,9 +1371,13 @@ throughput_schema = {
                             "pattern": r"^P(?:\d+(?:\.\d+)?W)?(?:\d+(?:\.\d+)?D)?(?:T(?:\d+(?:\.\d+)?H)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?S)?)?$",  # noqa: E501
                             "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
                         },
-                        "no-delay": {"title": "No Delay", "type": "boolean"},
+                        "no-delay": {"title": "No Delay", "type": "boolean", "default": False},
                         "congestion": {"title": "Congestion", "type": "string"},
-                        "zero-copy": {"title": "Use Zero Copy", "type": "boolean"},
+                        "zero-copy": {
+                            "title": "Use Zero Copy",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "flow-label": {"title": "Flow Label", "type": "integer", "minimum": 1},
                         "client-cpu-affinity": {
                             "title": "Client CPU Affinity",
@@ -1371,14 +1387,19 @@ throughput_schema = {
                             "title": "Server CPU Affinity",
                             "type": "integer",
                         },
-                        "single-ended": {"title": "Single-ended testing", "type": "boolean"},
+                        "single-ended": {
+                            "title": "Single-ended testing",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "single-ended-port": {"title": "Single Ended Port", "type": "integer"},
-                        "reverse": {"title": "Reverse", "type": "boolean"},
+                        "reverse": {"title": "Reverse", "type": "boolean", "default": False},
                         "reverse-connections": {
                             "title": "Reverse Connections",
                             "type": "boolean",
+                            "default": False,
                         },
-                        "loopback": {"title": "Loopback", "type": "boolean"},
+                        "loopback": {"title": "Loopback", "type": "boolean", "default": False},
                     },
                     "required": ["schema", "dest"],
                 },
@@ -1452,9 +1473,13 @@ throughput_schema = {
                             "type": "integer",
                             "minimum": 1,
                         },
-                        "udp": {"title": "UDP", "type": "boolean"},
+                        "udp": {"title": "UDP", "type": "boolean", "default": False},
                         "bandwidth": {"title": "Bandwidth", "type": "integer", "minimum": 1},
-                        "bandwidth-strict": {"title": "Bandwidth Strict", "type": "boolean"},
+                        "bandwidth-strict": {
+                            "title": "Bandwidth Strict",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "burst-size": {"title": "Burst Size", "type": "integer", "minimum": 1},
                         "window-size": {
                             "title": "Window Size",
@@ -1495,9 +1520,9 @@ throughput_schema = {
                             "pattern": r"^P(?:\d+(?:\.\d+)?W)?(?:\d+(?:\.\d+)?D)?(?:T(?:\d+(?:\.\d+)?H)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?S)?)?$",  # noqa: E501
                             "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
                         },
-                        "no-delay": {"title": "No Delay", "type": "boolean"},
+                        "no-delay": {"title": "No Delay", "type": "boolean", "default": False},
                         "congestion": {"title": "Congestion", "type": "string"},
-                        "zero-copy": {"title": "Zero Copy", "type": "boolean"},
+                        "zero-copy": {"title": "Zero Copy", "type": "boolean", "default": False},
                         "flow-label": {"title": "Flow Label", "type": "integer", "minimum": 1},
                         "client-cpu-affinity": {
                             "title": "Client CPU Affinity",
@@ -1507,14 +1532,19 @@ throughput_schema = {
                             "title": "Server CPU Affinity",
                             "type": "integer",
                         },
-                        "single-ended": {"title": "Single Ended", "type": "boolean"},
+                        "single-ended": {
+                            "title": "Single Ended",
+                            "type": "boolean",
+                            "default": False,
+                        },
                         "single-ended-port": {"title": "Single Ended Port", "type": "integer"},
-                        "reverse": {"title": "Reverse", "type": "boolean"},
+                        "reverse": {"title": "Reverse", "type": "boolean", "default": False},
                         "reverse-connections": {
                             "title": "Reverse Connections",
                             "type": "boolean",
+                            "default": False,
                         },
-                        "loopback": {"title": "Loopback", "type": "boolean"},
+                        "loopback": {"title": "Loopback", "type": "boolean", "default": False},
                     },
                     "required": ["schema", "dest"],
                 },
@@ -2042,21 +2072,25 @@ latency_schema = {
                             "description": "Output individual packet statistics. This will substantially increase the size of a successful result.",  # noqa: E501
                             "title": "Output Raw",
                             "type": "boolean",
+                            "default": False,
                         },
                         "flip": {
                             "description": "In multi-participant mode, have the dest start the client and request a reverse test. Useful in some firewall and NAT environments.",  # noqa: E501
                             "title": "Flip",
                             "type": "boolean",
+                            "default": False,
                         },
                         "reverse": {
                             "description": "Report results in the reverse direction (destination to source) if possible.",  # noqa: E501
                             "title": "Reverse",
                             "type": "boolean",
+                            "default": False,
                         },
                         "traverse-nat": {
                             "description": "Make an effort to traverse outbound NAT,",
                             "title": "Traverse NAT",
                             "type": "boolean",
+                            "default": False,
                         },
                     },
                     "required": ["schema", "dest"],
@@ -2166,21 +2200,25 @@ latency_schema = {
                             "description": "Output individual packet statistics. This will substantially increase the size of a successful result.",  # noqa: E501
                             "title": "Output Raw",
                             "type": "boolean",
+                            "default": False,
                         },
                         "flip": {
                             "description": "In multi-participant mode, have the dest start the client and request a reverse test. Useful in some firewall and NAT environments.",  # noqa: E501
                             "title": "Flip",
                             "type": "boolean",
+                            "default": False,
                         },
                         "reverse": {
                             "description": "Report results in the reverse direction (destination to source) if possible.",  # noqa: E501
                             "title": "Reverse",
                             "type": "boolean",
+                            "default": False,
                         },
                         "traverse-nat": {
                             "description": "Make an effort to traverse outbound NAT,",
                             "title": "Traverse NAT",
                             "type": "boolean",
+                            "default": False,
                         },
                     },
                     "required": ["schema", "dest"],
