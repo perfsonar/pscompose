@@ -76,6 +76,17 @@
         .getElementById("content")
         .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/`);
 
+    // Setting edit-icon
+    document.getElementById("edit-icon").addEventListener("click", (event) => {
+        const editURL = `${psCompose.activeRoute.page_url}?id=${id}&edit=true`;
+        window.history.pushState({}, "", editURL);
+        editMode(true);
+    })
+
+    window.addEventListener("popstate", (event) => {
+        editMode(params.get("edit"))
+    });
+
     // Set Up JSON Form
     document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
