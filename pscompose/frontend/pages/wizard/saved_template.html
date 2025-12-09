@@ -10,6 +10,7 @@
                     label="Copy JSON"
                     theme="Secondary"
                     righticon="clipboard-copy"
+                    id="copy-json"
                 ></web-button>
                 <web-button
                     link="/wizard/1/addresses/"
@@ -24,6 +25,10 @@
     const stepBox = document.querySelector(".step-box");
     stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_edit_form.html" hx-trigger="load"></div>`;
     htmx.process(stepBox);
+
+    document.querySelector('#copy-json').addEventListener("click", async () => {
+        await copyTemplateJSON(psCompose.activeRoute.id);
+    });
 </script>
 
 <!-- need to add actual template api call -->
