@@ -38,6 +38,7 @@
         <!-- Web Components -->
         <script src="/components/form-control.js" type="module"></script>
         <script src="/components/web-button.js" type="module"></script>
+        <!-- <script src="/components/web-button-export.js"></script> -->
         <script src="/components/web-tooltip.js" type="module"></script>
         <script src="/components/web-modal.js" type="module"></script>
         <script src="/components/input-text.js" type="module"></script>
@@ -246,7 +247,7 @@
                             datatype: "templates",
                             singular: "Template",
                             plural: "Templates",
-                            page_url: "/wizard/8/template/",
+                            page_url: "/wizard/8/templates/",
                             page_template: "/pages/wizard/saved_template.html",
                             list_endpoint: `${window.API_BASE_URL}/template/`,
                             icon: "locate",
@@ -336,7 +337,7 @@
                 "/wizard/5/tests/": psCompose.metadata["wizard"][4],
                 "/wizard/6/tasks/": psCompose.metadata["wizard"][5],
                 "/wizard/7/create_template/": psCompose.metadata["wizard"][6],
-                "/wizard/8/template/": psCompose.metadata["wizard"][7],
+                "/wizard/8/templates/": psCompose.metadata["wizard"][7],
                 "/import/1/import_template/": psCompose.metadata["import"][0],
                 "/import/2/import_template_saved/": psCompose.metadata["import"][1],
                 "/addresses/": psCompose.metadata["addresses"],
@@ -364,7 +365,8 @@
                     return "/pages/index.html";
                 }
                 psCompose.activeRoute = psCompose.router[path];
-                // psCompose.activeMenuItem = path.split("/")[1];
+                if (path.split("/")[1] === 'wizard') psCompose.activeMenuItem = path.split("/")[3];
+                else psCompose.activeMenuItem = path.split("/")[1]; 
                 psCompose.subsection = path.split("/")[2];
                 psCompose.pathParts = path.split("/");
 
