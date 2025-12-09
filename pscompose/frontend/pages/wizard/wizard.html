@@ -89,15 +89,23 @@
         lucide.createIcons();
         htmx.process(container);
 
+        var params = new URLSearchParams(window.location.search);
+
         // Render new template form
         if (step === totalSteps) {
+            if (params.get('id')) window.location = metadata.wizard[step]?.page_url + '?id=' + params.get("id")
             const stepBox = container.querySelector(".step-box");
             if (stepBox) {
                 stepBox.classList.replace("step-box", "step-box-column");
                 stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_new_form.html" hx-trigger="load"></div>`;
                 htmx.process(stepBox);
-                document.querySelector("#next-btn").setAttribute("type", "submit");
+
                 document.querySelector("#next-btn").setAttribute("confirm-modal", "save-modal");
+                document.querySelector("#next-btn")?.addEventListener("click", (e) => {
+                    const form = document.getElementById("data-new-form");
+                    if (!form) return 
+                    form.requestSubmit();
+                });
             }
             return;
         }
@@ -105,7 +113,6 @@
         await populateDropdown(activeRoute?.list_endpoint);
         setupEventListeners(meta.icon);
 
-        var params = new URLSearchParams(window.location.search);
         if (params.get("id")) loadForm({id: params.get("id"), icon: meta.icon});
         if (params.get("new")) loadForm({ isNew: true, icon: meta.icon });
     })();
