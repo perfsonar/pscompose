@@ -32,7 +32,7 @@ module.exports = {
         sm: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_SMALL,
         md: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_MEDIUM,
         lg: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_LARGE,
-        xl: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XLARGE,
+        xlg: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XLARGE,
       },
       boxShadow: {
         none: tokens.ESNET_BOX_SHADOW_CORE_NONE,
