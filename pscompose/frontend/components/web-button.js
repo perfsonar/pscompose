@@ -42,9 +42,9 @@ export class WebButton extends HTMLElement {
     openModal() {
         const handler = () => {
             document.getElementById(this.getAttribute("confirm-modal")).style.display = "block";
-            document.querySelector("json-form").removeEventListener("validated", handler);
+            document.removeEventListener("validated", handler);
         };
-        document.querySelector("json-form").addEventListener("validated", handler);
+        document.addEventListener("validated", handler);
     }
 
     render() {
