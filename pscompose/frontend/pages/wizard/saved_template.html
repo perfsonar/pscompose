@@ -4,8 +4,7 @@
         <progress-bar step="7"></progress-bar>
     </div>
     <div class="step-section">
-        <div class="step-box-column">
-            <input-text-area label="JSON: " placeholder="Enter Json"></input-text-area>
+        <div class="step-box"></div>
             <div class="save-cancel">
                 <web-button
                     label="Copy JSON"
@@ -18,8 +17,13 @@
                     theme="Primary"
                 ></web-button>
             </div>
-        </div>
     </div>
 </div>
+
+<script>
+    const stepBox = document.querySelector(".step-box");
+    stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_edit_form.html" hx-trigger="load"></div>`;
+    htmx.process(stepBox);
+</script>
 
 <!-- need to add actual template api call -->
