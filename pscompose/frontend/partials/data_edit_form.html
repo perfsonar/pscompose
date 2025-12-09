@@ -56,6 +56,7 @@
     </div>
 </div>
 
+<script src="/partials/data_template_json.js"></script>
 <script>
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
@@ -97,38 +98,13 @@
         if (psCompose.activeMenuItem === "templates" && !params.get("edit")) {
             const exportBtn = document.getElementById("export-json-btn");
             exportBtn.style.display = "block";
-            exportBtn.setAttribute("righticon", "download");
-            exportBtn.setAttribute("title", "Export pScheduler JSON");
-
             exportBtn.addEventListener("click", async () => {
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
-                        method: "GET",
-                        headers: { "Content-Type": "application/json" },
-                    });
-
-                    if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-
-                    const jsonData = await response.json();
-
-                    // Download as JSON file
-                    const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
-                        type: "application/json",
-                    });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = `${elem?.data?.name || "template"}.json`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                } catch (error) {
-                    console.error("Error exporting template JSON:", error);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify(["Failed to export template", "Error"]),
-                    );
-                    processLastMessage();
-                }
+                await exportTemplateJSON(id, elem?.data?.name);
+            });
+            const copyBtn = document.getElementById("copy-json-btn");
+            copyBtn.style.display = "block";
+            copyBtn.addEventListener("click", async () => {
+                await copyTemplateJSON(id, elem?.data?.name);
             });
         }
 
@@ -606,7 +582,7 @@
 
     // Delete
     document.getElementById("delete-btn").addEventListener("click", async function (event) {
-        document.querySelector("json-form").dispatchEvent(new Event("validated"));
+        document.dispatchEvent(new Event("validated"));
         document
             .querySelector("#delete-modal")
             .addEventListener("confirm-yes-clicked", async function (event) {
