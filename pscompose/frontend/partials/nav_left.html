@@ -227,16 +227,6 @@
         if (submenuContainer.classList.contains("open")) return;
         if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
 
-        if (!psCompose.activeMenuItem) {
-            const pathParts = window.location.pathname.split("/");
-            // For wizard URLs like /wizard/3/archives/, extract the actual datatype from part [3]
-            if (pathParts[1] === "wizard" && pathParts[3]) {
-                psCompose.activeMenuItem = pathParts[3];
-            } else {
-                psCompose.activeMenuItem = pathParts[1];
-            }
-        }
-
         submenuContainer.classList.remove("hidden");
         submenuContainer.offsetWidth; // Force reflow
         submenuContainer.classList.remove("close");
@@ -304,15 +294,4 @@
             showSubmenu();
         });
     });
-
-    // Initialize activeMenuItem from URL on page load (important for wizard pages where submenu is hidden)
-    if (!psCompose.activeMenuItem) {
-        const pathParts = window.location.pathname.split("/");
-        // For wizard URLs like /wizard/3/archives/, extract the actual datatype from part [3]
-        if (pathParts[1] === "wizard" && pathParts[3]) {
-            psCompose.activeMenuItem = pathParts[3];
-        } else {
-            psCompose.activeMenuItem = pathParts[1];
-        }
-    }
 </script>
