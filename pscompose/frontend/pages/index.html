@@ -50,44 +50,26 @@
     </ul>
 
     <section class="published-templates" aria-labelledby="published-templates-heading">
-        <h3 id="published-templates-heading">Published Templates</h3>
+        <h4 id="published-templates-heading">Published Templates</h4>
         <table aria-label="Published Templates Table">
             <thead>
                 <tr>
                     <th scope="col">
                         <div class="th-content">
                             <i class="lucide" data-lucide="locate" aria-hidden="true"></i>
-                            <span>Template Name</span>
+                            <span>Name</span>
                         </div>
                     </th>
                     <th scope="col">
                         <div class="th-content">
                             <i class="lucide" data-lucide="clipboard-list" aria-hidden="true"></i>
-                            <span>Tasks</span>
-                        </div>
-                    </th>
-                    <th scope="col">
-                        <div class="th-content">
-                            <i class="lucide" data-lucide="timer-reset" aria-hidden="true"></i>
-                            <span>Interval</span>
-                        </div>
-                    </th>
-                    <!-- <th scope="col">
-                        <div class="th-content">
-                            <i class="lucide" data-lucide="hard-drive-download" aria-hidden="true"></i>
-                            <span>Test Members</span>
-                        </div>
-                    </th> -->
-                    <th scope="col">
-                        <div class="th-content">
-                            <i class="lucide" data-lucide="check-circle-2" aria-hidden="true"></i>
-                            <span>Enabled</span>
+                            <span>Task(s)</span>
                         </div>
                     </th>
                     <th scope="col">
                         <div class="th-content">
                             <i class="lucide" data-lucide="file-edit" aria-hidden="true"></i>
-                            <span>Actions</span>
+                            <span>Action</span>
                         </div>
                     </th>
                 </tr>
@@ -97,43 +79,102 @@
     </section>
 </div>
 
-<script id="published-templates-tbody" type="nunjucks">
-    {% if data and data.length > 0 %}
-        {% for item in data %}
-            <tr>
-                <td class="td-content">{{item.name}}</td>
-                <td class="td-content">{{item.tasks}}</td>
-                <td class="td-content">{{item.interval}}</td>
-                <!-- <td class="td-content">{{item.host_members}}</td> -->
-                <td>
-                {% if item.enabled? %}
-                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--success-color)" aria-hidden="true"></i>
-                {% else %}
-                <i class="lucide" data-lucide="check-circle-2" style="height: 24; color: var(--copyAlt-color)" aria-hidden="true"></i>
-                {% endif %}
-                </td>
-                <td>
-                <div class="action-icons">
-                    <i class="lucide" data-lucide="settings" style="height: 24;" aria-hidden="true"></i>
-                    <i class="lucide" data-lucide="trash-2" style="height: 24;" aria-hidden="true"></i>
-                </div>
-                </td>
-            </tr>
-        {% endfor %}
-    {% else %}
-        <tr>
-            <td colspan="6" style="text-align: center; color: var(--copyAlt-color); padding: 1em;">
-                <p> No published templates </p>
-            </td>
-        </tr>
-    {% endif %}
-</script>
+<script src="/partials/data_template_json.js"></script>
 <script>
-    // api call for published templates table
-    const table = document.querySelector("tbody");
-    table.setAttribute("hx-get", psCompose.metadata["templates"].list_endpoint);
-    table.setAttribute("hx-trigger", "load");
-    htmx.process(table);
+    async function loadPublishedTemplateTable() {
+        const table = document.querySelector("tbody");
+
+        try {
+            const response = await fetch(psCompose.metadata["templates"].list_endpoint);
+            let templates_data = await response.json();
+
+            await Promise.all(templates_data.map(async (template) => {
+                template.formatted_date = formatDate(template.last_edited_at);
+                template.editlink = psCompose.metadata["templates"].page_url + '?id=' + template.id + '&edit=true';
+
+                try {
+                    template.tasks = [];
+                    if (template.json.tasks && template.json.tasks.length > 0) {
+                        const taskPromises = template.json.tasks.map(async (taskId) => {
+                            try {
+                                const taskResponse = await fetch(psCompose.metadata["tasks"].list_endpoint + taskId + '/');
+                                return await taskResponse.json();
+                            } catch (err) {
+                                console.warn(`Failed to fetch task ${taskId}:`, err);
+                                return null;
+                            }
+                        });
+                        const tasks = await Promise.all(taskPromises);
+                        template.tasks = tasks.filter(task => task !== null);
+                    }
+                } catch (err) {
+                    console.warn(`Failed to fetch template JSON for ${template.id}:`, err);
+                    template.tasks = [];
+                }
+            }));
+
+            const templateStr  = `
+                <tbody>
+                    {% if templates_data and templates_data.length > 0 %}
+                        {% for template in templates_data %}
+                            <tr>
+                                <td>
+                                    <a class="td-content" href="/templates/?id={{template.id}}">
+                                        {{template.name}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class='td-content tags'>
+                                    {% if template.tasks and template.tasks.length > 0 %}
+                                        {% for task in template.tasks %}
+                                            <a href="/tasks/?id={{task.id}}">
+                                                <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
+                                                    {{ task.name }}
+                                                </li>
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>No tasks</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="td-content action-icons">
+                                        <web-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></web-button>
+                                        <web-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></web-button>
+                                        <web-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></web-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: var(--copyAlt-color); padding: 1em;">
+                                <p> No published templates </p>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            `;
+            table.innerHTML = nunjucks.renderString(templateStr, { templates_data, psCompose });
+            lucide.createIcons();
+
+            table.querySelectorAll("#download-btn").forEach((btn) => {
+                btn.addEventListener("click", async (event) => {
+                    await exportTemplateJSON(event.currentTarget.dataset.id, event.currentTarget.dataset.name);
+                });
+            });
+
+            table.querySelectorAll("#copy-btn").forEach((btn) => {
+                btn.addEventListener("click", async (event) => {
+                    await copyTemplateJSON(event.currentTarget.dataset.id);
+                });
+            });
+
+        } catch (err) {
+            console.error(`Error loading Published Templates:`, err);
+            table.innerHTML = "<p role='alert'>Failed to load templates. Please try again later.</p>";
+        }
+    }
+    loadPublishedTemplateTable();
 </script>
 
-<!-- need to update published templated td-content accordingly -->
