@@ -71,7 +71,7 @@
             );
             processLastMessage();
         } else {
-            document.querySelector("json-form").dispatchEvent(new Event("validated"));
+            document.dispatchEvent(new Event("validated"));
             document
                 .querySelector("#save-modal")
                 .addEventListener("confirm-yes-clicked", async function (event) {
