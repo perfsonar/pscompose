@@ -38,7 +38,6 @@
         <!-- Web Components -->
         <script src="/components/form-control.js" type="module"></script>
         <script src="/components/web-button.js" type="module"></script>
-        <!-- <script src="/components/web-button-export.js"></script> -->
         <script src="/components/web-tooltip.js" type="module"></script>
         <script src="/components/web-modal.js" type="module"></script>
         <script src="/components/input-text.js" type="module"></script>
@@ -53,8 +52,8 @@
         <script src="/components/dropdown-multi-select.js" type="module"></script>
         <script src="/components/dropdown-single-select.js" type="module"></script>
         <script src="/components/dropdown-excludes.js" type="module"></script>
-        <script src="/partials/customRenderer.js" type="module"></script>
         <script src="/components/message-banner.js"></script>
+        <script src="/partials/customRenderer.js" type="module"></script>
 
         <script src="/static/settings.js"></script>
         <script>
@@ -253,6 +252,14 @@
                             icon: "locate",
                         },
                     ],
+                    home: {
+                        singular: "Template",
+                        plural: "Templates",
+                        page_url: "/",
+                        page_template: "/pages/index.html",
+                        list_endpoint: `${window.API_BASE_URL}/template/`,
+                        icon: "locate",
+                    },
                     addresses: {
                         singular: "Address",
                         plural: "Addresses",
@@ -356,14 +363,12 @@
                 "/templates/new/": psCompose.metadata["templates"],
                 "/tests/": psCompose.metadata["tests"],
                 "/tests/new/": psCompose.metadata["tests"],
+                "/": psCompose.metadata["home"],
             };
 
             // the actual URL router
             function urlRouter(path, searchString) {
                 path = path.replace("/app", "");
-                if (path == "/") {
-                    return "/pages/index.html";
-                }
                 psCompose.activeRoute = psCompose.router[path];
                 if (path.split("/")[1] === 'wizard') psCompose.activeMenuItem = path.split("/")[3];
                 else psCompose.activeMenuItem = path.split("/")[1]; 
