@@ -733,7 +733,7 @@ TEMPLATE_SCHEMA = {
     "properties": {
         "name": {
             "type": "string",
-            "title": "Template Name",
+            "title": "Name",
             "description": "A string to identify this template",
         },
         "tasks": {
