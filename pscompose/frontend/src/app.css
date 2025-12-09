@@ -241,7 +241,7 @@ nav {
 /* HOME PAGE / INDEX */
 
 .homepage {
-    @apply flex flex-col flex-1 gap-8 items-center;
+    @apply flex flex-col flex-1 gap-xxlg items-center;
 }
 
 .getting-started-p {
@@ -253,7 +253,7 @@ nav {
 }
 
 .published-templates {
-    @apply flex flex-col gap-md;
+    @apply flex flex-col gap-md justify-center items-center;
 }
 
 .table-container {
@@ -261,38 +261,59 @@ nav {
 }
 
 table {
-    @apply table-fixed w-full border-collapse;
-}
-
-th,
-td {
-    @apply py-md px-md text-left border-b border-copy;
+    @apply table-fixed w-full xlg:w-[80%] border-collapse;
 }
 
 thead {
     @apply bg-surface_1;
 }
 
+th:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
+th:nth-child(2) { @apply flex-1; } 
+th:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
+
+th {
+    @apply py-md px-md text-left border-b border-copyAlt/70;
+}
+
 .th-content {
-    @apply flex flex-row font-sans items-center gap-xsm min-w-0 w-full;
+    @apply flex flex-row text-copyAlt font-sans items-center gap-xsm min-w-0 w-full;
 }
 
 .th-content svg {
-    width: 24px;
-    height: 24px;
-    flex-basis: 24px;
+    @apply w-6 h-6 flex-shrink-0 hidden sm:block;
 }
 
 .th-content span {
-    @apply flex-1 text-h5_sans whitespace-nowrap overflow-hidden;
+    @apply text-h6_sans whitespace-nowrap overflow-hidden;
+}
+
+td {
+    @apply py-md px-md text-left border-b border-copyAlt/50;
+}
+
+td a {
+    @apply font-mono flex flex-col cursor-pointer transition-all duration-150 ease-in-out;
+}
+
+td a:hover {
+    @apply text-copyAlt transition-transform duration-200 ease-in-out scale-[1.01];
 }
 
 .td-content {
-    @apply text-copyAlt text-h6_sans font-sans;
+    @apply text-h6_sans font-sans flex flex-col justify-start h-full;
 }
 
 .action-icons {
-    @apply flex flex-row gap-xxsm;
+    @apply flex flex-col gap-none sm:flex-row sm:gap-xsm w-fit flex-shrink-0;
+} 
+
+table .tag {
+    @apply flex items-center bg-success/70 text-copy/90 px-md py-xsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
+}
+
+table .tags {
+    @apply flex flex-col xlg:flex-row gap-xsm;
 }
 
 /* SHORT CUT PANEL  */
