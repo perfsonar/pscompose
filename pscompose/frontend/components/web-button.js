@@ -56,7 +56,6 @@ export class WebButton extends HTMLElement {
             }
             <button 
                 ${this.getAttribute("type") ? `type="${this.getAttribute("type")}" ` : ""}
-                ${this.getAttribute("id") ? `id="${this.getAttribute("id")}" ` : ""} 
                 >
                 
                 ${
