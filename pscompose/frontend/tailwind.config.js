@@ -28,7 +28,7 @@ module.exports = {
     extend: {
       screens: {
         none: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_NONE,
-        xs: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XSMALL,
+        xsm: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_XSMALL,
         sm: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_SMALL,
         md: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_MEDIUM,
         lg: tokens.ESNET_SIZE_BREAKPOINTS_WIDTH_LARGE,
