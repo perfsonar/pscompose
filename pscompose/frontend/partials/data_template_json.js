@@ -29,9 +29,7 @@ async function exportTemplateJSON(id, name="Template") {
             "confirmMessage",
             JSON.stringify(["Failed to export template", "Error"])
         );
-        if (typeof processLastMessage === "function") {
-            processLastMessage();
-        }
+        processLastMessage();
         return false; 
     }
 }
