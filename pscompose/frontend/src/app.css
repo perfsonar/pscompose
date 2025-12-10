@@ -268,13 +268,22 @@ thead {
     @apply bg-surface_1;
 }
 
-th:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
-th:nth-child(2) { @apply flex-1; } 
-th:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
+tr {
+    @apply flex;
+}
+
+tr p {
+    @apply flex-1;
+}
 
 th {
     @apply py-md px-md text-left border-b border-copyAlt/70;
 }
+
+
+th:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
+th:nth-child(2) { @apply flex-1; } 
+th:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
 
 .th-content {
     @apply flex flex-row text-copyAlt font-sans items-center gap-xsm min-w-0 w-full;
@@ -291,6 +300,10 @@ th {
 td {
     @apply py-md px-md text-left border-b border-copyAlt/50;
 }
+
+td:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
+td:nth-child(2) { @apply flex-1; } 
+td:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
 
 td a {
     @apply font-mono flex flex-col cursor-pointer transition-all duration-150 ease-in-out;
@@ -313,7 +326,7 @@ table .tag {
 }
 
 table .tags {
-    @apply flex flex-col xlg:flex-row gap-xsm;
+    @apply flex flex-col flex-wrap xlg:flex-row gap-xsm;
 }
 
 /* SHORT CUT PANEL  */
