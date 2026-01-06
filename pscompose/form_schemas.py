@@ -1163,7 +1163,7 @@ idle_schema = {
                         "schema": {
                             "enum": [2],
                             "type": "integer",
-                            "title": "Schema",
+                            "title": "Schema Version",
                             "default": 2,
                         },
                         "starting-comment": {
