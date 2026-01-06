@@ -5,8 +5,18 @@
             <div class="header-icons">
                 <input-checkbox-star></input-checkbox-star>
                 <web-button id="edit-icon" righticon="edit" theme="Icon"></web-button>
-                <web-button id="export-json-btn" righticon="download" theme="Icon" style="display: none"></web-button>
-                <web-button id="copy-json-btn" righticon="clipboard-copy" theme="Icon" style="display: none"></web-button>
+                <web-button
+                    id="export-json-btn"
+                    righticon="download"
+                    theme="Icon"
+                    style="display: none"
+                ></web-button>
+                <web-button
+                    id="copy-json-btn"
+                    righticon="clipboard-copy"
+                    theme="Icon"
+                    style="display: none"
+                ></web-button>
             </div>
         </div>
         <div class="content">
@@ -83,10 +93,10 @@
         const editURL = `${psCompose.activeRoute.page_url}?id=${id}&edit=true`;
         window.history.pushState({}, "", editURL);
         editMode(true);
-    })
+    });
 
     window.addEventListener("popstate", (event) => {
-        editMode(params.get("edit"))
+        editMode(params.get("edit"));
     });
 
     // Set Up JSON Form
@@ -193,14 +203,14 @@
         const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
 
         if ((!isValid || isFormEmpty) && !group_with_excludes) {
-            // GROUP FORM CANT BE SUBMITTED -> mIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
+            // GROUP FORM CANT BE SUBMITTED -> MIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
             );
             processLastMessage();
         } else {
-            document.querySelector("json-form").dispatchEvent(new Event("validated"));
+            document.dispatchEvent(new Event("validated"));
             document
                 .querySelector("#save-modal")
                 .addEventListener("confirm-yes-clicked", async function (event) {
