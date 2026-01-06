@@ -23,16 +23,18 @@
 
     // Insert api/find results
     function resultToHtml(result) {
-        if (result.length === 0) {
+        if (datatype === "template") {
+            return ``;
+        } else if (result.length === 0) {
             return `
-            <div class="confirm-message">
-                <h5>Making changes to this ${datatype} will not affect any existing data.</h5>
-            </div>
-        `;
+                <div class="confirm-message">
+                    <h5>Making changes to this ${datatype} will not affect any existing data</h5>
+                </div>
+            `;
         } else {
             return `
             <div class="confirm-message">
-                <h5>Making changes to this ${datatype} will impact the following:</h5>
+                <h5>This ${datatype} is used in the following:</h5>
                 <ul>
                     ${result
                         .map(

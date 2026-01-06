@@ -241,7 +241,7 @@ nav {
 /* HOME PAGE / INDEX */
 
 .homepage {
-    @apply flex flex-col flex-1 gap-xxlg items-center;
+    @apply flex flex-col flex-1 gap-xlg items-center;
 }
 
 .getting-started-p {
@@ -261,7 +261,7 @@ nav {
 }
 
 table {
-    @apply table-fixed w-full xlg:w-[80%] border-collapse;
+    @apply table-fixed w-full xlg:w-full border-collapse;
 }
 
 thead {
@@ -280,10 +280,15 @@ th {
     @apply py-md px-md text-left border-b border-copyAlt/70;
 }
 
-
-th:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
-th:nth-child(2) { @apply flex-1; } 
-th:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
+th:nth-child(1) {
+    @apply w-[30%] xlg:w-[25%];
+}
+th:nth-child(2) {
+    @apply flex-1;
+}
+th:nth-child(3) {
+    @apply w-[25%] xlg:w-[20%];
+}
 
 .th-content {
     @apply flex flex-row text-copyAlt font-sans items-center gap-xsm min-w-0 w-full;
@@ -301,9 +306,15 @@ td {
     @apply py-md px-md text-left border-b border-copyAlt/50;
 }
 
-td:nth-child(1) { @apply w-[30%] xlg:w-[25%]; }  
-td:nth-child(2) { @apply flex-1; } 
-td:nth-child(3) { @apply w-[25%] xlg:w-[20%]; }  
+td:nth-child(1) {
+    @apply w-[30%] xlg:w-[25%];
+}
+td:nth-child(2) {
+    @apply flex-1;
+}
+td:nth-child(3) {
+    @apply w-[25%] xlg:w-[20%];
+}
 
 td a {
     @apply font-mono flex flex-col cursor-pointer transition-all duration-150 ease-in-out;
@@ -319,7 +330,7 @@ td a:hover {
 
 .action-icons {
     @apply flex flex-col gap-none sm:flex-row sm:gap-xsm w-fit flex-shrink-0;
-} 
+}
 
 table .tag {
     @apply flex items-center bg-success/70 text-copy/90 px-md py-xsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
