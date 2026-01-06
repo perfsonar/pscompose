@@ -17,7 +17,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
     attachTagsListeners() {
         this.querySelectorAll("#remove-tag").forEach((btn) => {
             btn.addEventListener("click", () => {
-                const value = this.parseValue(btn.dataset.value);
+                const value = this.parseValue(btn.getAttribute("value"));
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
                 this.value = this.selectedValues;
                 this.dispatchEvent(new Event("change", { bubbles: true }));
