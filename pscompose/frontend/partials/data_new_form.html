@@ -60,11 +60,24 @@
         const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
         const isValid = elem.validate();
 
+        document.querySelectorAll("web-modal").forEach(modal => {
+            modal.setAttribute("confirm-data-name", form_data.name || "");
+        });
+
         // Check if form is completely empty
         const isFormEmpty = Object.keys(form_data).length === 0;
 
         // don't validate if there is excludes
         if ((!isValid || isFormEmpty) && !group_with_excludes) {
+                document
+                .querySelectorAll(
+                    "input-text, input-text-area, input-text-autocomplete, input-number, input-checkbox, dropdown-single-select, dropdown-multi-select, dropdown-excludes"
+                )
+                .forEach((control) => {
+                    control.markDirty();
+                    control.connectedCallback();
+                });
+
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),

@@ -461,26 +461,29 @@ dropdown-multi-select {
     display: flex;
     flex-direction: column;
     text-align: left;
+    width: 100%;
 }
 
 [disabled] .form-container .excludes-table tr {
     display: flex;
-    border-bottom: 2px solid rgba(var(--shadow-color-rgb), 0.3);
 }
 
 [disabled] .form-container .excludes-table th {
     width: 100%;
-    padding: 8px;
-    background-color: rgba(var(--surface2-color-rgb), 0.3);
+    padding: 12px;
+    background-color: rgba(var(--surface2-color-rgb), 0.01);
     font-weight: 500;
     font-size: 14px;
+    flex: 1;
+    color: var(--copyAlt-color);
 }
 
 [disabled] .form-container .excludes-table td {
     width: 100%;
     font-family: "Source Code Pro";
-    color: var(--copyAlt-color);
-    padding: 8px;
+    color: var(--copy-color);
+    padding: 12px;
+    flex: 1;
 }
 
 [disabled] .form-container .excludes-container #excludes-minus-btn {
@@ -764,6 +767,33 @@ web-modal {
     display: none;
 }
 
+web-modal .data-box{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 80%;
+    background-color: var(--surface2-color);
+    justify-content: start;
+    padding: 1.25rem;
+    border-radius: 1rem;
+
+}
+
+.data-box .data-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.data-box .data-info span {
+    font-family: "Source Code Pro", monospace;
+    color: var(--copyAlt-color);
+}
+
+.data-box svg {
+    width: 36px;
+    height: auto;
+}
+
 #confirm-modal {
     /* Underlay covers entire screen. */
     position: fixed;
@@ -832,20 +862,6 @@ web-modal {
     animation-name: zoomOut;
     animation-duration: 150ms;
     animation-timing-function: ease;
-}
-
-#confirm-modal .confirm-message {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    text-align: left;
-    font-weight: 400;
-    color: var(--copyAlt-color);
-}
-
-#confirm-modal .confirm-message ul {
-    list-style-type: disc;
-    padding-left: 1rem;
 }
 
 @keyframes fadeIn {

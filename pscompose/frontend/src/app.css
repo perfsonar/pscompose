@@ -97,6 +97,58 @@ body {
     @apply flex flex-row w-full max-h-[200px] pt-[0.8rem] pb-[0.8rem] opacity-100 text-center z-[1000] bg-copyAlt text-copy justify-center items-center gap-xsm;
 }
 
+/* CONFIRM MODAL MESSAGE */
+
+#confirm-modal .confirm-message {
+    @apply flex flex-col items-start gap-md w-[80%] text-left font-[400] text-copyAlt;
+}
+
+#confirm-modal .confirm-message ul {
+    list-style-type: disc;
+    padding-left: 1rem;
+}
+
+.collapsible-list {
+  @apply flex w-full flex-col bg-background rounded-xl transition-all;
+}
+
+.collapsible-item {
+  @apply overflow-hidden border-b border-shadow last:border-b-0;
+}
+
+details > summary {
+    @apply flex items-center gap-xsm font-semibold py-3 px-4 cursor-pointer list-none;
+}
+
+.collapsible-item summary {
+  @apply flex justify-between py-3 px-4 cursor-pointer;
+}
+
+.collapsible-item .summary-content {
+  @apply flex flex-row gap-xsm;
+}
+
+details > summary .collapse-icon {
+  transform: translateY(-2px); 
+  transition: transform 0.2s ease;
+}
+
+details[open] > summary .collapse-icon {
+  transform: scaleY(-1) translateY(-1px); 
+}
+
+.collapsible-item ul {
+  @apply flex flex-col p-4 bg-surface_1 gap-2;
+}
+
+.collapsible-item li {
+  @apply px-4 py-1 bg-background rounded-full w-fit transition-transform ease-in-out list-none;
+}
+
+.collapsible-item li:hover {
+    @apply text-copyAlt transition-transform duration-200 ease-in-out scale-[1.04];
+}
+
 /* NAVIGATIONs */
 
 nav {
@@ -269,7 +321,7 @@ thead {
 }
 
 tr {
-    @apply flex;
+    @apply flex border-b border-copyAlt/30;
 }
 
 tr p {
@@ -277,7 +329,7 @@ tr p {
 }
 
 th {
-    @apply py-md px-md text-left border-b border-copyAlt/70;
+    @apply py-md px-md text-left;
 }
 
 th:nth-child(1) {
@@ -303,7 +355,7 @@ th:nth-child(3) {
 }
 
 td {
-    @apply py-md px-md text-left border-b border-copyAlt/50;
+    @apply flex justify-start items-center px-md py-md text-left;
 }
 
 td:nth-child(1) {
@@ -317,27 +369,42 @@ td:nth-child(3) {
 }
 
 td a {
-    @apply font-mono flex flex-col cursor-pointer transition-all duration-150 ease-in-out;
+    @apply h-fit font-mono flex flex-col cursor-pointer transition-all duration-150 ease-in-out;
 }
 
 td a:hover {
-    @apply text-copyAlt transition-transform duration-200 ease-in-out scale-[1.01];
+    @apply text-copyAlt transition-transform duration-200 ease-in-out scale-[1.04];
 }
 
 .td-content {
-    @apply text-h6_sans font-sans flex flex-col justify-start h-full;
+    @apply text-h6_sans font-sans flex flex-col justify-center h-full;
 }
 
 .action-icons {
     @apply flex flex-col gap-none sm:flex-row sm:gap-xsm w-fit flex-shrink-0;
 }
 
+.action-icon {
+    @apply relative;
+}
+
+.action-icon .tooltip {
+  @apply hidden;
+}
+
+.action-icon:hover .tooltip{
+    @apply block text-copy text-xs px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
+    background-color: #f2f2f2;
+    color: #3d3d3d;
+    border-radius: 8px;
+}
+
 table .tag {
-    @apply flex items-center bg-success/70 text-copy/90 px-md py-xsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
+    @apply flex items-center bg-success/70 text-copy/90 text-[0.8rem] px-[0.8rem] py-xxsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
 }
 
 table .tags {
-    @apply flex flex-col flex-wrap xlg:flex-row gap-xsm;
+    @apply h-fit inline-flex flex flex-col flex-wrap justify-start xlg:flex-row gap-md;
 }
 
 /* SHORT CUT PANEL  */
@@ -396,8 +463,16 @@ table .tags {
     @apply flex items-center flex-row gap-xsm;
 }
 
+.box-header .box-info {
+    @apply flex flex-col;
+}
+
+.box-header .box-info span {
+    @apply font-mono text-copyAlt
+}
+
 .box-header svg {
-    @apply w-lg h-lg;
+    @apply w-xlg h-xlg;
 }
 
 .box-name {

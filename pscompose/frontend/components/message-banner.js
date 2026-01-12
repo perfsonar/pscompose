@@ -14,6 +14,8 @@ function processLastMessage() {
             return;
         }
 
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
         if (confirmTheme == "Success") {
             container.innerHTML = `<i data-lucide="check-circle-2"></i> 
                                     <h6>${confirmMsg}</h6>`;

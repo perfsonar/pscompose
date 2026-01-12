@@ -1,5 +1,5 @@
 export class WebModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon"];
+    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon", "confirm-data-name"];
 
     constructor() {
         super();
@@ -52,8 +52,19 @@ export class WebModal extends HTMLElement {
                     <i style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide="alert-triangle">
                     </i>
                     <h4 id="confirm-question">${this.getAttribute("question")}</h4>
+                    <div class="data-box">
+                        <i
+                            data-lucide="${ psCompose.activeRoute.icon }"
+                            class="shortcut-icon"
+                            aria-hidden="true"
+                        ></i>
+                        <div class="data-info">
+                            <span>${ psCompose.activeRoute.singular }</span>
+                            <h5>${this.getAttribute("confirm-data-name") || ""}</h5>
+                        </div>
+                    </div>
+                    <br/>
                     ${this.getAttribute("message") ? this.getAttribute("message") : ""}
-                    <p id="confirm-find"></p>
                     <div class="save-cancel">
                         <web-button 
                             type="button" 
