@@ -139,9 +139,18 @@
                                 </td>
                                 <td>
                                     <div class="td-content action-icons">
-                                        <web-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></web-button>
-                                        <web-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></web-button>
-                                        <web-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></web-button>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Edit Template</div>
+                                            <web-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></web-button>
+                                        </div>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Download Template</div>
+                                            <web-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></web-button>
+                                        </div>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Copy Template JSON to Clipboard</div>
+                                            <web-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></web-button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

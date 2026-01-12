@@ -28,25 +28,50 @@
         } else if (result.length === 0) {
             return `
                 <div class="confirm-message">
-                    <h5>Making changes to this ${datatype} will not affect any existing data</h5>
+                    <h6>Making changes to this ${datatype} will not affect any existing data.</h6>
                 </div>
             `;
         } else {
             return `
-            <div class="confirm-message">
-                <h5>This ${datatype} is used in the following:</h5>
-                <ul>
-                    ${result
-                        .map(
-                            (item) =>
-                                `<li>${capitalizeFirstLetter(item.type)}: <a href="/${pluralWord(
-                                    item.type,
-                                )}/?id=${item.id}" target="_blank">${item.name}</a></li>`,
-                        )
-                        .join("")}
-                </ul>
-            </div>
-            `;
+                <div class="confirm-message">
+                <p>This ${datatype} is used in the following:</p>
+                <div class="collapsible-list">
+                    ${Object.entries(
+                    result.reduce((acc, item) => {
+                        const type = capitalizeFirstLetter(item.type);
+                        acc[type] = acc[type] || [];
+                        acc[type].push(item);
+                        return acc;
+                    }, {})
+                    ).map(([type, items]) => `
+                    <details class="collapsible-item">
+                        <summary>
+                            <div class="summary-content">
+                                <i
+                                    data-lucide="${psCompose.metadata[pluralWord(type.toLowerCase())].icon}"
+                                    class="shortcut-icon"
+                                    aria-hidden="true"
+                                ></i>
+                                ${type}
+                            </div>
+                            <i data-lucide="chevron-down" class="collapse-icon" aria-hidden="true"></i>
+                        </summary>
+                        <div class="collapsible-content">
+                            <ul>
+                                ${items.map(item => `
+                                    <li>
+                                        <a href="/${pluralWord(item.type)}/?id=${item.id}" target="_blank">
+                                            ${item.name}
+                                        </a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </details>
+                    `).join('')}
+                </div>
+                `;
+
         }
     }
 
@@ -63,6 +88,7 @@
         } catch (error) {
             console.error("Error:", error);
         }
+
         deleteModal.setAttribute("message", resultToHtml(result));
     })();
 

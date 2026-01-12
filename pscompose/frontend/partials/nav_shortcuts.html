@@ -28,9 +28,9 @@
     function formatDate(isoString) {
         const date = new Date(isoString);
         const options = {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+            day: "2-digit",
+            month: "2-digit", 
+            year: "2-digit",
             hour: "2-digit",
             minute: "2-digit",
         };
@@ -75,11 +75,13 @@
                                     class="shortcut-icon"
                                     aria-hidden="true"
                                 ></i>
-                                <h4 class="box-name">{{ item.name }}</h4>
+                                <div class="box-info">
+                                    <span>{{ item.type | capitalize }}</span>
+                                    <h4 class="box-name">{{ item.name }}</h4>
+                                </div>
                             </div>
                             <p class="box-text">
                                 <span class="visually-hidden">Last edited </span>
-                                <br/>
                                 {{ item.formatted_date }}
                             </p>
                         </li>

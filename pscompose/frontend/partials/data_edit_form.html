@@ -102,7 +102,12 @@
     // Set Up JSON Form
     document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
-        document.getElementById("data-name").textContent = elem?.data?.name;
+        document.getElementById("data-name").textContent = elem?.data?.name;      
+
+        document.querySelectorAll("web-modal").forEach(modal => {
+            modal.setAttribute("confirm-data-name", elem?.data?.name || "");
+        });
+
         editMode(params.get("edit"));
 
         // Show export button only for templates in readonly mode
@@ -204,6 +209,16 @@
 
         if ((!isValid || isFormEmpty) && !group_with_excludes) {
             // GROUP FORM CANT BE SUBMITTED -> MIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
+
+            document
+            .querySelectorAll(
+                "input-text, input-text-area, input-text-autocomplete, input-number, input-checkbox, dropdown-single-select, dropdown-multi-select, dropdown-excludes"
+            )
+            .forEach((control) => {
+                control.markDirty();
+                control.connectedCallback();
+            });
+
             sessionStorage.setItem(
                 "confirmMessage",
                 JSON.stringify(["Form fields not all valid", "Error"]),
