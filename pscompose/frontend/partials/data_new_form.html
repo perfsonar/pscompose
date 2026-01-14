@@ -173,7 +173,7 @@
         );
 
         // --- Handle test selection change for tasks (update tools dropdown) ---
-        if (psCompose.activeMenuItem === "tasks" && event.target.label === "Test") {
+        if (psCompose.activeMenuItem === "task" && event.target.label === "Test") {
             const testId = event.target.value;
             if (!testId) return;
 
@@ -257,7 +257,9 @@
             "event.target.label:",
             event.target.label,
         );
-        if (psCompose.activeMenuItem === "tests" || psCompose.activeMenuItem === "archives") {
+
+
+        if (psCompose.activeMenuItem === "test" || psCompose.activeMenuItem === "archive") {
             const elem = document.querySelector("json-form");
 
             // --- Handle type change (test type or archive type) ---
@@ -341,7 +343,7 @@
                 const versions = (additionalSchema?.spec?.versions || []).filter((v) => v !== null);
                 if (!versions.length) return;
 
-                const highestVersion = versions.sort((a, b) => Number(b) - Number(a))[0];
+                const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
                 console.log("Highest version:", highestVersion);
 
                 const baseSchema = JSON.parse(elem.schemaData);

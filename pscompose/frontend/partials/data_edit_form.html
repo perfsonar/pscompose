@@ -383,7 +383,7 @@
     // Handle form changes for type/version switching (only in edit mode)
     if (
         !!params.get("edit") &&
-        (psCompose.activeMenuItem === "tests" || psCompose.activeMenuItem === "archives")
+        (psCompose.activeMenuItem === "test" || psCompose.activeMenuItem === "archive")
     ) {
         var selectedType = null;
         var additionalSchema = null;
@@ -485,7 +485,7 @@
                     );
                     if (!versions.length) return;
 
-                    const highestVersion = versions.sort((a, b) => Number(b) - Number(a))[0];
+                    const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
                     console.log("Highest version:", highestVersion);
 
                     const baseSchema = JSON.parse(elem.schemaData);
