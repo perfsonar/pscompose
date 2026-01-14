@@ -496,7 +496,7 @@ table .tags {
 }
 
 .progress-bar {
-    @apply flex flex-row w-full justify-center;
+    @apply flex flex-row w-full justify-center items-center min-h-[80px];
 }
 
 .step-section {
