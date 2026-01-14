@@ -39,7 +39,7 @@
                 <i class="lucide" data-lucide="plus" aria-hidden="true"></i>
                 <h4 class="box-name">Create New Template</h4>
                 <web-button
-                    link="wizard/1/addresses/"
+                    link="wizard/1/address/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Create a new template from scratch"
@@ -85,19 +85,19 @@
         const table = document.querySelector("tbody");
 
         try {
-            const response = await fetch(psCompose.metadata["templates"].list_endpoint);
+            const response = await fetch(psCompose.metadata["template"].list_endpoint);
             let templates_data = await response.json();
 
             await Promise.all(templates_data.map(async (template) => {
                 template.formatted_date = formatDate(template.last_edited_at);
-                template.editlink = psCompose.metadata["templates"].page_url + '?id=' + template.id + '&edit=true';
+                template.editlink = psCompose.metadata["template"].page_url + '?id=' + template.id + '&edit=true';
 
                 try {
                     template.tasks = [];
                     if (template.json.tasks && template.json.tasks.length > 0) {
                         const taskPromises = template.json.tasks.map(async (taskId) => {
                             try {
-                                const taskResponse = await fetch(psCompose.metadata["tasks"].list_endpoint + taskId + '/');
+                                const taskResponse = await fetch(psCompose.metadata["task"].list_endpoint + taskId + '/');
                                 return await taskResponse.json();
                             } catch (err) {
                                 console.warn(`Failed to fetch task ${taskId}:`, err);

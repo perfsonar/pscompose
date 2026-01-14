@@ -50,12 +50,10 @@
 
 <script>
     (async function renderWizardStep() {
-        const { activeRoute, metadata } = psCompose || {};
-        const step = activeRoute?.step ?? 1;
-        const meta = metadata?.wizard?.[step - 1];
+        const step = Number(psCompose.subsection);
+        const meta = psCompose.metadata[psCompose.metadata.wizard.order[step-1]];
+        psCompose.activeRoute = meta;
         if (!meta) return console.error(`No metadata for step ${step}`);
-
-        const totalSteps = metadata.wizard.length - 1;
 
         // Build desc
         const baseDesc = meta.desc || "";
@@ -63,7 +61,7 @@
             ? `<a href="${meta.link}" target="_blank">Learn More</a>`
             : "";
         const stepInstruction =
-            step < totalSteps
+            step < 8
                 ? `${baseDesc} ${learnMoreLink}<br/><br/>Use the <b>New ${meta.singular}</b> button to add new <b>${meta.plural}</b> as needed.`
                 : baseDesc;
 
@@ -75,10 +73,10 @@
             plural: meta.plural,
             stepText: stepInstruction.trim(),
             leftIcon: meta.icon || "info",
-            prevLink: step > 1 ? metadata.wizard[step - 2].page_url : "/",
-            nextLink: step < totalSteps ? metadata.wizard[step]?.page_url : "",
+            prevLink: step > 1 ? '/wizard/' + (step - 1) + '/' + psCompose.metadata.wizard.order[step-2] + '/' : "/",
+            nextLink: step < 9 ? '/wizard/' + (Number(step) + 1) + '/' + psCompose.metadata.wizard.order[step] + '/' : "",
             prevButton: step > 1 ? "Previous" : "Cancel",
-            nextButton: step >= totalSteps ? "Save" : "Next",
+            nextButton: step >= 8 ? "Save" : "Next",
         };
 
         // Render wizard template
@@ -92,25 +90,66 @@
         var params = new URLSearchParams(window.location.search);
 
         // Render new template form
-        if (step === totalSteps) {
-            if (params.get('id')) window.location = metadata.wizard[step]?.page_url + '?id=' + params.get("id")
+        if (window.location.pathname.includes("/wizard/7/template/")) {
+            if (params.get('id')) window.location = '/wizard/7/complete/' + '?id=' + params.get("id")
             const stepBox = container.querySelector(".step-box");
-            if (stepBox) {
-                stepBox.classList.replace("step-box", "step-box-column");
-                stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_new_form.html" hx-trigger="load"></div>`;
-                htmx.process(stepBox);
+            if (!stepBox) return;
+            stepBox.classList.replace("step-box", "step-box-column");
+            stepBox.innerHTML = `<div class="w-full" hx-get="/partials/data_new_form.html" hx-trigger="load"></div>`;
+            htmx.process(stepBox);
 
-                document.querySelector("#next-btn").setAttribute("confirm-modal", "save-modal");
-                document.querySelector("#next-btn")?.addEventListener("click", (e) => {
-                    const form = document.getElementById("data-new-form");
-                    if (!form) return 
-                    form.requestSubmit();
-                });
-            }
+            const nextBtn = document.querySelector("#next-btn");
+            nextBtn.setAttribute("confirm-modal", "save-modal");
+            nextBtn.removeAttribute("link");
+            nextBtn.addEventListener("click", (e) => {
+                const form = document.getElementById("data-new-form");
+                if (!form) return 
+                form.requestSubmit();
+            });
             return;
         }
 
-        await populateDropdown(activeRoute?.list_endpoint);
+        // Render saved template success page
+        if (window.location.pathname.includes("/wizard/7/complete/")) {
+            const stepSection = document.querySelector(".step-section");
+
+            const stepBox = stepSection.querySelector(".step-box");
+            stepSection.querySelector(".step-box").innerHTML = `<div class="w-full" hx-get="/partials/data_edit_form.html" hx-trigger="load"></div>`;
+            document.querySelector('.progress-bar').querySelectorAll("web-button").forEach(btn => btn.remove());
+
+            document.querySelector('h3').innerText = "Success! Your template has been saved.";
+            document.querySelector('h2').remove();
+            document.querySelector('.step-text').remove();
+
+            const saveCancelDiv = document.createElement("div");
+            saveCancelDiv.className = "save-cancel";
+            saveCancelDiv.innerHTML = `
+                <web-button
+                    label="Copy JSON"
+                    theme="Secondary"
+                    righticon="clipboard-copy"
+                    id="copy-json">
+                </web-button>
+                <web-button
+                    link="/wizard/1/address/"
+                    label="Make Another Template"
+                    theme="Primary">
+                </web-button>
+            `;
+
+            console.log(saveCancelDiv)
+
+            
+            stepSection.appendChild(saveCancelDiv);
+            htmx.process(stepSection);
+
+            document.querySelector('#copy-json').addEventListener("click", async () => {
+                await copyTemplateJSON(params.get("id"));
+            });
+            return;
+        }
+
+        await populateDropdown(meta.list_endpoint);
         setupEventListeners(meta.icon);
 
         if (params.get("id")) loadForm({id: params.get("id"), icon: meta.icon});

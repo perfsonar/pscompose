@@ -74,7 +74,7 @@
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Open submenu when not wizard page
-    if (psCompose.activeRoute.section !== "wizard" && window.innerWidth > 1025) {
+    if ((psCompose.activeMenuItem !== "wizard") && (window.innerWidth > 1025)) {
         showSubmenu();
     }
 
@@ -90,10 +90,14 @@
 
     // Setting edit-icon
     document.getElementById("edit-icon").addEventListener("click", (event) => {
-        const editURL = `${psCompose.activeRoute.page_url}?id=${id}&edit=true`;
-        window.history.pushState({}, "", editURL);
+        const url = new URL(window.location.href); 
+        url.searchParams.set("id", id);           
+        url.searchParams.set("edit", "true");     
+
+        window.history.pushState({}, "", url.toString());
         editMode(true);
     });
+
 
     window.addEventListener("popstate", (event) => {
         editMode(params.get("edit"));

@@ -41,17 +41,6 @@
         const container = document.querySelector(containerSelector);
         if (!container) return;
 
-        const singularToPlural = {
-            address: "addresses",
-            archive: "archives",
-            context: "contexts",
-            group: "groups",
-            schedule: "schedules",
-            task: "tasks",
-            template: "templates",
-            test: "tests",
-        };
-
         try {
             const response = await fetch(apiEndpoint);
             const data = await response.json();
@@ -59,8 +48,8 @@
             // Pre-format last_edited_at
             data.forEach((item) => {
                 item.formatted_date = formatDate(item.last_edited_at);
-                item.icon = psCompose.metadata[singularToPlural[item.type]].icon;
-                item.link = psCompose.metadata[singularToPlural[item.type]].page_url + '?id=' + item.id;
+                item.icon = psCompose.metadata[item.type].icon;
+                item.link = psCompose.metadata[item.type].page_url + '?id=' + item.id;
             });
 
 
