@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.html",
     "scripts": {
-        "css-watch": "npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch"
+        "css-watch": "node ./src/generate-color-css.js && npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch"
     },
     "dependencies": {
         "@esnet/esnet-tokens": "^1.1.0",

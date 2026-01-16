@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-import * as tokens from "@esnet/esnet-tokens";
+const tokens = require("@esnet/esnet-tokens");
 
 module.exports = {
   content: [
     "./mockups/**/*.html",
     "./app/**/*.html",
+    "./app/index.html",
     "./pages/**/*.html",
     "./partials/**/*.html",
   ],
@@ -15,15 +16,15 @@ module.exports = {
       mono: [tokens.ESNET_FONT_FAMILY_BODY_MONO, "monospace"],
     },
     colors: {
-      background: tokens.ESNET_COLOR_DARK_BACKGROUND,
-      copy: tokens.ESNET_COLOR_DARK_COPY,
-      copyAlt: tokens.ESNET_COLOR_DARK_COPY_ALT,
-      surface_1: tokens.ESNET_COLOR_DARK_SURFACE_1,
-      surface_2: tokens.ESNET_COLOR_DARK_SURFACE_2,
-      error: tokens.ESNET_COLOR_DARK_ERROR,
-      warning: tokens.ESNET_COLOR_DARK_ERROR,
-      success: tokens.ESNET_COLOR_DARK_SUCCESS,
-      shadow: tokens.ESNET_COLOR_DARK_SHADOW,
+      background: "rgb(var(--background) / <alpha-value>)",
+      copy: "rgb(var(--copy) / <alpha-value>)",
+      copyAlt: "rgb(var(--copy-alt) / <alpha-value>)",
+      surface_1: "rgb(var(--surface_1) / <alpha-value>)",
+      surface_2: "rgb(var(--surface_2) / <alpha-value>)",
+      error: "rgb(var(--error) / <alpha-value>)",
+      warning: "rgb(var(--warning) / <alpha-value>)",
+      success: "rgb(var(--success) / <alpha-value>)",
+      shadow: "rgb(var(--shadow) / <alpha-value>)",
     },
     extend: {
       screens: {

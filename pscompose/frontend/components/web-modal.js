@@ -31,16 +31,16 @@ export class WebModal extends HTMLElement {
     }
 
     render() {
-        let accentColor = "var(--copy-color)";
+        let accentColor = "var(--copy)";
         if (this.getAttribute("theme")) {
             if (this.getAttribute("theme") == "Success") {
-                accentColor = "var(--success-color)";
+                accentColor = "var(--success)";
             }
             if (this.getAttribute("theme") == "Error") {
-                accentColor = "var(--error-color)";
+                accentColor = "var(--error)";
             }
             if (this.getAttribute("theme") == "Warning") {
-                accentColor = "var(--warning-color)";
+                accentColor = "var(--warning)";
             }
         }
 

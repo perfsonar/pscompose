@@ -1,29 +1,8 @@
+@import "../css/color.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* COLOR -  FOR WEBCOMPONENTS */
-
-:root {
-    --background-color: #252526;
-    --copy-color: #ffffff;
-    --copyAlt-color: #c2c2c2;
-    --surface1-color: #19191a;
-    --surface2-color: #000000;
-    --error-color: #a6111b;
-    --success-color: #31b63f;
-    --shadow-color: #5c5f6b;
-    --warning-color: #e6c500;
-    --background-color-rgb: 37, 37, 38;
-    --copy-color-rgb: 255, 255, 255;
-    --copyAlt-color-rgb: 194, 194, 194;
-    --surface1-color-rgb: 25, 25, 26;
-    --surface2-color-rgb: 0, 0, 0;
-    --error-color-rgb: 166, 17, 27;
-    --success-color-rgb: 49, 182, 63;
-    --shadow-color-rgb: 92, 95, 107;
-    --warning-color-rgb: 230, 197, 0;
-}
 
 /* TYPOGRAPHY - SANS */
 
@@ -208,7 +187,7 @@ nav {
 }
 
 .left-nav .active {
-    @apply text-success;
+    @apply text-success bg-background w-full pt-[0.9rem]; 
 }
 
 .left-nav .active svg {
@@ -272,7 +251,7 @@ nav {
 }
 
 .submenu .active {
-    @apply bg-success/30 rounded-full;
+    @apply bg-success/50 rounded-full;
 }
 
 .submenu ul svg {
@@ -400,7 +379,7 @@ td a:hover {
 }
 
 table .tag {
-    @apply flex items-center bg-success/70 text-copy/90 text-[0.8rem] px-[0.8rem] py-xxsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
+    @apply flex items-center bg-success text-surface_1 text-[0.8rem] px-[0.8rem] py-xxsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
 }
 
 table .tags {
