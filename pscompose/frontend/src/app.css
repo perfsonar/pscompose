@@ -151,7 +151,7 @@ nav {
 }
 
 .Logo {
-    @apply h-16;
+    @apply h-16 p-xsm;
 }
 
 .top-right {
