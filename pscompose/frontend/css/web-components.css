@@ -911,7 +911,7 @@ web-modal .data-box{
     position: relative;
     overflow: hidden;
     width: 52px;
-    height: 26px;
+    height: 32px;
 
     transition:
         border-color var(--esnet-time-duration-quick, 250ms) ease,
@@ -984,4 +984,10 @@ web-modal .data-box{
     :active:checked ~ :not(.disabled > &) {
         background-color: rgba(var(--success), 0.5);
     }
+}
+
+.input-switch-icon {
+    color: rgb(var(--success));
+    width: 20px;
+    height: 20px
 }
