@@ -14,7 +14,7 @@ export class InputTextArea extends FormControl {
         this.textAreaEl?.addEventListener("change", (e) => {
             e.preventDefault();
             this.markDirty();
-            this.value = this.textAreaEl.value;
+            this.value = this.textAreaEl.value === undefined ? "" : this.textAreaEl.value;
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
         this.textAreaEl?.addEventListener("input", () => this.markDirty(), { once: true });
