@@ -439,7 +439,7 @@ table .tags {
 }
 
 .box-header {
-    @apply flex items-center flex-row gap-xsm;
+    @apply flex items-start flex-row gap-xsm;
 }
 
 .box-header .box-info {
@@ -447,11 +447,11 @@ table .tags {
 }
 
 .box-header .box-info span {
-    @apply font-mono text-copyAlt
+    @apply text-label_1_mono font-mono text-copyAlt;
 }
 
 .box-header svg {
-    @apply w-xlg h-xlg;
+    @apply w-xlg h-xlg mt-xxsm;
 }
 
 .box-name {
