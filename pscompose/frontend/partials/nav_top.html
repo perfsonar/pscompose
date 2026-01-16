@@ -14,5 +14,23 @@
             aria-label="User account"
         >
         </web-button>
+        <input-switch id="theme-switch" checked></input-switch>
     </div>
 </nav>
+
+<script>
+  const html = document.documentElement;
+  const themeSwitch = document.getElementById('theme-switch');
+
+  // Set initial theme from localStorage (default 'light    ')
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  html.setAttribute('data-theme', savedTheme);
+  themeSwitch.checked = savedTheme === 'dark';
+  
+  // Toggle handler
+  themeSwitch.addEventListener('change', () => {
+    const newTheme = themeSwitch.checked ? "dark" : "light";
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
