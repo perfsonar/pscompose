@@ -1,6 +1,6 @@
 export class InputSwitch extends HTMLElement {
     static get observedAttributes() {
-        return ["checked"];
+        return ["checked", "icon"];
     }
     
     get checked() {
@@ -8,6 +8,13 @@ export class InputSwitch extends HTMLElement {
     }
     set checked(v) {
         v ? this.setAttribute("checked", "") : this.removeAttribute("checked");
+    }
+
+    get icon() {
+        return this.getAttribute("icon") ?? "";
+    }
+    set icon(v) {
+        this.setAttribute("icon", v ?? "");
     }
     
     constructor() {
@@ -35,11 +42,14 @@ export class InputSwitch extends HTMLElement {
         this.innerHTML = `
             <div class="input-switch-container" ${this.checked ? 'checked' : ''}>
                 <input type="checkbox" class="input-switch-input" ${this.checked ? 'checked' : ''}/>
-                <span class="input-switch-indicator"></span>
+                <span class="input-switch-indicator">
+                    <i class="input-switch-icon" data-lucide=${this.icon ? this.icon : ''}></i>
+                </span>
             </div>
         `;
         this.inputEl = this.querySelector(".input-switch-input");
         this.attachEventListener();
+        lucide.createIcons();
     }
 }
 
