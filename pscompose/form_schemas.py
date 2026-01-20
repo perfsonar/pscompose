@@ -45,7 +45,7 @@ ADDRESS_SCHEMA = {
             "items": {"oneOf": []},
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -101,7 +101,7 @@ ADDRESS_UI_SCHEMA = {
             "scope": "#/properties/contexts",
             "customComponent": "dropdown-multi-select",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -129,7 +129,7 @@ GROUP_SCHEMA = {
                     "type": {"const": "list"},
                     "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -169,7 +169,7 @@ GROUP_SCHEMA = {
                     },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -194,7 +194,7 @@ GROUP_SCHEMA = {
                     },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -230,7 +230,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/_meta",
-                    "customComponent": "input-text-area",
+                    "customComponent": "input-text-area-json",
                 },
             ],
         },
@@ -269,7 +269,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/_meta",
-                    "customComponent": "input-text-area",
+                    "customComponent": "input-text-area-json",
                 },
             ],
         },
@@ -300,7 +300,7 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/_meta",
                     "options": {"multi": True},
-                    "customComponent": "input-text-area",
+                    "customComponent": "input-text-area-json",
                 },
             ],
         },
@@ -350,7 +350,7 @@ SCHEDULE_SCHEMA = {
             "minimum": 1,
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "This field should be a JSON object with keys such as 'display-name' and 'display-set'",
         },
@@ -386,7 +386,7 @@ SCHEDULE_UI_SCHEMA = {
         #     "scope": "#/properties/until",
         # },
         {"type": "Control", "scope": "#/properties/max-runs", "customComponent": "input-number"},
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -444,7 +444,7 @@ ARCHIVE_SCHEMA = {
             "description": "",
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -479,9 +479,9 @@ ARCHIVE_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/transform",
-            "customComponent": "input-text-area",
+            "customComponent": "input-text-area-json",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -501,7 +501,7 @@ TEST_SCHEMA = {
             "oneOf": [],
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -531,7 +531,7 @@ TEST_UI_SCHEMA = {
             },
             "elements": [],
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -562,7 +562,7 @@ CONTEXT_SCHEMA = {
         #     "description": "JSON object that specifies archive-specific parameters. Archive objects in pSConfig are taken directly from pScheduler. Eg: _url",
         # },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -584,8 +584,8 @@ CONTEXT_UI_SCHEMA = {
             "scope": "#/properties/context",
             "customComponent": "dropdown-single-select",
         },
-        # {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area"},
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        # {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area-json"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -653,7 +653,7 @@ TASK_SCHEMA = {
             "title": "Reference",
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -721,9 +721,9 @@ TASK_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/reference",
-            "customComponent": "input-text-area",
+            "customComponent": "input-text-area-json",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -742,7 +742,7 @@ TEMPLATE_SCHEMA = {
             "items": {"oneOf": []},
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
         },
     },
@@ -759,7 +759,7 @@ TEMPLATE_UI_SCHEMA = {
             "scope": "#/properties/tasks",
             "customComponent": "dropdown-multi-select",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area-json"},
     ],
 }
 
@@ -996,7 +996,7 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "input-text-area-json",
                         },
                         {
                             "type": "Control",
@@ -1036,7 +1036,7 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "input-text-area-json",
                         },
                         {
                             "type": "Control",
@@ -1071,7 +1071,7 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "input-text-area-json",
                         },
                         {
                             "type": "Control",
