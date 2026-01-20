@@ -34,13 +34,13 @@ export class WebModal extends HTMLElement {
         let accentColor = "var(--copy)";
         if (this.getAttribute("theme")) {
             if (this.getAttribute("theme") == "Success") {
-                accentColor = "var(--success)";
+                accentColor = "rgb(var(--success))";
             }
             if (this.getAttribute("theme") == "Error") {
-                accentColor = "var(--error)";
+                accentColor = "rgb(var(--error))";
             }
             if (this.getAttribute("theme") == "Warning") {
-                accentColor = "var(--warning)";
+                accentColor = "rgb(var(--warning))";
             }
         }
 
