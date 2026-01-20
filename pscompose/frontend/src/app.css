@@ -170,27 +170,27 @@ nav {
     @apply flex flex-row;
 }
 
-.left-nav {
+.nav {
     @apply flex flex-col gap-md w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
 
-.left-nav-item {
+.nav-item {
     @apply p-2.5 font-mono text-copy flex flex-col items-center text-center gap-xsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
 }
 
-.left-nav-item:hover {
+.nav-item:hover {
     @apply text-copyAlt translate-x-[1px] transition-transform duration-200 ease-in-out;
 }
 
-.left-nav-item p {
+.nav-item p {
     @apply text-h6_mono font-mono;
 }
 
-.left-nav .active {
+.nav .active {
     @apply text-success bg-background w-full pt-[0.9rem]; 
 }
 
-.left-nav .active svg {
+.nav .active svg {
     @apply text-success;
 }
 
@@ -200,7 +200,7 @@ nav {
     @apply relative md:transition-all;
 }
 
-.submenu-container {
+.subnav-container {
     @apply flex-1 bg-surface_2;
     width: 0;
     opacity: 0;
@@ -214,58 +214,58 @@ nav {
     @apply md:static md:inset-auto md:h-auto;
 }
 
-.submenu-container.open {
+.subnav-container.open {
     width: calc(100vw - 7.5rem);
     @apply md:w-[25rem] opacity-100;
 }
 
-.submenu-container.close {
+.subnav-container.close {
     width: 0;
     opacity: 0;
 }
 
-.submenu-container.close.hidden {
+.subnav-container.close.hidden {
     transition:
         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.submenu {
+.subnav {
     @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-full mb-xxlg;
 }
 
-.submenu h1 {
+.subnav h1 {
     @apply font-sans font-bold py-md text-[2.25rem] flex items-center text-success;
 }
 
-.submenu ul {
+.subnav ul {
     @apply flex flex-col gap-xsm;
 }
 
-.submenu-item {
+.subnav-item {
     @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
 }
 
-.submenu li:hover {
+.subnav li:hover {
     @apply text-copyAlt translate-x-[1px] transition-transform duration-200 ease-in-out;
 }
 
-.submenu .active {
+.subnav .active {
     @apply bg-success/50 rounded-full;
 }
 
-.submenu ul svg {
+.subnav ul svg {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 
-.submenu .submenu-header {
+.subnav .subnav-header {
     @apply flex flex-row justify-between items-center mb-xsm gap-lg;
 }
 
-.submenu #submenu-search {
+.subnav #subnav-search {
     @apply flex flex-row items-center bg-surface_1 text-copy w-full h-[40px] p-md border border-[#c3c7d9];
 }
-.submenu #submenu-search:focus {
+.subnav #subnav-search:focus {
     @apply outline-none border-[1.5px] border-success;
 }
 

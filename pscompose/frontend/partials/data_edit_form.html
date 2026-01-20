@@ -73,14 +73,14 @@
     var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
-    // Open submenu when not wizard page
+    // Open subnav when not wizard page
     if ((psCompose.activeMenuItem !== "wizard") && (window.innerWidth > 1025)) {
-        showSubmenu();
+        showSubnav();
     }
 
     function editMode(bool) {
         document.querySelector("json-form").setAttribute("readonly", String(!bool));
-        if (bool) hideSubmenu();
+        if (bool) hideSubnav();
     }
 
     // Setting the hx-get attribute dynamically
@@ -130,7 +130,7 @@
 
         if (!!params.get("edit")) {
             document.querySelector("json-form").setAttribute("readonly", "false");
-            hideSubmenu();
+            hideSubnav();
 
             // For tasks in edit mode, filter tools based on the already-selected test
             if (psCompose.activeMenuItem === "tasks") {
