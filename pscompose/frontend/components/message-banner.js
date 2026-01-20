@@ -19,15 +19,15 @@ function processLastMessage() {
         if (confirmTheme == "Success") {
             container.innerHTML = `<i data-lucide="check-circle-2"></i> 
                                     <h6>${confirmMsg}</h6>`;
-            container.style.backgroundColor = `rgba(var(--success-color-rgb), 0.5)`;
+            container.style.backgroundColor = `rgba(var(--success)/ 0.8)`;
         } else if (confirmTheme == "Warning") {
             container.innerHTML = `<i data-lucide="alert-triangle"></i> 
                                     <h6>${confirmMsg}</h6>`;
-            container.style.backgroundColor = `rgba(var(--warning-color-rgb), 0.5)`;
+            container.style.backgroundColor = `rgba(var(--warning)/ 0.8)`;
         } else if (confirmTheme == "Error") {
             container.innerHTML = `<i data-lucide="circle-x"></i> 
                                     <h6>${confirmMsg}</h6>`;
-            container.style.backgroundColor = `rgba(var(--error-color-rgb), 0.5)`;
+            container.style.backgroundColor = `rgba(var(--error)/ 0.8)`;
         }
 
         lucide.createIcons({ root: container });

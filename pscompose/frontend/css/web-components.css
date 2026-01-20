@@ -270,6 +270,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: rgb(var(--copyAlt));
     height: auto;
     min-height: 0;
+    field-sizing: content;
 
     pointer-events: none;
     user-select: none;
@@ -831,11 +832,11 @@ web-modal .data-box{
     align-items: center;
     gap: 1rem;
     border-radius: 0.5rem;
-    border-width: 0.125rem;
+    border-width: 0.2rem;
     --tw-border-opacity: 1;
-    border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+    border-color: rgb(var(--surface_2));
     --tw-bg-opacity: 1;
-    background-color: rgb(25 25 26 / var(--tw-bg-opacity, 1));
+    background-color: rgb(var(--surface_1));
     padding-top: 2rem;
     padding-bottom: 2rem;
     padding-left: 4rem;
