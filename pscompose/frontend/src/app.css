@@ -461,6 +461,10 @@ table .tags {
 }
 
 .box-header {
+    @apply flex items-center flex-row gap-xsm;
+}
+
+.box-header:has(.box-info) {
     @apply flex items-start flex-row gap-xsm;
 }
 
