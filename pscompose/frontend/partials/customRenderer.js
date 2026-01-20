@@ -8,6 +8,7 @@ function toAllCaps(str) {
 const webComponents = [
     "input-text",
     "input-text-area",
+    "input-text-area-json",
     "input-text-autocomplete",
     "input-number",
     "input-checkbox",
