@@ -1,28 +1,33 @@
 <div class="shortcuts-container" aria-label="Shortcuts panel">
-        <section class="shortcuts" aria-labelledby="recently-edited-heading">
-            <h3 id="recently-edited-heading" class="shortcuts-title">Recently Edited</h3>
-            <ul
-                class="recently-edited-container"
-                role="status"
-                aria-live="polite"
-                aria-busy="true"
-            >
-                <p>No items found.</p>
-            </ul>
-        </section>
-        <section class="shortcuts" aria-labelledby="favorites-heading">
-            <h3 id="favorites-heading" class="shortcuts-title">Favorites</h3>
-            <ul
-                class="favorites-container"
-                role="status"
-                aria-live="polite"
-                aria-busy="true"
-            >
-                <p>No items found.</p>
-            </ul>
-        </section>
+    <section class="shortcuts" aria-labelledby="recently-edited-heading">
+        <h3 id="recently-edited-heading" class="shortcuts-title">Recently Edited</h3>
+        <ul
+            class="recently-edited-container"
+            role="status"
+            aria-live="polite"
+            aria-busy="true"
+        >
+            <p>No items found.</p>
+        </ul>
+    </section>
+    <section class="shortcuts" aria-labelledby="favorites-heading">
+        <h3 id="favorites-heading" class="shortcuts-title">Favorites</h3>
+        <ul
+            class="favorites-container"
+            role="status"
+            aria-live="polite"
+            aria-busy="true"
+        >
+            <p>No items found.</p>
+        </ul>
     </section>
 </div>
+
+<web-button
+    class="toggle-shortcuts-btn"
+    theme="Icon"
+    aria-label="Toggle Shortcuts Panel"
+></web-button>
 
 <script>
     function formatDate(isoString) {
@@ -92,25 +97,48 @@
     // loadSection(`${window.API_BASE_URL}/favorites`, ".favorites-container");
 
     const shortcutsContainer = document.querySelector(".shortcuts-container");
+    const toggleBtn = document.querySelector('.toggle-shortcuts-btn');
 
     function showShortcuts() {
         if (shortcutsContainer.classList.contains("open")) return;
 
+        // Start drag animation
+        toggleBtn.classList.add('openning');
+
+        // Open panel
         shortcutsContainer.classList.remove("hidden");
-        shortcutsContainer.offsetWidth; // Force reflow
-        shortcutsContainer.classList.remove("close");
+        shortcutsContainer.offsetWidth; 
+        
+        // Stop drag animation
+        toggleBtn.classList.remove('openning');
+        toggleBtn.classList.add('open');
+
+        // Finish opening panel and set button state
         shortcutsContainer.classList.add("open");
+        toggleBtn.setAttribute('righticon', 'x');
+        toggleBtn.setAttribute('onclick', 'hideShortcuts()');
     }
 
     async function hideShortcuts() {
         if (shortcutsContainer.classList.contains("hidden")) return;
-        shortcutsContainer.classList.remove("open");
-        shortcutsContainer.classList.add("close");
 
+        // Start drag animation
+        toggleBtn.classList.add('closing');
+        toggleBtn.classList.remove('open');
+
+
+        // Close panel
+        shortcutsContainer.classList.remove("open");
+
+        // Wait for panel slide out to finish (if you have close animation)
         await wait(200);
 
         shortcutsContainer.classList.add("hidden");
-        shortcutsContainer.classList.remove("close");
+
+        // Stop drag animation and set button state
+        toggleBtn.classList.remove('closing');
+        toggleBtn.setAttribute('righticon', 'tool-case');
+        toggleBtn.setAttribute('onclick', 'showShortcuts()');
     }
 
     if (window.location.pathname == "/") showShortcuts();

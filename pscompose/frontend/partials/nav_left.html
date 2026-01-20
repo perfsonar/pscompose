@@ -198,7 +198,7 @@
         window.history.pushState({}, "", newUrl);
         psCompose.activeRoute.id = id;
 
-        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-target");
+        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-content");
         highlightActiveSubmenu(id);
     }
 
@@ -209,7 +209,7 @@
         if (!id) return;
 
         psCompose.activeRoute.id = id;
-        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-target");
+        htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-content");
         highlightActiveSubmenu(id);
     });
 

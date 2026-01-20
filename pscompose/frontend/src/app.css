@@ -388,20 +388,16 @@ table .tags {
 
 /* SHORT CUT PANEL  */
 
-.shortcuts {
-    @apply flex flex-col items-center gap-md w-full;
-}
-
 .shortcuts-container {
-    @apply flex flex-col flex-1 bg-background gap-xlg md:bg-surface_1;
+    @apply relative flex flex-col flex-1 gap-xlg bg-background md:bg-surface_1;
     width: 0;
     height: 0;
     opacity: 0;
     overflow: hidden;
     transition:
-        width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
 }
 
 .shortcuts-container.open {
@@ -415,8 +411,8 @@ table .tags {
 
 .shortcuts-container.close.hidden {
     transition:
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .shortcuts .recently-edited-container,
@@ -428,8 +424,34 @@ table .tags {
     @apply flex flex-col w-full gap-md;
 }
 
+.shortcuts {
+    @apply flex flex-col items-center gap-md w-full;
+}
+
 .shortcuts .list-box:hover {
     @apply translate-y-[-1px] scale-[1.02];
+}
+
+.toggle-shortcuts-btn {
+    @apply fixed top-20 right-0 flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1;
+    border-radius: 16px 0 0 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;  
+}
+
+.toggle-shortcuts-btn.opening {
+    transform: translateX(-25rem); 
+    opacity: 0.3;
+}
+
+.toggle-shortcuts-btn.closing {
+    transform: translateX(25rem); 
+    opacity: 0.3;
+}
+
+.toggle-shortcuts-btn.open {
+    @apply absolute top-[5rem] right-[25rem] flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1;
+    opacity: 1;
 }
 
 /* BOX */
@@ -562,12 +584,12 @@ table .tags {
 .datatype.error-form .page,
 .datatype.edit-form .page,
 .datatype.new-form .page {
-    @apply flex flex-col justify-start items-center p-none m-none gap-md;
+    @apply flex flex-col justify-start w-full items-center p-none m-none gap-md;
 }
 
 .datatype.edit-form .content,
 .datatype.new-form .content {
-    @apply flex flex-col gap-lg w-full md:w-[50vw] pb-xxlg;
+    @apply flex flex-col gap-lg w-full md:w-full pb-xxlg;
 }
 
 :where(.packets-ui .vertical-layout) {
