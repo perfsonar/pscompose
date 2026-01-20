@@ -315,7 +315,6 @@ input[type="number"]::-webkit-outer-spin-button {
     flex-direction: column;
     overflow-y: auto;
     gap: 10px;
-    cursor: pointer;
     background-color: rgb(var(--surface_2));
 
     max-height: 0;
@@ -340,6 +339,7 @@ input[type="number"]::-webkit-outer-spin-button {
     flex-direction: row;
     padding: 4px;
     flex: 1;
+    cursor: pointer;
 }
 
 .form-container .dropdown li.active {

@@ -94,14 +94,24 @@ export class SingleSelectDropdown extends FormControl {
 
     attachOptionClickHandler() {
         this.optionsEl.replaceChildren();
-        this.options.forEach((option) => {
+        if (this.options.length === 0) {
             const li = document.createElement("li");
-            li.dataset.value = option.const;
-            li.textContent = option.title;
-            if (option.const === this.value) li.classList.add("active");
-            li.addEventListener("click", (e) => this.handleOptionClick(e));
+            li.className = "no-options";
+            li.textContent = "No options available";
+            li.style.opacity = "0.5";
+            li.style.cursor = "not-allowed"; 
+            li.style.pointerEvents = "none";
             this.optionsEl.appendChild(li);
-        });
+        } else {
+            this.options.forEach((option) => {
+                const li = document.createElement("li");
+                li.dataset.value = option.const;
+                li.textContent = option.title;
+                if (option.const === this.value) li.classList.add("active");
+                li.addEventListener("click", (e) => this.handleOptionClick(e));
+                this.optionsEl.appendChild(li);
+            });
+        }
         document.addEventListener("click", (e) => this.closeDropdownOutside(e));
     }
 
