@@ -7,7 +7,7 @@ const css = `
 
 :root {
   --background: 210 211 215;
-  --copy: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_COPY)};
+  --copy: ${hexToRgbChannels(tokens.ESNET_COLOR_CORE_BLACK_800)};
   --copyAlt: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_COPY_ALT)};
   --surface_1: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SURFACE_1)};
   --surface_2: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SURFACE_2)};
