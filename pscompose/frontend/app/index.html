@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/css/web-components.css" />
 
         <!-- Lucide Icon Library -->
-        <script src="/lib/lucide.min.js@0.479.0" type="text/javascript"></script>
+        <script src="/lib/lucide.min.js@0.562.0" type="text/javascript"></script>
 
         <!-- HTMX Library -->
         <script src="/lib/htmx.org@2.0.4"></script>
@@ -314,6 +314,8 @@
 
             let target = document.getElementById("router-target");
             target.innerHTML = `<div
+                id="router-content"
+                class="w-[75%]"
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'
                 >
