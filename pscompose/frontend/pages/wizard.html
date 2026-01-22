@@ -3,23 +3,23 @@
 <script id="wizard-step-template" type="nunjucks">
     <div class="wizard-page">
         <header class="wizard-header">
-            <h3>{{ headerTitle }}</h3>
+            <web-button
+                id="prev-btn"
+                link="{{ prevLink | default('/') }}"
+                label="{{ prevButton }}"
+                theme="Primary">
+            </web-button>
             <div class="progress-bar">
-                <web-button
-                    id="prev-btn"
-                    link="{{ prevLink | default('/') }}"
-                    label="{{ prevButton }}"
-                    theme="Primary">
-                </web-button>
+                <h3>New Template</h3>
                 <progress-bar step="{{ step }}"></progress-bar>
-                <web-button
-                    id="next-btn"
-                    link="{{ nextLink }}"
-                    label="{{ nextButton }}"
-                    theme="Tertiary"
-                    righticon="arrow-right">
-                </web-button>
             </div>
+            <web-button
+                id="next-btn"
+                link="{{ nextLink }}"
+                label="{{ nextButton }}"
+                theme="Tertiary"
+                righticon="arrow-right">
+            </web-button>
         </header>
 
         <div class="step-section">
@@ -68,7 +68,6 @@
         // Build rendering context
         const context = {
             step,
-            headerTitle: `New ${meta.singular}`,
             singular: meta.singular,
             plural: meta.plural,
             stepText: stepInstruction.trim(),

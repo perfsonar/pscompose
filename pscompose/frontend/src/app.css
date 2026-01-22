@@ -54,7 +54,7 @@ body {
 }
 
 #router-content {
-    @apply flex flex-row w-full md:w-[85%] lg:w-[75%] justify-center items-start gap-lg;
+    @apply flex flex-row w-full md:w-[80%]  justify-center items-start gap-lg;
 }
 
 .backdrop {
@@ -175,7 +175,7 @@ nav {
 }
 
 .nav {
-    @apply flex flex-col gap-md w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
+    @apply flex flex-col gap-md w-[4.5rem] sm:w-[7.5rem] h-full bg-surface_1 items-center py-md px-xsm;
 }
 
 .nav-item {
@@ -187,7 +187,7 @@ nav {
 }
 
 .nav-item p {
-    @apply text-h6_mono font-mono;
+    @apply hidden sm:flex text-h6_mono font-mono;
 }
 
 .nav .active {
@@ -214,18 +214,16 @@ nav {
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
 
-    @apply fixed inset-0 h-screen left-[7.5rem] top-16;
+    @apply fixed inset-0 h-screen left-[4.5rem] sm:left-[7.5rem] top-16;
     @apply md:static md:inset-auto md:h-auto;
 }
 
 .subnav-container.open {
-    width: calc(100vw - 7.5rem);
-    @apply md:w-[25rem] opacity-100;
+    @apply sm:w-[25rem] w-[calc(100vw-4.5rem)] opacity-100;
 }
 
 .subnav-container.close {
-    width: 0;
-    opacity: 0;
+    @apply w-0 opacity-0
 }
 
 .subnav-container.close.hidden {
@@ -516,12 +514,20 @@ table .tags {
     @apply flex flex-col gap-xlg items-center;
 }
 
+.wizard-header {
+    @apply flex flex-row w-full justify-center items-center sm:items-end;
+}
+
 .progress-bar {
-    @apply flex flex-row w-full justify-center items-center min-h-[80px];
+    @apply flex flex-col w-full justify-center items-center min-h-[80px] gap-md;
+}
+
+.progress-bar progress-bar {
+    @apply w-full mb-md hidden sm:block ;
 }
 
 .step-section {
-    @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-[60vw];
+    @apply flex flex-col justify-center py-md gap-lg flex-1 min-h-[24rem] w-full;
     animation-name: WizardFadeIn;
     animation-duration: 0.2s;
     animation-timing-function: ease-in-out;
@@ -590,7 +596,7 @@ table .tags {
 /* HOST EDIT FORM */
 
 .header {
-    @apply flex flex-col items-start md:items-center w-full gap-xsm md:flex-row;
+    @apply flex flex-col items-start sm:items-center w-full gap-xsm sm:flex-row;
 }
 
 .header #data-name {
