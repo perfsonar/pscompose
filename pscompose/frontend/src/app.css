@@ -259,7 +259,7 @@ nav {
 }
 
 .subnav-item .favorite-star {
-    @apply fill-warning stroke-[1px];
+    @apply fill-warning text-warning stroke-none;
 }
 
 .subnav ul svg {
@@ -387,7 +387,7 @@ td a:hover {
 }
 
 table .tag {
-    @apply flex items-center bg-success text-surface_1 text-[0.8rem] px-[0.8rem] py-xxsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
+    @apply flex items-center bg-success/70 text-copy text-[0.8rem] px-[0.8rem] py-xxsm rounded-full border border-[#454547] inline-flex whitespace-nowrap w-fit;
 }
 
 table .tags {
