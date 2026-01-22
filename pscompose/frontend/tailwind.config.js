@@ -18,7 +18,7 @@ module.exports = {
     colors: {
       background: "rgb(var(--background) / <alpha-value>)",
       copy: "rgb(var(--copy) / <alpha-value>)",
-      copyAlt: "rgb(var(--copy-alt) / <alpha-value>)",
+      copyAlt: "rgb(var(--copyAlt) / <alpha-value>)",
       surface_1: "rgb(var(--surface_1) / <alpha-value>)",
       surface_2: "rgb(var(--surface_2) / <alpha-value>)",
       error: "rgb(var(--error) / <alpha-value>)",
