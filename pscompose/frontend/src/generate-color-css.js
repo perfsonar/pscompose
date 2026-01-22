@@ -12,7 +12,7 @@ const css = `
   --copyAlt: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_COPY_ALT)};
   --surface_1: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SURFACE_1)};
   --surface_2: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SURFACE_2)};
-  --error: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_ERROR)};
+  --error: ${hexToRgbChannels(tokens.ESNET_COLOR_CORE_RED_600)};
   --warning: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_WARNING)};
   --success: ${hexToRgbChannels("#31B63F")};
   --shadow: ${hexToRgbChannels(tokens.ESNET_COLOR_CORE_SLATE_400)};
