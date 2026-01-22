@@ -485,7 +485,11 @@ table .tags {
 }
 
 .box-header svg {
-    @apply w-xlg h-xlg mt-xxsm;
+    @apply w-xlg h-xlg;
+}
+
+.box-header:has(.box-info) svg {
+    @apply mt-xxsm;
 }
 
 .box-name {
