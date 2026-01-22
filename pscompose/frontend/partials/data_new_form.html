@@ -180,13 +180,13 @@
         );
         console.log(
             "Change event detected:",
-            psCompose.activeMenuItem,
+            psCompose.activeRoute.key,
             datatype,
             event.target.label,
         );
 
         // --- Handle test selection change for tasks (update tools dropdown) ---
-        if (psCompose.activeMenuItem === "task" && event.target.label === "Test") {
+        if (psCompose.activeRoute.key === "task" && event.target.label === "Test") {
             const testId = event.target.value;
             if (!testId) return;
 
@@ -263,8 +263,8 @@
 
         // Dynamically update schema for certain types
         console.log(
-            "Checking type change - activeMenuItem:",
-            psCompose.activeMenuItem,
+            "Checking type change - activeRoute.key:",
+            psCompose.activeRoute.key,
             "datatype:",
             datatype,
             "event.target.label:",
@@ -272,7 +272,7 @@
         );
 
 
-        if (psCompose.activeMenuItem === "test" || psCompose.activeMenuItem === "archive") {
+        if (psCompose.activeRoute.key === "test" || psCompose.activeRoute.key === "archive") {
             const elem = document.querySelector("json-form");
 
             // --- Handle type change (test type or archive type) ---
