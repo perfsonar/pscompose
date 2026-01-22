@@ -51,8 +51,8 @@ class TooltipBubble extends HTMLElement {
             <div class="tooltip-bubble">
             <div class="tooltip">${this.getAttribute("desc")}</div>
             <div class="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 10 8" fill="none">
-                <path d="M5.86604 7.5C5.48114 8.16667 4.51889 8.16667 4.13399 7.5L0.669889 1.5C0.284989 0.833333 0.766115 -8.24401e-07 1.53592 -7.57103e-07L8.46412 -1.51421e-07C9.23392 -8.41226e-08 9.71504 0.833333 9.33014 1.5L5.86604 7.5Z" fill="#F2F2F2"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 10 8">
+                <path d="M5.86604 7.5C5.48114 8.16667 4.51889 8.16667 4.13399 7.5L0.669889 1.5C0.284989 0.833333 0.766115 -8.24401e-07 1.53592 -7.57103e-07L8.46412 -1.51421e-07C9.23392 -8.41226e-08 9.71504 0.833333 9.33014 1.5L5.86604 7.5Z"/>
                 </svg>
             </div>
             </div>
