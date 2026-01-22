@@ -35,7 +35,6 @@
 
 <script>
     var params = new URLSearchParams(window.location.search);
-    var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     var selectedType = null;
@@ -50,6 +49,7 @@
     document.body.addEventListener("json-form:mounted", () => {
         document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
     });
+
 
     // Save
     document.getElementById("data-new-form").addEventListener("submit", async function (event) {
@@ -141,7 +141,20 @@
                         if (index !== -1) {
                             newPath = path.substring(0, index + marker.length); 
                         }
-                        
+
+                        // 3.1 Saving favorites 
+                        if (document.querySelector("input-checkbox-star").value) {
+                            try {
+                                const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${result.id}/`, {
+                                    method: "PUT",
+                                    headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
+                                });
+                                if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                            } catch (error) {
+                                console.error('Failed to update favorites:', error);
+                            }
+                        };
+
                         window.location = newPath + "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);

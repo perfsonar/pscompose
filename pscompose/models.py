@@ -45,6 +45,7 @@ class UserUpdate(PydanticValidationModel):
     username: str
     name: str
     scopes: List[ScopeEnum]
+    favorites: List[str] = []
 
 
 class UserCreate(UserUpdate):
@@ -76,7 +77,10 @@ class UserTable(SQLAlchemyStorage):
     name = Column(Text)
     password = Column(LargeBinary(60))
     scopes = Column(postgresql.JSON)
-
+    favorites = Column(
+        MutableList.as_mutable(postgresql.JSONB), 
+        default=list
+    )
 
 def generate_uuid():
     """Generate a 12 character UUID by truncating a standard UUID"""

@@ -3,12 +3,16 @@ from typing import Dict, List
 from fastapi import Body
 from fastapi_versioning import version
 from sqlalchemy.exc import IntegrityError
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Security
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
 from pscompose.logger import logger
 from pydantic import ValidationError
 
+from pscompose.auth import auth_check
+from pscompose.settings import TOKEN_SCOPES
+from pscompose.auth.basic import backend as backend_user
+from pscompose.models import User
 
 def generate_router(datatype: str):
     """
@@ -32,6 +36,25 @@ def generate_router(datatype: str):
     def list_items():
         rows = backend.get_results(datatype=datatype)
         return rows
+
+    # List endpoints with favorites sorted first
+    @router.get(f"/{datatype}/favorites/{{username}}/", summary=f"List all {datatype}s with user's favorites sorted first")
+    @version(1)
+    def list_items(
+        username: str,
+        user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
+    ):
+        try:
+            db_user = backend_user.query(username=username)[0]
+        except Exception:
+            raise HTTPException(status_code=422)
+
+        rows = backend.get_results(datatype=datatype)
+        
+        favorite_ids = set(getattr(db_user, "favorites", [])) 
+        favorites_first = sorted(rows, key=lambda item: 0 if item.id in favorite_ids else 1)
+
+        return favorites_first
 
     # Endpoint for CREATING a new record
     # Create endpoint (e.g., POST /template/)

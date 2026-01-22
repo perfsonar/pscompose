@@ -13,7 +13,7 @@ router = APIRouter(tags=["HTTP Basic Auth User Management"])
 def list_users(user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]), limit=10):
     rows = backend.query(limit=limit)
     return [
-        User(username=row.username, email=row.username, name=row.name, scopes=row.scopes)
+        User(username=row.username, email=row.username, name=row.name, scopes=row.scopes, favorites=row.favorites)
         for row in rows
     ]
 
@@ -56,6 +56,7 @@ def update_user(
         name=update_user.name,
         scopes=update_user.scopes,
         password=None,
+        favorites=update_user.favorites,
     )
     return response
 

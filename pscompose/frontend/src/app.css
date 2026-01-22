@@ -243,7 +243,7 @@ nav {
 }
 
 .subnav-item {
-    @apply flex flex-row items-start gap-4 px-md py-xxsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
+    @apply flex flex-row items-start justify-between gap-4 px-md py-xxsm cursor-pointer transition-all duration-150 ease-in-out rounded-lg;
 }
 
 .subnav li:hover {
@@ -252,6 +252,14 @@ nav {
 
 .subnav .active {
     @apply bg-success/50 rounded-full;
+}
+
+.subnav-item .item-info {
+    @apply flex flex-row items-start gap-4;
+}
+
+.subnav-item .favorite-star {
+    @apply fill-warning stroke-[1px];
 }
 
 .subnav ul svg {
