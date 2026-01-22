@@ -132,7 +132,7 @@
         editMode(params.get("edit"));
 
         // Show export button only for templates in readonly mode
-        if (psCompose.activeMenuItem === "template" && !params.get("edit")) {
+        if (psCompose.activeRoute.key === "template" && !params.get("edit")) {
             const exportBtn = document.getElementById("export-json-btn");
             exportBtn.style.display = "block";
             exportBtn.addEventListener("click", async () => {
@@ -150,7 +150,7 @@
             hideSubnav();
 
             // For tasks in edit mode, filter tools based on the already-selected test
-            if (psCompose.activeMenuItem === "task") {
+            if (psCompose.activeRoute.key === "task") {
                 const formData = JSON.parse(elem.serializeForm());
                 const testId = formData.test;
 
@@ -320,7 +320,7 @@
     });
 
     // Handle form changes for tasks (update tools dropdown based on selected test)
-    if (!!params.get("edit") && psCompose.activeMenuItem === "task") {
+    if (!!params.get("edit") && psCompose.activeRoute.key === "task") {
         document
             .getElementById("data-edit-form")
             .addEventListener("change", async function (event) {
@@ -412,7 +412,7 @@
     // Handle form changes for type/version switching (only in edit mode)
     if (
         !!params.get("edit") &&
-        (psCompose.activeMenuItem === "test" || psCompose.activeMenuItem === "archive")
+        (psCompose.activeRoute.key === "test" || psCompose.activeRoute.key === "archive")
     ) {
         var selectedType = null;
         var additionalSchema = null;
