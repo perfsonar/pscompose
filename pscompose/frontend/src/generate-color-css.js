@@ -4,6 +4,7 @@ const tokens = require("@esnet/esnet-tokens");
 
 const css = `
 /* AUTO-GENERATED — DO NOT EDIT */
+/* perfsonar green - #31B63F */
 
 :root {
   --background: 210 211 215;
@@ -13,7 +14,7 @@ const css = `
   --surface_2: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SURFACE_2)};
   --error: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_ERROR)};
   --warning: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_WARNING)};
-  --success: ${hexToRgbChannels(tokens.ESNET_COLOR_LIGHT_SUCCESS)};
+  --success: ${hexToRgbChannels("#31B63F")};
   --shadow: ${hexToRgbChannels(tokens.ESNET_COLOR_CORE_SLATE_400)};
 }
 
@@ -25,7 +26,7 @@ const css = `
   --surface_2: ${hexToRgbChannels(tokens.ESNET_COLOR_DARK_SURFACE_2)};
   --error: ${hexToRgbChannels(tokens.ESNET_COLOR_DARK_ERROR)};
   --warning: ${hexToRgbChannels(tokens.ESNET_COLOR_DARK_WARNING)};
-  --success: ${hexToRgbChannels(tokens.ESNET_COLOR_DARK_SUCCESS)};
+  --success: ${hexToRgbChannels("#31B63F")};
   --shadow: ${hexToRgbChannels(tokens.ESNET_COLOR_DARK_SHADOW)};
 }
 `;
