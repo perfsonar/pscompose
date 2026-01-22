@@ -297,7 +297,6 @@
             let target = document.getElementById("router-target");
             target.innerHTML = `<div
                 id="router-content"
-                class="w-[75%]"
                 hx-get='${urlRouter(window.location.pathname, window.location.search)}'
                 hx-trigger='load'
                 >
