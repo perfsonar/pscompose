@@ -40,11 +40,15 @@
             />
             <ul id="subnav-list" aria-label="subnav List">
                 {% for item in data %}
-                <li id="{{item.id}}" class="subnav-item">
-                    <i data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
-                    <h5>{{item.name}}</h5>
-                    </a>
-                </li>
+                    <li id="{{item.id}}" class="subnav-item">
+                        <div class="item-info">
+                            <i data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
+                            <h5>{{item.name}}</h5>
+                        </div>
+                        {% if item.id in data.favorites_data %}
+                            <i data-lucide="star" class="favorite-star" aria-hidden="true"></i>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -139,13 +143,27 @@
         subnavContainer.offsetWidth; 
         subnavContainer.classList.remove("close");
 
+        // TODO: FETCH USER DATA FOR FAVORITES
+        const favorites_response = await fetch (
+          `${window.API_BASE_URL}/favorites/${'ssbaveja'}/id/`,
+          {
+            method: "GET",
+            headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
+          }
+        );
+
+        const favorites_data = await favorites_response.json();
+        const endpoint = favorites_data ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + 'favorites/' + 'ssbaveja' : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
+        const context = { psCompose, favorites_data: favorites_data || [] };
+
         subnavContainer.innerHTML = `
           <div
-            hx-get='${psCompose.nav[psCompose.activeMenuItem].list_endpoint}'
+            hx-get='${endpoint}'
             hx-trigger='load'
             hx-target='.subnav-container'
+            hx-headers='{ "Authorization": "Basic ${btoa('ssbaveja:password')}" }'
             nunjucks-array-template="subnav-template"
-            hx-context='${JSON.stringify({ psCompose })}'>
+            hx-context='${JSON.stringify(context)}'>
           </div>`;
 
         htmx.process(subnavContainer);

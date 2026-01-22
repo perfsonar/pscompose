@@ -47,10 +47,14 @@
         if (!container) return;
 
         try {
-            const response = await fetch(apiEndpoint);
+            // TODO: FETCH USER DATA FOR FAVORITES
+            const response = await fetch(apiEndpoint, 
+                {
+                    method: 'GET',
+                    headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
+                }
+            );
             const data = await response.json();
-
-            // Pre-format last_edited_at
             data.forEach((item) => {
                 item.formatted_date = formatDate(item.last_edited_at);
                 item.icon = psCompose.metadata[item.type].icon;
@@ -92,8 +96,9 @@
         }
     }
 
+    // TODO: FETCH USER DATA + Should recently_edited also be user specific? 
     loadSection(`${window.API_BASE_URL}/recently_edited/`, ".recently-edited-container")
-    // loadSection(`${window.API_BASE_URL}/favorites`, ".favorites-container");
+    loadSection(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/`, ".favorites-container");
 
     const shortcutsContainer = document.querySelector(".shortcuts-container");
     const toggleBtn = document.querySelector('.toggle-shortcuts-btn');

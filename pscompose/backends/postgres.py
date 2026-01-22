@@ -179,6 +179,18 @@ class PostgresBackend:
         else:
             return result
 
+    def get_result_by_id(self, item_id: str):
+        if item_id:
+            row = self.session.query(DataTable).filter_by(id=item_id).first()
+            return row if row else None
+        else:
+            return None  
+
+    def get_results_by_ids(self, item_ids: list[str], limit: int = 3):
+        query = self.session.query(DataTable).filter(DataTable.id.in_(item_ids)).limit(limit)
+        rows = query.all()
+        return [row for row in rows]
+
     def get_recently_edited(self, limit: int = 5):
         query = self.session.query(DataTable).order_by(DataTable.created_at.desc()).limit(limit)
         rows = query.all()
