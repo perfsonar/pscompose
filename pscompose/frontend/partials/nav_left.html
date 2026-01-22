@@ -12,7 +12,7 @@
                 aria-expanded="false"
                 aria-controls="subnav-content-{{ key }}"
             >
-                <i data-lucide="{{ item.icon }}" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+                <i id="nav-icon" data-lucide="{{ item.icon }}" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
                 <p>{{ item.plural }}</p>
             </li>
             {% endfor %}
@@ -42,7 +42,7 @@
                 {% for item in data %}
                     <li id="{{item.id}}" class="subnav-item">
                         <div class="item-info">
-                            <i data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
+                            <i id="subnav-icon" data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
                             <h5>{{item.name}}</h5>
                         </div>
                         {% if item.id in data.favorites_data %}
@@ -103,6 +103,8 @@
 
         htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-content");
         highlightActiveSubnav(id);
+
+        if ((window.innerWidth < 1025)) hideSubnav();
     }
 
     window.addEventListener("popstate", (event) => {

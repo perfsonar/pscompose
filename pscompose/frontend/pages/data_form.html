@@ -1,4 +1,4 @@
-<div id="form-container">
+<div id="form" class="w-full">
     <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
 </div>
 <script>
@@ -12,7 +12,7 @@
 
     elem.setAttribute("hx-get", url);
     elem.setAttribute("hx-trigger", "load");
-    var container = document.getElementById("form-container");
+    var container = document.getElementById("form");
     container.appendChild(elem);
     htmx.process(container);
 </script>

@@ -53,12 +53,16 @@ body {
     @apply flex w-full justify-start items-center flex-col py-xlg px-xxlg gap-5;
 }
 
+#router-content {
+    @apply flex flex-row w-full md:w-[85%] lg:w-[75%] justify-center items-start gap-lg;
+}
+
 .backdrop {
     @apply flex flex-row justify-start w-full flex-grow;
 }
 
 #page-content {
-    @apply flex flex-col w-full mb-xxlg md:flex-row md:mb-none flex-grow;
+    @apply flex flex-col w-full mb-xxlg lg:flex-row md:mb-none flex-grow;
 }
 
 /* MESSAGE BANNER */
@@ -251,18 +255,18 @@ nav {
 }
 
 .subnav .active {
-    @apply bg-success/50 rounded-full;
+    @apply bg-success/50 rounded-lg;
 }
 
 .subnav-item .item-info {
     @apply flex flex-row items-start gap-4;
 }
 
-.subnav-item .favorite-star {
-    @apply fill-warning text-warning stroke-none;
+.favorite-star {
+    @apply w-[1.2rem] h-[1.2rem] fill-warning text-warning stroke-none;
 }
 
-.subnav ul svg {
+.subnav ul #subnav-icon {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 
@@ -397,7 +401,7 @@ table .tags {
 /* SHORT CUT PANEL  */
 
 .shortcuts-container {
-    @apply relative flex flex-col flex-1 gap-xlg bg-background md:bg-surface_1;
+    @apply relative flex flex-col flex-1 gap-xlg bg-background lg:bg-surface_1;
     width: 0;
     height: 0;
     opacity: 0;
@@ -409,7 +413,7 @@ table .tags {
 }
 
 .shortcuts-container.open {
-    @apply w-full h-full sm:w-full md:w-full lg:w-full xl:w-[25rem] opacity-100 py-xlg px-xxlg md:px-xlg;
+    @apply w-full h-full lg:w-[25rem] opacity-100 py-xlg px-xxlg lg:px-xlg;
 }
 
 .shortcuts-container.close {
@@ -441,7 +445,7 @@ table .tags {
 }
 
 .toggle-shortcuts-btn {
-    @apply fixed top-20 right-0 flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1;
+    @apply fixed top-20 right-0 flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1 hidden lg:block;
     border-radius: 16px 0 0 16px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;  
@@ -458,7 +462,7 @@ table .tags {
 }
 
 .toggle-shortcuts-btn.open {
-    @apply absolute top-[5rem] right-[25rem] flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1;
+    @apply absolute top-[5rem] right-[25rem] flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1 hidden lg:block;
     opacity: 1;
 }
 
@@ -484,7 +488,7 @@ table .tags {
     @apply text-label_1_mono font-mono text-copyAlt;
 }
 
-.box-header svg {
+.box-header #shortcut-icon {
     @apply w-xlg h-xlg;
 }
 
