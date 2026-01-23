@@ -191,7 +191,7 @@ nav {
 }
 
 .nav .active {
-    @apply text-success bg-background w-full pt-[0.9rem]; 
+    @apply text-success bg-background w-full lg:pt-[0.8rem]; 
 }
 
 .nav .active svg {
@@ -597,7 +597,7 @@ table .tags {
 }
 
 .header #data-name {
-    @apply flex-1 text-center;
+    @apply flex-1 text-left lg:text-center;
 }
 
 .header .header-icons {
