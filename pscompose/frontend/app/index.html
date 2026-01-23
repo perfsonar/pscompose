@@ -37,6 +37,8 @@
 
         <!-- Web Components -->
         <script src="/components/index.js" type="module"></script>
+        <script src="/components/message-banner.js"></script>
+
         <script src="/partials/customRenderer.js" type="module"></script>
 
         <script src="/static/settings.js"></script>
@@ -113,33 +115,6 @@
                 menu: null,
                 router: null,
                 metadata: {
-                    import: [
-                        {
-                            section: "import",
-                            step: 1,
-                            datatype: "template",
-                            singular: "Template",
-                            plural: "Templates",
-                            page_template: "/pages/import/import_template.html",
-                            list_endpoint: "/dummy_api/test_list.json",
-                            icon: "hard-drive-download",
-                        },
-                        {
-                            section: "import",
-                            step: 2,
-                            datatype: "template",
-                            singular: "Template",
-                            plural: "Templates",
-                            page_template: "/pages/import/import_template_saved.html",
-                            list_endpoint: "/dummy_api/test_list.json",
-                            icon: "hard-drive-download",
-                        },
-                    ],
-                    wizard:
-                        {
-                            order: ['address', 'group', 'archive', 'schedule', 'test', 'task', 'template'],
-                            page_template: "/pages/wizard.html",
-                        },
                     home: {
                         singular: "Template",
                         plural: "Templates",
@@ -231,6 +206,18 @@
                         desc: "Tests define the parameters of the job to be carried out by the task. Make sure that all tests required for your tasks are included in the list below.",
                         link: "https://docs.perfsonar.net/psconfig_templates_intro.html#tests",
                     },
+                    import: {
+                        singular: "Template",
+                        plural: "Templates",
+                        page_url: "/import/",
+                        page_template: "/pages/import_template.html",
+                        list_endpoint: `${window.API_BASE_URL}/template/`,
+                        icon: "locate",
+                    },
+                    wizard: {
+                            order: ['address', 'group', 'archive', 'schedule', 'test', 'task', 'template'],
+                            page_template: "/pages/wizard.html",
+                        },
                 },
             };
             psCompose.nav = {
@@ -252,8 +239,7 @@
                 "/wizard/6/task/": psCompose.metadata["wizard"],
                 "/wizard/7/template/": psCompose.metadata["wizard"],
                 "/wizard/7/complete/": psCompose.metadata["wizard"],
-                "/import/1/import_template/": psCompose.metadata["import"][0],
-                "/import/2/import_template_saved/": psCompose.metadata["import"][1],
+                "/import/": psCompose.metadata["import"],
                 "/address/": psCompose.metadata["address"],
                 "/address/new/": psCompose.metadata["address"],
                 "/archive/": psCompose.metadata["archive"],
