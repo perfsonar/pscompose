@@ -382,7 +382,7 @@ td a:hover {
 }
 
 .action-icon:hover .tooltip{
-    @apply block text-copy bg-surface_2 rounded-full text-xs px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
+    @apply block text-copy bg-surface_2 rounded-full text-xsm px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
 }
 
 table .tag {
