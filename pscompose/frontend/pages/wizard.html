@@ -110,41 +110,13 @@
 
         // Render saved template success page
         if (window.location.pathname.includes("/wizard/7/complete/")) {
-            const stepSection = document.querySelector(".step-section");
+            document.querySelector(".step-section").innerHTML = `
+                <div class="step-box">
+                    <div class="w-full" hx-get="/partials/data_read_form.html" hx-trigger="load"></div>
+                </div>`;
 
-            const stepBox = stepSection.querySelector(".step-box");
-            stepSection.querySelector(".step-box").innerHTML = `<div class="w-full" hx-get="/partials/data_edit_form.html" hx-trigger="load"></div>`;
-            document.querySelector('.progress-bar').querySelectorAll("web-button").forEach(btn => btn.remove());
-
+            document.querySelector('.wizard-header').querySelectorAll("web-button").forEach(btn => btn.remove());
             document.querySelector('h3').innerText = "Success! Your template has been saved.";
-            document.querySelector('h2').remove();
-            document.querySelector('.step-text').remove();
-
-            const saveCancelDiv = document.createElement("div");
-            saveCancelDiv.className = "save-cancel";
-            saveCancelDiv.innerHTML = `
-                <web-button
-                    label="Copy JSON"
-                    theme="Secondary"
-                    righticon="clipboard-copy"
-                    id="copy-json">
-                </web-button>
-                <web-button
-                    link="/wizard/1/address/"
-                    label="Make Another Template"
-                    theme="Primary">
-                </web-button>
-            `;
-
-            console.log(saveCancelDiv)
-
-            
-            stepSection.appendChild(saveCancelDiv);
-            htmx.process(stepSection);
-
-            document.querySelector('#copy-json').addEventListener("click", async () => {
-                await copyTemplateJSON(params.get("id"));
-            });
             return;
         }
 

@@ -1,0 +1,106 @@
+<div class="datatype read-form" hx-ext="dynamic-url">
+    <div class="page">
+        <div class="header">
+            <h2 id="data-name"></h2>
+            <div class="header-icons">
+                <input-checkbox-star></input-checkbox-star>
+                <div class="action-icon">
+                    <div class="tooltip">Download Template</div>
+                    <web-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                    ></web-button>
+                </div>
+                <div class="action-icon">
+                    <div class="tooltip">Copy Template JSON to Clipboard</div>
+                    <web-button
+                        id="copy-json-btn"
+                        righticon="clipboard-copy"
+                        theme="Icon"
+                    ></web-button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <form id="data-read-form" method="GET">
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
+                    <i class="spinner" data-lucide="loader-circle"></i>
+                </fieldset>
+
+                <script id="example-template" type="nunjucks">
+                    <json-form
+                      form-data='{{ form_data | dump }}'
+                      schema-data='{{ json_schema | dump }}'
+                      layout-data='{{ ui_schema | dump }}'
+                      readonly='true'
+                    ></json-form>
+                </script>
+
+                <div class="save-cancel">
+                    <web-button
+                        type="button"
+                        label="View JSON"
+                        theme="Secondary"
+                        lefticon="locate"
+                        id="view-btn">
+                    </web-button>
+                    <web-button
+                        type="button"
+                        label="Make Another Template"
+                        theme="Primary"
+                        id="another-btn">
+                    </web-button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/partials/data_template_json.js"></script>
+
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
+    var datatype = psCompose.activeRoute.singular.toLowerCase();
+
+    // Favorites Set Up
+    (async function() {
+        try {
+            const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
+                method: "GET",
+                headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
+            });
+            document.querySelector("input-checkbox-star").value = await response.json();
+        } catch (error) {
+            console.error('Failed to fetch user favorites:', error);
+        }
+    })();
+
+    // Setting the hx-get attribute dynamically
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/`);
+
+    // Set Up JSON Form
+    document.getElementById("data-read-form").addEventListener("json-form:mounted", (event) => {
+        document.getElementById("data-name").textContent = event.detail[0].target?.data?.name;  
+        
+        document.querySelector('#copy-json-btn').addEventListener("click", async () => {
+            await copyTemplateJSON(params.get("id"));
+        });
+        document.querySelector('#export-json-btn').addEventListener("click", async () => {
+            await exportTemplateJSON(params.get("id"));
+        });
+    });
+
+    document.querySelector('#view-btn').addEventListener('click', () => {
+        window.location = `/${datatype}/?id=${id}`
+    });
+
+    document.querySelector('#another-btn').addEventListener('click', () => {
+        if (psCompose.activeMenuItem == 'wizard') window.location = "/wizard/1/address/"
+        else window.location = `${psCompose.activeRoute.page_url}`
+    });
+
+</script>
