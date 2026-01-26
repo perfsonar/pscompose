@@ -4,19 +4,32 @@
             <h2 id="data-name"></h2>
             <div class="header-icons">
                 <input-checkbox-star></input-checkbox-star>
-                <web-button id="edit-icon" righticon="edit" theme="Icon"></web-button>
-                <web-button
-                    id="export-json-btn"
-                    righticon="download"
-                    theme="Icon"
-                    style="display: none"
-                ></web-button>
-                <web-button
-                    id="copy-json-btn"
-                    righticon="clipboard-copy"
-                    theme="Icon"
-                    style="display: none"
-                ></web-button>
+                <div class="action-icon">
+                    <div class="tooltip">Edit Form</div>
+                    <web-button 
+                        id="edit-icon" 
+                        righticon="edit" 
+                        theme="Icon">
+                    </web-button>
+                </div>
+                <div class="action-icon">
+                    <div class="tooltip">Download Template</div>
+                    <web-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                        style="display: none"
+                    ></web-button>
+                </div>
+                <div class="action-icon">
+                    <div class="tooltip">Copy Template JSON to Clipboard</div>
+                    <web-button
+                        id="copy-json-btn"
+                        righticon="clipboard-copy"
+                        theme="Icon"
+                        style="display: none"
+                    ></web-button>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -80,9 +93,7 @@
         try {
             const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
                 method: "GET",
-                headers: {
-                    'Authorization': `Basic ${btoa('ssbaveja:password')}`,
-                },
+                headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
             });
             document.querySelector("input-checkbox-star").value = await response.json();
         } catch (error) {
@@ -91,7 +102,9 @@
     })();
 
     // Open subnav when not wizard page
-    if ((psCompose.activeMenuItem !== "wizard") && (window.innerWidth > 1025)) {
+    if (psCompose.activeMenuItem !== "wizard" && 
+        psCompose.activeMenuItem !== "import" && 
+        window.innerWidth > 1025) {
         showSubnav();
     }
 
