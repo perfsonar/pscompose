@@ -14,9 +14,11 @@ export class InputText extends FormControl {
 
     attachEventListener() {
         this.inputEl?.addEventListener("change", (e) => {
-            e.preventDefault();
             this.markDirty();
             switch (this.inputEl.type) {
+                case "file":
+                    this.files = this.inputEl.files;
+                    break;
                 case "number":
                     this.value = this.inputEl.value === undefined ? "" : Number(this.inputEl.value);
                     break;

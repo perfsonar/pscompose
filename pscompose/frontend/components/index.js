@@ -8,6 +8,7 @@ import '/components/input-text-area.js';
 import '/components/input-text-area-json.js';
 import '/components/input-text-autocomplete.js';
 import '/components/input-number.js';
+import '/components/input-file.js';
 import '/components/input-checkbox.js';
 import '/components/input-checkbox-star.js';
 import '/components/input-label.js';

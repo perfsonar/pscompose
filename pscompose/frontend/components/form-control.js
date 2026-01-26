@@ -1,6 +1,6 @@
 export class FormControl extends HTMLElement {
     static get observedAttributes() {
-        return ["class", "label", "value", "description", "error", "required", "disabled"];
+        return ["id", "class", "label", "value", "description", "error", "required", "disabled"];
     }
 
     constructor() {
@@ -22,7 +22,18 @@ export class FormControl extends HTMLElement {
     set label(v) {
         this.setAttribute("label", v ?? "");
     }
-
+    get id() {
+        return this.getAttribute("id") ?? "";
+    }
+    set id(v) {
+        this.setAttribute("id", v ?? "");
+    }
+    get class() {
+        return this.getAttribute("class") ?? "";
+    }
+    set class(v) {
+        this.setAttribute("class", v ?? "");
+    }
     get description() {
         return this.getAttribute("description") ?? "";
     }

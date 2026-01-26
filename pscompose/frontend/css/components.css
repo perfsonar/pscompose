@@ -149,6 +149,87 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
 }
 
+/* INPUT-FILE */
+
+.form-container:has(input[type="file"]) .upload-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--background));
+    color: rgb(var(--copy));
+    width: 100%;
+    border: 1px solid #c3c7d9;
+    border-radius: 8px;
+    padding: 72px 0 72px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem;
+}
+
+.form-container:has(input[type="file"]) .upload-area:hover {
+    background-color: rgb(var(--success)/ 0.1);
+}
+
+.form-container:has(input[type="file"]) .upload-area:focus {
+    outline: none;
+    border: 1.5px solid rgb(var(--success));
+}
+
+.form-container:has(input[type="file"]) .upload-area svg {
+    width: 48px;
+    height: 48px;
+    color: rgb(var(--copyAlt));
+}
+
+.form-container:has(input[type="file"]) .upload-area .upload-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-container:has(input[type="file"]) .upload-area:active {
+    background-color: rgb(var(--success)/ 0.5);
+}
+
+.form-container:has(input[type="file"]) .upload-area.dragover {
+    background-color: rgb(var(--success)/ 0.5);
+}
+
+.form-container:has(input[type="file"]) .upload-area .subdesc {
+    font-size: 14px;
+    color: rgb(var(--copyAlt));
+}
+
+.form-container input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+.form-container .wrapper .selected-files {
+    padding: 8px 0;
+    color: rgb(var(--copy));
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    border: none;
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.form-container .wrapper .selected-files.none {
+    color: rgb(var(--copyAlt));
+}
+
 /* INPUT-CHECKBOX */
 
 .form-container:has(input[type="checkbox"]) {
@@ -212,6 +293,7 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding: 0.5rem;
 }
 
 .star svg {
