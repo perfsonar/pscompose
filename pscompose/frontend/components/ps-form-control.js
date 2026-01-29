@@ -1,4 +1,4 @@
-export class FormControl extends HTMLElement {
+export class PSFormControl extends HTMLElement {
     static get observedAttributes() {
         return ["id", "class", "label", "value", "description", "error", "required", "disabled"];
     }
@@ -86,15 +86,15 @@ export class FormControl extends HTMLElement {
     renderControl() {
         this.innerHTML = `
             <div class="form-container">
-                <input-label 
+                <ps-input-label 
                     label="${this.label}" 
                     desc="${this.description}">
-                </input-label>
+                </ps-input-label>
                 ${this.slotEl || ""}
-                <input-message 
+                <ps-input-message 
                     error='${this.dirty ? this.error : ""}'
                     ${this.required ? "required" : ""}>
-                </input-message>
+                </ps-input-message>
             </div>
         `;
         this.containerEl = this.querySelector(".form-container");
@@ -103,4 +103,4 @@ export class FormControl extends HTMLElement {
     render() {}
 }
 
-customElements.define("form-control", FormControl);
+customElements.define("ps-form-control", PSFormControl);

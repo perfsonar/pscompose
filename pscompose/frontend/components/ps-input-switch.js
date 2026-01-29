@@ -1,4 +1,4 @@
-export class InputSwitch extends HTMLElement {
+export class PSInputSwitch extends HTMLElement {
     static get observedAttributes() {
         return ["checked", "icon"];
     }
@@ -40,17 +40,17 @@ export class InputSwitch extends HTMLElement {
 
     render() {
         this.innerHTML = `
-            <div class="input-switch-container" ${this.checked ? 'checked' : ''}>
-                <input type="checkbox" class="input-switch-input" ${this.checked ? 'checked' : ''}/>
-                <span class="input-switch-indicator">
-                    <i class="input-switch-icon" data-lucide=${this.icon ? this.icon : ''}></i>
+            <div class="ps-input-switch-container" ${this.checked ? 'checked' : ''}>
+                <input type="checkbox" class="ps-input-switch-input" ${this.checked ? 'checked' : ''}/>
+                <span class="ps-input-switch-indicator">
+                    <i class="ps-input-switch-icon" data-lucide=${this.icon ? this.icon : ''}></i>
                 </span>
             </div>
         `;
-        this.inputEl = this.querySelector(".input-switch-input");
+        this.inputEl = this.querySelector(".ps-input-switch-input");
         this.attachEventListener();
         lucide.createIcons();
     }
 }
 
-customElements.define("input-switch", InputSwitch);
+customElements.define("ps-input-switch", PSInputSwitch);

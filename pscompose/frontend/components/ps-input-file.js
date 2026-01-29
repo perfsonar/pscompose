@@ -1,6 +1,6 @@
-import { InputText } from "./input-text.js";
+import { PSInputText } from "./ps-input-text.js";
 
-export class InputFile extends InputText {
+export class PSInputFile extends PSInputText {
     static get observedAttributes() {
         return [
             "class",
@@ -120,4 +120,4 @@ export class InputFile extends InputText {
     }
 }
 
-customElements.define("input-file", InputFile);
+customElements.define("ps-input-file", PSInputFile);

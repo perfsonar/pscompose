@@ -1,7 +1,7 @@
-import { FormControl } from "./form-control.js";
+import { PSFormControl } from "./ps-form-control.js";
 
-// JSON specific input-text-area
-export class InputTextAreaJSON extends FormControl {
+// JSON specific ps-textarea
+export class InputTextAreaJSON extends PSFormControl {
     constructor() {
         super();
         this.slotEl = `
@@ -35,4 +35,4 @@ export class InputTextAreaJSON extends FormControl {
     }
 }
 
-customElements.define("input-text-area-json", InputTextAreaJSON);
+customElements.define("ps-textarea-json", InputTextAreaJSON);

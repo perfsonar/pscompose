@@ -1,6 +1,6 @@
-import { SingleSelectDropdown } from "./dropdown-single-select.js";
+import { PSSelect } from "./ps-select.js";
 
-export class MultiSelectDropdown extends SingleSelectDropdown {
+export class PSSelectMulti extends PSSelect {
     handleOptionClick(e) {
         const target = e.target.closest("li");
         if (!target || !target.dataset.value) return;
@@ -59,7 +59,7 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
                     (val) =>
                         `<span class="tag">
                         ${optionsMap.get(val) || "Option Not Found"}
-                        <web-button id="remove-tag" type="button" value="${val}" righticon="x" theme="Icon-Small" />
+                        <ps-button id="remove-tag" type="button" value="${val}" righticon="x" theme="Icon-Small" />
                     </span>`,
                 )
                 .join("");
@@ -76,4 +76,4 @@ export class MultiSelectDropdown extends SingleSelectDropdown {
     }
 }
 
-customElements.define("dropdown-multi-select", MultiSelectDropdown);
+customElements.define("ps-select-multi", PSSelectMulti);

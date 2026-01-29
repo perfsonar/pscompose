@@ -1,6 +1,6 @@
-import { InputText } from "./input-text.js";
+import { PSInputText } from "./ps-input-text.js";
 
-export class InputCheckbox extends InputText {
+export class PSInputCheckbox extends PSInputText {
     render() {
         super.render();
         this.inputEl.checked = this.value === "true" || this.value === true;
@@ -13,4 +13,4 @@ export class InputCheckbox extends InputText {
     }
 }
 
-customElements.define("input-checkbox", InputCheckbox);
+customElements.define("ps-input-checkbox", PSInputCheckbox);

@@ -1,4 +1,4 @@
-export class InputLabel extends HTMLElement {
+export class PSInputLabel extends HTMLElement {
     static get observedAttributes() {
         ["label", "desc"];
     }
@@ -33,9 +33,9 @@ export class InputLabel extends HTMLElement {
         this.innerHTML = `                
             <label>
                 ${this.label}
-                ${this.desc ? `<web-tooltip desc="${this.desc}"> </web-tooltip>` : ""}
+                ${this.desc ? `<ps-tooltip desc="${this.desc}"> </ps-tooltip>` : ""}
             </label>`;
     }
 }
 
-customElements.define("input-label", InputLabel);
+customElements.define("ps-input-label", PSInputLabel);

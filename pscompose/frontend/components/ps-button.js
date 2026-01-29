@@ -1,4 +1,4 @@
-export class WebButton extends HTMLElement {
+export class PSButton extends HTMLElement {
     static observedAttributes = [
         "id",
         "type",
@@ -85,4 +85,4 @@ export class WebButton extends HTMLElement {
     }
 }
 
-customElements.define("web-button", WebButton);
+customElements.define("ps-button", PSButton);

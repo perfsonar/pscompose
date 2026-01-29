@@ -1,4 +1,4 @@
-export class WebModal extends HTMLElement {
+export class PSModal extends HTMLElement {
     static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon", "confirm-data-name"];
 
     constructor() {
@@ -66,14 +66,14 @@ export class WebModal extends HTMLElement {
                     <br/>
                     ${this.getAttribute("message") ? this.getAttribute("message") : ""}
                     <div class="save-cancel">
-                        <web-button 
+                        <ps-button 
                             type="button" 
                             id="confirm-no" 
                             label="Cancel" 
                             theme="Shadow" 
                             righticon="x" 
-                        ></web-button>
-                        <web-button
+                        ></ps-button>
+                        <ps-button
                             id="confirm-yes"
                             ${
                                 this.getAttribute("icon")
@@ -84,7 +84,7 @@ export class WebModal extends HTMLElement {
                             ${this.getAttribute("hxAttr") ? `${this.getAttribute("hxAttr")}` : ""}
                             label=${this.getAttribute("confirm-label")}
                             theme=${this.getAttribute("theme")}
-                        ></web-button>
+                        ></ps-button>
                     </div>
                 </div>
             </div>
@@ -93,4 +93,4 @@ export class WebModal extends HTMLElement {
     }
 }
 
-customElements.define("web-modal", WebModal);
+customElements.define("ps-modal", PSModal);
