@@ -21,12 +21,12 @@
                     aria-hidden="true"
                 ></i>
                 <h4 class="box-name">Import Template</h4>
-                <web-button
+                <ps-button
                     link="/import/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Import an existing template"
-                ></web-button>
+                ></ps-button>
             </div>
             <p class="box-text">
                 Import an existing template json by uploading the file or copying and pasting the
@@ -38,12 +38,12 @@
             <div class="box-header">
                 <i class="lucide" data-lucide="plus" aria-hidden="true"></i>
                 <h4 class="box-name">Create New Template</h4>
-                <web-button
+                <ps-button
                     link="wizard/1/address/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Create a new template from scratch"
-                ></web-button>
+                ></ps-button>
             </div>
             <p class="box-text">This will walk you through creating a new template from scratch</p>
         </li>
@@ -141,15 +141,15 @@
                                     <div class="td-content action-icons">
                                         <div class="action-icon">
                                             <div class="tooltip">Edit Template</div>
-                                            <web-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></web-button>
+                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></ps-button>
                                         </div>
                                         <div class="action-icon">
                                             <div class="tooltip">Download Template</div>
-                                            <web-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></web-button>
+                                            <ps-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></ps-button>
                                         </div>
                                         <div class="action-icon">
                                             <div class="tooltip">Copy Template JSON to Clipboard</div>
-                                            <web-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></web-button>
+                                            <ps-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></ps-button>
                                         </div>
                                     </div>
                                 </td>

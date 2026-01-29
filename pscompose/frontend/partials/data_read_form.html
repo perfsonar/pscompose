@@ -3,22 +3,22 @@
         <div class="header">
             <h2 id="data-name"></h2>
             <div class="header-icons">
-                <input-checkbox-star></input-checkbox-star>
+                <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon">
                     <div class="tooltip">Download Template</div>
-                    <web-button
+                    <ps-button
                         id="export-json-btn"
                         righticon="download"
                         theme="Icon"
-                    ></web-button>
+                    ></ps-button>
                 </div>
                 <div class="action-icon">
                     <div class="tooltip">Copy Template JSON to Clipboard</div>
-                    <web-button
+                    <ps-button
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
-                    ></web-button>
+                    ></ps-button>
                 </div>
             </div>
         </div>
@@ -38,19 +38,19 @@
                 </script>
 
                 <div class="save-cancel">
-                    <web-button
+                    <ps-button
                         type="button"
                         label="View JSON"
                         theme="Secondary"
                         lefticon="locate"
                         id="view-btn">
-                    </web-button>
-                    <web-button
+                    </ps-button>
+                    <ps-button
                         type="button"
                         label="Make Another Template"
                         theme="Primary"
                         id="another-btn">
-                    </web-button>
+                    </ps-button>
                 </div> 
             </form>
         </div>
@@ -71,7 +71,7 @@
                 method: "GET",
                 headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
             });
-            document.querySelector("input-checkbox-star").value = await response.json();
+            document.querySelector("ps-input-checkbox-star").value = await response.json();
         } catch (error) {
             console.error('Failed to fetch user favorites:', error);
         }

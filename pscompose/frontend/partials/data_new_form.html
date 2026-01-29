@@ -2,7 +2,7 @@
     <div class="page">
         <div class="header">
             <h2 id="data-name"></h2>
-            <input-checkbox-star></input-checkbox-star>
+            <ps-input-checkbox-star></ps-input-checkbox-star>
         </div>
         <div class="content">
             <form id="data-new-form">
@@ -19,14 +19,14 @@
                 </script>
 
                 <div class="save-cancel">
-                    <web-button
+                    <ps-button
                         type="submit"
                         label="Save"
                         theme="Secondary"
                         righticon="save"
                         confirm-modal="save-modal"
                     >
-                    </web-button>
+                    </ps-button>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@
         const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
         const isValid = elem.validate();
 
-        document.querySelectorAll("web-modal").forEach(modal => {
+        document.querySelectorAll("ps-modal").forEach(modal => {
             modal.setAttribute("confirm-data-name", form_data.name || "");
         });
 
@@ -71,7 +71,7 @@
         if ((!isValid || isFormEmpty) && !group_with_excludes) {
                 document
                 .querySelectorAll(
-                    "input-text, input-text-area, input-text-autocomplete, input-number, input-checkbox, dropdown-single-select, dropdown-multi-select, dropdown-excludes"
+                    "ps-input-text, ps-textarea, ps-input-text-autocomplete, ps-input-number, ps-input-checkbox, ps-select, ps-select-multi, ps-select-excludes"
                 )
                 .forEach((control) => {
                     control.markDirty();
@@ -143,7 +143,7 @@
                         }
 
                         // 3.1 Saving favorites 
-                        if (document.querySelector("input-checkbox-star").value) {
+                        if (document.querySelector("ps-input-checkbox-star").value) {
                             try {
                                 const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${result.id}/`, {
                                     method: "PUT",
@@ -345,7 +345,7 @@
                     group.elements.unshift({
                         type: "Control",
                         scope: "#/properties/version",
-                        customComponent: "dropdown-single-select",
+                        customComponent: "ps-select",
                     });
                 }
             }
