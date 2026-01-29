@@ -3,32 +3,32 @@
         <div class="header">
             <h2 id="data-name"></h2>
             <div class="header-icons">
-                <input-checkbox-star></input-checkbox-star>
+                <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon">
                     <div class="tooltip">Edit Form</div>
-                    <web-button 
+                    <ps-button 
                         id="edit-icon" 
                         righticon="edit" 
                         theme="Icon">
-                    </web-button>
+                    </ps-button>
                 </div>
                 <div class="action-icon">
                     <div class="tooltip">Download Template</div>
-                    <web-button
+                    <ps-button
                         id="export-json-btn"
                         righticon="download"
                         theme="Icon"
                         style="display: none"
-                    ></web-button>
+                    ></ps-button>
                 </div>
                 <div class="action-icon">
                     <div class="tooltip">Copy Template JSON to Clipboard</div>
-                    <web-button
+                    <ps-button
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
                         style="display: none"
-                    ></web-button>
+                    ></ps-button>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 </script>
 
                 <div class="edit-save-cancel">
-                    <web-button
+                    <ps-button
                         id="delete-btn"
                         type="button"
                         label="Delete"
@@ -56,8 +56,8 @@
                         righticon="trash-2"
                         confirm-modal="delete-modal"
                     >
-                    </web-button>
-                    <web-button
+                    </ps-button>
+                    <ps-button
                         id="save-btn"
                         type="submit"
                         label="Save"
@@ -65,15 +65,15 @@
                         righticon="save"
                         confirm-modal="save-modal"
                     >
-                    </web-button>
-                    <web-button
+                    </ps-button>
+                    <ps-button
                         type="button"
                         label="Cancel"
                         theme="Primary"
                         righticon="x"
                         link="javascript:history.back()"
                     >
-                    </web-button>
+                    </ps-button>
                 </div>
             </form>
         </div>
@@ -95,7 +95,7 @@
                 method: "GET",
                 headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
             });
-            document.querySelector("input-checkbox-star").value = await response.json();
+            document.querySelector("ps-input-checkbox-star").value = await response.json();
         } catch (error) {
             console.error('Failed to fetch user favorites:', error);
         }
@@ -138,7 +138,7 @@
         let elem = event.detail[0].target;
         document.getElementById("data-name").textContent = elem?.data?.name;      
 
-        document.querySelectorAll("web-modal").forEach(modal => {
+        document.querySelectorAll("ps-modal").forEach(modal => {
             modal.setAttribute("confirm-data-name", elem?.data?.name || "");
         });
 
@@ -246,7 +246,7 @@
 
             document
             .querySelectorAll(
-                "input-text, input-text-area, input-text-autocomplete, input-number, input-checkbox, dropdown-single-select, dropdown-multi-select, dropdown-excludes"
+                "ps-input-text, ps-textarea-json, ps-input-text-autocomplete, ps-input-number, ps-input-checkbox, ps-select, ps-select-multi, ps-select-excludes"
             )
             .forEach((control) => {
                 control.markDirty();
@@ -307,7 +307,7 @@
 
                         // 3.1 TODO: Saving favorites FETCH USER DATA
                         try {
-                            const method = document.querySelector("input-checkbox-star").value ? "PUT" : "DELETE";
+                            const method = document.querySelector("ps-input-checkbox-star").value ? "PUT" : "DELETE";
                             const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
                                 method: method,
                                 headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
@@ -514,7 +514,7 @@
                         group.elements.unshift({
                             type: "Control",
                             scope: "#/properties/version",
-                            customComponent: "dropdown-single-select",
+                            customComponent: "ps-select",
                         });
                     }
                 }

@@ -3,23 +3,23 @@
 <script id="wizard-step-template" type="nunjucks">
     <div class="wizard-page">
         <header class="wizard-header">
-            <web-button
+            <ps-button
                 id="prev-btn"
                 link="{{ prevLink | default('/') }}"
                 label="{{ prevButton }}"
                 theme="Primary">
-            </web-button>
-            <div class="progress-bar">
+            </ps-button>
+            <div class="ps-progress-bar">
                 <h3>New Template</h3>
-                <progress-bar step="{{ step }}"></progress-bar>
+                <ps-progress-bar step="{{ step }}"></ps-progress-bar>
             </div>
-            <web-button
+            <ps-button
                 id="next-btn"
                 link="{{ nextLink }}"
                 label="{{ nextButton }}"
                 theme="Tertiary"
                 righticon="arrow-right">
-            </web-button>
+            </ps-button>
         </header>
 
         <div class="step-section">
@@ -29,13 +29,13 @@
             </p>
             <div class="step-box">
                 <div class="step-box-left">
-                    <dropdown-single-select label="{{ singular }}"></dropdown-single-select>
-                    <web-button
+                    <ps-select label="{{ singular }}"></ps-select>
+                    <ps-button
                         id="new-btn"
                         label="New {{ singular }}"
                         theme="Shadow"
                         lefticon="{{ leftIcon }}">
-                    </web-button>
+                    </ps-button>
                 </div>
                 <div class="step-box-right">
                     <i style="color: rgb(var(--shadow)); width: 150; height: 150"
@@ -115,7 +115,7 @@
                     <div class="w-full" hx-get="/partials/data_read_form.html" hx-trigger="load"></div>
                 </div>`;
 
-            document.querySelector('.wizard-header').querySelectorAll("web-button").forEach(btn => btn.remove());
+            document.querySelector('.wizard-header').querySelectorAll("ps-button").forEach(btn => btn.remove());
             document.querySelector('h3').innerText = "Success! Your template has been saved.";
             return;
         }
@@ -138,7 +138,7 @@
                 title: item.name,
             }));
             document
-                .querySelector("dropdown-single-select")
+                .querySelector("ps-select")
                 .setAttribute("options", JSON.stringify(dataList));
         } catch (err) {
             console.error("Error:", err);
@@ -146,7 +146,7 @@
     }
 
     const container = document.querySelector(".step-box-right");
-    const dropdown = document.querySelector("dropdown-single-select");
+    const dropdown = document.querySelector("ps-select");
     const newBtn = document.getElementById("new-btn");
 
     function setupEventListeners(defaultIcon = "info") {

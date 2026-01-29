@@ -1,22 +1,11 @@
+import componentNames from "/components/index.js";
+
 const HIGH_RANK = 6;
 const LOW_RANK = -1;
 
 function toAllCaps(str) {
     return str.replace(/.*/g, (match) => match.toUpperCase());
 }
-
-const webComponents = [
-    "input-text",
-    "input-text-area",
-    "input-text-area-json",
-    "input-text-autocomplete",
-    "input-number",
-    "input-checkbox",
-    "input-checkbox-star",
-    "dropdown-single-select",
-    "dropdown-multi-select",
-    "dropdown-excludes",
-];
 
 /* CREATE TESTER AND RENDERERS */
 
@@ -73,7 +62,7 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
     let elem = event.detail[0].target;
     if (!elem) return;
 
-    webComponents.forEach((component) => {
+    componentNames.forEach((component) => {
         let renderer = {
             tester: createCustomTester(component),
             renderer: createCustomRenderer(component),
@@ -86,8 +75,8 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
 document.body.addEventListener("json-form:mounted", (event) => {
     if (event.detail[0].target.readonly == "true") {
-        webComponents.forEach((component) => {
-            document.querySelector('.datatype').querySelectorAll(component).forEach((comp) => {
+        componentNames.forEach((component) => {
+            document.querySelector('.datatype')?.querySelectorAll(component).forEach((comp) => {
                 comp.disabled = true;
             });
         });
@@ -95,8 +84,8 @@ document.body.addEventListener("json-form:mounted", (event) => {
 });
 
 document.body.addEventListener("json-form:updated", (event) => {
-    webComponents.forEach((component) => {
-        document.querySelector('.datatype').querySelectorAll(component).forEach((comp) => {
+    componentNames.forEach((component) => {
+        document.querySelector('.datatype')?.querySelectorAll(component).forEach((comp) => {
             if (event.detail[0].target.readonly == "true") {
                 comp.disabled = true;
             } else {
