@@ -1,6 +1,6 @@
-import { InputText } from "./input-text.js";
+import { PSInputText } from "./ps-input-text.js";
 
-class InputTextAutocomplete extends InputText {
+class PSInputTextAutocomplete extends PSInputText {
     constructor() {
         super();
         this.slotEl = `
@@ -102,4 +102,4 @@ class InputTextAutocomplete extends InputText {
     }
 }
 
-customElements.define("input-text-autocomplete", InputTextAutocomplete);
+customElements.define("ps-input-text-autocomplete", PSInputTextAutocomplete);

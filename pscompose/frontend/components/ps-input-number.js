@@ -1,6 +1,6 @@
-import { InputText } from "./input-text.js";
+import { PSInputText } from "./ps-input-text.js";
 
-export class InputNumber extends InputText {
+export class PSInputNumber extends PSInputText {
     static get observedAttributes() {
         return [
             "class",
@@ -75,8 +75,8 @@ export class InputNumber extends InputText {
 
         const actionBtns = ` 
             <div class="buttons">
-                <web-button type="button" id="addBtn" theme="Icon" righticon="plus"></web-button>
-                <web-button type="button" id="minusBtn" theme="Icon" righticon="minus"></web-button>
+                <ps-button type="button" id="addBtn" theme="Icon" righticon="plus"></ps-button>
+                <ps-button type="button" id="minusBtn" theme="Icon" righticon="minus"></ps-button>
             </div>`;
         this.wrapperEl.insertAdjacentHTML("beforeend", actionBtns);
 
@@ -86,4 +86,4 @@ export class InputNumber extends InputText {
     }
 }
 
-customElements.define("input-number", InputNumber);
+customElements.define("ps-input-number", PSInputNumber);

@@ -1,4 +1,4 @@
-class InputCheckboxStar extends HTMLElement {
+class PSInputCheckboxStar extends HTMLElement {
     static get observedAttributes() {
         return ["value", "disabled"];
     }
@@ -59,4 +59,4 @@ class InputCheckboxStar extends HTMLElement {
     }
 }
 
-customElements.define("input-checkbox-star", InputCheckboxStar);
+customElements.define("ps-input-checkbox-star", PSInputCheckboxStar);

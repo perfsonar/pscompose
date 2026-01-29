@@ -62,4 +62,4 @@ class TooltipBubble extends HTMLElement {
     }
 }
 
-customElements.define("web-tooltip", TooltipBubble);
+customElements.define("ps-tooltip", TooltipBubble);

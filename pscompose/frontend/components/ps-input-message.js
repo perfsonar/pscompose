@@ -1,4 +1,4 @@
-export class InputMessage extends HTMLElement {
+export class PSInputMessage extends HTMLElement {
     static get observedAttributes() {
         return ["required", "error"];
     }
@@ -37,4 +37,4 @@ export class InputMessage extends HTMLElement {
     }
 }
 
-customElements.define("input-message", InputMessage);
+customElements.define("ps-input-message", PSInputMessage);

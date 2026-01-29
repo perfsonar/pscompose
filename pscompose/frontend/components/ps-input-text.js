@@ -1,6 +1,6 @@
-import { FormControl } from "./form-control.js";
+import { PSFormControl } from "./ps-form-control.js";
 
-export class InputText extends FormControl {
+export class PSInputText extends PSFormControl {
     constructor() {
         super();
         this.slotEl = `
@@ -41,4 +41,4 @@ export class InputText extends FormControl {
     }
 }
 
-customElements.define("input-text", InputText);
+customElements.define("ps-input-text", PSInputText);

@@ -382,7 +382,7 @@ td a:hover {
 }
 
 .action-icon:hover .tooltip{
-    @apply block text-copy bg-surface_2 rounded-full text-xsm px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
+    @apply block text-copy bg-surface_2 rounded-full text-xs px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
 }
 
 table .tag {
@@ -515,11 +515,11 @@ table .tags {
     @apply flex flex-row w-full justify-center items-center sm:items-end;
 }
 
-.progress-bar {
+.ps-progress-bar {
     @apply flex flex-col w-full justify-center items-center min-h-[80px] gap-md;
 }
 
-.progress-bar progress-bar {
+.ps-progress-bar ps-progress-bar {
     @apply w-full mb-md hidden sm:block ;
 }
 
@@ -561,7 +561,7 @@ table .tags {
     @apply flex flex-row items-end lg:items-start lg:flex-col gap-md rounded-l-xxl flex-[0.3];
 }
 
-.step-box-left dropdown-single-select {
+.step-box-left ps-select {
     @apply w-full;
 }
 
@@ -654,16 +654,16 @@ table .tags {
 }
 
 :where(.packets-ui .horizontal-layout-item):has(
-        input-text,
-        input-text-autocomplete,
-        input-number,
-        dropdown-multi-select,
-        dropdown-single-select
+        ps-input-text,
+        ps-input-text-autocomplete,
+        ps-input-number,
+        ps-select-multi,
+        ps-select
     ) {
     @apply w-full;
 }
 
-:where(.packets-ui .horizontal-layout):has(input-checkbox):has(input-text) .input-checkbox-wrapper {
+:where(.packets-ui .horizontal-layout):has(ps-input-checkbox):has(ps-input-text) .ps-input-checkbox-wrapper {
     @apply mt-lg;
 }
 

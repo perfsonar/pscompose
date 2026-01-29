@@ -1,6 +1,6 @@
-import { FormControl } from "./form-control.js";
+import { PSFormControl } from "./ps-form-control.js";
 
-export class excludesDropdown extends FormControl {
+export class excludesSelect extends PSFormControl {
     static get observedAttributes() {
         return [
             "class",
@@ -24,12 +24,12 @@ export class excludesDropdown extends FormControl {
     constructor() {
         super();
         this.slotEl = `
-            <web-button id="excludes-add-btn" type="button" label="Add" lefticon="plus" theme="Small"></web-button>
+            <ps-button id="excludes-add-btn" type="button" label="Add" lefticon="plus" theme="Small"></ps-button>
         `;
     }
 
     getSelectedLocalAddresses() {
-        return Array.from(this.querySelectorAll("dropdown-single-select")).map(
+        return Array.from(this.querySelectorAll("ps-select")).map(
             (dropdown) => dropdown.value,
         );
     }
@@ -53,20 +53,20 @@ export class excludesDropdown extends FormControl {
     }
 
     attachDropdownListeners() {
-        this.querySelectorAll("dropdown-single-select").forEach((dropdown) => {
+        this.querySelectorAll("ps-select").forEach((dropdown) => {
             dropdown.onchange = () => {
                 this.updateLocalAddressesOptions();
                 this.updateSelectedValues();
             };
         });
 
-        this.querySelectorAll("dropdown-multi-select").forEach((dropdown) => {
+        this.querySelectorAll("ps-select-multi").forEach((dropdown) => {
             dropdown.onchange = () => this.updateSelectedValues();
         });
     }
 
     updateLocalAddressesOptions() {
-        this.querySelectorAll("dropdown-single-select").forEach((dropdown) => {
+        this.querySelectorAll("ps-select").forEach((dropdown) => {
             const currentValue = dropdown.value;
             const currentSelection = this.options.find((opt) => opt.const === currentValue);
             const available = [...this.getAvailableLocalAddresses()];
@@ -84,8 +84,8 @@ export class excludesDropdown extends FormControl {
     updateSelectedValues() {
         const selectedValues = Array.from(this.querySelectorAll(".excludes-container")).map(
             (container) => {
-                const localDropdown = container.querySelector("dropdown-single-select");
-                const targetDropdown = container.querySelector("dropdown-multi-select");
+                const localDropdown = container.querySelector("ps-select");
+                const targetDropdown = container.querySelector("ps-select-multi");
 
                 const localValue = localDropdown?.getAttribute("value");
                 const targetValue = targetDropdown?.getAttribute("value");
@@ -109,16 +109,16 @@ export class excludesDropdown extends FormControl {
         newContainer.classList.add("excludes-container");
         newContainer.innerHTML = `
             <div class="dropdown-container">
-                <dropdown-single-select label="Local Address" options='${JSON.stringify(
+                <ps-select label="Local Address" options='${JSON.stringify(
                     this.getAvailableLocalAddresses(),
                 )}'>
-                </dropdown-single-select>
-                <dropdown-multi-select label="Target Addresses" options='${JSON.stringify(
+                </ps-select>
+                <ps-select-multi label="Target Addresses" options='${JSON.stringify(
                     this.options,
                 )}'>
-                </dropdown-multi-select>
+                </ps-select-multi>
             </div>
-            <web-button id="excludes-minus-btn" type="button" righticon="trash-2" theme="Icon"></web-button>
+            <ps-button id="excludes-minus-btn" type="button" righticon="trash-2" theme="Icon"></ps-button>
         `;
 
         const container = this.querySelector(".form-container");
@@ -149,7 +149,7 @@ export class excludesDropdown extends FormControl {
         const selectedValues = Array.isArray(this.value) ? this.value : [];
 
         const optionsMap = new Map(options.map((opt) => [opt.const, opt.title]));
-        const labelElement = container.querySelector("input-label");
+        const labelElement = container.querySelector("ps-input-label");
 
         container
             .querySelectorAll(".excludes-container, .excludes-table")
@@ -164,23 +164,23 @@ export class excludesDropdown extends FormControl {
                     return `
                     <div class="excludes-container show">
                         <div class="dropdown-container">
-                            <dropdown-single-select
+                            <ps-select
                                 label="Local Address"
                                 options='${JSON.stringify(options)}'
                                 value='${JSON.stringify(localAddress)}'>
-                            </dropdown-single-select>
-                            <dropdown-multi-select
+                            </ps-select>
+                            <ps-select-multi
                                 label="Target Addresses"
                                 options='${JSON.stringify(options)}'
                                 value='${JSON.stringify(targetAddresses)}'>
-                            </dropdown-multi-select>
+                            </ps-select-multi>
                         </div>
-                        <web-button
+                        <ps-button
                             id="excludes-minus-btn"
                             type="button"
                             righticon="trash-2"
                             theme="Icon">
-                        </web-button>
+                        </ps-button>
                     </div>`;
                 })
                 .join("");
@@ -231,4 +231,4 @@ export class excludesDropdown extends FormControl {
     }
 }
 
-customElements.define("dropdown-excludes", excludesDropdown);
+customElements.define("ps-select-excludes", excludesSelect);

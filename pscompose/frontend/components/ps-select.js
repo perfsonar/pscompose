@@ -1,6 +1,6 @@
-import { FormControl } from "./form-control.js";
+import { PSFormControl } from "./ps-form-control.js";
 
-export class SingleSelectDropdown extends FormControl {
+export class PSSelect extends PSFormControl {
     static get observedAttributes() {
         return [
             "class",
@@ -31,7 +31,7 @@ export class SingleSelectDropdown extends FormControl {
             <div class="dropdown">
                 <div class="wrapper">
                     <input type="search" />
-                    <web-button id="down-btn" type="button" righticon="chevron-down" theme="Icon-Simple"></web-button>
+                    <ps-button id="down-btn" type="button" righticon="chevron-down" theme="Icon-Simple"></ps-button>
                 </div>
                 <ul class="options"></ul>
             </div>
@@ -126,7 +126,7 @@ export class SingleSelectDropdown extends FormControl {
         this.inputEl = this.querySelector("input");
         this.wrapperEl = this.querySelector(".wrapper");
         this.optionsEl = this.querySelector(".options");
-        this.actionBtn = this.querySelector("web-button");
+        this.actionBtn = this.querySelector("ps-button");
 
         const selectedOption = this.options.find((opt) => opt.const === this.value);
         if (selectedOption) {
@@ -146,4 +146,4 @@ export class SingleSelectDropdown extends FormControl {
     }
 }
 
-customElements.define("dropdown-single-select", SingleSelectDropdown);
+customElements.define("ps-select", PSSelect);

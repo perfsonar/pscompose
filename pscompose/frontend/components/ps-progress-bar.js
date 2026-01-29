@@ -1,4 +1,4 @@
-export class ProgressBar extends HTMLElement {
+export class PSProgressBar extends HTMLElement {
     static observedAttributes = ["step"];
 
     constructor() {
@@ -217,7 +217,7 @@ export class ProgressBar extends HTMLElement {
         }
         const progressStyle = `
             <style>
-                .progress-bar-container {
+                .ps-progress-bar-container {
                     display: flex;
                     flex-direction: row;
                     height: 100%;s
@@ -229,11 +229,11 @@ export class ProgressBar extends HTMLElement {
 
         this.shadow.innerHTML = `
             ${progressStyle}
-            <div class="progress-bar-container">
+            <div class="ps-progress-bar-container">
                 ${progressSvg}
             </div>
         `;
     }
 }
 
-customElements.define("progress-bar", ProgressBar);
+customElements.define("ps-progress-bar", PSProgressBar);

@@ -22,11 +22,11 @@
     color: rgb(var(--copyAlt));
 }
 
-[disabled] .form-container input-message {
+[disabled] .form-container ps-input-message {
     display: none;
 }
 
-[disabled] web-tooltip {
+[disabled] ps-tooltip {
     display: none;
 }
 
@@ -46,7 +46,7 @@
     border: 1px solid #c3c7d9;
 }
 
-.form-container:has(input-message .error.show) .wrapper {
+.form-container:has(ps-input-message .error.show) .wrapper {
     border: 2px solid var(--color-core-red-700, #a6111b);
     box-shadow: var(--size-border-width-none, 0) var(--size-border-width-none, 0) 0.9px 2px
         rgba(222, 0, 0, 0.26);
@@ -61,35 +61,35 @@
     padding: 0px 4px;
 }
 
-[disabled] .form-container:has(input-message .error.show) .wrapper {
+[disabled] .form-container:has(ps-input-message .error.show) .wrapper {
     border: none;
     box-shadow: none;
 }
 
-/* INPUT-MESSAGE */
+/* ps-input-message */
 
-.form-container input-message {
+.form-container ps-input-message {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.form-container input-message .error {
+.form-container ps-input-message .error {
     color: transparent;
 }
 
-.form-container input-message .error.show {
+.form-container ps-input-message .error.show {
     color: #eb3321;
     text-align: left;
 }
 
-.form-container input-message .required {
+.form-container ps-input-message .required {
     color: rgb(var(--copyAlt));
     text-align: right;
     font-size: 12px;
 }
 
-/* INPUT-TEXT */
+/* ps-input-text */
 
 .form-container input {
     border: none;
@@ -132,7 +132,7 @@
     display: none;
 }
 
-/* INPUT-NUMBER */
+/* ps-input-number */
 
 .form-container input[type="number"] .buttons {
     display: flex;
@@ -149,7 +149,7 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
 }
 
-/* INPUT-FILE */
+/* ps-input-file */
 
 .form-container:has(input[type="file"]) .upload-area{
     display: flex;
@@ -230,7 +230,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: rgb(var(--copyAlt));
 }
 
-/* INPUT-CHECKBOX */
+/* ps-input-checkbox */
 
 .form-container:has(input[type="checkbox"]) {
     display: flex;
@@ -239,7 +239,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 100%;
 }
 
-.form-container:has(input[type="checkbox"]) input-label {
+.form-container:has(input[type="checkbox"]) ps-input-label {
     order: 2;
 }
 
@@ -287,7 +287,7 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
 }
 
-/* INPUT-CHECKBOX-STAR */
+/* ps-ps-input-checkbox-star */
 
 .star {
     display: flex;
@@ -313,7 +313,7 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: not-allowed;
 }
 
-/* INPUT-TEXT-AREA */
+/* ps-textarea */
 
 .form-container textarea {
     padding: 8px 0;
@@ -435,11 +435,11 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: not-allowed;
 }
 
-[disabled] .form-container .dropdown web-button {
+[disabled] .form-container .dropdown ps-button {
     display: none;
 }
 
-/* DROPDOWN-MULTI-SELECT */
+/* ps-select-multi */
 
 .form-container .tags {
     display: flex;
@@ -468,7 +468,7 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 0;
 }
 
-dropdown-multi-select[disabled] .form-container .dropdown {
+ps-select-multi[disabled] .form-container .dropdown {
     display: none;
 }
 
@@ -522,8 +522,8 @@ dropdown-multi-select[disabled] .form-container .dropdown {
     font-weight: 500;
 }
 
-.form-container .excludes-container .dropdown-container dropdown-single-select,
-dropdown-multi-select {
+.form-container .excludes-container .dropdown-container ps-select,
+ps-select-multi {
     flex: 1;
 }
 
@@ -573,18 +573,18 @@ dropdown-multi-select {
     display: none;
 }
 
-dropdown-excludes #excludes-add-btn {
+ps-select-excludes #excludes-add-btn {
     display: flex;
     margin-top: 8px;
 }
 
-dropdown-excludes[disabled] #excludes-add-btn {
+ps-select-excludes[disabled] #excludes-add-btn {
     display: none;
 }
 
-/* WEB-BUTTON */
+/* ps-button */
 
-web-button button {
+ps-button button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -603,137 +603,137 @@ web-button button {
     transition: all 150ms ease-in-out;
 }
 
-web-button button:hover {
+ps-button button:hover {
     transform: scale(1.03);
     transition: transform 0.2s ease-in-out;
 }
 
-web-button button svg {
+ps-button button svg {
     width: 24px;
     height: 24px;
 }
 
-web-button[theme="Primary"] button {
+ps-button[theme="Primary"] button {
     background-color: rgb(var(--surface_1));
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--success));
 }
 
-web-button[theme="Primary"] button:hover {
+ps-button[theme="Primary"] button:hover {
     background-color: rgba(var(--surface_2)/ 0.5);
 }
 
-web-button[theme="Secondary"] button {
+ps-button[theme="Secondary"] button {
     background-color: rgb(var(--success));
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--success));
 }
 
-web-button[theme="Secondary"] button:hover {
+ps-button[theme="Secondary"] button:hover {
     background-color: rgba(var(--success)/ 0.5);
 }
 
-web-button[theme="Success"] button {
+ps-button[theme="Success"] button {
     background-color: rgb(var(--success));
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--success));
 }
 
-web-button[theme="Success"] button:hover {
+ps-button[theme="Success"] button:hover {
     background-color: rgba(var(--success)/ 0.5);
 }
 
-web-button[theme="Tertiary"] button {
+ps-button[theme="Tertiary"] button {
     background-color: rgb(var(--success));
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--copyAlt));
 }
 
-web-button[theme="Tertiary"] button:hover {
+ps-button[theme="Tertiary"] button:hover {
     background-color: rgba(var(--success)/ 0.7);
 }
 
-web-button[theme="Shadow"] button {
+ps-button[theme="Shadow"] button {
     background-color: rgba(var(--shadow)/ 0.7);
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--shadow));
 }
 
-web-button[theme="Shadow"] button:hover {
+ps-button[theme="Shadow"] button:hover {
     background-color: rgba(var(--shadow)/ 0.7);
 }
 
-web-button[theme="Error"] button {
+ps-button[theme="Error"] button {
     background-color: rgb(var(--error));
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--error));
 }
 
-web-button[theme="Error"] button:hover {
+ps-button[theme="Error"] button:hover {
     background-color: rgba(var(--error)/ 0.5);
 }
 
-web-button[theme="Warning"] button {
+ps-button[theme="Warning"] button {
     background-color: rgb(var(--warning));
     color: rgb(var(--surface_2));
     border: 2px solid rgb(var(--warning));
 }
 
-web-button[theme="Warning"] button:hover {
+ps-button[theme="Warning"] button:hover {
     background-color: rgba(var(--warning)/ 0.5);
 }
 
-web-button[theme="Icon"] button {
+ps-button[theme="Icon"] button {
     background-color: transparent;
     color: rgb(var(--copy));
     border: none;
     padding: 0.5rem;
 }
 
-web-button[theme="Icon"] button:hover {
+ps-button[theme="Icon"] button:hover {
     color: rgb(var(--success));
     background-color: rgb(var(--surface_1));
 }
 
-web-button[theme="Icon-Simple"] button {
+ps-button[theme="Icon-Simple"] button {
     background-color: transparent;
     border: none;
     padding: 0.3rem;
 }
 
-web-button[theme="Icon-Simple"] button:hover {
+ps-button[theme="Icon-Simple"] button:hover {
     color: rgb(var(--copyAlt));
 }
 
-web-button[theme="Icon-Success"] button {
+ps-button[theme="Icon-Success"] button {
     background-color: transparent;
     color: rgb(var(--success));
     border: 2px solid rgb(var(--success));
     padding: 0.2rem 0.5rem;
 }
 
-web-button[theme="Icon-Success"] button:hover {
+ps-button[theme="Icon-Success"] button:hover {
     background-color: rgb(var(--surface_1));
 }
 
-web-button[theme="Icon-Small"] button {
+ps-button[theme="Icon-Small"] button {
     background-color: transparent;
     color: rgb(var(--copy));
     border: none;
     padding: 0.3rem;
 }
 
-web-button[theme="Icon-Small"] button:hover {
+ps-button[theme="Icon-Small"] button:hover {
     background-color: rgba(var(--surface_1)/ 0.2);
     padding: 0.3rem;
 }
 
-web-button[theme="Icon-Small"] button svg {
+ps-button[theme="Icon-Small"] button svg {
     width: 16px;
     height: 16px;
 }
 
-web-button[theme="Small"] button {
+ps-button[theme="Small"] button {
     gap: 4px;
     padding: 0.2rem 1rem;
 
@@ -745,16 +745,16 @@ web-button[theme="Small"] button {
     font-size: 14px;
 }
 
-web-button[theme="Small"] button svg {
+ps-button[theme="Small"] button svg {
     width: 16px;
     height: 16px;
 }
 
-web-button[theme="Small"] button:hover {
+ps-button[theme="Small"] button:hover {
     background-color: rgb(--surface_1);
 }
 
-web-button[theme="AddBtn"] button {
+ps-button[theme="AddBtn"] button {
     background-color: rgb(var(--surface_1));
     color: rgb(var(--copy));
     border: 1.5px solid rgb(var(--copyAlt));
@@ -767,11 +767,11 @@ web-button[theme="AddBtn"] button {
     font-size: 16px;
 }
 
-web-button[theme="AddBtn"] button:hover {
+ps-button[theme="AddBtn"] button:hover {
     background-color: rgba(var(--success)/ 0.5);
 }
 
-/* WEB-TOOLTIP */
+/* ps-tooltip */
 
 .tooltip-container {
     position: relative;
@@ -841,13 +841,13 @@ web-button[theme="AddBtn"] button:hover {
     color: rgb(var(--surface_2));  
 }
 
-/* WEB-MODAL */
+/* ps-modal */
 
-web-modal {
+ps-modal {
     display: none;
 }
 
-web-modal .data-box{
+ps-modal .data-box{
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -986,7 +986,7 @@ web-modal .data-box{
 
 
 /* INPUT SWITCH */
-.input-switch-container {
+.ps-input-switch-container {
     position: relative;
     overflow: hidden;
     width: 52px;
@@ -1025,7 +1025,7 @@ web-modal .data-box{
 }
 
 /* Actual input element, invisible but spans entire component for functionality */
-.input-switch-container input {
+.ps-input-switch-container input {
     all: unset;
     position: absolute;
     width: 100%;
@@ -1035,7 +1035,7 @@ web-modal .data-box{
     cursor: pointer;
 }
 
-.input-switch-indicator {
+.ps-input-switch-indicator {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -1065,7 +1065,7 @@ web-modal .data-box{
     }
 }
 
-.input-switch-icon {
+.ps-input-switch-icon {
     color: rgb(var(--success));
     width: 20px;
     height: 20px
