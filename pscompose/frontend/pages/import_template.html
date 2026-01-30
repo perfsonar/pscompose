@@ -53,8 +53,7 @@
         const form_data = JSON.parse(elem.serializeForm());
         const isFormEmpty = Object.keys(form_data).length === 0;
         const isValid = elem.validate();
-        console.log('isvalid: ', isValid, form_data);
-        debugger;
+
         if ((!isValid || isFormEmpty)) {
             document
             .querySelectorAll(
@@ -101,12 +100,13 @@
                         if (!url) return;
                         try  {
                             const response = await fetch(url);
-                            jsonContent= JSON.parse(await response.json());
+                            jsonContent= JSON.parse(await response.json()); // Validate JSON
                         } catch (error) {
                             console.error('Failed to fetch JSON:', error);
                         }
                     }
                     else if (form_data['importVia'] == 'paste') {
+                        // Validates JSON through component
                         jsonContent = form_data['paste'];
                     }
 
