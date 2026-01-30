@@ -119,7 +119,7 @@
 
         // Finish opening panel and set button state
         shortcutsContainer.classList.add("open");
-        toggleBtn.setAttribute('righticon', 'x');
+        toggleBtn.setAttribute('righticon', 'chevrons-right');
         toggleBtn.setAttribute('onclick', 'hideShortcuts()');
     }
 
@@ -141,7 +141,7 @@
 
         // Stop drag animation and set button state
         toggleBtn.classList.remove('closing');
-        toggleBtn.setAttribute('righticon', 'tool-case');
+        toggleBtn.setAttribute('righticon', 'chevrons-left');
         toggleBtn.setAttribute('onclick', 'showShortcuts()');
     }
 
