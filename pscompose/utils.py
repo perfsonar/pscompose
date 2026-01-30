@@ -69,7 +69,7 @@ def generate_router(datatype: str):
 
         return _create_item(data, is_import)
     
-    def _create_item(data, is_import: Optional[bool] = None):
+    def _create_item(data, is_import: Optional[bool] = None, conflict_resolve: Optional[str] = None):
         """
         Internal create_item 
         """
