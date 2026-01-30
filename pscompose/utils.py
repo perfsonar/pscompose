@@ -1,9 +1,9 @@
 from copy import deepcopy
-from typing import Dict, List
+from typing import Dict, List, Optional
 from fastapi import Body
 from fastapi_versioning import version
 from sqlalchemy.exc import IntegrityError
-from fastapi import APIRouter, HTTPException, Security
+from fastapi import APIRouter, HTTPException, Security, Header
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
 from pscompose.logger import logger
@@ -63,16 +63,26 @@ def generate_router(datatype: str):
     def create_item(
         data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
+        is_import: Optional[bool] = Header(default=None, alias="X-Import"),
+        conflict_resolve: Optional[str] = Header(default=None, alias="X-Conflict")
     ):
-        logger.debug("CREATE Unsanitized data:", data)
-        sanitized_data = router.sanitize(data)
-        logger.debug("CREATE Sanitized data:", sanitized_data)
+
+        return _create_item(data, is_import)
+    
+    def _create_item(data, is_import: Optional[bool] = None):
+        """
+        Internal create_item 
+        """
+        print('Before Sanitize: ', data)
+        sanitized_data = router.sanitize_import(data) if is_import else router.sanitize(data)
+        print('After Sanitize: ', sanitized_data)
+
         # Convert sanitized dict into a proper DataTableBase object
         try:
             data = DataTableBase(**sanitized_data)
         except ValidationError as e:
             raise HTTPException(status_code=422, detail=str(e))
-
+        
         # TODO: Fix the created_by and last_edited_by
         try:
             response = backend.create_datatype(
@@ -94,6 +104,8 @@ def generate_router(datatype: str):
             # backend.session.rollback()
             logger.debug("Error creating datatype:", str(e))
             raise HTTPException(status_code=500, detail=str(e))
+
+    router._create_item = _create_item
 
     # Endpoint for UPDATING an existing record
     # Update endpoint (e.g., PUT /template/uuid-slug/)

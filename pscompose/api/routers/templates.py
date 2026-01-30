@@ -5,11 +5,26 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import TEMPLATE_SCHEMA, TEMPLATE_UI_SCHEMA
+from pscompose.form_schemas import TEMPLATE_SCHEMA, TEMPLATE_UI_SCHEMA, TEMPLATE_IMPORT_SCHEMA, TEMPLATE_IMPORT_UI_SCHEMA
+
+# FOR IMPORT TEMPLATE: Need to import each datatype's router to sanitize accordingly to respective datatype
+from pscompose.api.routers.groups import router as group_router
+from pscompose.api.routers.addresses import router as address_router
+from pscompose.api.routers.archives import router as archive_router
+from pscompose.api.routers.schedules import router as schedule_router
+from pscompose.api.routers.tasks import router as task_router
+from pscompose.api.routers.tests import router as test_router
+from pscompose.api.routers.contexts import router as context_router
+
 
 # Setup CRUD endpoints
 router = generate_router("template")
 
+def sanitize_data(data):
+    # TODO: fill out refset
+    return data
+
+router.sanitize = sanitize_data
 
 def remove_null_values(obj):
     """
@@ -26,7 +41,6 @@ def remove_null_values(obj):
         return [remove_null_values(item) for item in obj if item is not None]
     else:
         return obj
-
 
 def expand_template_to_psconfig(template_id: str):
     """
@@ -298,7 +312,6 @@ def expand_template_to_psconfig(template_id: str):
     return psconfig
 
 
-# Custom endpoints
 @router.get("/template/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
@@ -312,6 +325,11 @@ def get_new_form():
     payload = {"ui_schema": TEMPLATE_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
+@router.get("/template/import/form/", summary="Return import template form")
+@version(1)
+def get_import_form():
+    payload = {"ui_schema": TEMPLATE_IMPORT_UI_SCHEMA, "json_schema": TEMPLATE_IMPORT_SCHEMA, "form_data": {}}
+    return JSONResponse(content=payload)
 
 @router.get(
     "/template/{item_id}/form/",
@@ -356,3 +374,234 @@ def get_template_json(item_id: str):
     """
     psconfig = expand_template_to_psconfig(item_id)
     return JSONResponse(content=psconfig)
+
+
+SINGULAR_FIELDS = {
+    'group': 'groups', 
+    'test': 'tests', 
+    'schedule': 'schedules', 
+}
+PLURAL_FIELDS = {
+    'addresses': 'address',
+    'a-addresses': 'address',
+    'b-addresses': 'address',
+}
+DATATYPE_SINGULAR = set(SINGULAR_FIELDS.keys())
+DATATYPE_PLURAL = set(PLURAL_FIELDS.keys())
+DATATYPE_FIELDS = set( SINGULAR_FIELDS | PLURAL_FIELDS )
+
+DATATYPE_TO_PLURAL = {
+    'address': 'addresses',
+    'task': 'tasks',
+    'group': 'groups', 
+    'test': 'tests', 
+    'schedule': 'schedules', 
+    'archive': 'archives',
+}
+
+ROUTER_MAP = {
+    'group': group_router,
+    'address': address_router, 
+    'archive': archive_router,
+    'context': context_router,
+    'schedule': schedule_router,
+    'task': task_router,
+    'test': test_router
+}
+
+def compare_ids(datatype: DataTypes, psconfig_name: str, existing_ids: list[str], psconfig: dict):
+    same_name_dt = backend.get_results_by_datatype_and_name(datatype=datatype, item_name=psconfig_name)
+    matching_dt = next((dt for dt in same_name_dt if dt.id in existing_ids), None) 
+
+    if matching_dt is None:    
+        return False
+    
+    psconfig_spec = psconfig[DATATYPE_TO_PLURAL.get(datatype)][psconfig_name]
+    if not compare_spec(matching_dt.json, psconfig_spec, psconfig):
+        return False
+    
+    return True
+
+def compare_spec(existing: dict, imported: dict, psconfig: dict):
+    """
+    Returns Bool if the existing and imported spec is the same
+    """
+    for imported_key, imported_value in imported.items():
+
+        if imported_key in DATATYPE_FIELDS:
+            existing_ids = []
+            datatype = imported_key
+            imported_names = []
+
+            if imported_key in SINGULAR_FIELDS:         
+                """
+                Exisitng: 'test': '8b40dfb513f5'
+                Imported: 'test': 'Import Template Test'
+                """        
+                existing_ids.append(existing.get(imported_key))
+                imported_names.append(imported_value)
+            
+            if imported_key in PLURAL_FIELDS:
+                """
+                Exisitng: 'addresses': [{'name': 'a1aa8154f0f5'}, {'name': '685c870fc02d'}]
+                Imported: 'addresses': [{'name': 'Edited Address Jan 27'}, {'name': 'Import Template Address'}]
+                """
+                existing_ids = [item['name'] for item in existing.get(imported_key) or []] 
+                datatype = 'address'
+                imported_names = [item['name'] for item in imported.get(imported_key, [])]
+            
+            for imported_name in imported_names:
+                if not compare_ids(datatype, imported_name, existing_ids, psconfig):
+                    return False
+        
+        elif imported_key == 'excludes':
+            """
+            [{'local-address': {'name': 'Import Template Address 1'}, 
+            'target-addresses': [{'name': 'Edited Address Jan 27'}, 
+                                    {'name': 'Import Template Address'}
+                                ]}
+            },{'local-address': {'name': 'Import Template Address 2'}, 
+            'target-addresses': [{'name': 'Edited Address Jan 27'}, 
+                                    {'name': 'Import Template Address'}
+                                ]}
+            }
+            }]
+            """
+            existing_excludes = existing['excludes']
+
+            for imported_exclude in imported_value:
+                local_address_name = imported_exclude['local-address']['name']
+                local_existing_ids = [item['local-address']['name'] for item in existing_excludes]
+
+                if not compare_ids('address', local_address_name, local_existing_ids, psconfig):
+                    return False
+                
+                local_imported_id = find_id(datatype='address', psconfig_name=local_address_name, psconfig=psconfig)
+                target_existing_ids = [
+                    item['name'] 
+                    for ex in existing_excludes 
+                    for item in ex['target-addresses'] 
+                    if ex['local-address']['name'] == local_imported_id
+                ]
+                target_address_names = [item['name'] for item in imported_exclude['target-addresses'] or []]
+
+                for target_address_name in target_address_names:
+                    if not compare_ids('address', target_address_name, target_existing_ids, psconfig):
+                        return False
+
+        else: 
+            if existing[imported_key] != imported_value:
+                return False
+    return True
+        
+def psconfig_to_json(datatype: DataTypes, spec: dict, psconfig: dict):
+    """
+    Create proper datatype json from imported psconfig spec
+    """
+    json = {}
+
+    for k, v in spec.items():
+        if k in DATATYPE_FIELDS:
+            if k in SINGULAR_FIELDS:
+                json[k] = find_id(datatype=k, psconfig_name=v, psconfig=psconfig)
+            
+            if k in PLURAL_FIELDS:
+                psconfig_names = [item['name'] for item in v or []]
+                json[k] = find_ids(datatype=PLURAL_FIELDS.get(k), psconfig_names=psconfig_names, psconfig=psconfig)
+            
+        elif k == 'excludes':
+            """
+            [{'local-address': {'name': 'Import Template Address'}, 
+            'target-addresses': [{'name': 'Edited Address Jan 27'}, {'name': 'Import Template Address'}]}]}
+            """
+            excludes_json = []
+            for exclude in v:
+                local_address_name = exclude['local-address']['name']
+                local_id = find_id(datatype='address', psconfig_name=local_address_name, psconfig=psconfig)
+
+                target_address_names = [item['name'] for item in exclude['target-addresses']]
+                target_ids = find_ids(datatype='address', psconfig_names=target_address_names, psconfig=psconfig)
+
+                excludes_json.append({
+                    'local-address': {'name': local_id},
+                    'target-addresses': [{'name': target_id} for target_id in target_ids]
+                }) 
+            json['excludes'] = excludes_json
+        else: 
+            json[k] = v
+    return json
+
+def create_item_with_spec(datatype: DataTypes, name: str, spec: dict, psconfig: dict):
+    """
+    Use respective router to call create_item with imported psconfig spec
+    With given spec create the datatype -> return ID
+    """
+    json_from_psconfig = psconfig_to_json(datatype=datatype, spec=spec, psconfig=psconfig)
+    dt_router = ROUTER_MAP.get(datatype, router) 
+
+    try: 
+        response = dt_router._create_item(
+            data={
+                "ref_set": [], 
+                "type": datatype,
+                "json": json_from_psconfig,
+                "name": name,
+                "created_by": "ssbaveja", 
+                "last_edited_by": "ssbaveja", 
+            }
+        )
+        return response['id']
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+def find_id(datatype: DataTypes, psconfig_name: str, psconfig: dict):
+    """
+    Either find the matching name id or create a new id
+    """
+    psconfig_datatypes = psconfig.get(DATATYPE_TO_PLURAL.get(datatype))
+
+    if psconfig_name not in psconfig_datatypes.keys():
+        raise HTTPException(status_code=400, detail=f"Missing datatype '{name}' in psconfig.")
+
+    psconfig_spec = psconfig_datatypes.get(psconfig_name)
+
+    same_name_dts = backend.get_results_by_datatype_and_name(datatype=datatype, item_name=psconfig_name)
+    matching_dt = next((dt for dt in same_name_dts if compare_spec(dt.json, psconfig_spec, psconfig)), None)
+
+    # TODO: If sname_name_dts exists but matching_dt doesn't, check conflict resolve method and create new accordingly
+    if matching_dt:
+        print(f'Found same datatype {datatype} with same name {psconfig_name}')
+        id = matching_dt.id
+    else:
+        print(f'Creating new {datatype} with name {psconfig_name}')
+        id = create_item_with_spec(datatype=datatype, name=psconfig_name, spec=psconfig_spec, psconfig=psconfig)
+
+    return str(id)
+
+
+def find_ids(datatype: DataTypes, psconfig_names: list[str], psconfig: dict):
+    return [
+        find_id(datatype=datatype, psconfig_name=name, psconfig=psconfig)
+        for name in psconfig_names
+    ]
+
+def psconfig_to_template(psconfig: dict):
+    """
+    Convert psconfig to template 
+    """
+    taskIDs = find_ids(datatype=DataTypes.TASK, psconfig_names=list(psconfig["tasks"].keys()), psconfig=psconfig)
+    if len(taskIDs) <= 0:
+        raise HTTPException(status_code=400, detail=f"Invalid Template")
+
+    # TODO: Iterate through psconfig to find child datatypes that weren't used and create them
+    return {'tasks': taskIDs }
+
+def sanitize_import_data(data):
+    """
+    Update json to template from psconfig and ref_set
+    """
+    data["json"] = psconfig_to_template(data["json"])
+    data["type"] = DataTypes.TEMPLATE
+    return sanitize_data(data)
+
+router.sanitize_import = sanitize_import_data

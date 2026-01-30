@@ -10,10 +10,10 @@ from pscompose.utils import generate_router, enrich_schema
 # Setup CRUD endpoints
 router = generate_router("group")
 
-
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
     json_data = data["json"]
+    filtered_json = {}
 
     # Cleaning up the data
     if "schema" in data and "group_type" in data:
@@ -44,16 +44,11 @@ def sanitize_data(data):
 
         if "group_type" in data:
             del data["group_type"]
+     
+    else:
+        filtered_json = json_data
 
     ref_set = data["ref_set"]
-
-    # for key in ("addresses", "a-addresses", "b-addresses"):
-    #     if json_data.get(key) is not None:
-    #         for address in json_data.get(key, []):
-    #             name = address["name"]
-    #             if name not in ref_set:
-    #                 ref_set.append(name)
-
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
             address_id_array = []
@@ -68,7 +63,7 @@ def sanitize_data(data):
     data["json"] = filtered_json
     return data
 
-def sanitize_reponse(response_json):
+def sanitize_response(response_json):
     json_data = response_json.copy()
 
     # Transform address fields from list of dicts to list of strings
@@ -78,9 +73,7 @@ def sanitize_reponse(response_json):
 
     return json_data
 
-
 router.sanitize = sanitize_data
-
 
 # Custom endpoints
 @router.get("/group/new/form/", summary="Return the new form to be rendered")
@@ -136,11 +129,10 @@ def get_existing_form(item_id: str):
             "excludes": address_rows,
         },
     )
-    print('response_json for existing form:', sanitize_reponse(response_json))
 
     payload = {
         "ui_schema": GROUP_UI_SCHEMA,
         "json_schema": enriched_schema,
-        "form_data": sanitize_reponse(response_json),
+        "form_data": sanitize_response(response_json),
     }
     return JSONResponse(content=payload)
