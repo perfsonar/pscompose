@@ -2461,6 +2461,16 @@ TEMPLATE_IMPORT_SCHEMA = {
                 {"const": "paste", "title": "Paste JSON"},
             ],
         },
+        "resolveConflict": {
+            "type": "string",
+            "title": "Resolve Conflict",
+            "oneOf": [
+                {"const": "overwrite", "title": "Overwrite"},
+                {"const": "keep-same-name", "title": "Keep Both/Same Name"},
+                {"const": "keep-auto-rename", "title": "Keep Both/Auto Rename"},
+            ],
+            "description": "Choose how to resolve datatypes with same name",
+        },
         "upload": {
             "type": "string",
             "title": "Upload JSON File",
@@ -2505,9 +2515,19 @@ TEMPLATE_IMPORT_UI_SCHEMA = {
             "customComponent": "ps-input-text",
         },
         {
-            "type": "Control",
-            "scope": "#/properties/importVia",
-            "customComponent": "ps-select",
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/importVia",
+                    "customComponent": "ps-select",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/resolveConflict",
+                    "customComponent": "ps-select",
+                }
+            ]
         },
         {
             "type": "Template",
