@@ -132,7 +132,7 @@
                         window.location = newPath + "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);
-                        newMessageBanner("Something went wrong", "Error", true)
+                        newMessageBanner(error.message, "Error", true)
                     }
                 });
         }
