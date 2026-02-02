@@ -135,26 +135,8 @@
         }
     });
 
-
-    // SHOW/HIDE subnav
-    async function showSubnav() {
-        if (subnavContainer.classList.contains("open")) return;
-        if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
-
-        subnavContainer.classList.remove("hidden");
-        subnavContainer.offsetWidth; 
-        subnavContainer.classList.remove("close");
-
-        // TODO: FETCH USER DATA FOR FAVORITES
-        const favorites_response = await fetch (
-          `${window.API_BASE_URL}/favorites/${'ssbaveja'}/id/`,
-          {
-            method: "GET",
-            headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
-          }
-        );
-
-        const favorites_data = await favorites_response.json();
+    async function updateSubnav() {
+        const favorites_data = await fetchFavoriteIDs();
         const endpoint = favorites_data ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + 'favorites/' + 'ssbaveja' : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
         const context = { psCompose, favorites_data: favorites_data || [] };
 
@@ -170,6 +152,24 @@
 
         htmx.process(subnavContainer);
         renderHighlight();
+    }
+
+
+    // SHOW/HIDE subnav
+    async function showSubnav() {
+        if (subnavContainer.classList.contains("open")) return;
+        if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
+
+        subnavContainer.classList.remove("hidden");
+        subnavContainer.offsetWidth; 
+        subnavContainer.classList.remove("close");
+
+        try {
+            await updateSubnav()
+        } catch (e) {
+            console.error('Failed to load favorites:', error);
+        }
+
         subnavContainer.classList.add("open");
 
         subnavContainer.addEventListener("click", (e) => {
