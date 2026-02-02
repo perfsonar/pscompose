@@ -80,26 +80,10 @@
     </div>
 </div>
 
-<script src="/partials/data_template_json.js"></script>
-
-
 <script>
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
-
-    // Favorites Set Up
-    (async function() {
-        try {
-            const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
-                method: "GET",
-                headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
-            });
-            document.querySelector("ps-input-checkbox-star").value = await response.json();
-        } catch (error) {
-            console.error('Failed to fetch user favorites:', error);
-        }
-    })();
 
     // Open subnav when not wizard page
     if (psCompose.activeMenuItem !== "wizard" && 
@@ -136,7 +120,11 @@
     // Set Up JSON Form
     document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
-        document.getElementById("data-name").textContent = elem?.data?.name;      
+        document.getElementById("data-name").textContent = elem?.data?.name;
+        
+        // Favorites Set Up
+        setUpFavorites(id);
+        attachFavoritesHandler(id);
 
         document.querySelectorAll("ps-modal").forEach(modal => {
             modal.setAttribute("confirm-data-name", elem?.data?.name || "");
@@ -304,18 +292,6 @@
                             "confirmMessage",
                             JSON.stringify([savemsg, "Success"]),
                         );
-
-                        // 3.1 TODO: Saving favorites FETCH USER DATA
-                        try {
-                            const method = document.querySelector("ps-input-checkbox-star").value ? "PUT" : "DELETE";
-                            const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
-                                method: method,
-                                headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
-                            });
-                            if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                        } catch (error) {
-                            console.error('Failed to update favorites:', error);
-                        }
 
                         // 3. Redirect
                         params.delete("edit");

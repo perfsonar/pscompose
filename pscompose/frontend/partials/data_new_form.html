@@ -143,18 +143,7 @@
                         }
 
                         // 3.1 Saving favorites 
-                        if (document.querySelector("ps-input-checkbox-star").value) {
-                            try {
-                                const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${result.id}/`, {
-                                    method: "PUT",
-                                    headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
-                                });
-                                if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                            } catch (error) {
-                                console.error('Failed to update favorites:', error);
-                            }
-                        };
-
+                        updateFavorite(result.id, document.querySelector("ps-input-checkbox-star").value)
                         window.location = newPath + "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);

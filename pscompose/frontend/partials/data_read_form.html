@@ -57,25 +57,13 @@
     </div>
 </div>
 
-<script src="/partials/data_template_json.js"></script>
-
 <script>
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Favorites Set Up
-    (async function() {
-        try {
-            const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${id}/`, {
-                method: "GET",
-                headers: {'Authorization': `Basic ${btoa('ssbaveja:password')}`},
-            });
-            document.querySelector("ps-input-checkbox-star").value = await response.json();
-        } catch (error) {
-            console.error('Failed to fetch user favorites:', error);
-        }
-    })();
+    setUpFavorites(id)
 
     // Setting the hx-get attribute dynamically
     document
