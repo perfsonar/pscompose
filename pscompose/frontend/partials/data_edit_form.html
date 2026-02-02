@@ -272,6 +272,7 @@
                             body: JSON.stringify(updated_data),
                         });
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                        savemsg = psCompose.activeRoute.singular + " saved successfully!";
                         newMessageBanner(savemsg, "Success", false)
 
                         // 3. Redirect
@@ -279,7 +280,7 @@
                         window.location = window.location.pathname + "?" + params;
                     } catch (error) {
                         console.error("Error:", error);
-                        newMessageBanner("Something went wrong.", "Error", true)
+                        newMessageBanner(error.message, "Error", true)
                     }
                 });
         }
@@ -612,7 +613,6 @@
             .querySelector("#delete-modal")
             .addEventListener("confirm-yes-clicked", async function (event) {
                 const deleteSuccessMsg = "Successfully deleted " + datatype + "!";
-                const deleteFailMsg = "Something went wrong while deleting" + datatype + ".";
 
                 try {
                     const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/`, {
@@ -624,7 +624,7 @@
                     window.location = psCompose.activeRoute.page_url;
                 } catch (error) {
                     console.error("Error:", error);
-                    newMessageBanner(deleteFailMsg, "Success", true)
+                    newMessageBanner(error.message, "Success", true)
                 }
             });
     });

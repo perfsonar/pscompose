@@ -127,27 +127,11 @@
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
                         const result = await response.json();
                         savemsg = psCompose.activeRoute.singular + " saved successfully!";
-
                         newMessageBanner(savemsg, "Success", false)
-                        // 3. Redirect
-
-                        // 3.1 Saving favorites 
-                        // if (document.querySelector("ps-ps-input-checkbox-star").value) {
-                        //     try {
-                        //         const response = await fetch(`${window.API_BASE_URL}/favorites/${'ssbaveja'}/${result.id}/`, {
-                        //             method: "PUT",
-                        //             headers: { 'Authorization': `Basic ${btoa('ssbaveja:password')}` },
-                        //         });
-                        //         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                        //     } catch (error) {
-                        //         console.error('Failed to update favorites:', error);
-                        //     }
-                        // };
-
                         window.location = window.location.pathname+ "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);
-                        newMessageBanner("Something went wrong.", "Error", true)
+                        newMessageBanner(error.message, "Error", true)
                     }
                 });
         }
