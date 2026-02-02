@@ -11,43 +11,40 @@ function createCustomTester(componentName) {
 }
 
 function createCustomRenderer(componentName) {
-  return function (data, handleChange, schema_path, schema) {
-    const ui = schema?.uischema ?? {};
-    const s = schema?.schema ?? {};
+    return function (data, handleChange, schema_path, schema) {
+        const s = schema?.schema ?? {};
+        const required =
+            schema?.required ||
+            schema?.rootSchema.allOf?.some(obj => obj?.then?.required?.includes(schema_path)) ||
+            false;
+        const value = data ?? s.default ?? undefined;
 
-    const required =
-      schema?.required ||
-      schema?.rootSchema.allOf?.some(obj => obj?.then?.required?.includes(schema_path)) ||
-      false;
+        const props = {
+            id: schema?.uischema.scope ?? false,
+            path: schema_path,
+            label: s.title ?? false,
+            required,
+            error: schema?.errors ?? false,
+            description: s.description ?? undefined,
+            value,
+            onChange: event => {
+                if (event.target.tagName !== schema?.uischema.customComponent?.toUpperCase()) return;
+                handleChange(schema_path, event.target.value);
+            },
+        };
 
-    const value = data ?? s.default ?? undefined;
+        // numeric constraints
+        if (s.minimum != null) props.min = s.minimum;
+        if (s.maximum != null) props.max = s.maximum;
+        if (s.multipleOf != null) props.step = s.multipleOf;
 
-    const props = {
-      id: schema?.uischema.scope ?? false,
-      path: schema_path,
-      label: s.title ?? false,
-      required,
-      error: schema?.errors ?? false,
-      description: s.description ?? undefined,
-      value,
-      onChange: event => {
-        if (event.target.tagName !== schema?.uischema.customComponent?.toUpperCase()) return;
-        handleChange(schema_path, event.target.value);
-      },
+        // select options
+        if (s.oneOf) props.options = JSON.stringify(s.oneOf);
+        if (s.enum) props.options = JSON.stringify(s.enum);
+        if (s.items?.oneOf) props.options = JSON.stringify(s.items.oneOf);
+
+        return { tag: componentName, props };
     };
-
-    // numeric constraints
-    if (s.minimum != null) props.min = s.minimum;
-    if (s.maximum != null) props.max = s.maximum;
-    if (s.multipleOf != null) props.step = s.multipleOf;
-
-    // select options
-    if (s.oneOf) props.options = JSON.stringify(s.oneOf);
-    if (s.enum) props.options = JSON.stringify(s.enum);
-    if (s.items?.oneOf) props.options = JSON.stringify(s.items.oneOf);
-
-    return { tag: componentName, props };
-  };
 }
 
 
@@ -88,4 +85,18 @@ document.body.addEventListener("json-form:updated", (event) => {
             }
         });
     });
+});
+
+/* Mark Dirty */
+
+document.addEventListener('markAllDirty', () => {
+    document.querySelectorAll(componentNames)
+        .forEach((control) => {
+            if (typeof control.markDirty === 'function') {
+                control.markDirty();
+                control.connectedCallback();
+            }
+        });
+
+    newMessageBanner("Form fields not all valid", "Error", true);
 });

@@ -41,6 +41,14 @@ function processLastMessage() {
     if (confirmMsg) showNext();
 }
 
+function newMessageBanner(confirmMsg, confirmTheme, renderNow) {
+    sessionStorage.setItem(
+        "confirmMessage",
+        JSON.stringify([confirmMsg, confirmTheme]),
+    );
+    if (renderNow) processLastMessage();
+}
+
 window.addEventListener("load", () => {
     processLastMessage();
 });

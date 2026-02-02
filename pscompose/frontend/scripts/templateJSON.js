@@ -22,14 +22,11 @@ async function exportTemplateJSON(id, name="Template") {
         a.click();
         URL.revokeObjectURL(url);
 
+        newMessageBanner("JSON successfully downloaded", "Success", true)
         return true; 
     } catch (error) {
         console.error("Error exporting template JSON:", error);
-        sessionStorage.setItem(
-            "confirmMessage",
-            JSON.stringify(["Failed to export template", "Error"])
-        );
-        processLastMessage();
+        newMessageBanner("Failed to export template", "Error", true)
         return false; 
     }
 }
@@ -50,21 +47,13 @@ async function copyTemplateJSON(id) {
         const jsonString = JSON.stringify(jsonData, null, 2);
 
         await navigator.clipboard.writeText(jsonString);
-
-        sessionStorage.setItem(
-            "confirmMessage",
-            JSON.stringify([`JSON copied to clipboard`, "Success"])
-        );
-        processLastMessage();
+        newMessageBanner("JSON copied to clipboard", "Success", true)
 
         return true; 
     } catch (error) {
         console.error("Error exporting template JSON:", error);
-        sessionStorage.setItem(
-            "confirmMessage",
-            JSON.stringify(["Failed to export template", "Error"])
-        );
-        processLastMessage();
+        newMessageBanner("Failed to export template", "Error", true)
+
         return false;
     }
 }
