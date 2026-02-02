@@ -231,21 +231,7 @@
 
         if ((!isValid || isFormEmpty) && !group_with_excludes) {
             // GROUP FORM CANT BE SUBMITTED -> MIGHT BE BECUASE OF THE REQUIRED ARRAY FIELDS
-
-            document
-            .querySelectorAll(
-                "ps-input-text, ps-textarea-json, ps-input-text-autocomplete, ps-input-number, ps-input-checkbox, ps-select, ps-select-multi, ps-select-excludes"
-            )
-            .forEach((control) => {
-                control.markDirty();
-                control.connectedCallback();
-            });
-
-            sessionStorage.setItem(
-                "confirmMessage",
-                JSON.stringify(["Form fields not all valid", "Error"]),
-            );
-            processLastMessage();
+            document.dispatchEvent(new CustomEvent('markAllDirty'));
         } else {
             document.dispatchEvent(new Event("validated"));
             document
@@ -286,23 +272,14 @@
                             body: JSON.stringify(updated_data),
                         });
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-
-                        savemsg = psCompose.activeRoute.singular + " saved successfully!";
-                        sessionStorage.setItem(
-                            "confirmMessage",
-                            JSON.stringify([savemsg, "Success"]),
-                        );
+                        newMessageBanner(savemsg, "Success", false)
 
                         // 3. Redirect
                         params.delete("edit");
                         window.location = window.location.pathname + "?" + params;
                     } catch (error) {
                         console.error("Error:", error);
-                        sessionStorage.setItem(
-                            "confirmMessage",
-                            JSON.stringify(["Something went wrong.", "Error"]),
-                        );
-                        processLastMessage();
+                        newMessageBanner("Something went wrong.", "Error", true)
                     }
                 });
         }
@@ -643,19 +620,11 @@
                         headers: { "Content-Type": "application/json" },
                     });
                     if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify([deleteSuccessMsg, "Success"]),
-                    );
+                    newMessageBanner(deleteSuccessMsg, "Success", false)
                     window.location = psCompose.activeRoute.page_url;
                 } catch (error) {
                     console.error("Error:", error);
-                    sessionStorage.setItem(
-                        "confirmMessage",
-                        JSON.stringify([deleteFailMsg, "Success"]),
-                    );
-                    processLastMessage();
+                    newMessageBanner(deleteFailMsg, "Success", true)
                 }
             });
     });
