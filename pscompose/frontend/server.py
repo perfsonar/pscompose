@@ -17,7 +17,7 @@ STATIC_ROUTES = (
     "/components",
     "/css",
     "/static",
-    "/dummy_api",
+    "/scripts",
 )
 
 
