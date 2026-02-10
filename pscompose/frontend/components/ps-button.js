@@ -9,14 +9,58 @@ export class PSButton extends HTMLElement {
         "link",
         "confirm-modal",
     ];
-    passthroughAttributes = {};
-    passthroughAttributeMatchers = [
-        new RegExp(/aria-.*/),  
-        new RegExp(/role$/),   
-    ];
 
     constructor() {
         super();
+    }
+
+    get label() {
+        return this.getAttribute("label") ?? "";
+    }
+    set label(v) {
+        this.setAttribute("label", v ?? "");
+    }
+    get id() {
+        return this.getAttribute("id") ?? "";
+    }
+    set id(v) {
+        this.setAttribute("id", v ?? "");
+    }
+    get type() {
+        return this.getAttribute("type") ?? "";
+    }
+    set type(v) {
+        this.setAttribute("type", v ?? "");
+    }
+    get theme() {
+        return this.getAttribute("theme") ?? "";
+    }
+    set theme(v) {
+        this.setAttribute("theme", v ?? "");
+    }
+    get lefticon() {
+        return this.getAttribute("lefticon") ?? "";
+    }
+    set lefticon(v) {
+        this.setAttribute("lefticon", v ?? "");
+    }
+    get righticon() {
+        return this.getAttribute("righticon") ?? "";
+    }
+    set righticon(v) {
+        this.setAttribute("righticon", v ?? "");
+    }
+    get link() {
+        return this.getAttribute("link") ?? "";
+    }
+    set link(v) {
+        this.setAttribute("link", v ?? "");
+    }
+    get disabled() {
+        return this.hasAttribute("disabled");
+    }
+    set disabled(v) {
+        v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
     }
 
     connectedCallback() {
@@ -26,17 +70,9 @@ export class PSButton extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue === newValue) return;
-        Array.from(this.attributes).forEach((attr) => {
-            this.passthroughAttributeMatchers.some((re) => {
-                if (re.test(attr.name)) {
-                    this.passthroughAttributes[attr.name] = this.getAttribute(attr.name);
-                    return true; 
-                }
-            });
-        });
-        this[name] = newValue;
         this.render();
         lucide.createIcons();
+        this[name] = newValue;
     }
 
     openModal() {
@@ -50,35 +86,30 @@ export class PSButton extends HTMLElement {
     render() {
         this.innerHTML = `
             ${
-                this.getAttribute("link")
-                    ? `<a href="${this.getAttribute("link")}" style="text-decoration: none;">`
+                this.link
+                    ? `<a href="${this.link}" style="text-decoration: none;">`
                     : ""
             }
             <button 
-                ${this.getAttribute("type") ? `type="${this.getAttribute("type")}" ` : ""}
+                ${this.type ? `type="${this.type}" ` : ""}
                 >
                 
                 ${
-                    this.getAttribute("lefticon")
-                        ? `<i data-lucide="${this.getAttribute("lefticon")}"></i>`
+                    this.lefticon
+                        ? `<i data-lucide="${this.lefticon}"></i>`
                         : ""
                 }
-                ${this.getAttribute("label") || ""}
+                ${this.label || ""}
                 ${
-                    this.getAttribute("righticon")
-                        ? `<i data-lucide="${this.getAttribute("righticon")}"></i>`
+                    this.righticon
+                        ? `<i data-lucide="${this.righticon}"></i>`
                         : ""
                 }
             </button>
-            ${this.getAttribute("link") ? `</a>` : ""}
+            ${this.link ? `</a>` : ""}
         `;
 
         let btn = this.querySelector("button");
-        Object.keys(this.passthroughAttributes).forEach((k) => {
-            btn.setAttribute(k, this.passthroughAttributes[k]);
-            this.removeAttribute(k);
-        });
-
         if (this.getAttribute("confirm-modal")) {
             btn.addEventListener("click", () => this.openModal());
         }
