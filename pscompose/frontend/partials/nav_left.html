@@ -42,6 +42,7 @@
                 {% for item in data %}
                     <li id="{{item.id}}" class="subnav-item">
                         <div class="item-info">
+                            <ps-input-checkbox id="subnav-item-checkbox" theme="Small" style="display: none;"></ps-input-checkbox>
                             <i id="subnav-icon" data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
                             <h5>{{item.name}}</h5>
                         </div>
@@ -51,6 +52,11 @@
                     </li>
                 {% endfor %}
             </ul>
+            <div class='select-btns'>
+                <ps-button id="select-mode" label="Select" theme="Small"></ps-button>
+                <ps-button class="delete-all-btn" label="Delete" theme="SmallError"></ps-button>
+                <ps-button class="open-all-btn" label="Open" lefticon="external-link" theme="Small"></ps-button>
+            </div>
         </div>
     </script>
 </nav>
@@ -137,8 +143,14 @@
 
     async function updateSubnav() {
         const favorites_data = await fetchFavoriteIDs();
+
+        if (!psCompose.activeMenuItem) {
+            psCompose.activeMenuItem = psCompose.activeRoute.key
+        }
+
         const endpoint = favorites_data ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + 'favorites/' + 'ssbaveja' : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
         const context = { psCompose, favorites_data: favorites_data || [] };
+
 
         subnavContainer.innerHTML = `
           <div
@@ -161,22 +173,21 @@
         if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
 
         subnavContainer.classList.remove("hidden");
-        subnavContainer.offsetWidth; 
+        subnavContainer.offsetWidth;
         subnavContainer.classList.remove("close");
 
         try {
             await updateSubnav()
         } catch (e) {
-            console.error('Failed to load favorites:', error);
+            console.error('Failed to load favorites:', e);
         }
 
         subnavContainer.classList.add("open");
 
-        subnavContainer.addEventListener("click", (e) => {
-            const li = e.target.closest("li.subnav-item");
-            if (!li) return;
-            const url = psCompose.nav[psCompose.activeMenuItem].page_url;
-            loadSubnavPage(url, li.id);
+
+        // Attach Event Listeners
+        subnavContainer.addEventListener('htmx:load', function (e) {
+            attachSubnavEventListeners()
         });
     }
 
@@ -217,4 +228,150 @@
             highlightActiveSubnav(psCompose.activeRoute.id);
         }
     });
+
+    function attachSubnavEventListeners() {
+        document.querySelectorAll('li.subnav-item').forEach((item) => {
+            item.addEventListener('click', function (e) {
+                if (document.getElementById('subnav-list').classList.contains('select')) {
+                    const ul = document.querySelector('#subnav-list');
+                    var selected = JSON.parse(ul.getAttribute('data-list'));
+                    const cb = item.querySelector('ps-input-checkbox')
+
+                    cb.value = !cb.value
+                    if (cb.value && !selected.includes(item.id)) selected.push(item.id);
+                    else selected.pop(item.id)
+
+                    ul.setAttribute('data-list', JSON.stringify(selected));
+                } else {
+                    const url = psCompose.nav[psCompose.activeMenuItem].page_url;
+                    loadSubnavPage(url, item.id);
+                }
+            });
+        });
+        document.getElementById('select-mode').addEventListener('click', handleSelectMode);
+    }
+
+    function handleSelectMode(e) {
+        const btn = e.currentTarget;
+
+        // change btn to x
+        btn.label = ''
+        btn.righticon = 'X'
+        btn.id = 'select-cancel'
+        btn.removeEventListener('click', handleSelectMode);
+        btn.addEventListener('click', handleSelectCancel);
+
+        // change mode by adding class descriptor
+        document.getElementById('subnav-list').classList.add('select')
+
+        // Add delete btn
+        const deleteBtn = document.querySelector('.delete-all-btn');
+        deleteBtn.classList.add('selecting')
+        deleteBtn.addEventListener('click', handleDelete);
+
+        // Add open tab btn
+        const openAllBtn = document.querySelector('.open-all-btn');
+        openAllBtn.classList.add('selecting')
+        // openAllBtn.addEventListener('click', handleOpenAll)
+
+        // Init Selected List
+        document.querySelector('#subnav-list').setAttribute('data-list', JSON.stringify([])); // Init Empty List
+
+        // Show all checkboxes
+        subnavContainer.querySelectorAll('ps-input-checkbox').forEach((checkbox) => {
+            checkbox.style.display = 'flex';
+            checkbox.value = false;
+        });
+        subnavContainer.querySelectorAll('#subnav-icon').forEach((icon) => {
+            icon.style.display = 'none'
+        })
+    }
+
+    function handleSelectCancel(e) {
+        const btn = e.currentTarget
+
+        // change btn to select
+        btn.label = 'Select';
+        btn.righticon = '';
+        btn.id = 'select-mode';
+        btn.removeEventListener('click', handleSelectCancel);
+        btn.addEventListener('click', handleSelectMode);
+
+        // change mode by adding class descriptor
+        document.getElementById('subnav-list').classList.remove('select')
+
+        // Add delete btn
+        const deleteBtn = document.querySelector('.delete-all-btn');
+        deleteBtn.classList.remove('selecting')
+
+        // Add open tab btn
+        const openAllBtn = document.querySelector('.open-all-btn');
+        openAllBtn.classList.remove('selecting')
+
+        // Hide all checkboxes
+        subnavContainer.querySelectorAll('ps-input-checkbox').forEach((checkbox) => {
+            checkbox.style.display = 'none'
+        });
+        subnavContainer.querySelectorAll('#subnav-icon').forEach((icon) => {
+            icon.style.display = 'flex'
+        })
+    };
+
+    async function handleDelete(e) {
+        const ul = document.querySelector('#subnav-list');
+        const selected = JSON.parse(ul.getAttribute('data-list'));
+        if (selected.length <= 0) return;
+        
+        let failedCount = 0;
+
+        for (const id of selected) {
+            try {
+                const res = await fetch(
+                `${psCompose.nav[psCompose.activeMenuItem].list_endpoint}${id}/`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                }
+                );
+                if (!res.ok) {
+                failedCount++;
+                }
+            } catch (e) {
+                failedCount++;
+            }
+        }
+
+        if (failedCount > 0) {
+            newMessageBanner(`${failedCount} items failed`, "Error", true);
+        } else {
+            newMessageBanner("All items deleted", "Success", true);
+        }
+
+        // Update Window Render
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get("id");
+        updateSubnav()
+        if (selected.includes(id)) {
+            window.location = psCompose.nav[psCompose.activeMenuItem].page_url;
+        }
+    }
+
+    /* V1.1TODO: Open all button */
+    // function handleOpenAll(e) {
+    //     const ul = document.querySelector('#subnav-list');
+    //     var selected = JSON.parse(ul.getAttribute('data-list'));
+
+    //     if (selected.length <= 0) return
+    //     console.log(selected, psCompose.nav[psCompose.activeMenuItem])
+        
+    //     selected.forEach((id, index) => {
+    //         setTimeout(() => {
+    //             window.open(`${psCompose.nav[psCompose.activeMenuItem].page_url}?id=${id}`, '_blank', 'noopener,noreferrer');
+    //             window.focus();
+    //         }, index * 100000);
+    //     });
+
+    // }
+
+
 </script>
