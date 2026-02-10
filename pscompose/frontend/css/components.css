@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
-    align-items: start;
+    align-items: center;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -237,6 +237,7 @@ input[type="number"]::-webkit-outer-spin-button {
     flex-direction: row;
     align-items: center;
     height: 100%;
+    min-height: 0;
 }
 
 .form-container:has(input[type="checkbox"]) ps-input-label {
@@ -258,11 +259,13 @@ input[type="number"]::-webkit-outer-spin-button {
     order: 1;
     position: relative;
     padding: 0;
+    cursor: pointer;
 }
 
 .form-container .wrapper input[type="checkbox"] {
     width: 32px;
     height: 32px;
+    cursor: pointer;
 }
 
 .form-container:has(input[type="checkbox"]:checked) .wrapper {
@@ -283,8 +286,47 @@ input[type="number"]::-webkit-outer-spin-button {
     display: block;
 }
 
-.checkbox-container-disabled {
-    display: none;
+ps-input-checkbox[disabled] {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]) .wrapper {
+    width: 20px;
+    height: 20px;
+    background: rgb(var(--surface_1));
+    accent-color: rgb(var(--success));
+    border: 1.5px solid rgb(var(--copyAlt));
+    border-radius: 4px;
+    min-width: 0;
+    order: 1;
+    position: relative;
+    padding: 0;
+    cursor: pointer;
+}
+
+ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]:checked) .wrapper {
+    background: rgb(var(--success));
+}
+
+ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0.5px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    pointer-events: none;
+    display: block;
 }
 
 /* ps-input-checkbox-star */
@@ -603,6 +645,12 @@ ps-button button {
     transition: all 150ms ease-in-out;
 }
 
+ps-button[disabled] {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.65;
+}
+
 ps-button button:hover {
     transform: scale(1.03);
     transition: transform 0.2s ease-in-out;
@@ -743,6 +791,7 @@ ps-button[theme="Small"] button {
 
     font-weight: 600;
     font-size: 14px;
+    height: 100%;
 }
 
 ps-button[theme="Small"] button svg {
@@ -764,11 +813,32 @@ ps-button[theme="AddBtn"] button {
     padding: 4px 12px 4px 8px;
 
     font-weight: 500;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 ps-button[theme="AddBtn"] button:hover {
     background-color: rgba(var(--success)/ 0.5);
+}
+
+ps-button[theme="SmallError"] button {
+    gap: 4px;
+    padding: 0.2rem 1rem;
+
+    background-color: rgb(var(--error));
+    color: rgb(var(--copy));
+    border: 2px solid rgb(var(--shadow));
+
+    font-weight: 600;
+    font-size: 14px;
+}
+
+ps-button[theme="SmallError"] button svg {
+    width: 16px;
+    height: 16px;
+}
+
+ps-button[theme="SmallError"] button:hover {
+    background-color: rgb(--surface_1);
 }
 
 /* ps-tooltip */
