@@ -233,7 +233,7 @@ nav {
 }
 
 .subnav {
-    @apply flex flex-col py-md px-xlg gap-md font-sans bg-surface_2 w-full mb-xxlg;
+    @apply flex flex-col py-md px-lg gap-md font-sans bg-surface_2 w-full mb-xxlg;
 }
 
 .subnav h1 {
@@ -260,8 +260,12 @@ nav {
     @apply flex flex-row items-start gap-4;
 }
 
-.subnav-item svg {
-    @apply mt-xxsm
+.subnav-item svg, ps-input-checkbox {
+    @apply mt-xxsm;
+}
+
+.subnav-item .form-container:has(input[type="checkbox"]) {
+    @apply gap-none;
 }
 
 .favorite-star {
@@ -281,6 +285,26 @@ nav {
 }
 .subnav #subnav-search:focus {
     @apply outline-none border-[1.5px] border-success;
+}
+
+.subnav .select-btns {
+    @apply flex flex-row gap-md;
+}
+
+.subnav .select-btns .delete-all-btn, .open-all-btn {
+    opacity: 0;
+    cursor: none;
+    transform: translateX(0px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 20ms;
+}
+
+.subnav .select-btns .delete-all-btn.selecting, .open-all-btn.selecting{
+    opacity: 1;
+    cursor: pointer;
+    transform: translateX(2px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 70ms;
 }
 
 /* HOME PAGE / INDEX */
@@ -635,6 +659,10 @@ table .tags {
     animation-fill-mode: forwards;
 }
 
+:where(.packets-ui .vertical-layout-item) ps-input-checkbox {
+    @apply flex pt-lg
+}
+
 @keyframes jsonFormFadeIn {
     0% {
         transform: translateY(-3%);
@@ -667,10 +695,6 @@ table .tags {
     @apply w-full;
 }
 
-:where(.packets-ui .horizontal-layout):has(ps-input-checkbox):has(ps-input-text) .ps-input-checkbox-wrapper {
-    @apply mt-lg;
-}
-
 :where(.packets-ui fieldset) {
     @apply flex flex-col gap-lg;
 }
@@ -701,6 +725,46 @@ json-form {
 
 #content {
     @apply flex w-full justify-center items-center;
+}
+
+.refset {
+    @apply hidden;
+}
+.refset:has(.refset-container .list-box) {
+    @apply flex flex-col bg-surface_1 p-lg rounded-lg gap-md;
+}
+
+.refset .refset-name {
+    @apply flex flex-row gap-xsm;
+}
+
+.refset .refset-container {
+    @apply flex flex-row gap-md flex-wrap;
+}
+
+.refset .refset-container .list-box {
+    @apply text-copyAlt p-md;
+    flex: 0 0 calc(33.333% - 1rem)
+}
+
+.refset .refset-container .box-header #shortcut-icon {
+    @apply w-lg h-lg;
+}
+
+.refset .refset-container .box-text {
+    @apply text-label_1_sans font-sans;
+}
+
+.refset .refset-container .box-name {
+    @apply text-h6_sans font-sans;
+}
+
+.orphans-container {
+    @apply flex flex-row gap-md bg-background p-md rounded-lg;
+}
+
+.orphans-container ps-textarea-json{
+    @apply w-full;
 }
 
 .spinner {
