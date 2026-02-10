@@ -41,6 +41,7 @@
         <script src="/scripts/customRenderer.js" type="module"></script>
         <script src="/scripts/templateJSON.js"></script>
         <script src="/scripts/favorites.js"></script>
+        <script src="/scripts/loadDatatypes.js"></script>
 
         <script src="/static/settings.js"></script>
         <script>
@@ -211,13 +212,13 @@
                         singular: "Template",
                         plural: "Templates",
                         page_url: "/import/",
-                        page_template: "/pages/import_template.html",
+                        page_template: "/pages/template_import.html",
                         list_endpoint: `${window.API_BASE_URL}/template/`,
                         icon: "locate",
                     },
                     wizard: {
                             order: ['address', 'group', 'archive', 'schedule', 'test', 'task', 'template'],
-                            page_template: "/pages/wizard.html",
+                            page_template: "/pages/template_wizard.html",
                         },
                 },
             };
