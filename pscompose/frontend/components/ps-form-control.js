@@ -1,6 +1,6 @@
 export class PSFormControl extends HTMLElement {
     static get observedAttributes() {
-        return ["id", "class", "label", "value", "description", "error", "required", "disabled"];
+        return ["id", "class", "theme", "label", "value", "description", "error", "required", "disabled"];
     }
 
     constructor() {
