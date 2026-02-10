@@ -54,6 +54,10 @@
         const isFormEmpty = Object.keys(form_data).length === 0;
         const isValid = elem.validate();
 
+        document.querySelectorAll("ps-modal").forEach(modal => {
+            modal.setAttribute("confirm-data-name", form_data.name || "");
+        });
+
         if ((!isValid || isFormEmpty)) {
             document.dispatchEvent(new CustomEvent('markAllDirty'));
         } else {
@@ -111,6 +115,7 @@
                     };
 
                     const resolveConflict = form_data['resolveConflict'] || 'keep-both'
+                    const orphanData = form_data['orphanData'] || false
 
                     // 2. Post request to api
                     try {
@@ -119,7 +124,8 @@
                             headers: { 
                                 "Content-Type": "application/json",
                                 "X-Import": "true",
-                                "X-Conflict": JSON.stringify(resolveConflict)
+                                "X-Conflict": resolveConflict,
+                                "X-Orphan": JSON.stringify(orphanData),
                             },
                             body: JSON.stringify(data),
                         });
@@ -127,7 +133,10 @@
                         if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
                         const result = await response.json();
                         savemsg = psCompose.activeRoute.singular + " saved successfully!";
-                        newMessageBanner(savemsg, "Success", false)
+                        newMessageBanner(savemsg, "Success", false);
+                        if (result.orphans) {
+                            sessionStorage.setItem('orphans', JSON.stringify(result.orphans));
+                        }
                         window.location = window.location.pathname+ "?id=" + result.id;
                     } catch (error) {
                         console.error("Error:", error);
@@ -137,12 +146,56 @@
         }
         
     });
-    console.log('pscompose subsection: ', psCompose.subsection)
+    
     // Render Saved Template in Read Mode
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
     if (id) {
         document.querySelector('h3').innerText = "Success! Your template has been saved.";
-        document.querySelector(".step-box-column").innerHTML = `<div class="w-full" hx-get="/partials/data_read_form.html" hx-trigger="load"></div>`;
+        document.querySelector(".step-box-column").innerHTML = `
+                                                                <div class="w-full" 
+                                                                    hx-get="/partials/data_read_form.html" 
+                                                                    hx-trigger="load" 
+                                                                    hx-on::after-settle="initOrphans()"
+                                                                    hx-on::after-request="attachFavoritesHandler(id)">
+                                                                </div>`;
     }
+
+function initOrphans() {
+    if (sessionStorage.getItem('orphans')) {
+        const orphans = JSON.parse(sessionStorage.getItem('orphans'));
+        sessionStorage.removeItem('orphans');
+        const container = document.createElement('div');
+        container.id = 'orphans-container';
+        
+        container.innerHTML = `
+            <div class='orphans-container'>
+                <div class="action-icon">
+                    <div class="tooltip">Copy Orphans JSON to Clipboard</div>
+                    <ps-button
+                        id="copy-orphans-btn"
+                        righticon="clipboard-copy"
+                        theme="Icon"
+                    ></ps-button>
+                </div>
+                <ps-textarea-json 
+                    id='orphans-textbox'
+                    label='Orphan JSON'
+                    value='${JSON.stringify(orphans)}'
+                    disabled>
+                </ps-textarea-json>
+            </div>
+        `;
+        document.querySelector('.step-box-column').appendChild(container);
+        
+        document.getElementById('copy-orphans-btn').addEventListener('click', async function() {
+            const textbox = document.getElementById('orphans-textbox');
+            const jsonString = JSON.stringify(textbox.value, null, 2);
+            await navigator.clipboard.writeText(jsonString);
+            newMessageBanner("JSON copied to clipboard", "Success", true)
+        });
+    }
+}
+
+
 </script>
