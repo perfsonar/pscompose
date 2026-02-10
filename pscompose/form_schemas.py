@@ -243,16 +243,6 @@ GROUP_UI_SCHEMA = {
             "elements": [
                 {
                     "type": "Control",
-                    "scope": "#/properties/unidirectional",
-                    "customComponent": "ps-input-checkbox",
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes-self",
-                    "customComponent": "ps-select",
-                },
-                {
-                    "type": "Control",
                     "scope": "#/properties/a-addresses",
                     "customComponent": "ps-select-multi",
                 },
@@ -260,6 +250,21 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/b-addresses",
                     "customComponent": "ps-select-multi",
+                },
+                {
+                    "type": "HorizontalLayout",
+                    "elements": [
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/excludes-self",
+                            "customComponent": "ps-select",
+                        },
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/unidirectional",
+                            "customComponent": "ps-input-checkbox",
+                        },
+                    ]
                 },
                 {
                     "type": "Control",
@@ -2452,6 +2457,21 @@ TEMPLATE_IMPORT_SCHEMA = {
             "title": "Name",
             "description": "A name to identify this template.",
         },
+        "resolveConflict": {
+            "type": "string",
+            "title": "Conflict Resolution Strategy",
+            "oneOf": [
+                {"const": "overwrite", "title": "Overwrite (Keep New)"},
+                {"const": "keep-existing", "title": "Keep Existing"},
+                {"const": "keep-both", "title": "Keep Both (Auto Rename)"},
+            ],
+            "description": "Choose how to resolve datatypes with same name",
+        },
+        "orphanData": {
+            "type": "boolean",
+            "title": "Import Orphan Datas",
+            "description": "Any child data types that aren’t referenced in the parent template will be created if checked."
+        },
         "importVia": {
             "type": "string",
             "title": "Import Via",
@@ -2460,16 +2480,6 @@ TEMPLATE_IMPORT_SCHEMA = {
                 {"const": "url", "title": "Import from URL"},
                 {"const": "paste", "title": "Paste JSON"},
             ],
-        },
-        "resolveConflict": {
-            "type": "string",
-            "title": "Resolve Conflict",
-            "oneOf": [
-                {"const": "overwrite", "title": "Overwrite"},
-                {"const": "keep-same-name", "title": "Keep Both/Same Name"},
-                {"const": "keep-auto-rename", "title": "Keep Both/Auto Rename"},
-            ],
-            "description": "Choose how to resolve datatypes with same name",
         },
         "upload": {
             "type": "string",
@@ -2519,15 +2529,20 @@ TEMPLATE_IMPORT_UI_SCHEMA = {
             "elements": [
                 {
                     "type": "Control",
-                    "scope": "#/properties/importVia",
+                    "scope": "#/properties/resolveConflict",
                     "customComponent": "ps-select",
                 },
                 {
                     "type": "Control",
-                    "scope": "#/properties/resolveConflict",
-                    "customComponent": "ps-select",
+                    "scope": "#/properties/orphanData",
+                    "customComponent": "ps-input-checkbox",
                 }
             ]
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/importVia",
+            "customComponent": "ps-select",
         },
         {
             "type": "Template",
