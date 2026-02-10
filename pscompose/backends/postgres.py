@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
 from pscompose.models import DataTable, engine
 from pscompose.schemas import DataTableBase
 from pydantic import ValidationError
@@ -185,11 +186,19 @@ class PostgresBackend:
             return row if row else None
         else:
             return None  
-    
+
     def get_results_by_datatype_and_name(self, datatype, item_name: str):
         query = self.session.query(DataTable).filter_by(type=datatype)
+        
         if item_name:
-            query = query.filter_by(name=item_name)
+            base_name_match = func.regexp_matches(
+                DataTable.name,
+                f'^{item_name}(\\s*\\(\\d+\\))?$',
+                'g'
+            )
+            
+            query = query.filter(func.substring(DataTable.name, 1, len(item_name)) == item_name)
+        
         return query.all()
 
     def get_results_by_ids(self, item_ids: list[str], limit: int = 3):
