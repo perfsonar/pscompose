@@ -31,6 +31,10 @@ def get_user_favorites_id(
         raise HTTPException(status_code=422)
 
     favorite_ids = getattr(db_user, "favorites", [])
+    if not favorite_ids:
+        return [] 
+    else:
+        sanitize_favorites(favorite_ids, db_user)
     return favorite_ids
 
 @router.get("/favorites/{username}/", summary="Get current user's list of favorites objects")
@@ -47,6 +51,8 @@ def get_user_favorites(
     favorite_ids = getattr(db_user, "favorites", [])
     if not favorite_ids:
         return [] 
+    else:
+        favorite_ids = sanitize_favorites(favorite_ids, db_user)
 
     favorite_objects = backend.get_results_by_ids(favorite_ids, limit=3)
     return favorite_objects 
@@ -70,7 +76,6 @@ def is_user_favorites(
 
     if item_id not in current_favorites:
         return False
-
     return True
 
 @router.put("/favorites/{username}/{item_id}/", summary="Adding favorite current user's favorites")
@@ -128,3 +133,12 @@ def delete_user_favorite(
         favorites=current_favorites,
     )
     return response
+
+def sanitize_favorites(fav_ids: list[str], db_user):
+    existing_ids = [id for id in fav_ids if backend.get_result_by_id(id) is not None]
+    if len(existing_ids) != len(fav_ids):
+        response = backend_user.update_user(
+            db_user,
+            favorites=existing_ids,
+        )
+    return existing_ids
