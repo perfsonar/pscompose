@@ -28,8 +28,7 @@ fs.readdir(dirPath, (err, files) => {
 
     const content = 
     `
-    // Auto-generated component registry
-
+    /* AUTO-GENERATED — DO NOT EDIT */
     ${importStatements}
 
     // Export component names list too
