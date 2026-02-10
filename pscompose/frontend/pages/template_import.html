@@ -110,7 +110,7 @@
                         // url: ""
                     };
 
-                    const resolveConflict = form_data['resolveConflict'] || 'keep-same-name'
+                    const resolveConflict = form_data['resolveConflict'] || 'keep-both'
 
                     // 2. Post request to api
                     try {
@@ -137,7 +137,7 @@
         }
         
     });
-    
+    console.log('pscompose subsection: ', psCompose.subsection)
     // Render Saved Template in Read Mode
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
