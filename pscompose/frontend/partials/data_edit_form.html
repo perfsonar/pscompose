@@ -6,17 +6,25 @@
                 <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon">
                     <div class="tooltip">Edit Form</div>
-                    <ps-button id="edit-icon" righticon="edit" theme="Icon">
-                    </ps-button>
+                    <ps-button id="edit-icon" righticon="edit" theme="Icon"> </ps-button>
                 </div>
                 <div class="action-icon">
                     <div class="tooltip">Download Template</div>
-                    <ps-button id="export-json-btn" righticon="download" theme="Icon" style="display: none"></ps-button>
+                    <ps-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                        style="display: none"
+                    ></ps-button>
                 </div>
                 <div class="action-icon">
                     <div class="tooltip">Copy Template JSON to Clipboard</div>
-                    <ps-button id="copy-json-btn" righticon="clipboard-copy" theme="Icon"
-                        style="display: none"></ps-button>
+                    <ps-button
+                        id="copy-json-btn"
+                        righticon="clipboard-copy"
+                        theme="Icon"
+                        style="display: none"
+                    ></ps-button>
                 </div>
             </div>
         </div>
@@ -36,14 +44,31 @@
                 </script>
 
                 <div class="edit-save-cancel">
-                    <ps-button id="delete-btn" type="button" label="Delete" theme="Error" righticon="trash-2"
-                        confirm-modal="delete-modal">
+                    <ps-button
+                        id="delete-btn"
+                        type="button"
+                        label="Delete"
+                        theme="Error"
+                        righticon="trash-2"
+                        confirm-modal="delete-modal"
+                    >
                     </ps-button>
-                    <ps-button id="save-btn" type="submit" label="Save" theme="Secondary" righticon="save"
-                        confirm-modal="save-modal">
+                    <ps-button
+                        id="save-btn"
+                        type="submit"
+                        label="Save"
+                        theme="Secondary"
+                        righticon="save"
+                        confirm-modal="save-modal"
+                    >
                     </ps-button>
-                    <ps-button type="button" label="Cancel" theme="Primary" righticon="x"
-                        link="javascript:history.back()">
+                    <ps-button
+                        type="button"
+                        label="Cancel"
+                        theme="Primary"
+                        righticon="x"
+                        link="javascript:history.back()"
+                    >
                     </ps-button>
                 </div>
             </form>
@@ -59,22 +84,23 @@
 <script src="/scripts/dataForms/mergeSchema.js"></script>
 <script src="/scripts/dataForms/submitForm.js"></script>
 
-
 <script>
     var params = new URLSearchParams(window.location.search);
     var id = params.get("id");
     var datatype = psCompose.activeRoute.singular.toLowerCase();
 
     // Open subnav when not wizard page
-    if (psCompose.activeMenuItem !== "wizard" &&
+    if (
+        psCompose.activeMenuItem !== "wizard" &&
         psCompose.activeMenuItem !== "import" &&
-        window.innerWidth > 1025) {
+        window.innerWidth > 1025
+    ) {
         showSubnav();
     }
 
     function editMode(bool) {
         document.querySelector("json-form").setAttribute("readonly", String(!bool));
-        
+
         if (bool) {
             // EDIT MODE
             hideSubnav();
@@ -100,7 +126,6 @@
                 });
             }
         }
-        
     }
 
     // Setting the hx-get attribute dynamically
@@ -126,22 +151,24 @@
     document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
         let elem = event.detail[0].target;
         document.getElementById("data-name").textContent = elem?.data?.name;
+        editMode(params.get("edit"));
 
         // Render Refset
-        if (psCompose.activeMenuItem != "wizard") loadSection(`${psCompose.activeRoute.list_endpoint}${id}/find/`, ".refset-container");
+        if (psCompose.activeMenuItem != "wizard")
+            loadSection(`${psCompose.activeRoute.list_endpoint}${id}/find/`, ".refset-container");
 
         // Favorites Set Up
         setUpFavorites(id);
         attachFavoritesHandler(id);
 
-        document.querySelectorAll("ps-modal").forEach(modal => {
+        document.querySelectorAll("ps-modal").forEach((modal) => {
             modal.setAttribute("confirm-data-name", elem?.data?.name || "");
         });
     });
 
     // Change
     document.getElementById("data-edit-form").addEventListener("change", async function (event) {
-        if (datatype == 'task') await renderTools(event);
+        if (datatype == "task") await renderTools(event);
         if (datatype === "test" || datatype === "archive") mergeSchema(event);
     });
 
@@ -158,26 +185,28 @@
                     headers: { "Content-Type": "application/json" },
                 });
                 if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                newMessageBanner(`Successfully deleted ${datatype}!`, "Success", false)
+                newMessageBanner(`Successfully deleted ${datatype}!`, "Success", false);
                 window.location = psCompose.activeRoute.page_url;
             } catch (error) {
                 console.error("Error:", error);
-                newMessageBanner(error.message, "Success", true)
+                newMessageBanner(error.message, "Success", true);
             }
         });
     });
 
     // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
     function invalidRefsetRender() {
-        const refsetContainer = document.querySelector('.refset-container');
-        const allHaveIds = Array.from(refsetContainer.children).every(child => child.id);
-        const idsArray = Array.from(refsetContainer.children).map(child => child.id).filter(id => id);
+        const refsetContainer = document.querySelector(".refset-container");
+        const allHaveIds = Array.from(refsetContainer.children).every((child) => child.id);
+        const idsArray = Array.from(refsetContainer.children)
+            .map((child) => child.id)
+            .filter((id) => id);
 
         if (!(refsetContainer && refsetContainer.children.length > 0 && allHaveIds)) return;
-        document.querySelector('#delete-btn').disabled = true;
-        const tooltip = document.createElement('ps-tooltip');
-        tooltip.setAttribute('desc', "Delete blocked: This will break the parent template")
-        document.querySelector('.refset').querySelector('h6').appendChild(tooltip);
+        document.querySelector("#delete-btn").disabled = true;
+        const tooltip = document.createElement("ps-tooltip");
+        tooltip.setAttribute("desc", "Delete blocked: This will break the parent template");
+        document.querySelector(".refset").querySelector("h6").appendChild(tooltip);
 
         /* V1.1TODO: Add delete all button */
         // Might need to collect a list of parent template it affects by deleting all tasks
