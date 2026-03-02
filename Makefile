@@ -33,5 +33,5 @@ run-frontend:
 test:
 	@echo "Running pytest test harness for Frontend (playwright/pytest) and Backend (standard pytest) tests..."
 	source venv/bin/activate && pip install -r dev_requirements.txt
-	playwright install
+	source venv/bin/activate && playwright install
 	source venv/bin/activate && PSCOMPOSE_SETTINGS=$(TEST_CONFIG) python3 -m pytest -v -s tests/*.py
