@@ -1,20 +1,20 @@
-<web-modal
+<ps-modal
     id="save-modal"
     theme="Success"
     question="Are you sure mate?"
     confirm-label="Save"
     icon="save"
 >
-</web-modal>
+</ps-modal>
 
-<web-modal
+<ps-modal
     id="delete-modal"
     theme="Error"
     question="Are you sure mate?"
     confirm-label="Delete"
     icon="trash-2"
 >
-</web-modal>
+</ps-modal>
 
 <script>
     var params = new URLSearchParams(window.location.search);
@@ -23,28 +23,55 @@
 
     // Insert api/find results
     function resultToHtml(result) {
-        if (result.length === 0) {
+        if (datatype === "template") {
+            return ``;
+        } else if (result.length === 0) {
             return `
-            <div class="confirm-message">
-                <h5>Making changes to this ${datatype} will not affect any existing data.</h5>
-            </div>
-        `;
+                <div class="confirm-message">
+                    <h6>Making changes to this ${datatype} will not affect any existing data.</h6>
+                </div>
+            `;
         } else {
             return `
-            <div class="confirm-message">
-                <h5>Making changes to this ${datatype} will impact the following:</h5>
-                <ul>
-                    ${result
-                        .map(
-                            (item) =>
-                                `<li>${capitalizeFirstLetter(item.type)}: <a href="/${pluralWord(
-                                    item.type,
-                                )}/?id=${item.id}" target="_blank">${item.name}</a></li>`,
-                        )
-                        .join("")}
-                </ul>
-            </div>
-            `;
+                <div class="confirm-message">
+                <p>This ${datatype} is used in the following:</p>
+                <div class="collapsible-list">
+                    ${Object.entries(
+                    result.reduce((acc, item) => {
+                        const type = capitalizeFirstLetter(item.type);
+                        acc[type] = acc[type] || [];
+                        acc[type].push(item);
+                        return acc;
+                    }, {})
+                    ).map(([type, items]) => `
+                    <details class="collapsible-item">
+                        <summary>
+                            <div class="summary-content">
+                                <i
+                                    data-lucide="${psCompose.metadata[type.toLowerCase()].icon}"
+                                    class="shortcut-icon"
+                                    aria-hidden="true"
+                                ></i>
+                                ${type}
+                            </div>
+                            <i data-lucide="chevron-down" class="collapse-icon" aria-hidden="true"></i>
+                        </summary>
+                        <div class="collapsible-content">
+                            <ul>
+                                ${items.map(item => `
+                                    <li>
+                                        <a href="/${pluralWord(item.type)}/?id=${item.id}" target="_blank">
+                                            ${item.name}
+                                        </a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </details>
+                    `).join('')}
+                </div>
+                `;
+
         }
     }
 
@@ -61,13 +88,14 @@
         } catch (error) {
             console.error("Error:", error);
         }
+
         deleteModal.setAttribute("message", resultToHtml(result));
     })();
 
     // Save Datatype
-    var saveBtn = document.querySelector("#save-modal");
+    var saveModal = document.querySelector("#save-modal");
     var saveMsg = "Are you sure you want to save this " + datatype + " ?";
-    saveBtn.setAttribute("question", saveMsg);
+    saveModal.setAttribute("question", saveMsg);
 
     // Delete Datatype
     var deleteModal = document.querySelector("#delete-modal");

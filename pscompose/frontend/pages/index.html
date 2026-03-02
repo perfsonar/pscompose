@@ -16,17 +16,17 @@
             <div class="box-header">
                 <i
                     class="lucide"
-                    style="color: var(--copy-color)"
+                    style="color: var(--copy)"
                     data-lucide="locate"
                     aria-hidden="true"
                 ></i>
                 <h4 class="box-name">Import Template</h4>
-                <web-button
-                    link="/import/1/import_template/"
+                <ps-button
+                    link="/import/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Import an existing template"
-                ></web-button>
+                ></ps-button>
             </div>
             <p class="box-text">
                 Import an existing template json by uploading the file or copying and pasting the
@@ -38,12 +38,12 @@
             <div class="box-header">
                 <i class="lucide" data-lucide="plus" aria-hidden="true"></i>
                 <h4 class="box-name">Create New Template</h4>
-                <web-button
-                    link="wizard/1/addresses/"
+                <ps-button
+                    link="wizard/1/address/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Create a new template from scratch"
-                ></web-button>
+                ></ps-button>
             </div>
             <p class="box-text">This will walk you through creating a new template from scratch</p>
         </li>
@@ -79,25 +79,24 @@
     </section>
 </div>
 
-<script src="/partials/data_template_json.js"></script>
 <script>
     async function loadPublishedTemplateTable() {
         const table = document.querySelector("tbody");
 
         try {
-            const response = await fetch(psCompose.metadata["templates"].list_endpoint);
+            const response = await fetch(psCompose.metadata["template"].list_endpoint);
             let templates_data = await response.json();
 
             await Promise.all(templates_data.map(async (template) => {
                 template.formatted_date = formatDate(template.last_edited_at);
-                template.editlink = psCompose.metadata["templates"].page_url + '?id=' + template.id + '&edit=true';
+                template.editlink = psCompose.metadata["template"].page_url + '?id=' + template.id + '&edit=true';
 
                 try {
                     template.tasks = [];
                     if (template.json.tasks && template.json.tasks.length > 0) {
                         const taskPromises = template.json.tasks.map(async (taskId) => {
                             try {
-                                const taskResponse = await fetch(psCompose.metadata["tasks"].list_endpoint + taskId + '/');
+                                const taskResponse = await fetch(psCompose.metadata["task"].list_endpoint + taskId + '/');
                                 return await taskResponse.json();
                             } catch (err) {
                                 console.warn(`Failed to fetch task ${taskId}:`, err);
@@ -119,7 +118,7 @@
                         {% for template in templates_data %}
                             <tr>
                                 <td>
-                                    <a class="td-content" href="/templates/?id={{template.id}}">
+                                    <a class="td-content" href="/template/?id={{template.id}}">
                                         {{template.name}}
                                     </a>
                                 </td>
@@ -127,7 +126,7 @@
                                     <div class='td-content tags'>
                                     {% if template.tasks and template.tasks.length > 0 %}
                                         {% for task in template.tasks %}
-                                            <a href="/tasks/?id={{task.id}}">
+                                            <a href="/task/?id={{task.id}}">
                                                 <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
                                                     {{ task.name }}
                                                 </li>
@@ -139,18 +138,27 @@
                                 </td>
                                 <td>
                                     <div class="td-content action-icons">
-                                        <web-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></web-button>
-                                        <web-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></web-button>
-                                        <web-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></web-button>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Edit Template</div>
+                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></ps-button>
+                                        </div>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Download Template</div>
+                                            <ps-button id="download-btn" data-id="{{template.id}}" data-name="{{template.name}}" righticon="download" theme="Icon"></ps-button>
+                                        </div>
+                                        <div class="action-icon">
+                                            <div class="tooltip">Copy Template JSON to Clipboard</div>
+                                            <ps-button id="copy-btn" data-id="{{template.id}}" righticon="clipboard-copy" theme="Icon"></ps-button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         {% endfor %}
                     {% else %}
-                        <tr>
-                            <td colspan="6" style="text-align: center; color: var(--copyAlt-color); padding: 1em;">
-                                <p> No published templates </p>
-                            </td>
+                        <tr> 
+                            <td></td>
+                            <td class="text-center"> <p> No published templates </p></td>
+                            <td></td>
                         </tr>
                     {% endif %}
                 </tbody>

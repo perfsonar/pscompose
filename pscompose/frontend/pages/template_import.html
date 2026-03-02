@@ -1,0 +1,201 @@
+<div class="w-full import-page">
+    <h3>Import Template</h3>
+    <div class="step-section">
+        <p>To import template, please provide name and import via URL link or file upload.</p>
+        <div class="step-box-column">
+            <form id="template-import-form" method="GET">
+                <fieldset id="content" hx-trigger="load" nunjucks-template="example-template">
+                    <i class="spinner" data-lucide="loader-circle"></i>
+                </fieldset>
+
+                <script id="example-template" type="nunjucks">
+                    <json-form
+                      form-data='{{ form_data | dump }}'
+                      schema-data='{{ json_schema | dump }}'
+                      layout-data='{{ ui_schema | dump }}'
+                      readonly='false'
+                    ></json-form>
+                </script>
+                <div class="save-cancel">
+                    <ps-button
+                        id="save-btn"
+                        type="submit"
+                        label="Save"
+                        theme="Secondary"
+                        righticon="save"
+                        confirm-modal="save-modal"
+                    >
+                    </ps-button>
+                    <ps-button
+                        type="button"
+                        label="Cancel"
+                        theme="Primary"
+                        righticon="x"
+                        link="javascript:history.back()"
+                    >
+                    </ps-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
+</div>
+
+<script>
+    document
+        .getElementById("content")
+        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}import/form/`);
+
+    document.querySelector('#template-import-form').addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const elem = document.querySelector("json-form");
+        const form_data = JSON.parse(elem.serializeForm());
+        const isFormEmpty = Object.keys(form_data).length === 0;
+        const isValid = elem.validate();
+
+        document.querySelectorAll("ps-modal").forEach(modal => {
+            modal.setAttribute("confirm-data-name", form_data.name || "");
+        });
+
+        if ((!isValid || isFormEmpty)) {
+            document.dispatchEvent(new CustomEvent('markAllDirty'));
+        } else {
+            document.dispatchEvent(new Event("validated"));
+            document
+                .querySelector("#save-modal")
+                .addEventListener("confirm-yes-clicked", async function (event) {
+                    let jsonContent = null;
+
+                    if (form_data['importVia'] == 'upload') {
+                        const file = document.querySelector('ps-input-file').files[0];
+                        if (!file) return;
+                        jsonContent = JSON.parse(await new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const text = e.target.result;
+                                try {
+                                    JSON.parse(text);  // Validate JSON
+                                    resolve(text);
+                                } catch (err) {
+                                    alert('The file does not contain valid JSON.');
+                                    resolve(null);
+                                }
+                            };
+                            reader.onerror = () => resolve(null);
+                            reader.readAsText(file);
+                        }));
+                    }
+                    else if (form_data['importVia'] == 'url') {
+                        const url = form_data['url']
+                        if (!url) return;
+                        try  {
+                            const response = await fetch(url);
+                            jsonContent= JSON.parse(await response.json()); // Validate JSON
+                        } catch (error) {
+                            console.error('Failed to fetch JSON:', error);
+                        }
+                    }
+                    else if (form_data['importVia'] == 'paste') {
+                        // Validates JSON through component
+                        jsonContent = form_data['paste'];
+                    }
+
+                    if (!jsonContent) return;
+
+                    // 1. Form body data to send to api
+                    const data = {
+                        ref_set: [],
+                        type: 'psconfig',
+                        json: jsonContent,
+                        name: form_data['name'],
+                        created_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        last_edited_by: "ssbaveja", // TODO: this will not be needed since it'll be parsed from user object
+                        // url: ""
+                    };
+
+                    const resolveConflict = form_data['resolveConflict'] || 'keep-both'
+                    const orphanData = form_data['orphanData'] || false
+
+                    // 2. Post request to api
+                    try {
+                        const response = await fetch(`${psCompose.activeRoute.list_endpoint}`, {
+                            method: "POST",
+                            headers: { 
+                                "Content-Type": "application/json",
+                                "X-Import": "true",
+                                "X-Conflict": resolveConflict,
+                                "X-Orphan": JSON.stringify(orphanData),
+                            },
+                            body: JSON.stringify(data),
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                        const result = await response.json();
+                        savemsg = psCompose.activeRoute.singular + " saved successfully!";
+                        newMessageBanner(savemsg, "Success", false);
+                        if (result.orphans) {
+                            sessionStorage.setItem('orphans', JSON.stringify(result.orphans));
+                        }
+                        window.location = window.location.pathname+ "?id=" + result.id;
+                    } catch (error) {
+                        console.error("Error:", error);
+                        newMessageBanner(error.message, "Error", true)
+                    }
+                });
+        }
+        
+    });
+    
+    // Render Saved Template in Read Mode
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
+    if (id) {
+        document.querySelector('h3').innerText = "Success! Your template has been saved.";
+        document.querySelector(".step-box-column").innerHTML = `
+                                                                <div class="w-full" 
+                                                                    hx-get="/partials/data_read_form.html" 
+                                                                    hx-trigger="load" 
+                                                                    hx-on::after-settle="initOrphans()"
+                                                                    hx-on::after-request="attachFavoritesHandler(id)">
+                                                                </div>`;
+    }
+
+function initOrphans() {
+    if (sessionStorage.getItem('orphans')) {
+        const orphans = JSON.parse(sessionStorage.getItem('orphans'));
+        sessionStorage.removeItem('orphans');
+        const container = document.createElement('div');
+        container.id = 'orphans-container';
+        
+        container.innerHTML = `
+            <div class='orphans-container'>
+                <div class="action-icon">
+                    <div class="tooltip">Copy Orphans JSON to Clipboard</div>
+                    <ps-button
+                        id="copy-orphans-btn"
+                        righticon="clipboard-copy"
+                        theme="Icon"
+                    ></ps-button>
+                </div>
+                <ps-textarea-json 
+                    id='orphans-textbox'
+                    label='Orphan JSON'
+                    value='${JSON.stringify(orphans)}'
+                    disabled>
+                </ps-textarea-json>
+            </div>
+        `;
+        document.querySelector('.step-box-column').appendChild(container);
+        
+        document.getElementById('copy-orphans-btn').addEventListener('click', async function() {
+            const textbox = document.getElementById('orphans-textbox');
+            const jsonString = JSON.stringify(textbox.value, null, 2);
+            await navigator.clipboard.writeText(jsonString);
+            newMessageBanner("JSON copied to clipboard", "Success", true)
+        });
+    }
+}
+
+
+</script>

@@ -9,10 +9,8 @@ from fastapi.responses import JSONResponse
 # Setup CRUD endpoints
 router = generate_router("address")
 
-
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
-    print("inside sanitize data ", data)
     json_data = data["json"]
 
     # Cleaning up the data since empty strings are not allowed for these fields
@@ -29,9 +27,7 @@ def sanitize_data(data):
     data["json"] = json_data
     return data
 
-
 router.sanitize = sanitize_data
-
 
 # Custom endpoints
 @router.get("/address/new/form/", summary="Return the new form to be rendered")

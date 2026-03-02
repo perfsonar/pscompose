@@ -36,6 +36,7 @@ class BasicBackend:
                 email=db_user.username,
                 name=db_user.name,
                 scopes=db_user.scopes,
+                favorites=db_user.favorites,
             )
         else:
             raise HTTPException(status_code=401, detail="Invalid user")
@@ -51,6 +52,7 @@ class BasicBackend:
             email=new_user.username,
             name=new_user.name,
             scopes=new_user.scopes,
+            favorites=new_user.favorites,
         )
 
     def delete_user(self, db_user):
@@ -63,7 +65,7 @@ class BasicBackend:
             scopes=db_user.scopes,
         )
 
-    def update_user(self, db_user, email=None, name=None, password=None, scopes=None):
+    def update_user(self, db_user, email=None, name=None, password=None, scopes=None, favorites=None):
         if email:
             db_user.username = email
         if name:
@@ -74,12 +76,15 @@ class BasicBackend:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode(), salt)
             db_user.password = hashed_password.decode("utf8")
+        if favorites:
+            db_user.favorites = favorites
         self.session.commit()
         return User(
             username=db_user.username,
             email=db_user.username,
             name=db_user.name,
             scopes=db_user.scopes,
+            favorites=db_user.favorites,
         )
 
 

@@ -45,7 +45,7 @@ ADDRESS_SCHEMA = {
             "items": {"oneOf": []},
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -63,11 +63,11 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+                {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
                 {
                     "type": "Control",
                     "scope": "#/properties/disabled",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "ps-input-checkbox",
                 },
             ],
         },
@@ -77,31 +77,31 @@ ADDRESS_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/address",
-                    "customComponent": "input-text",
+                    "customComponent": "ps-input-text",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/no-agent",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "ps-input-checkbox",
                 },
             ],
         },
         {
             "type": "Control",
             "scope": "#/properties/lead-bind-address",
-            "customComponent": "input-text-autocomplete",
+            "customComponent": "ps-input-text-autocomplete",
         },
         {
             "type": "Control",
             "scope": "#/properties/pscheduler-address",
-            "customComponent": "input-text-autocomplete",
+            "customComponent": "ps-input-text-autocomplete",
         },
         {
             "type": "Control",
             "scope": "#/properties/contexts",
-            "customComponent": "dropdown-multi-select",
+            "customComponent": "ps-select-multi",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -129,7 +129,7 @@ GROUP_SCHEMA = {
                     "type": {"const": "list"},
                     "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -169,7 +169,7 @@ GROUP_SCHEMA = {
                     },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -194,7 +194,7 @@ GROUP_SCHEMA = {
                     },
                     "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
                     "_meta": {
-                        "type": "string",
+                        "type": "object",
                         "title": "Other Meta",
                         "description": "Fill in information such as display-name and display-set as an object",
                     },
@@ -208,11 +208,11 @@ GROUP_SCHEMA = {
 GROUP_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/type",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         {
             "type": "Group",
@@ -225,12 +225,12 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
-                    "customComponent": "dropdown-multi-select",
+                    "customComponent": "ps-select-multi",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/_meta",
-                    "customComponent": "input-text-area",
+                    "customComponent": "ps-textarea-json",
                 },
             ],
         },
@@ -243,33 +243,38 @@ GROUP_UI_SCHEMA = {
             "elements": [
                 {
                     "type": "Control",
-                    "scope": "#/properties/unidirectional",
-                    "customComponent": "input-checkbox",
-                },
-                {
-                    "type": "Control",
-                    "scope": "#/properties/excludes-self",
-                    "customComponent": "dropdown-single-select",
-                },
-                {
-                    "type": "Control",
                     "scope": "#/properties/a-addresses",
-                    "customComponent": "dropdown-multi-select",
+                    "customComponent": "ps-select-multi",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/b-addresses",
-                    "customComponent": "dropdown-multi-select",
+                    "customComponent": "ps-select-multi",
+                },
+                {
+                    "type": "HorizontalLayout",
+                    "elements": [
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/excludes-self",
+                            "customComponent": "ps-select",
+                        },
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/unidirectional",
+                            "customComponent": "ps-input-checkbox",
+                        },
+                    ]
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "dropdown-excludes",
+                    "customComponent": "ps-select-excludes",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/_meta",
-                    "customComponent": "input-text-area",
+                    "customComponent": "ps-textarea-json",
                 },
             ],
         },
@@ -284,23 +289,23 @@ GROUP_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/addresses",
                     "options": {"format": "select"},
-                    "customComponent": "dropdown-multi-select",
+                    "customComponent": "ps-select-multi",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes-self",
-                    "customComponent": "dropdown-single-select",
+                    "customComponent": "ps-select",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "dropdown-excludes",
+                    "customComponent": "ps-select-excludes",
                 },
                 {
                     "type": "Control",
                     "scope": "#/properties/_meta",
                     "options": {"multi": True},
-                    "customComponent": "input-text-area",
+                    "customComponent": "ps-textarea-json",
                 },
             ],
         },
@@ -350,7 +355,7 @@ SCHEDULE_SCHEMA = {
             "minimum": 1,
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "This field should be a JSON object with keys such as 'display-name' and 'display-set'",
         },
@@ -364,16 +369,16 @@ SCHEDULE_SCHEMA = {
 SCHEDULE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
-        {"type": "Control", "scope": "#/properties/repeat", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
+        {"type": "Control", "scope": "#/properties/repeat", "customComponent": "ps-input-text"},
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/slip", "customComponent": "input-text"},
+                {"type": "Control", "scope": "#/properties/slip", "customComponent": "ps-input-text"},
                 {
                     "type": "Control",
                     "scope": "#/properties/sliprand",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "ps-input-checkbox",
                 },
             ],
         },
@@ -385,8 +390,8 @@ SCHEDULE_UI_SCHEMA = {
         #     "type": "Control",
         #     "scope": "#/properties/until",
         # },
-        {"type": "Control", "scope": "#/properties/max-runs", "customComponent": "input-number"},
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/max-runs", "customComponent": "ps-input-number"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -444,7 +449,7 @@ ARCHIVE_SCHEMA = {
             "description": "",
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -460,11 +465,11 @@ ARCHIVE_SCHEMA = {
 ARCHIVE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/type",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         {
             "type": "Group",
@@ -474,14 +479,14 @@ ARCHIVE_UI_SCHEMA = {
             },
             "elements": [],
         },
-        {"type": "Control", "scope": "#/properties/label", "customComponent": "input-text"},
-        {"type": "Control", "scope": "#/properties/ttl", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/label", "customComponent": "ps-input-text"},
+        {"type": "Control", "scope": "#/properties/ttl", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/transform",
-            "customComponent": "input-text-area",
+            "customComponent": "ps-textarea-json",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -501,7 +506,7 @@ TEST_SCHEMA = {
             "oneOf": [],
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -516,11 +521,11 @@ TEST_SCHEMA = {
 TEST_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/type",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         # Dynamically fill this out
         {
@@ -531,7 +536,7 @@ TEST_UI_SCHEMA = {
             },
             "elements": [],
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -562,7 +567,7 @@ CONTEXT_SCHEMA = {
         #     "description": "JSON object that specifies archive-specific parameters. Archive objects in pSConfig are taken directly from pScheduler. Eg: _url",
         # },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -578,14 +583,14 @@ CONTEXT_SCHEMA = {
 CONTEXT_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/context",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
-        # {"type": "Control", "scope": "#/properties/data", "customComponent": "input-text-area"},
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        # {"type": "Control", "scope": "#/properties/data", "customComponent": "ps-textarea-json"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -653,7 +658,7 @@ TASK_SCHEMA = {
             "title": "Reference",
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
             "description": "Fill in information such as display-name and display-set as an object",
         },
@@ -668,39 +673,39 @@ TASK_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+                {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
                 {
                     "type": "Control",
                     "scope": "#/properties/disabled",
-                    "customComponent": "input-checkbox",
+                    "customComponent": "ps-input-checkbox",
                 },
             ],
         },
         {
             "type": "Control",
             "scope": "#/properties/group",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         {
             "type": "Control",
             "scope": "#/properties/test",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         {
             "type": "Control",
             "scope": "#/properties/archives",
-            "customComponent": "dropdown-multi-select",
+            "customComponent": "ps-select-multi",
         },
         {
             "type": "Control",
             "scope": "#/properties/schedule",
-            "customComponent": "dropdown-single-select",
+            "customComponent": "ps-select",
         },
         {
             "type": "Control",
             "scope": "#/properties/tools",
             "options": {"format": "select"},
-            "customComponent": "dropdown-multi-select",
+            "customComponent": "ps-select-multi",
         },
         {
             "type": "HorizontalLayout",
@@ -709,21 +714,21 @@ TASK_UI_SCHEMA = {
                 #     "type": "Control",
                 #     "scope": "#/properties/tools",
                 #     "options": {"format": "select"},
-                #     "customComponent": "dropdown-multi-select",
+                #     "customComponent": "ps-select-multi",
                 # },
                 {
                     "type": "Control",
                     "scope": "#/properties/priority",
-                    "customComponent": "input-number",
+                    "customComponent": "ps-input-number",
                 },
             ],
         },
         {
             "type": "Control",
             "scope": "#/properties/reference",
-            "customComponent": "input-text-area",
+            "customComponent": "ps-textarea-json",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -742,7 +747,7 @@ TEMPLATE_SCHEMA = {
             "items": {"oneOf": []},
         },
         "_meta": {
-            "type": "string",
+            "type": "object",
             "title": "Other Meta",
         },
     },
@@ -753,13 +758,13 @@ TEMPLATE_SCHEMA = {
 TEMPLATE_UI_SCHEMA = {
     "type": "VerticalLayout",
     "elements": [
-        {"type": "Control", "scope": "#/properties/name", "customComponent": "input-text"},
+        {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
         {
             "type": "Control",
             "scope": "#/properties/tasks",
-            "customComponent": "dropdown-multi-select",
+            "customComponent": "ps-select-multi",
         },
-        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "input-text-area"},
+        {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
 
@@ -951,27 +956,27 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_url",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/op",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         # {
                         #     "type": "Control",
                         #     "scope": "#/properties/retry-policy",
-                        #     "customComponent": "input-text",
+                        #     "customComponent": "ps-input-text",
                         # },
                     ],
                 },
@@ -981,32 +986,32 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_url",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/op",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "ps-textarea-json",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         # {
                         #     "type": "Control",
                         #     "scope": "#/properties/retry-policy",
-                        #     "customComponent": "input-text",
+                        #     "customComponent": "ps-input-text",
                         # },
                     ],
                 },
@@ -1016,37 +1021,37 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_url",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/op",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/verify-ssl",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "ps-textarea-json",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         # {
                         #     "type": "Control",
                         #     "scope": "#/properties/retry-policy",
-                        #     "customComponent": "input-text",
+                        #     "customComponent": "ps-input-text",
                         # },
                     ],
                 },
@@ -1056,42 +1061,42 @@ http_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_url",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/op",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/_headers",
-                            "customComponent": "input-text-area",
+                            "customComponent": "ps-textarea-json",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/verify-ssl",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/timeout",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         # {
                         #     "type": "Control",
                         #     "scope": "#/properties/retry-policy",
-                        #     "customComponent": "input-text",
+                        #     "customComponent": "ps-input-text",
                         # },
                     ],
                 },
@@ -1163,7 +1168,7 @@ idle_schema = {
                         "schema": {
                             "enum": [2],
                             "type": "integer",
-                            "title": "Schema",
+                            "title": "Schema Version",
                             "default": 2,
                         },
                         "starting-comment": {
@@ -1184,27 +1189,27 @@ idle_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/duration",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/host-node",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/starting-comment",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/parting-comment",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                     ],
                 },
@@ -1214,22 +1219,22 @@ idle_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/duration",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/starting-comment",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/parting-comment",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                     ],
                 },
@@ -1558,7 +1563,7 @@ throughput_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -1566,12 +1571,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
@@ -1581,12 +1586,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
@@ -1596,17 +1601,17 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/duration",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/interval",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/link-rtt",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                             ],
                         },
@@ -1616,12 +1621,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/parallel",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/bandwidth",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                             ],
                         },
@@ -1631,94 +1636,94 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/udp",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/bandwidth-strict",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/zero-copy",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/no-delay",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                             ],
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/burst-size",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/fq-rate",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/window-size",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/mss",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/buffer-length",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-tos",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-version",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/local-address",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/omit",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/congestion",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/flow-label",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/client-cpu-affinity",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/server-cpu-affinity",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/single-ended-port",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -1726,22 +1731,22 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/single-ended",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/reverse",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/reverse-connections",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/loopback",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                             ],
                         },
@@ -1753,7 +1758,7 @@ throughput_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -1761,12 +1766,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
@@ -1776,12 +1781,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
@@ -1791,17 +1796,17 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/duration",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/interval",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/link-rtt",
-                                    "customComponent": "input-text",
+                                    "customComponent": "ps-input-text",
                                 },
                             ],
                         },
@@ -1811,12 +1816,12 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/parallel",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/bandwidth",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                             ],
                         },
@@ -1826,94 +1831,94 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/udp",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/bandwidth-strict",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/zero-copy",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/no-delay",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                             ],
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/burst-size",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/fq-rate",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/window-size",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/mss",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/buffer-length",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-tos",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-version",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/local-address",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/omit",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/congestion",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/flow-label",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/client-cpu-affinity",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/server-cpu-affinity",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/single-ended-port",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -1921,22 +1926,22 @@ throughput_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/single-ended",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/reverse",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/reverse-connections",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/loopback",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                             ],
                         },
@@ -2233,7 +2238,7 @@ latency_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -2241,12 +2246,12 @@ latency_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
@@ -2256,19 +2261,19 @@ latency_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/source-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/dest-node",
-                                    "customComponent": "input-text-autocomplete",
+                                    "customComponent": "ps-input-text-autocomplete",
                                 },
                             ],
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/protocol",
-                            "customComponent": "input-text",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -2276,17 +2281,17 @@ latency_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/packet-count",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/packet-interval",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/packet-timeout",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                             ],
                         },
@@ -2296,29 +2301,29 @@ latency_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/packet-padding",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/ctrl-port",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/ip-tos",
-                                    "customComponent": "input-number",
+                                    "customComponent": "ps-input-number",
                                 },
                             ],
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-version",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bucket-width",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -2326,22 +2331,22 @@ latency_schema = {
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/output-raw",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/flip",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/reverse",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                                 {
                                     "type": "Control",
                                     "scope": "#/properties/traverse-nat",
-                                    "customComponent": "input-checkbox",
+                                    "customComponent": "ps-input-checkbox",
                                 },
                             ],
                         },
@@ -2353,87 +2358,87 @@ latency_schema = {
                         {
                             "type": "Control",
                             "scope": "#/properties/schema",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/source",
-                            "customComponent": "input-text-autocomplete",
+                            "customComponent": "ps-input-text-autocomplete",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/source-node",
-                            "customComponent": "input-text-autocomplete",
+                            "customComponent": "ps-input-text-autocomplete",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/dest",
-                            "customComponent": "input-text-autocomplete",
+                            "customComponent": "ps-input-text-autocomplete",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/dest-node",
-                            "customComponent": "input-text-autocomplete",
+                            "customComponent": "ps-input-text-autocomplete",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/packet-count",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/packet-interval",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/packet-timeout",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/packet-padding",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ctrl-port",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-tos",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/ip-version",
-                            "customComponent": "dropdown-single-select",
+                            "customComponent": "ps-select",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/bucket-width",
-                            "customComponent": "input-number",
+                            "customComponent": "ps-input-number",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/output-raw",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/flip",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/reverse",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/traverse-nat",
-                            "customComponent": "input-checkbox",
+                            "customComponent": "ps-input-checkbox",
                         },
                     ],
                 },
@@ -2441,4 +2446,159 @@ latency_schema = {
         },
         "versions": [None, "3", "4"],
     },
+}
+
+TEMPLATE_IMPORT_SCHEMA = {
+    "title": "Schema for creating a new template via import",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "A name to identify this template.",
+        },
+        "resolveConflict": {
+            "type": "string",
+            "title": "Conflict Resolution Strategy",
+            "oneOf": [
+                {"const": "overwrite", "title": "Overwrite (Keep New)"},
+                {"const": "keep-existing", "title": "Keep Existing"},
+                {"const": "keep-both", "title": "Keep Both (Auto Rename)"},
+            ],
+            "description": "Choose how to resolve datatypes with same name",
+        },
+        "orphanData": {
+            "type": "boolean",
+            "title": "Import Orphan Datas",
+            "description": "Any child data types that aren’t referenced in the parent template will be created if checked."
+        },
+        "importVia": {
+            "type": "string",
+            "title": "Import Via",
+            "oneOf": [
+                {"const": "upload", "title": "Upload JSON File"},
+                {"const": "url", "title": "Import from URL"},
+                {"const": "paste", "title": "Paste JSON"},
+            ],
+        },
+        "upload": {
+            "type": "string",
+            "title": "Upload JSON File",
+        },
+        "url": {
+            "type": "string",
+            "title": "URL",
+        },
+        "paste": {
+            "type": "object",
+            "title": "Paste JSON",
+        },
+        "_meta": {
+            "type": "object",
+            "title": "Other Meta",
+        },
+    },
+    "required": ["name", "importVia"],
+    "allOf": [
+        {
+            "if": {"properties": {"importVia": {"const": "upload"}}},
+            "then": {"required": ["upload"]},
+        },
+        {
+            "if": {"properties": {"importVia": {"const": "url"}}},
+            "then": {"required": ["url"]},
+        },
+        {
+            "if": {"properties": {"importVia": {"const": "paste"}}},
+            "then": {"required": ["paste"]},
+        },
+    ],
+}
+
+
+TEMPLATE_IMPORT_UI_SCHEMA = {
+    "type": "VerticalLayout",
+    "elements": [
+        {
+            "type": "Control",
+            "scope": "#/properties/name",
+            "customComponent": "ps-input-text",
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/resolveConflict",
+                    "customComponent": "ps-select",
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/orphanData",
+                    "customComponent": "ps-input-checkbox",
+                }
+            ]
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/importVia",
+            "customComponent": "ps-select",
+        },
+        {
+            "type": "Template",
+            "rule": {
+                "effect": "SHOW",
+                "condition": {
+                    "scope": "#/properties/importVia",
+                    "schema": {"const": "upload"},
+                },
+            },
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/upload",
+                    "customComponent": "ps-input-file",
+                },
+            ],
+        },
+        {
+            "type": "Template",
+            "rule": {
+                "effect": "SHOW",
+                "condition": {
+                    "scope": "#/properties/importVia",
+                    "schema": {"const": "url"},
+                },
+            },
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/url",
+                    "customComponent": "ps-input-text",
+                },
+            ],
+        },
+        {
+            "type": "Template",
+            "rule": {
+                "effect": "SHOW",
+                "condition": {
+                    "scope": "#/properties/importVia",
+                    "schema": {"const": "paste"},
+                },
+            },
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/paste",
+                    "customComponent": "ps-textarea-json",
+                },
+            ],
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/_meta",
+            "customComponent": "ps-textarea-json",
+        },
+    ],
 }
