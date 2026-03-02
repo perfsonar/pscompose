@@ -1,14 +1,18 @@
 from copy import deepcopy
-from typing import Dict, List
+from typing import Dict, List, Optional
 from fastapi import Body
 from fastapi_versioning import version
 from sqlalchemy.exc import IntegrityError
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Security, Header
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
 from pscompose.logger import logger
 from pydantic import ValidationError
 
+from pscompose.auth import auth_check
+from pscompose.settings import TOKEN_SCOPES
+from pscompose.auth.basic import backend as backend_user
+from pscompose.models import User
 
 def generate_router(datatype: str):
     """
@@ -33,6 +37,25 @@ def generate_router(datatype: str):
         rows = backend.get_results(datatype=datatype)
         return rows
 
+    # List endpoints with favorites sorted first
+    @router.get(f"/{datatype}/favorites/{{username}}/", summary=f"List all {datatype}s with user's favorites sorted first")
+    @version(1)
+    def list_items(
+        username: str,
+        user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
+    ):
+        try:
+            db_user = backend_user.query(username=username)[0]
+        except Exception:
+            raise HTTPException(status_code=422)
+
+        rows = backend.get_results(datatype=datatype)
+        
+        favorite_ids = set(getattr(db_user, "favorites", [])) 
+        favorites_first = sorted(rows, key=lambda item: 0 if item.id in favorite_ids else 1)
+
+        return favorites_first
+
     # Endpoint for CREATING a new record
     # Create endpoint (e.g., POST /template/)
     @router.post(f"/{datatype}/", summary=f"Create a new {datatype}")
@@ -40,16 +63,46 @@ def generate_router(datatype: str):
     def create_item(
         data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
+        isImport: Optional[bool] = Header(default=None, alias="X-Import"),
+        conflictResolve: Optional[str] = Header(default=None, alias="X-Conflict"),
+        orphanBool: Optional[bool] = Header(default=None, alias="X-Orphan")
     ):
-        logger.debug("CREATE Unsanitized data:", data)
+        try:
+            response = _create_item(data, isImport, conflictResolve, orphanBool)
+            result = {"message": f"{datatype} created successfully", "id": response.id}
+            if hasattr(response, 'orphans') and response.orphans:
+                result["orphans"] = response.orphans
+            return result
+        except Exception as e:
+            logger.error(f"Unhandled error in create_item {datatype}: {str(e)}", exc_info=True)
+            raise HTTPException(status_code=500, detail="Internal server error")
+        
+    
+    def _create_item(
+            data, 
+            isImport: Optional[bool] = False, 
+            conflictResolve: Optional[str] = 'keep_both',
+            orphanBool: Optional[bool] = False):
+        """
+        Internal create_item 
+        """
+        # TODO: Check if datatype with name already exists -> error (or do this in frontend?)
+                
+        if isImport:
+            try: 
+                return router.create_import_template(data, conflictResolve, orphanBool)
+                return result
+            except Exception as e:
+                logger.debug("Error creating datatype:", str(e))
+                raise HTTPException(status_code=500, detail=str(e))
         sanitized_data = router.sanitize(data)
-        logger.debug("CREATE Sanitized data:", sanitized_data)
+
         # Convert sanitized dict into a proper DataTableBase object
         try:
             data = DataTableBase(**sanitized_data)
         except ValidationError as e:
             raise HTTPException(status_code=422, detail=str(e))
-
+        
         # TODO: Fix the created_by and last_edited_by
         try:
             response = backend.create_datatype(
@@ -62,15 +115,17 @@ def generate_router(datatype: str):
                 last_edited_by=data.last_edited_by,
                 # last_edited_by=user.name,
             )
-            return {"message": f"{datatype} created successfully", "id": response.id}
+            return response
         except IntegrityError as e:
             # backend.session.rollback()  # Roll back transaction in case of failure
             logger.debug("Integrity error:", str(e))
             raise HTTPException(status_code=400, detail=f"Integrity error: {str(e)}")
         except Exception as e:
             # backend.session.rollback()
-            logger.debug("Error creating datatype:", str(e))
+            print("Error creating datatype:", str(e))
             raise HTTPException(status_code=500, detail=str(e))
+
+    router._create_item = _create_item
 
     # Endpoint for UPDATING an existing record
     # Update endpoint (e.g., PUT /template/uuid-slug/)
@@ -81,10 +136,14 @@ def generate_router(datatype: str):
         updated_data=Body(...),
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
-        logger.debug("UPDATE Unsanitized data:", updated_data)
+        return _update_item(item_id, updated_data)
+    
+    def _update_item(item_id, updated_data):
+        """
+        Internal update_item
+        """
         sanitized_data = router.sanitize(updated_data)
-        logger.debug("UPDATE sanitized data:", sanitized_data)
-        # Convert sanitized dict into a proper DataTableUpdate object
+
         try:
             updated_data = DataTableUpdate(**sanitized_data)
         except ValidationError as e:
@@ -99,8 +158,10 @@ def generate_router(datatype: str):
         response = backend.update_datatype(
             existing_result=existing_result, updated_data=updated_data
         )
-        logger.debug("update response:", response)
         return response
+    
+    router._update_item = _update_item
+
 
     # Endpoint for DELETING an existing record
     # Delete endpoint (e.g., DELETE /template/)
@@ -144,7 +205,7 @@ def generate_router(datatype: str):
         f"/{datatype}/{{item_id}}/find/",
         summary="Retrieve the records which reference a particular record",
     )
-    def find_records(item_id: str):
+    def find_records(item_id: str):        
         try:
             response = backend.find_records(target_id=item_id)
         except HTTPException:
@@ -152,7 +213,6 @@ def generate_router(datatype: str):
         return response
 
     return router
-
 
 # Helper function to ensure unique items while preserving order
 def _unique_keep_order(seq):
