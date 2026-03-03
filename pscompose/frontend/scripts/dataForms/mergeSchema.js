@@ -1,4 +1,4 @@
-var selectedType = '';
+var selectedType = "";
 var additionalSchema = null;
 var baseSchemaPropertiesEdit = null;
 
@@ -23,7 +23,7 @@ function findGroup(layout) {
     );
 }
 
-function mergeSchema(baseSchema, versionData) {
+function mergeSchemaProperties(baseSchema, versionData) {
     if (!baseSchemaPropertiesEdit) {
         baseSchemaPropertiesEdit = new Set(Object.keys(baseSchema.properties));
     }
@@ -53,7 +53,7 @@ function ensureVersionDropdown(group) {
 
 async function handleTypeChange(selectedType, additionalSchema) {
     console.log("Selected type ", selectedType, additionalSchema);
-    const versions = (additionalSchema?.spec?.versions || []).filter(v => v !== null);
+    const versions = (additionalSchema?.spec?.versions || []).filter((v) => v !== null);
     if (!versions.length) return;
 
     const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
@@ -79,9 +79,8 @@ async function handleTypeChange(selectedType, additionalSchema) {
     const versionData = additionalSchema.spec.jsonschema.versions[highestVersion];
     const uiVersionData = additionalSchema.spec.uischema.versions[highestVersion];
 
-    mergeSchema(baseSchema, versionData);
+    mergeSchemaProperties(baseSchema, versionData);
     mergeLayout(group, uiVersionData);
-
     const currentFormData = JSON.parse(elem.serializeForm());
     Object.keys(versionData.properties).forEach((key) => {
         const property = versionData.properties[key];
@@ -116,7 +115,7 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
 
     if (!versionData || !uiVersionData) return;
 
-    mergeSchema(currentSchema, versionData);
+    mergeSchemaProperties(currentSchema, versionData);
 
     const group = findGroup(currentLayout);
     if (!group) return;
