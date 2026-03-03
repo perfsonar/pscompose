@@ -4,7 +4,7 @@ var baseSchemaPropertiesEdit = null;
 
 async function getAdditionalSchema(type) {
     try {
-        const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form`;
+        const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form/`;
         const res = await fetch(url, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
