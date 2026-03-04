@@ -50,7 +50,7 @@ body {
 }
 
 #router-target {
-    @apply flex w-full justify-start items-center flex-col py-xlg px-xxlg gap-5;
+    @apply flex w-full overflow-y-auto justify-start items-center flex-col py-xlg px-xxlg gap-5;
 }
 
 #router-content {
@@ -58,7 +58,7 @@ body {
 }
 
 .backdrop {
-    @apply flex flex-row justify-start w-full flex-grow;
+    @apply h-[calc(100vh-4rem)] overflow-y-auto flex flex-row justify-start w-full flex-grow;
 }
 
 #page-content {
@@ -92,11 +92,11 @@ body {
 }
 
 .collapsible-list {
-  @apply flex w-full flex-col bg-background rounded-xl transition-all;
+    @apply flex w-full flex-col bg-background rounded-xl transition-all;
 }
 
 .collapsible-item {
-  @apply overflow-hidden border-b border-shadow last:border-b-0;
+    @apply overflow-hidden border-b border-shadow last:border-b-0;
 }
 
 details > summary {
@@ -104,28 +104,28 @@ details > summary {
 }
 
 .collapsible-item summary {
-  @apply flex justify-between py-3 px-4 cursor-pointer;
+    @apply flex justify-between py-3 px-4 cursor-pointer;
 }
 
 .collapsible-item .summary-content {
-  @apply flex flex-row gap-xsm;
+    @apply flex flex-row gap-xsm;
 }
 
 details > summary .collapse-icon {
-  transform: translateY(-2px); 
-  transition: transform 0.2s ease;
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
 }
 
 details[open] > summary .collapse-icon {
-  transform: scaleY(-1) translateY(-1px); 
+    transform: scaleY(-1) translateY(-1px);
 }
 
 .collapsible-item ul {
-  @apply flex flex-col p-4 bg-surface_1 gap-2;
+    @apply flex flex-col p-4 bg-surface_1 gap-2;
 }
 
 .collapsible-item li {
-  @apply px-4 py-1 bg-background rounded-full w-fit transition-transform ease-in-out list-none;
+    @apply px-4 py-1 bg-background rounded-full w-fit transition-transform ease-in-out list-none;
 }
 
 .collapsible-item li:hover {
@@ -191,7 +191,7 @@ nav {
 }
 
 .nav .active {
-    @apply text-success bg-background w-full lg:pt-[0.8rem]; 
+    @apply text-success bg-background w-full lg:pt-[0.8rem];
 }
 
 .nav .active svg {
@@ -205,10 +205,9 @@ nav {
 }
 
 .subnav-container {
-    @apply flex-1 bg-surface_2;
+    @apply flex-1 bg-surface_2 overflow-y-auto;
     width: 0;
     opacity: 0;
-    overflow: hidden;
     transition:
         width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -223,7 +222,7 @@ nav {
 }
 
 .subnav-container.close {
-    @apply w-0 opacity-0
+    @apply w-0 opacity-0;
 }
 
 .subnav-container.close.hidden {
@@ -241,7 +240,7 @@ nav {
 }
 
 .subnav ul {
-    @apply flex flex-col gap-xsm;
+    @apply flex flex-col gap-xsm h-full;
 }
 
 .subnav-item {
@@ -260,7 +259,8 @@ nav {
     @apply flex flex-row items-start gap-4;
 }
 
-.subnav-item svg, ps-input-checkbox {
+.subnav-item svg,
+ps-input-checkbox {
     @apply mt-xxsm;
 }
 
@@ -276,8 +276,8 @@ nav {
     @apply w-[1.2rem] h-[1.2rem] min-w-[1.2rem] min-h-[1.2rem] mt-xxsm;
 }
 
-.subnav .subnav-header {
-    @apply flex flex-row justify-between items-center mb-xsm gap-lg;
+.subnav .btns {
+    @apply flex flex-row justify-between items-center mb-xsm;
 }
 
 .subnav #subnav-search {
@@ -291,7 +291,8 @@ nav {
     @apply flex flex-row gap-md;
 }
 
-.subnav .select-btns .delete-all-btn, .open-all-btn {
+.subnav .select-btns .delete-all-btn,
+.open-all-btn {
     opacity: 0;
     cursor: none;
     transform: translateX(0px);
@@ -299,7 +300,8 @@ nav {
     transition-delay: 20ms;
 }
 
-.subnav .select-btns .delete-all-btn.selecting, .open-all-btn.selecting{
+.subnav .select-btns .delete-all-btn.selecting,
+.open-all-btn.selecting {
     opacity: 1;
     cursor: pointer;
     transform: translateX(2px);
@@ -406,10 +408,10 @@ td a:hover {
 }
 
 .action-icon .tooltip {
-  @apply hidden;
+    @apply hidden;
 }
 
-.action-icon:hover .tooltip{
+.action-icon:hover .tooltip {
     @apply block text-copy bg-surface_2 rounded-full text-xs px-2 py-1 absolute z-20 whitespace-nowrap -mt-8 ml-2 shadow-lg;
 }
 
@@ -471,16 +473,16 @@ table .tags {
     @apply fixed top-20 right-0 flex items-center justify-center h-xlg w-xlg z-50 bg-surface_1 hidden lg:block;
     border-radius: 16px 0 0 16px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;  
+    z-index: 1000;
 }
 
 .toggle-shortcuts-btn.opening {
-    transform: translateX(-25rem); 
+    transform: translateX(-25rem);
     opacity: 0.3;
 }
 
 .toggle-shortcuts-btn.closing {
-    transform: translateX(25rem); 
+    transform: translateX(25rem);
     opacity: 0.3;
 }
 
@@ -500,11 +502,11 @@ table .tags {
 }
 
 .box-header:has(.box-info) {
-    @apply flex items-start flex-row gap-xsm;
+    @apply flex items-start flex-row gap-xsm w-full;
 }
 
 .box-header .box-info {
-    @apply flex flex-col;
+    @apply flex flex-col w-full;
 }
 
 .box-header .box-info span {
@@ -520,7 +522,7 @@ table .tags {
 }
 
 .box-name {
-    @apply flex-grow;
+    @apply flex-1 min-w-0 break-words overflow-hidden;
 }
 
 .box-text {
@@ -548,7 +550,7 @@ table .tags {
 }
 
 .ps-progress-bar ps-progress-bar {
-    @apply w-full mb-md hidden sm:block ;
+    @apply w-full mb-md hidden sm:block;
 }
 
 .step-section {
@@ -660,7 +662,7 @@ table .tags {
 }
 
 :where(.packets-ui .vertical-layout-item) ps-input-checkbox {
-    @apply flex pt-lg
+    @apply flex pt-lg;
 }
 
 @keyframes jsonFormFadeIn {
@@ -744,7 +746,7 @@ json-form {
 
 .refset .refset-container .list-box {
     @apply text-copyAlt p-md;
-    flex: 0 0 calc(33.333% - 1rem)
+    flex: 0 0 calc(33.333% - 1rem);
 }
 
 .refset .refset-container .box-header #shortcut-icon {
@@ -763,7 +765,7 @@ json-form {
     @apply flex flex-row gap-md bg-background p-md rounded-lg;
 }
 
-.orphans-container ps-textarea-json{
+.orphans-container ps-textarea-json {
     @apply w-full;
 }
 
