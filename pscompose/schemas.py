@@ -11,7 +11,7 @@ from enum import Enum
 from ipaddress import IPv4Address, IPv6Address
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
-from pydantic import AnyUrl, BaseModel, Extra, Field, conint, constr
+from pydantic import AnyUrl, BaseModel, Extra, Field, conint, constr, validator
 
 
 # Custom JSON type
@@ -57,6 +57,12 @@ class HostNameVar(BaseModel):
 class IPAddress(BaseModel):
     __root__: Union[IPv4Address, IPv6Address]
 
+    @validator("__root__")
+    def convert_valid_ip_to_str(cls, v):  # v is already validated IPv4Address/IPv6Address
+        return str(
+            v
+        )  # just convert to string after validation passes (can't json serialize ipaddress to store)
+
 
 class IPv6RFC2732(BaseModel):
     __root__: constr(
@@ -72,7 +78,8 @@ class Timestamp(BaseModel):
 
 class Host(BaseModel):
     # __root__: Union[HostName, HostNameVar, IPAddress]
-    __root__: Union[HostName, IPAddress]
+    # __root__: Union[HostName, IPAddress]
+    __root__: Union[IPAddress, HostName]  # Needs to check if ip address first
 
 
 class TimestampAbsoluteRelative(BaseModel):
