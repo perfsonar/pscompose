@@ -82,7 +82,10 @@ async function formValidation(event) {
         modal.setAttribute("confirm-data-name", form_data.name || "");
     });
 
-    if ((!isValid || isFormEmpty) && !group_with_excludes) {
+    if (
+        (!isValid || isFormEmpty || !!document.getElementById("#/properties/name").error) &&
+        !group_with_excludes
+    ) {
         document.dispatchEvent(new CustomEvent("markAllDirty"));
     } else {
         document.dispatchEvent(new Event("validated"));
