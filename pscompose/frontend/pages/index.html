@@ -87,32 +87,40 @@
             const response = await fetch(psCompose.metadata["template"].list_endpoint);
             let templates_data = await response.json();
 
-            await Promise.all(templates_data.map(async (template) => {
-                template.formatted_date = formatDate(template.last_edited_at);
-                template.editlink = psCompose.metadata["template"].page_url + '?id=' + template.id + '&edit=true';
+            await Promise.all(
+                templates_data.map(async (template) => {
+                    template.formatted_date = formatDate(template.last_edited_at);
+                    template.editlink =
+                        psCompose.metadata["template"].page_url +
+                        "?id=" +
+                        template.id +
+                        "&edit=true";
 
-                try {
-                    template.tasks = [];
-                    if (template.json.tasks && template.json.tasks.length > 0) {
-                        const taskPromises = template.json.tasks.map(async (taskId) => {
-                            try {
-                                const taskResponse = await fetch(psCompose.metadata["task"].list_endpoint + taskId + '/');
-                                return await taskResponse.json();
-                            } catch (err) {
-                                console.warn(`Failed to fetch task ${taskId}:`, err);
-                                return null;
-                            }
-                        });
-                        const tasks = await Promise.all(taskPromises);
-                        template.tasks = tasks.filter(task => task !== null);
+                    try {
+                        template.tasks = [];
+                        if (template.json.tasks && template.json.tasks.length > 0) {
+                            const taskPromises = template.json.tasks.map(async (taskId) => {
+                                try {
+                                    const taskResponse = await fetch(
+                                        psCompose.metadata["task"].list_endpoint + taskId + "/",
+                                    );
+                                    return await taskResponse.json();
+                                } catch (err) {
+                                    console.warn(`Failed to fetch task ${taskId}:`, err);
+                                    return null;
+                                }
+                            });
+                            const tasks = await Promise.all(taskPromises);
+                            template.tasks = tasks.filter((task) => task !== null);
+                        }
+                    } catch (err) {
+                        console.warn(`Failed to fetch template JSON for ${template.id}:`, err);
+                        template.tasks = [];
                     }
-                } catch (err) {
-                    console.warn(`Failed to fetch template JSON for ${template.id}:`, err);
-                    template.tasks = [];
-                }
-            }));
+                }),
+            );
 
-            const templateStr  = `
+            const templateStr = `
                 <tbody>
                     {% if templates_data and templates_data.length > 0 %}
                         {% for template in templates_data %}
@@ -124,17 +132,30 @@
                                 </td>
                                 <td>
                                     <div class='td-content tags'>
-                                    {% if template.tasks and template.tasks.length > 0 %}
-                                        {% for task in template.tasks %}
-                                            <a href="/task/?id={{task.id}}">
-                                                <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
-                                                    {{ task.name }}
-                                                </li>
-                                            </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <p>No tasks</p>
-                                    {% endif %}
+                                        {% if template.tasks and template.tasks.length > 0 %}
+                                            {% for task in template.tasks %}
+                                                {% if loop.index0 < 2 %}
+                                                    <a href="/task/?id={{task.id}}" class="inline-tag-link">
+                                                        <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
+                                                            {{ task.name }}
+                                                        </li>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            <!-- View full list button if more than 2 tasks -->
+                                            {% if template.tasks.length > 2 %}
+                                                <ps-button 
+                                                    link="/template/?id={{template.id}}#tasks" 
+                                                    label="(view {{ template.tasks.length }} tasks)" 
+                                                    theme="Small"
+                                                    size="Small">
+                                                </ps-button>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>No tasks</p>
+                                        {% endif %}
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="td-content action-icons">
@@ -168,7 +189,10 @@
 
             table.querySelectorAll("#download-btn").forEach((btn) => {
                 btn.addEventListener("click", async (event) => {
-                    await exportTemplateJSON(event.currentTarget.dataset.id, event.currentTarget.dataset.name);
+                    await exportTemplateJSON(
+                        event.currentTarget.dataset.id,
+                        event.currentTarget.dataset.name,
+                    );
                 });
             });
 
@@ -177,12 +201,11 @@
                     await copyTemplateJSON(event.currentTarget.dataset.id);
                 });
             });
-
         } catch (err) {
             console.error(`Error loading Published Templates:`, err);
-            table.innerHTML = "<p role='alert'>Failed to load templates. Please try again later.</p>";
+            table.innerHTML =
+                "<p role='alert'>Failed to load templates. Please try again later.</p>";
         }
     }
     loadPublishedTemplateTable();
 </script>
-
