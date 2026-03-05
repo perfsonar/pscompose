@@ -49,8 +49,8 @@
                 lucide.createIcons();
             });
 
-            if(!window.BASE_URL) window.BASE_URL = window.location.origin;
-            if (!window.API_BASE_URL) window.API_BASE_URL = `${window.BASE_URL}/api`
+            if (!window.BASE_URL) window.BASE_URL = window.location.origin;
+            if (!window.API_BASE_URL) window.API_BASE_URL = `${window.BASE_URL}/api`;
 
             // probably we'll need something like this too:
             /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
@@ -70,7 +70,11 @@
                     <div id="response-container"></div>
                     <div id="router-target"></div>
                 </div>
-                <div class="inline-flex" hx-get="/partials/nav_shortcuts.html" hx-trigger="load"></div>
+                <div
+                    class="inline-flex"
+                    hx-get="/partials/nav_shortcuts.html"
+                    hx-trigger="load"
+                ></div>
             </main>
         </div>
         <script>
@@ -217,9 +221,20 @@
                         icon: "locate",
                     },
                     wizard: {
-                            order: ['address', 'group', 'archive', 'schedule', 'test', 'task', 'template'],
-                            page_template: "/pages/template_wizard.html",
-                        },
+                        order: [
+                            "address",
+                            "group",
+                            "archive",
+                            "schedule",
+                            "test",
+                            "task",
+                            "template",
+                        ],
+                        page_template: "/pages/template_wizard.html",
+                        singular: "",
+                        list_endpoint: "",
+                        page_url: "",
+                    },
                 },
             };
             psCompose.nav = {
