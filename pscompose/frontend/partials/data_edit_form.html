@@ -83,6 +83,7 @@
 <script src="/scripts/dataForms/tools.js"></script>
 <script src="/scripts/dataForms/mergeSchema.js"></script>
 <script src="/scripts/dataForms/submitForm.js"></script>
+<script src="/scripts/dataForms/sameName.js"></script>
 
 <script>
     var params = new URLSearchParams(window.location.search);
@@ -164,6 +165,8 @@
         document.querySelectorAll("ps-modal").forEach((modal) => {
             modal.setAttribute("confirm-data-name", elem?.data?.name || "");
         });
+
+        sameNameValidationEventListener();
     });
 
     // Change
