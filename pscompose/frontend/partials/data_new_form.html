@@ -19,7 +19,13 @@
                 </script>
 
                 <div class="save-cancel">
-                    <ps-button type="submit" label="Save" theme="Secondary" righticon="save" confirm-modal="save-modal">
+                    <ps-button
+                        type="submit"
+                        label="Save"
+                        theme="Secondary"
+                        righticon="save"
+                        confirm-modal="save-modal"
+                    >
                     </ps-button>
                 </div>
             </form>
@@ -30,6 +36,7 @@
 <script src="/scripts/dataForms/tools.js"></script>
 <script src="/scripts/dataForms/mergeSchema.js"></script>
 <script src="/scripts/dataForms/submitForm.js"></script>
+<script src="/scripts/dataForms/sameName.js"></script>
 
 <script>
     var params = new URLSearchParams(window.location.search);
@@ -43,14 +50,15 @@
     // Set Up JSON Form
     document.body.addEventListener("json-form:mounted", () => {
         document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
+        sameNameValidationEventListener();
     });
 
-    // Change 
+    // Change
     document.getElementById("data-new-form").addEventListener("change", async function (event) {
-        if (datatype == 'task') await renderTools(event);
+        if (datatype == "task") await renderTools(event);
         if (datatype === "test" || datatype === "archive") mergeSchema(event);
     });
-    
+
     // Save
     document.getElementById("data-new-form").addEventListener("submit", (e) => formValidation(e));
 </script>
