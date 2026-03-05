@@ -32,7 +32,6 @@ def sanitize_data(data):
 
     data["json"] = output
 
-    print("Sanitized data:", data)
     return data
 
 
