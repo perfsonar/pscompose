@@ -16,13 +16,19 @@
                 <p>{{ item.plural }}</p>
             </li>
             {% endfor %}
-        </ul>   
+        </ul>
     </script>
     <div class="subnav-container hidden"></div>
     <script id="subnav-template" type="nunjucks">
         <div class='subnav' id='subnav-content' role='region' aria-label='{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}} subnav'>
-            <div class="subnav-header">
-                <h1>{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}}</h1>
+            <h1>{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}}</h1>
+            <input
+                type="text"
+                id="subnav-search"
+                placeholder="Search {{data.psCompose.nav[data.psCompose.activeMenuItem].singular}}"
+                aria-label="Search {{data.psCompose.nav[data.psCompose.activeMenuItem].singular}}"
+            />
+            <div class='btns'>
                 <ps-button
                     link="{{data.psCompose.nav[data.psCompose.activeMenuItem].page_url ~ 'new/'}}"
                     theme="AddBtn"
@@ -31,13 +37,11 @@
                     aria-labelledby="subnav-title"
                     >
                 </ps-button>
+                <div class='select-btns'>
+                    <ps-button class="delete-all-btn" label="Delete" theme="SmallError"></ps-button>
+                    <ps-button id="select-mode" label="Select" theme="Small"></ps-button>
+                </div>
             </div>
-            <input
-                type="text"
-                id="subnav-search"
-                placeholder="Search {{data.psCompose.nav[data.psCompose.activeMenuItem].singular}}"
-                aria-label="Search {{data.psCompose.nav[data.psCompose.activeMenuItem].singular}}"
-            />
             <ul id="subnav-list" aria-label="subnav List">
                 {% for item in data %}
                     <li id="{{item.id}}" class="subnav-item">
@@ -52,21 +56,20 @@
                     </li>
                 {% endfor %}
             </ul>
-            <div class='select-btns'>
-                <ps-button id="select-mode" label="Select" theme="Small"></ps-button>
-                <ps-button class="delete-all-btn" label="Delete" theme="SmallError"></ps-button>
-                <ps-button class="open-all-btn" label="Open" lefticon="external-link" theme="Small"></ps-button>
-            </div>
         </div>
     </script>
 </nav>
 
 <script>
-    document.getElementById('nav-container').innerHTML = nunjucks.renderString(document.getElementById('nav-template').innerHTML, { psCompose });
+    document.getElementById("nav-container").innerHTML = nunjucks.renderString(
+        document.getElementById("nav-template").innerHTML,
+        { psCompose },
+    );
 
     const menuContainer = document.querySelector(".nav");
     const subnavContainer = document.querySelector(".subnav-container");
     const parentMenuItems = document.querySelectorAll(".nav .parent-item");
+    var attached = false;
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -110,7 +113,7 @@
         htmx.ajax("GET", psCompose.activeRoute.page_template, "#router-content");
         highlightActiveSubnav(id);
 
-        if ((window.innerWidth < 1025)) hideSubnav();
+        if (window.innerWidth < 1025) hideSubnav();
     }
 
     window.addEventListener("popstate", (event) => {
@@ -145,27 +148,36 @@
         const favorites_data = await fetchFavoriteIDs();
 
         if (!psCompose.activeMenuItem) {
-            psCompose.activeMenuItem = psCompose.activeRoute.key
+            psCompose.activeMenuItem = psCompose.activeRoute.key;
         }
 
-        const endpoint = favorites_data ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + 'favorites/' + 'ssbaveja' : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
+        const endpoint = favorites_data
+            ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + "favorites/" + "ssbaveja"
+            : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
         const context = { psCompose, favorites_data: favorites_data || [] };
-
 
         subnavContainer.innerHTML = `
           <div
             hx-get='${endpoint}'
             hx-trigger='load'
             hx-target='.subnav-container'
-            hx-headers='{ "Authorization": "Basic ${btoa('ssbaveja:password')}" }'
+            hx-headers='{ "Authorization": "Basic ${btoa("ssbaveja:password")}" }'
             nunjucks-array-template="subnav-template"
             hx-context='${JSON.stringify(context)}'>
           </div>`;
 
         htmx.process(subnavContainer);
         renderHighlight();
-    }
 
+        subnavContainer._htmxLoadHandler = function (e) {
+            if (!attached) {
+                attached = !attached;
+                attachSubnavEventListeners();
+            }
+            document.getElementById("select-mode")?.addEventListener("click", handleSelectMode);
+            document.getElementById("select-cancel")?.addEventListener("click", handleSelectCancel);
+        };
+    }
 
     // SHOW/HIDE subnav
     async function showSubnav() {
@@ -177,23 +189,20 @@
         subnavContainer.classList.remove("close");
 
         try {
-            await updateSubnav()
+            await updateSubnav();
+            // attachSubnavEventListeners()
         } catch (e) {
-            console.error('Failed to load favorites:', e);
+            console.error("Failed to load favorites:", e);
         }
 
         subnavContainer.classList.add("open");
-
-
-        // Attach Event Listeners
-        subnavContainer.addEventListener('htmx:load', function (e) {
-            attachSubnavEventListeners()
-        });
+        subnavContainer.addEventListener("htmx:load", subnavContainer._htmxLoadHandler);
     }
 
     async function hideSubnav() {
         psCompose.activeMenuItem = null;
         if (subnavContainer.classList.contains("hidden")) return;
+        detachSubnavEventListeners();
 
         clearActiveClasses(".nav .parent-item");
         subnavContainer.classList.remove("open");
@@ -230,111 +239,114 @@
     });
 
     function attachSubnavEventListeners() {
-        document.querySelectorAll('li.subnav-item').forEach((item) => {
-            item.addEventListener('click', function (e) {
-                if (document.getElementById('subnav-list').classList.contains('select')) {
-                    const ul = document.querySelector('#subnav-list');
-                    var selected = JSON.parse(ul.getAttribute('data-list'));
-                    const cb = item.querySelector('ps-input-checkbox')
-
-                    cb.value = !cb.value
-                    if (cb.value && !selected.includes(item.id)) selected.push(item.id);
-                    else selected.pop(item.id)
-
-                    ul.setAttribute('data-list', JSON.stringify(selected));
-                } else {
-                    const url = psCompose.nav[psCompose.activeMenuItem].page_url;
-                    loadSubnavPage(url, item.id);
-                }
-            });
+        document.querySelectorAll("li.subnav-item").forEach((item) => {
+            item.addEventListener("click", () => handleSubnavItemClick(item));
         });
-        document.getElementById('select-mode').addEventListener('click', handleSelectMode);
+    }
+
+    function detachSubnavEventListeners() {
+        attached = !attached;
+        document.querySelectorAll("li.subnav-item").forEach((item) => {
+            item.removeEventListener("click", () => handleSubnavItemClick(item));
+        });
+    }
+
+    function handleSubnavItemClick(item) {
+        if (document.getElementById("subnav-list").classList.contains("select")) {
+            const ul = document.querySelector("#subnav-list");
+            var selected = JSON.parse(ul.getAttribute("data-list"));
+            const cb = item.querySelector("ps-input-checkbox");
+
+            cb.value = !cb.value;
+            if (cb.value && !selected.includes(item.id)) {
+                selected.push(item.id);
+            } else {
+                selected = selected.filter((id) => id !== item.id); // Fixed: use filter instead of pop
+            }
+            console.log("im here", cb.value);
+
+            ul.setAttribute("data-list", JSON.stringify(selected));
+        } else {
+            const url = psCompose.nav[psCompose.activeMenuItem].page_url;
+            loadSubnavPage(url, item.id);
+        }
     }
 
     function handleSelectMode(e) {
         const btn = e.currentTarget;
 
         // change btn to x
-        btn.label = ''
-        btn.righticon = 'X'
-        btn.id = 'select-cancel'
-        btn.removeEventListener('click', handleSelectMode);
-        btn.addEventListener('click', handleSelectCancel);
+        btn.label = "";
+        btn.righticon = "X";
+        btn.id = "select-cancel";
+        btn.removeEventListener("click", handleSelectMode);
+        btn.addEventListener("click", handleSelectCancel);
 
         // change mode by adding class descriptor
-        document.getElementById('subnav-list').classList.add('select')
+        document.getElementById("subnav-list").classList.add("select");
 
         // Add delete btn
-        const deleteBtn = document.querySelector('.delete-all-btn');
-        deleteBtn.classList.add('selecting')
-        deleteBtn.addEventListener('click', handleDelete);
-
-        // Add open tab btn
-        const openAllBtn = document.querySelector('.open-all-btn');
-        openAllBtn.classList.add('selecting')
-        // openAllBtn.addEventListener('click', handleOpenAll)
+        const deleteBtn = document.querySelector(".delete-all-btn");
+        deleteBtn.classList.add("selecting");
+        deleteBtn.addEventListener("click", handleDelete);
 
         // Init Selected List
-        document.querySelector('#subnav-list').setAttribute('data-list', JSON.stringify([])); // Init Empty List
+        document.querySelector("#subnav-list").setAttribute("data-list", JSON.stringify([])); // Init Empty List
 
         // Show all checkboxes
-        subnavContainer.querySelectorAll('ps-input-checkbox').forEach((checkbox) => {
-            checkbox.style.display = 'flex';
+        subnavContainer.querySelectorAll("ps-input-checkbox").forEach((checkbox) => {
+            checkbox.style.display = "flex";
             checkbox.value = false;
         });
-        subnavContainer.querySelectorAll('#subnav-icon').forEach((icon) => {
-            icon.style.display = 'none'
-        })
+        subnavContainer.querySelectorAll("#subnav-icon").forEach((icon) => {
+            icon.style.display = "none";
+        });
     }
 
     function handleSelectCancel(e) {
-        const btn = e.currentTarget
+        const btn = e.currentTarget;
 
         // change btn to select
-        btn.label = 'Select';
-        btn.righticon = '';
-        btn.id = 'select-mode';
-        btn.removeEventListener('click', handleSelectCancel);
-        btn.addEventListener('click', handleSelectMode);
+        btn.label = "Select";
+        btn.righticon = "";
+        btn.id = "select-mode";
+        btn.removeEventListener("click", handleSelectCancel);
+        btn.addEventListener("click", handleSelectMode);
 
         // change mode by adding class descriptor
-        document.getElementById('subnav-list').classList.remove('select')
+        document.getElementById("subnav-list").classList.remove("select");
 
         // Add delete btn
-        const deleteBtn = document.querySelector('.delete-all-btn');
-        deleteBtn.classList.remove('selecting')
-
-        // Add open tab btn
-        const openAllBtn = document.querySelector('.open-all-btn');
-        openAllBtn.classList.remove('selecting')
+        const deleteBtn = document.querySelector(".delete-all-btn");
+        deleteBtn.classList.remove("selecting");
 
         // Hide all checkboxes
-        subnavContainer.querySelectorAll('ps-input-checkbox').forEach((checkbox) => {
-            checkbox.style.display = 'none'
+        subnavContainer.querySelectorAll("ps-input-checkbox").forEach((checkbox) => {
+            checkbox.style.display = "none";
         });
-        subnavContainer.querySelectorAll('#subnav-icon').forEach((icon) => {
-            icon.style.display = 'flex'
-        })
-    };
+        subnavContainer.querySelectorAll("#subnav-icon").forEach((icon) => {
+            icon.style.display = "flex";
+        });
+    }
 
     async function handleDelete(e) {
-        const ul = document.querySelector('#subnav-list');
-        const selected = JSON.parse(ul.getAttribute('data-list'));
+        const ul = document.querySelector("#subnav-list");
+        const selected = JSON.parse(ul.getAttribute("data-list"));
         if (selected.length <= 0) return;
-        
+
         let failedCount = 0;
 
         for (const id of selected) {
             try {
                 const res = await fetch(
-                `${psCompose.nav[psCompose.activeMenuItem].list_endpoint}${id}/`,
-                {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                }
+                    `${psCompose.nav[psCompose.activeMenuItem].list_endpoint}${id}/`,
+                    {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    },
                 );
                 if (!res.ok) {
-                failedCount++;
+                    failedCount++;
                 }
             } catch (e) {
                 failedCount++;
@@ -350,28 +362,10 @@
         // Update Window Render
         var params = new URLSearchParams(window.location.search);
         var id = params.get("id");
-        updateSubnav()
+        updateSubnav();
+        subnavContainer._htmxLoadHandler();
         if (selected.includes(id)) {
             window.location = psCompose.nav[psCompose.activeMenuItem].page_url;
         }
     }
-
-    /* V1.1TODO: Open all button */
-    // function handleOpenAll(e) {
-    //     const ul = document.querySelector('#subnav-list');
-    //     var selected = JSON.parse(ul.getAttribute('data-list'));
-
-    //     if (selected.length <= 0) return
-    //     console.log(selected, psCompose.nav[psCompose.activeMenuItem])
-        
-    //     selected.forEach((id, index) => {
-    //         setTimeout(() => {
-    //             window.open(`${psCompose.nav[psCompose.activeMenuItem].page_url}?id=${id}`, '_blank', 'noopener,noreferrer');
-    //             window.focus();
-    //         }, index * 100000);
-    //     });
-
-    // }
-
-
 </script>
