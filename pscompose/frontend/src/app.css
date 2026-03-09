@@ -58,7 +58,7 @@ body {
 }
 
 .backdrop {
-    @apply h-[calc(100vh-4rem)] overflow-y-auto flex flex-row justify-start w-full flex-grow;
+    @apply min-h-[calc(100vh-4rem)] overflow-y-auto flex flex-row justify-start w-full flex-grow;
 }
 
 #page-content {
@@ -171,7 +171,7 @@ nav {
 }
 
 .menu {
-    @apply flex flex-row;
+    @apply flex flex-row h-full;
 }
 
 .nav {
@@ -256,7 +256,11 @@ nav {
 }
 
 .subnav-item .item-info {
-    @apply flex flex-row items-start gap-4;
+    @apply flex flex-col md:flex-row items-start gap-4 min-w-0; /* flex-col on mobile */
+}
+
+.subnav-item .item-info h5 {
+    @apply break-all max-w-full;
 }
 
 .subnav-item svg,
@@ -438,7 +442,7 @@ table .tags {
 }
 
 .shortcuts-container.open {
-    @apply w-full h-full lg:w-[25rem] opacity-100 py-xlg px-xxlg lg:px-xlg;
+    @apply w-full h-full flex-row lg:flex-col lg:w-[25rem] opacity-100 py-xlg px-xxlg lg:px-xlg;
 }
 
 .shortcuts-container.close {
