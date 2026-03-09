@@ -63,7 +63,11 @@ ADDRESS_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "customComponent": "ps-input-text",
+                },
                 {
                     "type": "Control",
                     "scope": "#/properties/disabled",
@@ -264,7 +268,7 @@ GROUP_UI_SCHEMA = {
                             "scope": "#/properties/unidirectional",
                             "customComponent": "ps-input-checkbox",
                         },
-                    ]
+                    ],
                 },
                 {
                     "type": "Control",
@@ -374,7 +378,11 @@ SCHEDULE_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/slip", "customComponent": "ps-input-text"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/slip",
+                    "customComponent": "ps-input-text",
+                },
                 {
                     "type": "Control",
                     "scope": "#/properties/sliprand",
@@ -390,7 +398,11 @@ SCHEDULE_UI_SCHEMA = {
         #     "type": "Control",
         #     "scope": "#/properties/until",
         # },
-        {"type": "Control", "scope": "#/properties/max-runs", "customComponent": "ps-input-number"},
+        {
+            "type": "Control",
+            "scope": "#/properties/max-runs",
+            "customComponent": "ps-input-number",
+        },
         {"type": "Control", "scope": "#/properties/_meta", "customComponent": "ps-textarea-json"},
     ],
 }
@@ -673,7 +685,11 @@ TASK_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                {"type": "Control", "scope": "#/properties/name", "customComponent": "ps-input-text"},
+                {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "customComponent": "ps-input-text",
+                },
                 {
                     "type": "Control",
                     "scope": "#/properties/disabled",
@@ -684,12 +700,12 @@ TASK_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/group",
-            "customComponent": "ps-select",
+            "customComponent": "ps-select-chip",
         },
         {
             "type": "Control",
             "scope": "#/properties/test",
-            "customComponent": "ps-select",
+            "customComponent": "ps-select-chip",
         },
         {
             "type": "Control",
@@ -699,7 +715,7 @@ TASK_UI_SCHEMA = {
         {
             "type": "Control",
             "scope": "#/properties/schedule",
-            "customComponent": "ps-select",
+            "customComponent": "ps-select-chip",
         },
         {
             "type": "Control",
@@ -2470,7 +2486,7 @@ TEMPLATE_IMPORT_SCHEMA = {
         "orphanData": {
             "type": "boolean",
             "title": "Import Orphan Datas",
-            "description": "Any child data types that aren’t referenced in the parent template will be created if checked."
+            "description": "Any child data types that aren’t referenced in the parent template will be created if checked.",
         },
         "importVia": {
             "type": "string",
@@ -2536,8 +2552,8 @@ TEMPLATE_IMPORT_UI_SCHEMA = {
                     "type": "Control",
                     "scope": "#/properties/orphanData",
                     "customComponent": "ps-input-checkbox",
-                }
-            ]
+                },
+            ],
         },
         {
             "type": "Control",

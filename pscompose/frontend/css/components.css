@@ -151,7 +151,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* ps-input-file */
 
-.form-container:has(input[type="file"]) .upload-area{
+.form-container:has(input[type="file"]) .upload-area {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -170,7 +170,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .form-container:has(input[type="file"]) .upload-area:hover {
-    background-color: rgb(var(--success)/ 0.1);
+    background-color: rgb(var(--success) / 0.1);
 }
 
 .form-container:has(input[type="file"]) .upload-area:focus {
@@ -192,11 +192,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .form-container:has(input[type="file"]) .upload-area:active {
-    background-color: rgb(var(--success)/ 0.5);
+    background-color: rgb(var(--success) / 0.5);
 }
 
 .form-container:has(input[type="file"]) .upload-area.dragover {
-    background-color: rgb(var(--success)/ 0.5);
+    background-color: rgb(var(--success) / 0.5);
 }
 
 .form-container:has(input[type="file"]) .upload-area .subdesc {
@@ -466,7 +466,7 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
 }
 
 .form-container .dropdown li.active {
-    background-color: rgba(var(--success)/ 0.5);
+    background-color: rgba(var(--success) / 0.5);
     align-items: center;
     justify-content: space-between;
 }
@@ -496,7 +496,7 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     border-radius: 16px;
     padding: 4px 8px 4px 12px;
     border: 1px solid #454547;
-    background: rgb(var(--success)/0.7);
+    background: rgb(var(--success) / 0.7);
     color: rgb(var(--copy));
     font-size: 14px;
     font-weight: 600;
@@ -521,6 +521,16 @@ ps-select-multi[disabled] .form-container .dropdown {
 
 [disabled] #remove-tag {
     display: none;
+}
+
+/* ps-select-chip */
+ps-select-chip[disabled] .form-container .dropdown {
+    display: none;
+}
+
+[disabled] .tag {
+    padding: 4px 12px;
+    align-self: flex-start;
 }
 
 /* EXCLUDES DROPDOWN */
@@ -596,7 +606,7 @@ ps-select-multi {
 [disabled] .form-container .excludes-table th {
     width: 100%;
     padding: 12px;
-    background-color: rgba(var(--surface_2)/ 0.01);
+    background-color: rgba(var(--surface_2) / 0.01);
     font-weight: 500;
     font-size: 14px;
     flex: 1;
@@ -668,7 +678,7 @@ ps-button[theme="Primary"] button {
 }
 
 ps-button[theme="Primary"] button:hover {
-    background-color: rgba(var(--surface_2)/ 0.5);
+    background-color: rgba(var(--surface_2) / 0.5);
 }
 
 ps-button[theme="Secondary"] button {
@@ -678,7 +688,7 @@ ps-button[theme="Secondary"] button {
 }
 
 ps-button[theme="Secondary"] button:hover {
-    background-color: rgba(var(--success)/ 0.5);
+    background-color: rgba(var(--success) / 0.5);
 }
 
 ps-button[theme="Success"] button {
@@ -688,7 +698,7 @@ ps-button[theme="Success"] button {
 }
 
 ps-button[theme="Success"] button:hover {
-    background-color: rgba(var(--success)/ 0.5);
+    background-color: rgba(var(--success) / 0.5);
 }
 
 ps-button[theme="Tertiary"] button {
@@ -698,17 +708,17 @@ ps-button[theme="Tertiary"] button {
 }
 
 ps-button[theme="Tertiary"] button:hover {
-    background-color: rgba(var(--success)/ 0.7);
+    background-color: rgba(var(--success) / 0.7);
 }
 
 ps-button[theme="Shadow"] button {
-    background-color: rgba(var(--shadow)/ 0.7);
+    background-color: rgba(var(--shadow) / 0.7);
     color: rgb(var(--copy));
     border: 2px solid rgb(var(--shadow));
 }
 
 ps-button[theme="Shadow"] button:hover {
-    background-color: rgba(var(--shadow)/ 0.7);
+    background-color: rgba(var(--shadow) / 0.7);
 }
 
 ps-button[theme="Error"] button {
@@ -718,7 +728,7 @@ ps-button[theme="Error"] button {
 }
 
 ps-button[theme="Error"] button:hover {
-    background-color: rgba(var(--error)/ 0.5);
+    background-color: rgba(var(--error) / 0.5);
 }
 
 ps-button[theme="Warning"] button {
@@ -728,7 +738,7 @@ ps-button[theme="Warning"] button {
 }
 
 ps-button[theme="Warning"] button:hover {
-    background-color: rgba(var(--warning)/ 0.5);
+    background-color: rgba(var(--warning) / 0.5);
 }
 
 ps-button[theme="Icon"] button {
@@ -772,7 +782,7 @@ ps-button[theme="Icon-Small"] button {
 }
 
 ps-button[theme="Icon-Small"] button:hover {
-    background-color: rgba(var(--surface_1)/ 0.2);
+    background-color: rgba(var(--surface_1) / 0.2);
     padding: 0.3rem;
 }
 
@@ -817,7 +827,7 @@ ps-button[theme="AddBtn"] button {
 }
 
 ps-button[theme="AddBtn"] button:hover {
-    background-color: rgba(var(--success)/ 0.5);
+    background-color: rgba(var(--success) / 0.5);
 }
 
 ps-button[theme="SmallError"] button {
@@ -887,8 +897,8 @@ ps-button[theme="SmallError"] button:hover {
     position: relative;
     white-space: normal;
     z-index: 1;
-    box-shadow: 
-        0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
@@ -908,7 +918,7 @@ ps-button[theme="SmallError"] button:hover {
     left: -140px;
     bottom: 8px;
     fill: rgb(var(--surface_2));
-    color: rgb(var(--surface_2));  
+    color: rgb(var(--surface_2));
 }
 
 /* ps-modal */
@@ -917,7 +927,7 @@ ps-modal {
     display: none;
 }
 
-ps-modal .data-box{
+ps-modal .data-box {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -926,7 +936,6 @@ ps-modal .data-box{
     justify-content: start;
     padding: 1.25rem;
     border-radius: 1rem;
-
 }
 
 .data-box .data-info {
@@ -1054,7 +1063,6 @@ ps-modal .data-box{
     }
 }
 
-
 /* INPUT SWITCH */
 .ps-input-switch-container {
     position: relative;
@@ -1071,27 +1079,27 @@ ps-modal .data-box{
     border-width: var(--esnet-size-border-width-small, 0.125rem);
     border-radius: var(--esnet-size-radius-circle, 999px);
 
-    background-color: rgb(var(--copyAlt)); 
+    background-color: rgb(var(--copyAlt));
     border-color: rgb(var(--copyAlt));
     &.checked {
         background-color: rgb(var(--shadow));
         border-color: rgb(var(--success));
     }
 
-  &:hover:not(.disabled),
-  &:focus-within:not(.disabled) {
-    box-shadow: 0 0 0 var(--esnet-size-border-width-small, 0.125rem)
-      var(--esnet-color-core-white-400);
-    &.checked {
-      box-shadow: 0 0 0 var(--esnet-size-border-width-small, 0.125rem)
-        var(--interaction-shadow);
+    &:hover:not(.disabled),
+    &:focus-within:not(.disabled) {
+        box-shadow: 0 0 0 var(--esnet-size-border-width-small, 0.125rem)
+            var(--esnet-color-core-white-400);
+        &.checked {
+            box-shadow: 0 0 0 var(--esnet-size-border-width-small, 0.125rem)
+                var(--interaction-shadow);
+        }
     }
-  }
 
-  &.checked:has(*:active):not(.disabled),
-  &:has(*:active):not(.disabled) {
-    box-shadow: none;
-  }
+    &.checked:has(*:active):not(.disabled),
+    &:has(*:active):not(.disabled) {
+        box-shadow: none;
+    }
 }
 
 /* Actual input element, invisible but spans entire component for functionality */
@@ -1127,16 +1135,16 @@ ps-modal .data-box{
     color: rgb(var(--copy));
 
     .checked > & {
-        color: rgba(var(--success)/ 0.5);
+        color: rgba(var(--success) / 0.5);
     }
 
     :active:checked ~ :not(.disabled > &) {
-        background-color: rgba(var(--success)/ 0.5);
+        background-color: rgba(var(--success) / 0.5);
     }
 }
 
 .ps-input-switch-icon {
     color: rgb(var(--success));
     width: 20px;
-    height: 20px
+    height: 20px;
 }
