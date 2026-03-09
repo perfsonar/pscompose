@@ -502,11 +502,11 @@ table .tags {
 }
 
 .box-header:has(.box-info) {
-    @apply flex items-start flex-row gap-xsm w-full;
+    @apply flex items-start flex-row gap-xsm;
 }
 
 .box-header .box-info {
-    @apply flex flex-col w-full;
+    @apply flex flex-col break-words overflow-hidden;
 }
 
 .box-header .box-info span {
