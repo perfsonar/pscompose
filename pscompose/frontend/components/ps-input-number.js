@@ -75,8 +75,8 @@ export class PSInputNumber extends PSInputText {
 
         const actionBtns = ` 
             <div class="buttons">
-                <ps-button type="button" id="addBtn" theme="Icon" righticon="plus"></ps-button>
-                <ps-button type="button" id="minusBtn" theme="Icon" righticon="minus"></ps-button>
+                <ps-button type="button" id="addBtn" theme="Icon-Simple" righticon="plus"></ps-button>
+                <ps-button type="button" id="minusBtn" theme="Icon-Simple" righticon="minus"></ps-button>
             </div>`;
         this.wrapperEl.insertAdjacentHTML("beforeend", actionBtns);
 

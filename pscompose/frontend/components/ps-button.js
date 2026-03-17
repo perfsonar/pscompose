@@ -72,7 +72,6 @@ export class PSButton extends HTMLElement {
         if (oldValue === newValue) return;
         this.render();
         lucide.createIcons();
-        this[name] = newValue;
     }
 
     openModal() {
@@ -85,26 +84,14 @@ export class PSButton extends HTMLElement {
 
     render() {
         this.innerHTML = `
-            ${
-                this.link
-                    ? `<a href="${this.link}" style="text-decoration: none;">`
-                    : ""
-            }
+            ${this.link ? `<a href="${this.link}" style="text-decoration: none;">` : ""}
             <button 
                 ${this.type ? `type="${this.type}" ` : ""}
                 >
                 
-                ${
-                    this.lefticon
-                        ? `<i data-lucide="${this.lefticon}"></i>`
-                        : ""
-                }
+                ${this.lefticon ? `<i data-lucide="${this.lefticon}"></i>` : ""}
                 ${this.label || ""}
-                ${
-                    this.righticon
-                        ? `<i data-lucide="${this.righticon}"></i>`
-                        : ""
-                }
+                ${this.righticon ? `<i data-lucide="${this.righticon}"></i>` : ""}
             </button>
             ${this.link ? `</a>` : ""}
         `;
