@@ -27,23 +27,49 @@
             return ``;
         } else if (result.length === 0) {
             return `
+                <div class="data-box">
+                    <i
+                        data-lucide="${psCompose.activeRoute.icon}"
+                        class="shortcut-icon"
+                        aria-hidden="true"
+                    ></i>
+                    <div class="data-info">
+                        <span>${psCompose.activeRoute.singular}</span>
+                        <h5 class="confirm-data-name"></h5>
+                    </div>
+                </div>
+                <br/>
                 <div class="confirm-message">
                     <h6>Making changes to this ${datatype} will not affect any existing data.</h6>
                 </div>
             `;
         } else {
             return `
+                <div class="data-box">
+                    <i
+                        data-lucide="${psCompose.activeRoute.icon}"
+                        class="shortcut-icon"
+                        aria-hidden="true"
+                    ></i>
+                    <div class="data-info">
+                        <span>${psCompose.activeRoute.singular}</span>
+                        <h5 class="confirm-data-name"></h5>
+                    </div>
+                </div>
+                <br/>
                 <div class="confirm-message">
                 <p>This ${datatype} is used in the following:</p>
                 <div class="collapsible-list">
                     ${Object.entries(
-                    result.reduce((acc, item) => {
-                        const type = capitalizeFirstLetter(item.type);
-                        acc[type] = acc[type] || [];
-                        acc[type].push(item);
-                        return acc;
-                    }, {})
-                    ).map(([type, items]) => `
+                        result.reduce((acc, item) => {
+                            const type = capitalizeFirstLetter(item.type);
+                            acc[type] = acc[type] || [];
+                            acc[type].push(item);
+                            return acc;
+                        }, {}),
+                    )
+                        .map(
+                            ([type, items]) => `
                     <details class="collapsible-item">
                         <summary>
                             <div class="summary-content">
@@ -58,20 +84,27 @@
                         </summary>
                         <div class="collapsible-content">
                             <ul>
-                                ${items.map(item => `
+                                ${items
+                                    .map(
+                                        (item) => `
                                     <li>
-                                        <a href="/${pluralWord(item.type)}/?id=${item.id}" target="_blank">
+                                        <a href="/${pluralWord(item.type)}/?id=${
+                                            item.id
+                                        }" target="_blank">
                                             ${item.name}
                                         </a>
                                     </li>
-                                `).join('')}
+                                `,
+                                    )
+                                    .join("")}
                             </ul>
                         </div>
                     </details>
-                    `).join('')}
+                    `,
+                        )
+                        .join("")}
                 </div>
                 `;
-
         }
     }
 

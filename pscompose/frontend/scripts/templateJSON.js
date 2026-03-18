@@ -1,5 +1,33 @@
-// Download Template Json 
-async function exportTemplateJSON(id, name="Template") {
+// Link Template Json
+async function urlTemplateJSON(id) {
+    try {
+        const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.statusText}`);
+        }
+
+        const jsonData = await response.json();
+        const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+            type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+
+        await navigator.clipboard.writeText(url);
+        newMessageBanner("JSON link copied to clipboard", "Success", true);
+        return url;
+    } catch (error) {
+        console.error("Error linking template JSON:", error);
+        newMessageBanner("Failed to link template", "Error", true);
+        return null;
+    }
+}
+
+// Download Template Json
+async function exportTemplateJSON(id, name = "Template") {
     try {
         const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
             method: "GET",
@@ -22,12 +50,12 @@ async function exportTemplateJSON(id, name="Template") {
         a.click();
         URL.revokeObjectURL(url);
 
-        newMessageBanner("JSON successfully downloaded", "Success", true)
-        return true; 
+        newMessageBanner("JSON successfully downloaded", "Success", true);
+        return true;
     } catch (error) {
         console.error("Error exporting template JSON:", error);
-        newMessageBanner("Failed to export template", "Error", true)
-        return false; 
+        newMessageBanner("Failed to export template", "Error", true);
+        return false;
     }
 }
 
@@ -47,12 +75,12 @@ async function copyTemplateJSON(id) {
         const jsonString = JSON.stringify(jsonData, null, 2);
 
         await navigator.clipboard.writeText(jsonString);
-        newMessageBanner("JSON copied to clipboard", "Success", true)
+        newMessageBanner("JSON copied to clipboard", "Success", true);
 
-        return true; 
+        return true;
     } catch (error) {
         console.error("Error exporting template JSON:", error);
-        newMessageBanner("Failed to export template", "Error", true)
+        newMessageBanner("Failed to export template", "Error", true);
 
         return false;
     }

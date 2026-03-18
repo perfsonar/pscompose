@@ -8,23 +8,21 @@
                     <div class="tooltip">Edit Form</div>
                     <ps-button id="edit-icon" righticon="edit" theme="Icon"> </ps-button>
                 </div>
-                <div class="action-icon">
+                <div class="action-icon" style="display: none">
                     <div class="tooltip">Download Template</div>
-                    <ps-button
-                        id="export-json-btn"
-                        righticon="download"
-                        theme="Icon"
-                        style="display: none"
-                    ></ps-button>
+                    <ps-button id="export-json-btn" righticon="download" theme="Icon"></ps-button>
                 </div>
-                <div class="action-icon">
+                <div class="action-icon" style="display: none">
                     <div class="tooltip">Copy Template JSON to Clipboard</div>
                     <ps-button
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
-                        style="display: none"
                     ></ps-button>
+                </div>
+                <div class="action-icon" style="display: none">
+                    <div class="tooltip">Copy Template JSON URL to Clipboard</div>
+                    <ps-button id="url-json-btn" righticon="link" theme="Icon"></ps-button>
                 </div>
             </div>
         </div>
@@ -84,6 +82,7 @@
 <script src="/scripts/dataForms/mergeSchema.js"></script>
 <script src="/scripts/dataForms/submitForm.js"></script>
 <script src="/scripts/dataForms/sameName.js"></script>
+<script src="/scripts/dataForms/displaySet.js"></script>
 
 <script>
     var params = new URLSearchParams(window.location.search);
@@ -107,9 +106,21 @@
             hideSubnav();
 
             // For each datatype update as needed
-            if (datatype == "task") filterTools();
-            if (datatype == "group") invalidRefsetRender();
-            if (datatype == "test") invalidRefsetRender();
+            switch (datatype) {
+                case "address":
+                    addressMetaData();
+                    break;
+                case "task":
+                    filterTools();
+                    taskReference();
+                    break;
+                case "group":
+                    invalidRefsetRender();
+                    break;
+                case "test":
+                    invalidRefsetRender();
+                    break;
+            }
         } else {
             // READONLY
 
@@ -124,6 +135,11 @@
                 copyBtn.style.display = "block";
                 copyBtn.addEventListener("click", async () => {
                     await copyTemplateJSON(id, elem?.data?.name);
+                });
+                const urlBtn = document.getElementById("url-json-btn");
+                urlBtn.style.display = "block";
+                urlBtn.addEventListener("click", async () => {
+                    await urlTemplateJSON(id);
                 });
             }
         }
@@ -162,8 +178,8 @@
         setUpFavorites(id);
         attachFavoritesHandler(id);
 
-        document.querySelectorAll("ps-modal").forEach((modal) => {
-            modal.setAttribute("confirm-data-name", elem?.data?.name || "");
+        document.querySelectorAll(".confirm-data-name").forEach((name) => {
+            name.textContent = elem?.data?.name || "";
         });
 
         sameNameValidationEventListener();

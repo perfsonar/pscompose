@@ -635,7 +635,7 @@ table .tags {
 }
 
 .header .header-icons {
-    @apply flex gap-xsm items-center;
+    @apply flex gap-xsm items-center bg-surface_1 px-2 rounded-full;
 }
 
 .datatype.error-form .page,
@@ -713,7 +713,7 @@ table .tags {
     @apply flex flex-row justify-end gap-md mt-lg;
 }
 
-.edit-form:has(json-form[readonly="false"]) #edit-icon {
+.edit-form:has(json-form[readonly="false"]) .action-icon:has(#edit-icon) {
     @apply hidden;
 }
 
@@ -770,6 +770,14 @@ json-form {
 }
 
 .orphans-container ps-textarea-json {
+    @apply w-full;
+}
+
+.task-ref-form {
+    @apply w-full;
+}
+
+.address-meta-form {
     @apply w-full;
 }
 
