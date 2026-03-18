@@ -51,6 +51,17 @@
     document.body.addEventListener("json-form:mounted", () => {
         document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
         sameNameValidationEventListener();
+
+        // For each datatype update as needed
+        switch (datatype) {
+            case "address":
+                addressMetaData();
+                break;
+            case "task":
+                filterTools();
+                taskReference();
+                break;
+        }
     });
 
     // Change

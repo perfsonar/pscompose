@@ -1,5 +1,13 @@
 export class PSModal extends HTMLElement {
-    static observedAttributes = ["confirm-label", "link", "theme", "question", "message", "icon", "confirm-data-name"];
+    static observedAttributes = [
+        "confirm-label",
+        "link",
+        "theme",
+        "question",
+        "message",
+        "icon",
+        "confirm-data-name",
+    ];
 
     constructor() {
         super();
@@ -23,10 +31,10 @@ export class PSModal extends HTMLElement {
 
         // escape
         this.querySelector("#confirm-no").onclick = () => {
-            this.style.display = "none";  // Hide current modal instance
+            this.style.display = "none"; // Hide current modal instance
         };
         this.querySelector(".modal-underlay").onclick = () => {
-            this.style.display = "none";  // Hide current modal instance
+            this.style.display = "none"; // Hide current modal instance
         };
     }
 
@@ -47,23 +55,10 @@ export class PSModal extends HTMLElement {
         this.innerHTML = `
             <div id="confirm-modal">
                 <div class="modal-underlay"></div>
-
                 <div class="modal-content" style="border-color:${accentColor}" >
                     <i style="width: 2rem; height: 2rem; color: ${accentColor}" data-lucide="alert-triangle">
                     </i>
                     <h4 id="confirm-question">${this.getAttribute("question")}</h4>
-                    <div class="data-box">
-                        <i
-                            data-lucide="${ psCompose.activeRoute.icon }"
-                            class="shortcut-icon"
-                            aria-hidden="true"
-                        ></i>
-                        <div class="data-info">
-                            <span>${ psCompose.activeRoute.singular }</span>
-                            <h5>${this.getAttribute("confirm-data-name") || ""}</h5>
-                        </div>
-                    </div>
-                    <br/>
                     ${this.getAttribute("message") ? this.getAttribute("message") : ""}
                     <div class="save-cancel">
                         <ps-button 

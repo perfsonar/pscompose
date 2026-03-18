@@ -1,4 +1,5 @@
 async function taskReference() {
+    console.log("are you called at all");
     const refField = document.getElementById("#/properties/reference");
 
     // Create ps-button
@@ -23,16 +24,6 @@ async function taskReference() {
         <form class='task-ref-form'>
             <ps-input-text label="display-task-group"></ps-input-text>
             <ps-input-text label="display-task-name"></ps-input-text>
-            <ps-input-text
-                label="display-set-source"
-                value='"{% jq .addresses[0]._meta.\\"display-set\\" %}"'
-                disabled>
-            </ps-input-text>
-            <ps-input-text
-                label="display-set-dest"
-                value='"{% jq .addresses[1]._meta.\\"display-set\\" %}"'
-                disabled>
-            </ps-input-text>
         </form>
     </div>
     `;
@@ -55,9 +46,9 @@ async function taskReference() {
         const formData = {
             "display-task-group": [getVal("display-task-group") ?? "REPLACE_ME"],
             "display-set-source":
-                getVal("display-set-source") ?? `{% jq .addresses[0]._meta."display-set" %}`,
+                getVal("display-set-source") ?? '{% jq .addresses[0]._meta."display-set" %}',
             "display-set-dest":
-                getVal("display-set-dest") ?? `{% jq .addresses[1]._meta."display-set" %}`,
+                getVal("display-set-dest") ?? '{% jq .addresses[1]._meta."display-set" %}',
             "display-task-name": [getVal("display-task-name") ?? "REPLACE_ME"],
         };
 
@@ -88,7 +79,6 @@ async function addressMetaData() {
     const msg = `
     <div class="confirm-message">
         <form class='address-meta-form'>
-            <ps-input-text label="display-name"></ps-input-text>
             <ps-input-text label="display-set"></ps-input-text>
         </form>
     </div>
@@ -110,7 +100,6 @@ async function addressMetaData() {
         };
 
         const formData = {
-            "display-name": getVal("display-name") ?? "REPLACE_ME",
             "display-set": getVal("display-set") ?? "REPLACE_ME",
         };
 
