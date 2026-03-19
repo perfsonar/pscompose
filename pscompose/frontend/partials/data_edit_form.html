@@ -21,8 +21,8 @@
                     ></ps-button>
                 </div>
                 <div class="action-icon" style="display: none">
-                    <div class="tooltip">Copy Template JSON URL to Clipboard</div>
-                    <ps-button id="url-json-btn" righticon="link" theme="Icon"></ps-button>
+                    <div class="tooltip">Raw JSON</div>
+                    <ps-button id="url-json-btn" righticon="file-json" theme="Icon"></ps-button>
                 </div>
             </div>
         </div>
@@ -126,21 +126,19 @@
 
             // For each datatype update as needed
             if (datatype == "template") {
+                document.querySelectorAll(".action-icon").forEach((icon) => {
+                    icon.style.display = "block";
+                });
                 const exportBtn = document.getElementById("export-json-btn");
-                exportBtn.style.display = "block";
                 exportBtn.addEventListener("click", async () => {
                     await exportTemplateJSON(id, elem?.data?.name);
                 });
                 const copyBtn = document.getElementById("copy-json-btn");
-                copyBtn.style.display = "block";
                 copyBtn.addEventListener("click", async () => {
                     await copyTemplateJSON(id, elem?.data?.name);
                 });
                 const urlBtn = document.getElementById("url-json-btn");
-                urlBtn.style.display = "block";
-                urlBtn.addEventListener("click", async () => {
-                    await urlTemplateJSON(id);
-                });
+                urlBtn.setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json`);
             }
         }
     }

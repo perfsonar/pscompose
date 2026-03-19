@@ -1,31 +1,3 @@
-// Link Template Json
-async function urlTemplateJSON(id) {
-    try {
-        const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error ${response.statusText}`);
-        }
-
-        const jsonData = await response.json();
-        const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
-            type: "application/json",
-        });
-        const url = URL.createObjectURL(blob);
-
-        await navigator.clipboard.writeText(url);
-        newMessageBanner("JSON link copied to clipboard", "Success", true);
-        return url;
-    } catch (error) {
-        console.error("Error linking template JSON:", error);
-        newMessageBanner("Failed to link template", "Error", true);
-        return null;
-    }
-}
-
 // Download Template Json
 async function exportTemplateJSON(id, name = "Template") {
     try {

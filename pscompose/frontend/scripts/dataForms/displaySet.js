@@ -1,5 +1,4 @@
 async function taskReference() {
-    console.log("are you called at all");
     const refField = document.getElementById("#/properties/reference");
 
     // Create ps-button
@@ -46,9 +45,9 @@ async function taskReference() {
         const formData = {
             "display-task-group": [getVal("display-task-group") ?? "REPLACE_ME"],
             "display-set-source":
-                getVal("display-set-source") ?? '{% jq .addresses[0]._meta."display-set" %}',
+                getVal("display-set-source") ?? `{% jq .addresses[0]._meta."display-set" %}`,
             "display-set-dest":
-                getVal("display-set-dest") ?? '{% jq .addresses[1]._meta."display-set" %}',
+                getVal("display-set-dest") ?? `{% jq .addresses[1]._meta."display-set" %}`,
             "display-task-name": [getVal("display-task-name") ?? "REPLACE_ME"],
         };
 
