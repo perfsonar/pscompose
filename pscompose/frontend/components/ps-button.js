@@ -84,7 +84,11 @@ export class PSButton extends HTMLElement {
 
     render() {
         this.innerHTML = `
-            ${this.link ? `<a href="${this.link}" style="text-decoration: none;">` : ""}
+            ${
+                this.link
+                    ? `<a href="${this.link}" target="_blank" style="text-decoration: none;">`
+                    : ""
+            }
             <button 
                 ${this.type ? `type="${this.type}" ` : ""}
                 >
