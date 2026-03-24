@@ -355,6 +355,14 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     cursor: not-allowed;
 }
 
+/* ps-input-text-multi */
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 /* ps-textarea */
 
 .form-container textarea {
@@ -635,6 +643,10 @@ ps-select-excludes[disabled] #excludes-add-btn {
 }
 
 /* ps-button */
+
+ps-button {
+    width: fit-content;
+}
 
 ps-button button {
     display: flex;
