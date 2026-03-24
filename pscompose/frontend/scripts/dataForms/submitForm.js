@@ -1,4 +1,5 @@
 async function submit(mode, formData) {
+    console.log("submit");
     // 1. Retrieve jsonform data
     const { name, ...rest } = formData; // Need to remove name from the form
 
@@ -28,7 +29,7 @@ async function submit(mode, formData) {
 
     let api_endpoint = psCompose.activeRoute.list_endpoint;
     let api_method = "POST";
-    console.log("mode: ", mode);
+
     if (mode == "edit") {
         api_endpoint = `${window.API_BASE_URL}/${datatype}/${id}/`;
         api_method = "PUT";
@@ -70,7 +71,7 @@ async function submit(mode, formData) {
 async function formValidation(event) {
     event.preventDefault();
     var mode = "new";
-    if (event.target == "#data-edit-form") mode = "edit";
+    if (event.target.id == "data-edit-form") mode = "edit";
 
     const elem = document.querySelector("json-form");
     const form_data = JSON.parse(elem.serializeForm());
