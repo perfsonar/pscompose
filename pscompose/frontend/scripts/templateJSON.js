@@ -34,19 +34,8 @@ async function exportTemplateJSON(id, name = "Template") {
 // Copy Template Json
 async function copyTemplateJSON(id) {
     try {
-        const response = await fetch(`${window.API_BASE_URL}/template/${id}/json/`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error ${response.statusText}`);
-        }
-
-        const jsonData = await response.json();
-        const jsonString = JSON.stringify(jsonData, null, 2);
-
-        await navigator.clipboard.writeText(jsonString);
+        const url = `${window.API_BASE_URL}/template/${id}/json/`;
+        await navigator.clipboard.writeText(url);
         newMessageBanner("JSON copied to clipboard", "Success", true);
 
         return true;
