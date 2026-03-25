@@ -8,11 +8,11 @@
                     <div class="tooltip">Edit Form</div>
                     <ps-button id="edit-icon" righticon="edit" theme="Icon"> </ps-button>
                 </div>
-                <div class="action-icon" style="display: none">
+                <div class="action-icon template" style="display: none">
                     <div class="tooltip">Download Template</div>
                     <ps-button id="export-json-btn" righticon="download" theme="Icon"></ps-button>
                 </div>
-                <div class="action-icon" style="display: none">
+                <div class="action-icon template" style="display: none">
                     <div class="tooltip">Copy Raw JSON URL</div>
                     <ps-button
                         id="copy-json-btn"
@@ -20,9 +20,17 @@
                         theme="Icon"
                     ></ps-button>
                 </div>
-                <div class="action-icon" style="display: none">
+                <div class="action-icon template" style="display: none">
                     <div class="tooltip">Open Raw JSON</div>
                     <ps-button id="url-json-btn" righticon="file-json" theme="Icon"></ps-button>
+                </div>
+                <div class="action-icon address" style="display: none">
+                    <div class="tooltip">Template using this address</div>
+                    <ps-button
+                        id="address-template-btn"
+                        righticon="locate"
+                        theme="Icon"
+                    ></ps-button>
                 </div>
             </div>
         </div>
@@ -61,11 +69,11 @@
                     >
                     </ps-button>
                     <ps-button
+                        id="cancel-btn"
                         type="button"
                         label="Cancel"
                         theme="Primary"
                         righticon="x"
-                        link="javascript:history.back()"
                     >
                     </ps-button>
                 </div>
@@ -124,21 +132,42 @@
         } else {
             // READONLY
 
-            // For each datatype update as needed
-            if (datatype == "template") {
-                document.querySelectorAll(".action-icon").forEach((icon) => {
-                    icon.style.display = "block";
-                });
-                const exportBtn = document.getElementById("export-json-btn");
-                exportBtn.addEventListener("click", async () => {
-                    await exportTemplateJSON(id, elem?.data?.name);
-                });
-                const copyBtn = document.getElementById("copy-json-btn");
-                copyBtn.addEventListener("click", async () => {
-                    await copyTemplateJSON(id, elem?.data?.name);
-                });
-                const urlBtn = document.getElementById("url-json-btn");
-                urlBtn.setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json`);
+            switch (datatype) {
+                // For each datatype update as needed
+                case "template":
+                    document.querySelectorAll(".action-icon.template").forEach((icon) => {
+                        icon.style.display = "block";
+                    });
+                    const exportBtn = document.getElementById("export-json-btn");
+                    exportBtn.addEventListener("click", async () => {
+                        await exportTemplateJSON(id, elem?.data?.name);
+                    });
+                    const copyBtn = document.getElementById("copy-json-btn");
+                    copyBtn.addEventListener("click", async () => {
+                        await copyTemplateJSON(id, elem?.data?.name);
+                    });
+                    const urlBtn = document.getElementById("url-json-btn");
+                    urlBtn.setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json`);
+                    break;
+                case "address":
+                    document.querySelector("ps-button[data-address-meta]")?.remove();
+                    document.getElementById("address-modal")?.remove();
+
+                    document.querySelectorAll(".action-icon.address").forEach((icon) => {
+                        icon.style.display = "block";
+                    });
+                    const addressTemplateBtn = document.getElementById("address-template-btn");
+                    addressTemplateBtn.setAttribute(
+                        "link",
+                        `${window.API_BASE_URL}/template/address/${id}/`,
+                    );
+
+                    // TODO: addressTemplateBtn - api link
+                    break;
+                case "task":
+                    document.querySelector("ps-button[data-task-ref]")?.remove();
+                    document.getElementById("task-modal")?.remove();
+                    break;
             }
         }
     }
@@ -209,6 +238,16 @@
                 newMessageBanner(error.message, "Success", true);
             }
         });
+    });
+
+    // Cancel
+    document.getElementById("cancel-btn").addEventListener("click", () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("id", id);
+        url.searchParams.delete("edit");
+
+        window.history.pushState({}, "", url.toString());
+        editMode(false);
     });
 
     // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )

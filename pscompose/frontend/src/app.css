@@ -774,7 +774,7 @@ json-form {
 }
 
 .task-ref-form {
-    @apply w-full;
+    @apply flex flex-col w-full gap-xsm;
 }
 
 .address-meta-form {

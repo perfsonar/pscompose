@@ -360,7 +360,7 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
 .inputs-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 12px;
 }
 
 /* ps-textarea */

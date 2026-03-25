@@ -2,6 +2,8 @@ async function taskReference() {
     const refField = document.getElementById("#/properties/reference");
     const metaField = document.getElementById("#/properties/_meta");
 
+    if (refField.parentElement.querySelector("ps-button[data-task-ref]")) return;
+
     const ref_data =
         typeof refField.value === "string" ? JSON.parse(refField.value) : refField.value;
     const meta_data =
@@ -49,6 +51,7 @@ async function taskReference() {
     modal.setAttribute("message", msg);
 
     // Append button and modal
+    button.setAttribute("data-task-ref", "true");
     document.body.appendChild(modal);
     refField.parentElement.appendChild(button);
 
@@ -68,7 +71,7 @@ async function taskReference() {
         metaField.value = meta_data;
         metaField.dispatchEvent(new Event("change", { bubbles: true }));
 
-        refField.value = JSON.stringify(ref_data, null, 2);
+        refField.value = ref_data;
         refField.dispatchEvent(new Event("change", { bubbles: true }));
     });
 }
@@ -76,6 +79,8 @@ async function taskReference() {
 async function addressMetaData() {
     const metaField = document.getElementById("#/properties/_meta");
     const data = metaField.value;
+
+    if (metaField.parentElement.querySelector("ps-button[data-address-meta]")) return;
 
     // Create ps-button
     const button = document.createElement("ps-button");
@@ -109,6 +114,7 @@ async function addressMetaData() {
     modal.setAttribute("message", msg);
 
     // Append button and modal
+    button.setAttribute("data-address-meta", "true");
     document.body.appendChild(modal);
     metaField.parentElement.appendChild(button);
 
