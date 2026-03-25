@@ -666,7 +666,7 @@ TASK_SCHEMA = {
             "title": "Priority",
         },
         "reference": {
-            "type": "string",
+            "type": "object",
             "title": "Reference",
         },
         "_meta": {

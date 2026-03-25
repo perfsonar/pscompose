@@ -73,6 +73,11 @@ def expand_template_to_psconfig(template_id: str):
 
     task_ids = template.json.get("tasks", [])
 
+    return expand_tasks_for_template_to_psconfig(task_ids)
+
+
+def expand_tasks_for_template_to_psconfig(task_ids: list):
+
     # Initialize the pScheduler config structure matching pSConfigSchema
     psconfig = {
         "addresses": {},
@@ -388,6 +393,35 @@ def get_existing_form(item_id: str):
 
 
 @router.get(
+    "/template/address/{item_id}/",
+    summary="Get expanded pScheduler mesh configuration JSON",
+)
+@version(1)
+def get_template_using_address(item_id: str):
+    """
+    Returns merged template json given address.
+    Includes all referenced tests, archives, schedules, groups, and addresses.
+    """
+    try:
+        response = backend.get_datatype(datatype=DataTypes.ADDRESS, item_id=item_id)
+        response_json = response.json
+        response_json = {
+            k: v for k, v in response_json.items() if v is not None
+        }  # Need to remove null fields
+        response_json["name"] = response.name  # Adding "name" since it's not present in the json
+    except HTTPException:
+        raise HTTPException(status_code=404, detail=f"Address with id: {item_id} not found")
+
+    groups = backend.find_records(item_id)
+    tasks = []
+    for g in groups:
+        tasks.extend(backend.find_records(g.id))
+    task_ids = [task.id for task in tasks]
+
+    return expand_tasks_for_template_to_psconfig(task_ids)
+
+
+@router.get(
     "/template/{item_id}/json/",
     summary="Get expanded pScheduler mesh configuration JSON",
 )
@@ -533,8 +567,6 @@ def psconfig_to_json(datatype: DataTypes, spec: dict):
     Create proper datatype json from imported psconfig spec
     """
     json = {}
-    # if isinstance(spec, list):
-    #     print(spec)
 
     for k, v in spec.items():
         if k in DATATYPE_FIELDS:
