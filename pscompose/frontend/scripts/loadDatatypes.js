@@ -1,24 +1,18 @@
-// const USERNAME = "ssbaveja"; // TODO: REPLACE HARD CODE
-// const PASSWORD = "password"; // TODO: REPLACE HARD CODE
-// const AUTH_HEADER = `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`; 
-
 async function loadSection(apiEndpoint, containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
     try {
-        // TODO: FETCH USER DATA 
-        const response = await fetch(apiEndpoint,
-            {
-                method: 'GET',
-                headers: { 'Authorization': `${AUTH_HEADER}` },
-            }
-        );
+        // TODO: FETCH USER DATA
+        const response = await fetch(apiEndpoint, {
+            method: "GET",
+            headers: { Authorization: `${AUTH_HEADER}` },
+        });
         const data = await response.json();
         data.forEach((item) => {
             item.formatted_date = formatDate(item.last_edited_at);
             item.icon = psCompose.metadata[item.type].icon;
-            item.link = psCompose.metadata[item.type].page_url + '?id=' + item.id;
+            item.link = psCompose.metadata[item.type].page_url + "?id=" + item.id;
         });
 
         const template = `

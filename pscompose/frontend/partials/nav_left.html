@@ -161,7 +161,7 @@
             hx-get='${endpoint}'
             hx-trigger='load'
             hx-target='.subnav-container'
-            hx-headers='{ "Authorization": "Basic ${btoa("ssbaveja:password")}" }'
+            hx-headers='{ "Authorization": "${AUTH_HEADER}" }'
             nunjucks-array-template="subnav-template"
             hx-context='${JSON.stringify(context)}'>
           </div>`;
