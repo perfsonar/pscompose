@@ -1,37 +1,39 @@
+#
+# Makefile for unibuild top-level directory
+#
 
-ifdef PSCOMPOSE_SETTINGS
-TEST_CONFIG := $(PSCOMPOSE_SETTINGS)
-else
-TEST_CONFIG := ./SAMPLE_CONFIG.yml
+default: build
+
+
+BUILD_LOG=unibuild-log
+
+ifdef START
+UNIBUILD_OPTS += --start $(START)
+endif
+ifdef STOP
+UNIBUILD_OPTS += --stop $(STOP)
 endif
 
-.PHONY: run-api
-run-api:
-	uvicorn pscompose.api.api:app --reload --host 0.0.0.0 --port 8000 --root-path /api
+# The shell command below does the equivalent of BASH's pipefail
+# within the confines of POSIX.
+# Source: https://unix.stackexchange.com/a/70675/15184
+build:
+	rm -rf $(BUILD_LOG)
+	((( \
+	(unibuild build $(UNIBUILD_OPTS); echo $$? >&3) \
+	| tee $(BUILD_LOG) >&4) 3>&1) \
+	| (read XS; exit $$XS) \
+	) 4>&1
+TO_CLEAN += $(BUILD_LOG)
 
-.PHONY: docker-build
-docker-build:
-	@echo "Building docker image..."
-	$(eval HASH := $(shell docker build -q .))
-	@echo $(HASH)
 
-.PHONY: docker
-docker: docker-build
-	docker run -p "8080:80" -it $(HASH)
+uninstall:
+	unibuild make --reverse $@
 
-.PHONY: css-watch
-css-watch:
-	@echo "Starting tailwind via npm to watch for CSS changes..."
-	cd pscompose/frontend && npm run css-watch
+fresh: uninstall build
 
-.PHONY: run-frontend
-run-frontend:
-	@echo "Starting simple HTTP server on http://localhost:5001/"
-	cd pscompose/frontend && npm run generate-components-index && python3 server.py --port=5001
-
-.PHONY: test
-test:
-	@echo "Running pytest test harness for Frontend (playwright/pytest) and Backend (standard pytest) tests..."
-	source venv/bin/activate && pip install -r dev_requirements.txt
-	source venv/bin/activate && playwright install
-	source venv/bin/activate && PSCOMPOSE_SETTINGS=$(TEST_CONFIG) python3 -m pytest -v -s tests/*.py
+clean:
+	unibuild make $(UNIBUILD_OPTS) clean
+	unibuild clean
+	rm -rf $(TO_CLEAN)
+	find . -name '*~' | xargs rm -f

@@ -1,9 +1,9 @@
 # ignore some config files:
 .pre-commit-config.yaml
-package-lock.json
-pscompose/package-lock.json
-pscompose/frontend/components/json_forms.esm.js
-docker-compose.yml
-pnpm-lock.yaml
-yarn.lock
-pscompose/frontend/tailwind.config.js
+pscompose/perfsonar-pscompose/package-lock.json
+pscompose/perfsonar-pscompose/pscompose/package-lock.json
+pscompose/perfsonar-pscompose/pscompose/frontend/components/json_forms.esm.js
+pscompose/perfsonar-pscompose/docker-compose.yml
+pscompose/perfsonar-pscompose/pnpm-lock.yaml
+pscompose/perfsonar-pscompose/yarn.lock
+pscompose/perfsonar-pscompose/pscompose/frontend/tailwind.config.js
