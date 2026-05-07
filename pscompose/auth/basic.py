@@ -41,10 +41,16 @@ class BasicBackend:
         else:
             raise HTTPException(status_code=401, detail="Invalid user")
 
-    def create_user(self, email, name, password, scopes):
+    def create_user(self, email, name, password, scopes, favorites=None):
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password.encode(), salt)
-        new_user = UserTable(username=email, name=name, password=hashed_password, scopes=scopes)
+        new_user = UserTable(
+            username=email,
+            name=name,
+            password=hashed_password,
+            scopes=scopes,
+            favorites=favorites or [],
+        )
         self.session.add(new_user)
         self.session.commit()
         return User(
@@ -65,7 +71,9 @@ class BasicBackend:
             scopes=db_user.scopes,
         )
 
-    def update_user(self, db_user, email=None, name=None, password=None, scopes=None, favorites=None):
+    def update_user(
+        self, db_user, email=None, name=None, password=None, scopes=None, favorites=None
+    ):
         if email:
             db_user.username = email
         if name:

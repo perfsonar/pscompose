@@ -1,5 +1,5 @@
 async function fetchFavoriteIDs() {
-    const response = await fetch(`${window.API_BASE_URL}/favorites/ssbaveja/id/`, {
+    const response = await fetch(`${window.API_BASE_URL}/favorites/${USERNAME}/id/`, {
         method: "GET",
         headers: { Authorization: `${AUTH_HEADER}` },
     });
