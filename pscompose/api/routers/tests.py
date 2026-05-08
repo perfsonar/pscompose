@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import (
+from pscompose.form_schemas.test_schemas import (
     TEST_SCHEMA,
     TEST_UI_SCHEMA,
     idle_schema,

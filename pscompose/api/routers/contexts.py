@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import CONTEXT_SCHEMA, CONTEXT_UI_SCHEMA
+from pscompose.form_schemas.context_schemas import CONTEXT_SCHEMA, CONTEXT_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("context")

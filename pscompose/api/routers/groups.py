@@ -4,11 +4,12 @@ from fastapi.responses import JSONResponse
 
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
+from pscompose.form_schemas.group_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
 from pscompose.utils import generate_router, enrich_schema
 
 # Setup CRUD endpoints
 router = generate_router("group")
+
 
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
@@ -44,7 +45,7 @@ def sanitize_data(data):
 
         if "group_type" in data:
             del data["group_type"]
-     
+
     else:
         filtered_json = json_data
 
@@ -53,7 +54,7 @@ def sanitize_data(data):
         if json_data.get(key) is not None:
             address_id_array = []
             for address in json_data.get(key, []):
-                obj = { "name": address }  # or {name: id} based on your variables
+                obj = {"name": address}  # or {name: id} based on your variables
                 if address not in ref_set:
                     ref_set.append(address)
                 address_id_array.append(obj)
@@ -62,6 +63,7 @@ def sanitize_data(data):
     data["ref_set"] = ref_set
     data["json"] = filtered_json
     return data
+
 
 def sanitize_response(response_json):
     json_data = response_json.copy()
@@ -73,7 +75,9 @@ def sanitize_response(response_json):
 
     return json_data
 
+
 router.sanitize = sanitize_data
+
 
 # Custom endpoints
 @router.get("/group/new/form/", summary="Return the new form to be rendered")

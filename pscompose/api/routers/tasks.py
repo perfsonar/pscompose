@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import TASK_SCHEMA, TASK_UI_SCHEMA
+from pscompose.form_schemas.task_schemas import TASK_SCHEMA, TASK_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("task")
@@ -17,6 +17,7 @@ router = generate_router("task")
 _test_tools_cache = None
 
 PSCHEDULER_BASE_URL = "https://chic-ps-lat.es.net/pscheduler"
+
 
 def sanitize_data(data):
     json_data = data["json"]
@@ -27,17 +28,19 @@ def sanitize_data(data):
             value = json_data.get(key)
             if value not in ref_set:
                 ref_set.append(json_data.get(key))
-    
-    if json_data.get('archives') is not None:
-        for archive in json_data.get('archives'):
+
+    if json_data.get("archives") is not None:
+        for archive in json_data.get("archives"):
             if archive is not None and archive not in ref_set:
                 ref_set.append(archive)
 
     data["ref_set"] = ref_set
-    
+
     return data
 
+
 router.sanitize = sanitize_data
+
 
 def build_test_tools_mapping():
     """

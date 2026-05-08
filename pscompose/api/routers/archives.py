@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import ARCHIVE_SCHEMA, ARCHIVE_UI_SCHEMA, http_schema
+from pscompose.form_schemas.archive_schemas import ARCHIVE_SCHEMA, ARCHIVE_UI_SCHEMA, http_schema
 
 # Setup CRUD endpoints
 router = generate_router("archive")
