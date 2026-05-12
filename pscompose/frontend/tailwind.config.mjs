@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-const tokens = require("@esnet/esnet-tokens");
+import * as tokens from "@esnet/esnet-tokens";
 
-module.exports = {
+export default {
   content: [
     "./mockups/**/*.html",
     "./app/**/*.html",

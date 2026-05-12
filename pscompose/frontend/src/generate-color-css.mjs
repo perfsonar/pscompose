@@ -1,6 +1,6 @@
 // This script generates a css/color.css defining themed color variables
-const fs = require("fs");
-const tokens = require("@esnet/esnet-tokens");
+import fs from "fs";
+import * as tokens from "@esnet/esnet-tokens";
 
 const css = `
 /* AUTO-GENERATED — DO NOT EDIT */

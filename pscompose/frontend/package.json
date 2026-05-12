@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.html",
     "scripts": {
-        "css-watch": "node ./src/generate-color-css.js && npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch",
-        "generate-components-index": "node ./src/generate-components-index.js"
+        "css-watch": "node ./src/generate-color-css.mjs && npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch",
+        "generate-components-index": "node ./src/generate-components-index.mjs"
     },
     "dependencies": {
         "@esnet/esnet-tokens": "^1.1.0",
