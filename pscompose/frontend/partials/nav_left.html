@@ -151,9 +151,10 @@
             psCompose.activeMenuItem = psCompose.activeRoute.key;
         }
 
-        const endpoint = favorites_data
-            ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + "favorites/" + "ssbaveja"
-            : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
+        const endpoint =
+            favorites_data && favorites_data.length > 0
+                ? psCompose.nav[psCompose.activeMenuItem].list_endpoint + "favorites/" + USERNAME
+                : psCompose.nav[psCompose.activeMenuItem].list_endpoint;
         const context = { psCompose, favorites_data: favorites_data || [] };
 
         subnavContainer.innerHTML = `
