@@ -63,7 +63,8 @@ export class PSInputNumber extends PSInputText {
 
         let newValue = currentValue + direction * step;
         newValue = Math.min(max, Math.max(min, newValue));
-        this.inputEl.value = newValue;
+        const decimals = (step.toString().split(".")[1] || "").length;
+        this.inputEl.value = parseFloat(newValue.toFixed(decimals));
     };
 
     render() {
