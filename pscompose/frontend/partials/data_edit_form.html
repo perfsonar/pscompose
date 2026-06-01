@@ -117,6 +117,7 @@
         if (bool) {
             // EDIT MODE
             hideSubnav();
+            sameNameValidationEventListener();
 
             // For each datatype update as needed
             switch (datatype) {
@@ -211,8 +212,6 @@
         document.querySelectorAll(".confirm-data-name").forEach((name) => {
             name.textContent = elem?.data?.name || "";
         });
-
-        sameNameValidationEventListener();
     });
 
     // Change
