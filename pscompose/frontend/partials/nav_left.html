@@ -183,7 +183,7 @@
     // SHOW/HIDE subnav
     async function showSubnav() {
         if (subnavContainer.classList.contains("open")) return;
-        if (shortcutsContainer.classList.contains("open")) await hideShortcuts();
+        if (shortcutsContainer.classList.contains("open")) hideShortcuts();
 
         subnavContainer.classList.remove("hidden");
         subnavContainer.offsetWidth;
@@ -273,7 +273,7 @@
         }
     }
 
-    function handleSelectMode(e) {
+    async function handleSelectMode(e) {
         const btn = e.currentTarget;
 
         // change btn to x
@@ -290,6 +290,37 @@
         const deleteBtn = document.querySelector(".delete-all-btn");
         deleteBtn.classList.add("selecting");
         deleteBtn.addEventListener("click", handleDelete);
+
+        // Disable delete for cases where it will invalidate parent
+        const items = subnavContainer.querySelectorAll(".subnav-item");
+        await Promise.all(
+            Array.from(items).map(async (item) => {
+                try {
+                    const response = await fetch(
+                        `${psCompose.nav[psCompose.activeMenuItem].list_endpoint}${item.id}/find/`,
+                        {
+                            method: "GET",
+                            headers: { Authorization: `${AUTH_HEADER}` },
+                        },
+                    );
+
+                    const data = await response.json();
+
+                    if (data.length > 0) {
+                        item.style.opacity = "0.4";
+                        item.style.pointerEvents = "none";
+
+                        const checkbox = item.querySelector('input[type="checkbox"]');
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                            checkbox.style.cursor = "not-allowed";
+                        }
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            }),
+        );
 
         // Init Selected List
         document.querySelector("#subnav-list").setAttribute("data-list", JSON.stringify([])); // Init Empty List
@@ -316,6 +347,12 @@
 
         // change mode by adding class descriptor
         document.getElementById("subnav-list").classList.remove("select");
+
+        // Reverse - disable delete for cases where it will invalidate parent
+        subnavContainer.querySelectorAll(".subnav-item").forEach((item) => {
+            item.style.opacity = "";
+            item.style.pointerEvents = "";
+        });
 
         // Add delete btn
         const deleteBtn = document.querySelector(".delete-all-btn");
