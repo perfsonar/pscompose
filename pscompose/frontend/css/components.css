@@ -633,12 +633,12 @@ ps-select-multi {
     display: none;
 }
 
-ps-select-excludes #excludes-add-btn {
+ps-custom-excludes #excludes-add-btn {
     display: flex;
     margin-top: 8px;
 }
 
-ps-select-excludes[disabled] #excludes-add-btn {
+ps-custom-excludes[disabled] #excludes-add-btn {
     display: none;
 }
 
@@ -979,6 +979,10 @@ ps-modal .data-box {
     animation-name: fadeIn;
     animation-duration: 150ms;
     animation-timing-function: ease;
+}
+
+#confirm-modal .save-cancel {
+    width: 80%;
 }
 
 #confirm-modal > .modal-underlay {
