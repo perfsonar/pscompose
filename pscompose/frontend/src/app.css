@@ -469,7 +469,7 @@ table .tags {
     @apply flex flex-col items-center gap-md w-full;
 }
 
-.shortcuts .list-box:hover {
+.list-box:hover {
     @apply translate-y-[-1px] scale-[1.02];
 }
 
@@ -749,7 +749,7 @@ json-form {
 }
 
 .refset .refset-container .list-box {
-    @apply text-copyAlt p-md;
+    @apply text-copy p-md;
     flex: 0 0 calc(33.333% - 1rem);
 }
 
