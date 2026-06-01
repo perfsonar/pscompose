@@ -166,8 +166,6 @@
                         "link",
                         `${window.API_BASE_URL}/template/address/${id}/`,
                     );
-
-                    // TODO: addressTemplateBtn - api link
                     break;
                 case "task":
                     document.querySelector("ps-button[data-task-ref]")?.remove();
@@ -247,12 +245,7 @@
 
     // Cancel
     document.getElementById("cancel-btn").addEventListener("click", () => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("id", id);
-        url.searchParams.delete("edit");
-
-        window.history.pushState({}, "", url.toString());
-        editMode(false);
+        window.history.back();
     });
 
     // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
