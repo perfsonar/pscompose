@@ -8,6 +8,7 @@ export class PSButton extends HTMLElement {
         "righticon",
         "link",
         "confirm-modal",
+        "newtab",
     ];
 
     constructor() {
@@ -62,6 +63,12 @@ export class PSButton extends HTMLElement {
     set disabled(v) {
         v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
     }
+    get newtab() {
+        return this.hasAttribute("newtab");
+    }
+    set newtab(v) {
+        v ? this.setAttribute("newtab", "") : this.removeAttribute("newtab");
+    }
 
     connectedCallback() {
         this.render();
@@ -86,7 +93,9 @@ export class PSButton extends HTMLElement {
         this.innerHTML = `
             ${
                 this.link
-                    ? `<a href="${this.link}" target="_blank" style="text-decoration: none;">`
+                    ? `<a href="${this.link}" ${
+                          this.newtab ? `target="_blank"` : ""
+                      } style="text-decoration: none;">`
                     : ""
             }
             <button 
