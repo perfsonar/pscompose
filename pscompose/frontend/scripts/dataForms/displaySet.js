@@ -5,13 +5,11 @@ async function taskReference() {
     if (refField.parentElement.querySelector("ps-button[data-task-ref]")) return;
 
     // Create ps-button
+    const isEdit = ref_data !== undefined && "display-task-group" in ref_data;
     const button = document.createElement("ps-button");
-    button.label =
-        ref_data !== undefined && "display-task-group" in ref_data
-            ? "Edit Display Set"
-            : "Add Display Set";
+    button.label = isEdit ? "Edit Display Set" : "Add Display Set";
     button.setAttribute("theme", "AddBtn");
-    button.setAttribute("lefticon", "plus");
+    button.setAttribute("lefticon", isEdit ? "edit" : "plus");
     button.setAttribute("type", "button");
     button.setAttribute("confirm-modal", "task-modal");
     button.addEventListener("click", async function () {
@@ -98,12 +96,12 @@ async function addressMetaData() {
     if (metaField.parentElement.querySelector("ps-button[data-address-meta]")) return;
 
     // Create ps-button
+    const isEdit = data !== undefined && "display-set" in data;
     const button = document.createElement("ps-button");
-    button.label =
-        data !== undefined && "display-set" in data ? "Edit Display Set" : "Add Display Set";
+    button.label = isEdit ? "Edit Display Set" : "Add Display Set";
     button.setAttribute("type", "button");
     button.setAttribute("theme", "AddBtn");
-    button.setAttribute("lefticon", "plus");
+    button.setAttribute("lefticon", isEdit ? "edit" : "plus");
     button.setAttribute("confirm-modal", "address-modal");
     button.addEventListener("click", async function (event) {
         document.dispatchEvent(new Event("validated"));
@@ -112,9 +110,7 @@ async function addressMetaData() {
     // Create modal
     const modal = document.createElement("ps-modal");
     const displaySet =
-        data !== undefined && "display-set" in data
-            ? JSON.stringify(data["display-set"] || data["display-name"])
-            : "";
+        data !== undefined && "display-set" in data ? JSON.stringify(data["display-set"]) : "";
     modal.id = "address-modal";
     modal.setAttribute("question", button.label);
     modal.setAttribute("confirm-label", "Save");
