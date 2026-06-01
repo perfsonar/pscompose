@@ -60,6 +60,17 @@ def sanitize_data(data):
                 address_id_array.append(obj)
             filtered_json[key] = address_id_array
 
+    if json_data.get("excludes"):
+        excludes = json_data.get("excludes")
+        for exclude in excludes:
+            local_address = exclude.get("local-address").get("name")
+            if local_address not in ref_set:
+                ref_set.append(exclude.get("local-address").get("name"))
+            for target in exclude.get("target-addresses"):
+                target_address = target.get("name")
+                if target_address not in ref_set:
+                    ref_set.append(target.get("name"))
+
     data["ref_set"] = ref_set
     data["json"] = filtered_json
     return data
