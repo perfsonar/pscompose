@@ -162,7 +162,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "ps-select-excludes",
+                    "customComponent": "ps-custom-excludes",
                 },
                 {
                     "type": "Control",
@@ -192,7 +192,7 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "ps-select-excludes",
+                    "customComponent": "ps-custom-excludes",
                 },
                 {
                     "type": "Control",

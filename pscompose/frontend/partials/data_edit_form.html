@@ -22,7 +22,12 @@
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Open Raw JSON</div>
-                    <ps-button id="url-json-btn" righticon="file-json" theme="Icon"></ps-button>
+                    <ps-button
+                        id="url-json-btn"
+                        righticon="file-json"
+                        theme="Icon"
+                        newtab="true"
+                    ></ps-button>
                 </div>
                 <div class="action-icon address" style="display: none">
                     <div class="tooltip">Template using this address</div>
@@ -112,6 +117,8 @@
         if (bool) {
             // EDIT MODE
             hideSubnav();
+            sameNameValidationEventListener();
+            invalidRefsetRender();
 
             // For each datatype update as needed
             switch (datatype) {
@@ -121,12 +128,6 @@
                 case "task":
                     filterTools();
                     taskReference();
-                    break;
-                case "group":
-                    invalidRefsetRender();
-                    break;
-                case "test":
-                    invalidRefsetRender();
                     break;
             }
         } else {
@@ -161,8 +162,6 @@
                         "link",
                         `${window.API_BASE_URL}/template/address/${id}/`,
                     );
-
-                    // TODO: addressTemplateBtn - api link
                     break;
                 case "task":
                     document.querySelector("ps-button[data-task-ref]")?.remove();
@@ -208,8 +207,6 @@
         document.querySelectorAll(".confirm-data-name").forEach((name) => {
             name.textContent = elem?.data?.name || "";
         });
-
-        sameNameValidationEventListener();
     });
 
     // Change
@@ -242,15 +239,17 @@
 
     // Cancel
     document.getElementById("cancel-btn").addEventListener("click", () => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("id", id);
-        url.searchParams.delete("edit");
-
-        window.history.pushState({}, "", url.toString());
-        editMode(false);
+        window.history.back();
+        window.addEventListener(
+            "popstate",
+            () => {
+                window.location.reload();
+            },
+            { once: true },
+        );
     });
 
-    // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
+    // Invalid Parent When Deletex
     function invalidRefsetRender() {
         const refsetContainer = document.querySelector(".refset-container");
         const allHaveIds = Array.from(refsetContainer.children).every((child) => child.id);
@@ -263,8 +262,5 @@
         const tooltip = document.createElement("ps-tooltip");
         tooltip.setAttribute("desc", "Delete blocked: This will break the parent template");
         document.querySelector(".refset").querySelector("h6").appendChild(tooltip);
-
-        /* V1.1TODO: Add delete all button */
-        // Might need to collect a list of parent template it affects by deleting all tasks
     }
 </script>

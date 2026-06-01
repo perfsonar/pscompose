@@ -1,6 +1,6 @@
 import { PSFormControl } from "./ps-form-control.js";
 
-export class excludesSelect extends PSFormControl {
+export class customExcludes extends PSFormControl {
     static get observedAttributes() {
         return [
             "class",
@@ -29,9 +29,7 @@ export class excludesSelect extends PSFormControl {
     }
 
     getSelectedLocalAddresses() {
-        return Array.from(this.querySelectorAll("ps-select")).map(
-            (dropdown) => dropdown.value,
-        );
+        return Array.from(this.querySelectorAll("ps-select")).map((dropdown) => dropdown.value);
     }
 
     getAvailableLocalAddresses() {
@@ -113,9 +111,7 @@ export class excludesSelect extends PSFormControl {
                     this.getAvailableLocalAddresses(),
                 )}'>
                 </ps-select>
-                <ps-select-multi label="Target Addresses" options='${JSON.stringify(
-                    this.options,
-                )}'>
+                <ps-select-multi label="Target Addresses" options='${JSON.stringify(this.options)}'>
                 </ps-select-multi>
             </div>
             <ps-button id="excludes-minus-btn" type="button" righticon="trash-2" theme="Icon"></ps-button>
@@ -231,4 +227,4 @@ export class excludesSelect extends PSFormControl {
     }
 }
 
-customElements.define("ps-select-excludes", excludesSelect);
+customElements.define("ps-custom-excludes", customExcludes);

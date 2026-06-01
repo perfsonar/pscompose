@@ -1,17 +1,15 @@
 async function filterTools() {
+    const elem = document.querySelector("json-form");
     const formData = JSON.parse(elem.serializeForm());
     const testId = formData.test;
     if (!testId) return;
 
     try {
         // Fetch the selected test to get its type
-        const testResponse = await fetch(
-            `${window.API_BASE_URL}/test/${testId}/`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            },
-        );
+        const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
 
         if (testResponse.ok) {
             const testData = await testResponse.json();
@@ -44,10 +42,7 @@ async function filterTools() {
                         currentSchema.properties.tools.items.oneOf = toolsOneOf;
                     }
 
-                    elem.setAttribute(
-                        "schema-data",
-                        JSON.stringify(currentSchema),
-                    );
+                    elem.setAttribute("schema-data", JSON.stringify(currentSchema));
                     console.log(
                         `Populated tools on initial load: ${toolsOneOf.length} compatible tools for test type ${testType}`,
                     );
@@ -83,13 +78,10 @@ async function updateToolsDropdown(testId) {
         }
 
         // Fetch available tools for this test type
-        const toolsResponse = await fetch(
-            `${window.API_BASE_URL}/task/tools/${testType}/`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            },
-        );
+        const toolsResponse = await fetch(`${window.API_BASE_URL}/task/tools/${testType}/`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
 
         if (!toolsResponse.ok) {
             console.error(`No tools found for test type: ${testType}`);

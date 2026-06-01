@@ -14,23 +14,29 @@ export class InputTextAreaJSON extends PSFormControl {
         this.textAreaEl?.addEventListener("change", (e) => {
             e.preventDefault();
             this.markDirty();
-            const raw = this.textAreaEl.value;
+            const raw = this.textAreaEl.value.trim();
             try {
                 this.value = JSON.parse(raw);
             } catch (err) {
+                // Not valid JSON, treat as plain string
                 this.value = raw;
             }
-            // this.value = this.textAreaEl.value;
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
         this.textAreaEl?.addEventListener("input", () => this.markDirty(), { once: true });
         this.textAreaEl?.addEventListener("blur", () => this.markDirty(), { once: true });
     }
 
+    formatValue(value) {
+        if (value === null || value === undefined) return "";
+        if (typeof value === "string") return value;
+        return JSON.stringify(value, null, 2);
+    }
+
     render() {
         this.textAreaEl = this.querySelector("textarea");
         this.textAreaEl.placeholder = `Enter ${this.label}`;
-        if (this.value) this.textAreaEl.value = JSON.stringify(this.value, null, 2);
+        if (this.value) this.textAreaEl.value = this.formatValue(this.value);
         this.attachEventListener();
     }
 }
