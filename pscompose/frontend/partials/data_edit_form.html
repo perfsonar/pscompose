@@ -246,6 +246,13 @@
     // Cancel
     document.getElementById("cancel-btn").addEventListener("click", () => {
         window.history.back();
+        window.addEventListener(
+            "popstate",
+            () => {
+                window.location.reload();
+            },
+            { once: true },
+        );
     });
 
     // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
