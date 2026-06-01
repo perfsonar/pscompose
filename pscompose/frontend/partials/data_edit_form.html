@@ -118,6 +118,7 @@
             // EDIT MODE
             hideSubnav();
             sameNameValidationEventListener();
+            invalidRefsetRender();
 
             // For each datatype update as needed
             switch (datatype) {
@@ -127,12 +128,6 @@
                 case "task":
                     filterTools();
                     taskReference();
-                    break;
-                case "group":
-                    invalidRefsetRender();
-                    break;
-                case "test":
-                    invalidRefsetRender();
                     break;
             }
         } else {
@@ -254,7 +249,7 @@
         );
     });
 
-    // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
+    // Invalid Parent When Deletex
     function invalidRefsetRender() {
         const refsetContainer = document.querySelector(".refset-container");
         const allHaveIds = Array.from(refsetContainer.children).every((child) => child.id);
@@ -267,8 +262,5 @@
         const tooltip = document.createElement("ps-tooltip");
         tooltip.setAttribute("desc", "Delete blocked: This will break the parent template");
         document.querySelector(".refset").querySelector("h6").appendChild(tooltip);
-
-        /* V1.1TODO: Add delete all button */
-        // Might need to collect a list of parent template it affects by deleting all tasks
     }
 </script>
