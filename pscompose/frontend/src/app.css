@@ -748,7 +748,7 @@ fieldset.array-list .array-list-item:has(label) label {
     font-weight: 500;
 }
 
-.fieldset.array-list .array-list-no-data {
+.array-list-no-data {
     display: none;
 }
 
