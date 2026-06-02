@@ -57,9 +57,10 @@ export class PSInputNumber extends PSInputText {
         const step = this.inputEl.hasAttribute("step") ? parseFloat(this.inputEl.step) : 1;
         const min = this.inputEl.hasAttribute("min") ? parseFloat(this.inputEl.min) : -Infinity;
         const max = this.inputEl.hasAttribute("max") ? parseFloat(this.inputEl.max) : Infinity;
-        let currentValue = parseFloat(this.inputEl.value);
+        const currentValue = parseFloat(this.inputEl.value);
 
-        if (isNaN(currentValue)) currentValue = 0;
+        // If the field is empty, don't do anything
+        if (isNaN(currentValue)) return;
 
         let newValue = currentValue + direction * step;
         newValue = Math.min(max, Math.max(min, newValue));
