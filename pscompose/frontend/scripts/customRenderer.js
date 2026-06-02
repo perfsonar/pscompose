@@ -22,7 +22,11 @@ function createCustomRenderer(componentName) {
         const props = {
             id: schema?.uischema.scope ?? false,
             path: schema_path,
-            label: s.title ?? false,
+            label:
+                s.title ??
+                (schema_path
+                    ? schema_path.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+                    : false),
             required,
             error: schema?.errors ?? false,
             description: s.description ?? undefined,
@@ -36,10 +40,14 @@ function createCustomRenderer(componentName) {
 
         // numeric constraints
         if (s.minimum != null) props.min = s.minimum;
+        else if (s.exclusiveMinimum != null) props.min = s.exclusiveMinimum;
+
         if (s.maximum != null) props.max = s.maximum;
+        else if (s.exclusiveMaximum != null) props.max = s.exclusiveMaximum;
+
         if (s.multipleOf != null) props.step = s.multipleOf;
-        else if (s.minimum != null && s.maximum != null && s.maximum > s.minimum) {
-            const range = s.maximum - s.minimum;
+        else if (props.min != null && props.max != null && props.max > props.min) {
+            const range = props.max - props.min;
             props.step = Math.pow(10, Math.floor(Math.log10(range)) - 1);
         }
 
