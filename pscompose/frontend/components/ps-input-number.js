@@ -65,6 +65,7 @@ export class PSInputNumber extends PSInputText {
         newValue = Math.min(max, Math.max(min, newValue));
         const decimals = (step.toString().split(".")[1] || "").length;
         this.inputEl.value = parseFloat(newValue.toFixed(decimals));
+        this.inputEl.dispatchEvent(new Event("change", { bubbles: true }));
     };
 
     render() {
