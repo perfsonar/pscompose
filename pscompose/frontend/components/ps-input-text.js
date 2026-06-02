@@ -20,13 +20,14 @@ export class PSInputText extends PSFormControl {
                     this.files = this.inputEl.files;
                     break;
                 case "number":
-                    this.value = this.inputEl.value === undefined ? "" : Number(this.inputEl.value);
+                    this.value = this.inputEl.value === "" ? undefined : Number(this.inputEl.value);
                     break;
                 case "checkbox":
                     this.value = Boolean(this.inputEl.checked);
                     break;
                 default:
-                    this.value = this.inputEl.value === undefined ? "" : this.inputEl.value;
+                    this.value = this.inputEl.value === "" ? undefined : this.inputEl.value;
+                    break;
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
