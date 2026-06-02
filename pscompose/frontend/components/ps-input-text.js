@@ -27,6 +27,7 @@ export class PSInputText extends PSFormControl {
                     break;
                 default:
                     this.value = this.inputEl.value === "" ? undefined : this.inputEl.value;
+                    break;
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });

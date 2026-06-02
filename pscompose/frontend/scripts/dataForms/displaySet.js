@@ -7,7 +7,7 @@ async function taskReference() {
     // Create ps-button
     const isEdit = ref_data !== undefined && "display-task-group" in ref_data;
     const button = document.createElement("ps-button");
-    button.label = isEdit ? "Edit Display Set" : "Add Display Set";
+    button.label = isEdit ? "Edit Display Field" : "Add Display Field";
     button.setAttribute("theme", "AddBtn");
     button.setAttribute("lefticon", isEdit ? "edit" : "plus");
     button.setAttribute("type", "button");

@@ -669,6 +669,89 @@ table .tags {
     @apply flex pt-lg;
 }
 
+/* vanilla array renderer */
+fieldset.array-list {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+legend.array-list-legend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+label.array-list-label {
+    font-weight: 600;
+}
+
+button.array-list-add {
+    order: -1;
+}
+
+.array-list-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.array-list-item {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+}
+
+.array-list-item-toolbar {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+.array-list-item-children {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+}
+
+.array-list-item-children > * {
+    width: 100%;
+}
+
+.array-list-item-content {
+    width: 100%;
+}
+
+fieldset.array-list {
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset.array-list .array-list-item-label {
+    display: none;
+}
+
+fieldset.array-list ps-button[label="Add"] {
+    order: 999;
+}
+
+fieldset.array-list .array-list-item:has(label) label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.array-list-no-data {
+    display: none;
+}
+
 @keyframes jsonFormFadeIn {
     0% {
         transform: translateY(-3%);
