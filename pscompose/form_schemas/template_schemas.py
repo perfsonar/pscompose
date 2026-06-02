@@ -55,7 +55,7 @@ TEMPLATE_IMPORT_SCHEMA = {
         },
         "orphanData": {
             "type": "boolean",
-            "title": "Import Orphan Datas",
+            "title": "Import Orphan Data",
             "description": "Any child data types that aren’t referenced in the parent template will be created if checked.",
         },
         "importVia": {
