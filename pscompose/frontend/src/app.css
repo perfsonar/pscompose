@@ -817,9 +817,6 @@ json-form {
 }
 
 .refset {
-    @apply hidden;
-}
-.refset:has(.refset-container .list-box) {
     @apply flex flex-col bg-surface_1 p-lg rounded-lg gap-md;
 }
 
