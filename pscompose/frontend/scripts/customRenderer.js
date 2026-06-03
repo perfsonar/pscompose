@@ -100,6 +100,12 @@ document.body.addEventListener("json-form:updated", (event) => {
                     comp.disabled = true;
                 } else {
                     comp.disabled = false;
+                    document
+                        .querySelectorAll(".array-list-add, .array-list-item-delete")
+                        .forEach((btn) => {
+                            btn.disabled = false;
+                            btn.removeAttribute("disabled");
+                        });
                 }
             });
     });
@@ -117,62 +123,3 @@ document.addEventListener("markAllDirty", () => {
 
     newMessageBanner("Form fields not all valid", "Error", true);
 });
-
-/* Array Controls */
-function replaceArrayControls() {
-    // replace add buttons
-    document.querySelectorAll("button.array-list-add").forEach((btn) => {
-        if (btn.dataset.replaced) return;
-        btn.style.display = "none";
-
-        const psBtn = document.createElement("ps-button");
-        psBtn.setAttribute("type", "button");
-        psBtn.setAttribute("label", "Add");
-        psBtn.setAttribute("lefticon", "plus");
-        psBtn.setAttribute("theme", "Small");
-        psBtn.addEventListener("click", () => {
-            btn.click();
-            requestAnimationFrame(() => replaceArrayControls());
-        });
-
-        const fieldset = btn.closest("fieldset.array-list");
-        fieldset.appendChild(psBtn);
-
-        btn.dataset.replaced = "true";
-    });
-
-    // replace delete buttons and move toolbar to end
-    document.querySelectorAll(".array-list-item").forEach((row) => {
-        const toolbar = row.querySelector(".array-list-item-toolbar");
-        if (!toolbar) return;
-
-        const deleteBtn = toolbar.querySelector("button.array-list-item-delete");
-        const alreadyReplaced = toolbar.querySelector('ps-button[righticon="trash-2"]');
-
-        if (deleteBtn && !alreadyReplaced) {
-            deleteBtn.style.display = "none";
-
-            const psDelete = document.createElement("ps-button");
-            psDelete.setAttribute("type", "button");
-            psDelete.setAttribute("righticon", "trash-2");
-            psDelete.setAttribute("theme", "Icon");
-            psDelete.addEventListener("click", () => deleteBtn.click());
-
-            toolbar.appendChild(psDelete);
-        }
-
-        toolbar
-            .querySelector("button.array-list-item-move-up")
-            ?.style.setProperty("display", "none");
-        toolbar
-            .querySelector("button.array-list-item-move-down")
-            ?.style.setProperty("display", "none");
-
-        if (toolbar.parentElement.lastElementChild !== toolbar) {
-            row.appendChild(toolbar);
-        }
-    });
-}
-
-document.body.addEventListener("json-form:updated", replaceArrayControls);
-replaceArrayControls();
