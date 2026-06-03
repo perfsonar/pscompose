@@ -46,9 +46,30 @@ def sanitize_data(data):
         if "group_type" in data:
             del data["group_type"]
 
+    # Formatting Excludes
+    # FROM {'local-address': id, 'target-addresses': [id, id]}
+    # TO {"local-address": {"name": id }, "target-addresses": [{"name": id}, ...]}
+    exclude_addresses = []
+    if json_data.get("excludes"):
+        filtered_json["excludes"] = []
+        for exclude in json_data["excludes"]:
+            local = exclude["local-address"]
+            targets = exclude["target-addresses"]
+
+            exclude_addresses.append(local)
+            exclude_addresses.extend(targets)
+
+            filtered_json["excludes"].append(
+                {
+                    "local-address": {"name": local},
+                    "target-addresses": [{"name": t} for t in targets],
+                }
+            )
+
     else:
         filtered_json = json_data
 
+    # Update Refset
     ref_set = data["ref_set"]
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
@@ -60,16 +81,9 @@ def sanitize_data(data):
                 address_id_array.append(obj)
             filtered_json[key] = address_id_array
 
-    if json_data.get("excludes"):
-        excludes = json_data.get("excludes")
-        for exclude in excludes:
-            local_address = exclude.get("local-address").get("name")
-            if local_address not in ref_set:
-                ref_set.append(exclude.get("local-address").get("name"))
-            for target in exclude.get("target-addresses"):
-                target_address = target.get("name")
-                if target_address not in ref_set:
-                    ref_set.append(target.get("name"))
+    for exclude in exclude_addresses:
+        if exclude not in ref_set:
+            ref_set.append(exclude)
 
     data["ref_set"] = ref_set
     data["json"] = filtered_json
@@ -83,6 +97,22 @@ def sanitize_response(response_json):
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
             json_data[key] = [addr["name"] for addr in json_data.get(key, [])]
+
+    # Transform exclude address fields from list of dicts to list of strings
+    # FROM {"local-address": {"name": id}, "target-addresses": [{"name": id}, ...]}
+    # TO {'local-address': id, 'target-addresses': [id, id]}
+    if json_data.get("excludes") is not None:
+        back_excludes = json_data["excludes"]
+        front_excludes = []
+        for back_exclude in back_excludes:
+            front_exclude = {}
+
+            front_exclude["local-address"] = back_exclude["local-address"]["name"]
+            front_exclude["target-addresses"] = [
+                target["name"] for target in back_exclude["target-addresses"]
+            ]
+            front_excludes.append(front_exclude)
+        json_data["excludes"] = front_excludes
 
     return json_data
 
@@ -105,7 +135,8 @@ def get_new_form():
             "addresses": address_rows,
             "a-addresses": address_rows,
             "b-addresses": address_rows,
-            "excludes": address_rows,
+            "local-address": address_rows,
+            "target-addresses": address_rows,
         },
     )
 
@@ -141,7 +172,8 @@ def get_existing_form(item_id: str):
             "addresses": address_rows,
             "a-addresses": address_rows,
             "b-addresses": address_rows,
-            "excludes": address_rows,
+            "local-address": address_rows,
+            "target-addresses": address_rows,
         },
     )
 
