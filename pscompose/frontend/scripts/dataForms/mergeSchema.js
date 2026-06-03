@@ -53,7 +53,8 @@ function ensureVersionDropdown(group) {
 
 async function handleTypeChange(selectedType, additionalSchema) {
     console.log("Selected type ", selectedType, additionalSchema);
-    const versions = (additionalSchema?.spec?.versions || []).filter((v) => v !== null);
+    const versionsArray = additionalSchema?.spec?.jsonschema?.versions || [];
+    const versions = versionsArray.slice(1).map((_, i) => String(i + 1));
     if (!versions.length) return;
 
     const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
@@ -84,6 +85,7 @@ async function handleTypeChange(selectedType, additionalSchema) {
     const currentFormData = JSON.parse(elem.serializeForm());
     Object.keys(versionData.properties).forEach((key) => {
         const property = versionData.properties[key];
+        if (!property) return;
         if (property.default !== undefined) {
             currentFormData[key] = property.default;
         } else {
@@ -136,6 +138,7 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
 
     Object.keys(versionData.properties).forEach((key) => {
         const property = versionData.properties[key];
+        if (!property) return;
         if (property.default !== undefined) {
             currentFormData[key] = property.default;
         } else {
@@ -144,6 +147,7 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
     });
 
     currentFormData.version = String(selectedVersion);
+    currentFormData.schema = selectedVersion;
 
     elem.setAttribute("schema-data", JSON.stringify(currentSchema));
     elem.setAttribute("layout-data", JSON.stringify(currentLayout));

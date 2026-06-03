@@ -9,7 +9,11 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas.archive_schemas import ARCHIVE_SCHEMA, ARCHIVE_UI_SCHEMA, http_schema
+from pscompose.form_schemas.archive_schemas import (
+    ARCHIVE_SCHEMA,
+    ARCHIVE_UI_SCHEMA,
+    ARCHIVE_SCHEMAS,
+)
 
 # Setup CRUD endpoints
 router = generate_router("archive")
@@ -42,30 +46,45 @@ def sanitize_data(data):
         output["data"] = data_obj
 
     data["json"] = output
-
-    print("Sanitized archive data:", data)
     return data
 
 
 router.sanitize = sanitize_data
 
 
-# Custom endpoints
-@router.get("/archive/new/form/", summary="Return the new form to be rendered")
-@version(1)
-def get_new_form():
-    # TODO: This is just a placeholder
+def fetch_pscheduler_archiver_list() -> list[str]:
     url = "https://chic-ps-lat.es.net/pscheduler/archivers"
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        # data = response.json()
+        data = response.json()
+        return [el.split("/")[-1] for el in data]
     except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=503, detail=f"Failed to fetch external data: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail=f"Failed to fetch external data: {str(e)}",
+        )
 
-    # Extract just the archive names (last part of each URL)
-    archives = ["http"]
-    # archives = [el.split("/")[-1] for el in data]
+
+# Custom endpoints
+@router.get("/archive/new/form/", summary="Return the new form to be rendered")
+@version(1)
+def get_new_form():
+    """TODO: Fetch available archiver types from the pScheduler API"""
+    # archives = fetch_pscheduler_archiver_list()
+    archives = [
+        "bitbucket",
+        "esmond",
+        "failer",
+        "http",
+        "kafka",
+        "postgresql",
+        "rabbitmq",
+        "snmptrap",
+        "syslog",
+        "tcp",
+        "udp",
+    ]
     one_of = [{"const": name, "title": name.upper()} for name in archives]
 
     # Clone and enrich the schema dynamically
@@ -102,16 +121,13 @@ def get_existing_form(item_id: str, edit: bool = False):
         data_fields = response_json.pop("data")
         response_json.update(data_fields)
 
-    print("Existing archive form data:", response_json)
-    print("Edit mode:", edit)
-
     # Get the archive type and schema version from the existing data
     archive_type = response_json.get("type")
     schema_version = response_json.get("schema")
 
     if not archive_type or schema_version is None:
         # Fallback to generic schema
-        archives = ["http"]
+        archives = list(ARCHIVE_SCHEMAS.keys())
         enriched_schema = deepcopy(ARCHIVE_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
             {"const": name, "title": name.upper()} for name in archives
@@ -129,17 +145,16 @@ def get_existing_form(item_id: str, edit: bool = False):
     full_archive_schema = json.loads(archive_schema_response.body.decode("utf-8"))
 
     # Build specific version schema (works for both readonly and edit mode)
-    print(
-        "Available versions in schema:",
-        list(full_archive_schema["spec"]["jsonschema"]["versions"].keys()),
-    )
-    print("Looking for version:", schema_version, "type:", type(schema_version))
+    versions_json = full_archive_schema["spec"]["jsonschema"]["versions"]
+    versions_ui = full_archive_schema["spec"]["uischema"]["versions"]
 
-    schema_version_key = str(schema_version)
-    version_jsonschema = full_archive_schema["spec"]["jsonschema"]["versions"].get(
-        schema_version_key
+    schema_version_key = int(schema_version)
+    version_jsonschema = (
+        versions_json[schema_version_key] if schema_version_key < len(versions_json) else None
     )
-    version_uischema = full_archive_schema["spec"]["uischema"]["versions"].get(schema_version_key)
+    version_uischema = (
+        versions_ui[schema_version_key] if schema_version_key < len(versions_ui) else None
+    )
 
     if not version_jsonschema or not version_uischema:
         raise HTTPException(
@@ -148,7 +163,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build enriched schema
-    archives = ["http"]
+    archives = list(ARCHIVE_SCHEMAS.keys())
     base_schema = deepcopy(ARCHIVE_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
         {"const": name, "title": name.upper()} for name in archives
@@ -171,8 +186,6 @@ def get_existing_form(item_id: str, edit: bool = False):
             element["elements"] = version_uischema["elements"]
             break
 
-    print("Returning readonly schema for type:", archive_type, "version:", schema_version)
-
     payload = {
         "ui_schema": base_ui_schema,
         "json_schema": base_schema,
@@ -184,8 +197,5 @@ def get_existing_form(item_id: str, edit: bool = False):
 @router.get("/archive/new/{archiver}/form/", summary="Return schema for the relevant archiver")
 @version(1)
 def retrieve_form(archiver: str):
-    print("Retrieving form for archiver type:", archiver)  # archiver will be http
-    if archiver != "http":
-        return JSONResponse(content={})
-
-    return JSONResponse(content=http_schema)
+    schema = ARCHIVE_SCHEMAS.get(archiver)
+    return JSONResponse(content=schema if schema else {})
