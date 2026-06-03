@@ -671,85 +671,100 @@ table .tags {
 
 /* vanilla array renderer */
 fieldset.array-list {
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    @apply flex flex-col gap-3 border-none p-none m-none;
 }
 
 legend.array-list-legend {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    margin-bottom: 4px;
+    @apply flex flex-row items-center gap-xsm w-full mb-3;
 }
 
 label.array-list-label {
-    font-weight: 600;
+    @apply font-semibold order-first;
 }
 
 button.array-list-add {
-    order: -1;
+    @apply order-1 ml-auto flex items-center justify-center gap-xsm py-[0.2rem] px-lg rounded-[18px] 
+           bg-shadow text-copy border-2 border-shadow font-semibold text-sm cursor-pointer 
+           transition-all duration-150 ease-in-out whitespace-nowrap;
+}
+
+button.array-list-add::after {
+    content: "Add";
+}
+
+button.array-list-add:hover {
+    @apply bg-surface_1 scale-[1.03] transition-transform duration-200 ease-in-out;
+}
+
+/* When no rows — legend becomes a column so button drops below label */
+fieldset.array-list:not(:has(.array-list-item)) legend.array-list-legend {
+    @apply flex-col items-start;
+}
+
+fieldset.array-list:not(:has(.array-list-item)) button.array-list-add {
+    @apply ml-none;
 }
 
 .array-list-item-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    @apply flex flex-col gap-2;
 }
 
 .array-list-item {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    width: 100%;
+    @apply flex flex-row items-start gap-3 w-full bg-surface_1 border border-shadow rounded-lg p-lg;
 }
 
 .array-list-item-toolbar {
-    display: flex;
-    flex-direction: column;
-    margin-top: 32px;
+    @apply flex flex-col order-last ml-auto;
 }
 
 .array-list-item-children {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    width: 100%;
+    @apply flex flex-row gap-3 w-full;
 }
 
 .array-list-item-children > * {
-    width: 100%;
+    @apply w-full;
 }
 
 .array-list-item-content {
-    width: 100%;
-}
-
-fieldset.array-list {
-    display: flex;
-    flex-direction: column;
+    @apply w-full;
 }
 
 fieldset.array-list .array-list-item-label {
-    display: none;
-}
-
-fieldset.array-list ps-button[label="Add"] {
-    order: 999;
+    @apply hidden;
 }
 
 fieldset.array-list .array-list-item:has(label) label {
-    font-size: 14px;
-    font-weight: 500;
+    @apply text-sm font-medium;
 }
 
 .array-list-no-data {
-    display: none;
+    @apply hidden;
+}
+
+/* Delete button */
+button.array-list-item-delete {
+    @apply flex items-center justify-center rounded-[18px] text-copy border-none 
+           cursor-pointer text-[0] transition-all duration-150 ease-in-out;
+}
+
+button.array-list-item-delete::before {
+    content: "\00D7";
+    @apply text-2xl;
+}
+
+button.array-list-item-delete:hover {
+    @apply text-error bg-surface_1 scale-[1.03];
+}
+
+/* Hide move buttons */
+button.array-list-item-move-up,
+button.array-list-item-move-down {
+    @apply hidden;
+}
+
+json-form[readonly="true"] button.array-list-add,
+json-form[readonly="true"] button.array-list-item-delete {
+    @apply hidden;
 }
 
 @keyframes jsonFormFadeIn {

@@ -60,7 +60,30 @@ GROUP_SCHEMA = {
                             {"const": "disabled", "title": "Disabled"},
                         ],
                     },
-                    "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
+                    "excludes": {
+                        "type": "array",
+                        "title": "Excludes",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "local-address",
+                                "target-addresses",
+                            ],
+                            "properties": {
+                                "local-address": {
+                                    "type": "string",
+                                    "title": "Local Address",
+                                    "oneOf": [{}],
+                                },
+                                "target-addresses": {
+                                    "type": "array",
+                                    "title": "Target Addresses",
+                                    "items": {"oneOf": []},
+                                },
+                            },
+                            "additionalProperties": False,
+                        },
+                    },
                     "_meta": {
                         "type": "object",
                         "title": "Other Meta",
@@ -85,7 +108,30 @@ GROUP_SCHEMA = {
                             {"const": "disabled", "title": "Disabled"},
                         ],
                     },
-                    "excludes": {"type": "array", "title": "Excludes", "items": {"oneOf": []}},
+                    "excludes": {
+                        "type": "array",
+                        "title": "Excludes",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "local-address",
+                                "target-addresses",
+                            ],
+                            "properties": {
+                                "local-address": {
+                                    "type": "string",
+                                    "title": "Local Address",
+                                    "oneOf": [],
+                                },
+                                "target-addresses": {
+                                    "type": "array",
+                                    "title": "Target Addresses",
+                                    "items": {"oneOf": []},
+                                },
+                            },
+                            "additionalProperties": False,
+                        },
+                    },
                     "_meta": {
                         "type": "object",
                         "title": "Other Meta",
@@ -162,7 +208,23 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "ps-custom-excludes",
+                    "options": {
+                        "detail": {
+                            "type": "HorizontalLayout",
+                            "elements": [
+                                {
+                                    "type": "Control",
+                                    "scope": "#/properties/local-address",
+                                    "customComponent": "ps-select",
+                                },
+                                {
+                                    "type": "Control",
+                                    "scope": "#/properties/target-addresses",
+                                    "customComponent": "ps-select-multi",
+                                },
+                            ],
+                        }
+                    },
                 },
                 {
                     "type": "Control",
@@ -192,7 +254,23 @@ GROUP_UI_SCHEMA = {
                 {
                     "type": "Control",
                     "scope": "#/properties/excludes",
-                    "customComponent": "ps-custom-excludes",
+                    "options": {
+                        "detail": {
+                            "type": "HorizontalLayout",
+                            "elements": [
+                                {
+                                    "type": "Control",
+                                    "scope": "#/properties/local-address",
+                                    "customComponent": "ps-select",
+                                },
+                                {
+                                    "type": "Control",
+                                    "scope": "#/properties/target-addresses",
+                                    "customComponent": "ps-select-multi",
+                                },
+                            ],
+                        }
+                    },
                 },
                 {
                     "type": "Control",

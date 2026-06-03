@@ -14,6 +14,7 @@ from pscompose.settings import TOKEN_SCOPES
 from pscompose.auth.basic import backend as backend_user
 from pscompose.models import User
 
+
 def generate_router(datatype: str):
     """
     Generates a FastAPI router with list and item-specific endpoints for a given datatype.
@@ -38,9 +39,12 @@ def generate_router(datatype: str):
         return rows
 
     # List endpoints with favorites sorted first
-    @router.get(f"/{datatype}/favorites/{{username}}/", summary=f"List all {datatype}s with user's favorites sorted first")
+    @router.get(
+        f"/{datatype}/favorites/{{username}}/",
+        summary=f"List all {datatype}s with user's favorites sorted first",
+    )
     @version(1)
-    def list_items(
+    def list_items_favs(
         username: str,
         user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
     ):
@@ -50,8 +54,8 @@ def generate_router(datatype: str):
             raise HTTPException(status_code=422)
 
         rows = backend.get_results(datatype=datatype)
-        
-        favorite_ids = set(getattr(db_user, "favorites", [])) 
+
+        favorite_ids = set(getattr(db_user, "favorites", []))
         favorites_first = sorted(rows, key=lambda item: 0 if item.id in favorite_ids else 1)
 
         return favorites_first
@@ -65,33 +69,32 @@ def generate_router(datatype: str):
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
         isImport: Optional[bool] = Header(default=None, alias="X-Import"),
         conflictResolve: Optional[str] = Header(default=None, alias="X-Conflict"),
-        orphanBool: Optional[bool] = Header(default=None, alias="X-Orphan")
+        orphanBool: Optional[bool] = Header(default=None, alias="X-Orphan"),
     ):
         try:
             response = _create_item(data, isImport, conflictResolve, orphanBool)
             result = {"message": f"{datatype} created successfully", "id": response.id}
-            if hasattr(response, 'orphans') and response.orphans:
+            if hasattr(response, "orphans") and response.orphans:
                 result["orphans"] = response.orphans
             return result
         except Exception as e:
             logger.error(f"Unhandled error in create_item {datatype}: {str(e)}", exc_info=True)
             raise HTTPException(status_code=500, detail="Internal server error")
-        
-    
+
     def _create_item(
-            data, 
-            isImport: Optional[bool] = False, 
-            conflictResolve: Optional[str] = 'keep_both',
-            orphanBool: Optional[bool] = False):
+        data,
+        isImport: Optional[bool] = False,
+        conflictResolve: Optional[str] = "keep_both",
+        orphanBool: Optional[bool] = False,
+    ):
         """
-        Internal create_item 
+        Internal create_item
         """
         # TODO: Check if datatype with name already exists -> error (or do this in frontend?)
-                
+
         if isImport:
-            try: 
+            try:
                 return router.create_import_template(data, conflictResolve, orphanBool)
-                return result
             except Exception as e:
                 logger.debug("Error creating datatype:", str(e))
                 raise HTTPException(status_code=500, detail=str(e))
@@ -102,7 +105,7 @@ def generate_router(datatype: str):
             data = DataTableBase(**sanitized_data)
         except ValidationError as e:
             raise HTTPException(status_code=422, detail=str(e))
-        
+
         # TODO: Fix the created_by and last_edited_by
         try:
             response = backend.create_datatype(
@@ -137,7 +140,7 @@ def generate_router(datatype: str):
         # user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
     ):
         return _update_item(item_id, updated_data)
-    
+
     def _update_item(item_id, updated_data):
         """
         Internal update_item
@@ -159,9 +162,8 @@ def generate_router(datatype: str):
             existing_result=existing_result, updated_data=updated_data
         )
         return response
-    
-    router._update_item = _update_item
 
+    router._update_item = _update_item
 
     # Endpoint for DELETING an existing record
     # Delete endpoint (e.g., DELETE /template/)
@@ -205,7 +207,7 @@ def generate_router(datatype: str):
         f"/{datatype}/{{item_id}}/find/",
         summary="Retrieve the records which reference a particular record",
     )
-    def find_records(item_id: str):        
+    def find_records(item_id: str):
         try:
             response = backend.find_records(target_id=item_id)
         except HTTPException:
@@ -213,6 +215,7 @@ def generate_router(datatype: str):
         return response
 
     return router
+
 
 # Helper function to ensure unique items while preserving order
 def _unique_keep_order(seq):
@@ -241,6 +244,7 @@ def enrich_schema(base_schema: Dict, updates: Dict[str, List]) -> Dict:
 
     def inject_items(props: Dict, prop_name: str, rows: List):
         """Inject oneOf entries for a single property."""
+
         if prop_name not in props:
             return
 
@@ -272,18 +276,29 @@ def enrich_schema(base_schema: Dict, updates: Dict[str, List]) -> Dict:
         for id_, label in zip(ids, labels):
             oneof_target.append({"const": id_, "title": label})
 
-    # Update top-level properties
-    if "properties" in schema_copy:
-        for prop_name, rows in updates.items():
-            inject_items(schema_copy["properties"], prop_name, rows)
+    def walk(node: Dict):
+        """Recursively walk the schema and inject into any properties block found."""
+        if not isinstance(node, dict):
+            return
 
-    # Update nested allOf → then → properties
-    for branch in schema_copy.get("allOf", []):
-        then_part = branch.get("then")
-        if not then_part:
-            continue
-        props = then_part.get("properties", {})
-        for prop_name, rows in updates.items():
-            inject_items(props, prop_name, rows)
+        if "properties" in node:
+            for prop_name, rows in updates.items():
+                if prop_name not in node["properties"]:
+                    for prop_def in node["properties"].values():
+                        # print('prop_def: ', prop_def)
+                        walk(prop_def)
+                else:
+                    inject_items(node["properties"], prop_name, rows)
+
+        # Recurse into known schema keywords that can contain nested schemas
+        for key in ("items", "then", "else", "if", "additionalProperties"):
+            if key in node:
+                walk(node[key])
+
+        for key in ("allOf", "anyOf", "oneOf"):
+            for branch in node.get(key, []):
+                walk(branch)
+
+    walk(schema_copy)
 
     return schema_copy
