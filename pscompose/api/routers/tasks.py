@@ -1,4 +1,4 @@
-import requests
+# import requests
 from collections import defaultdict
 from types import SimpleNamespace
 from fastapi import HTTPException
@@ -9,6 +9,7 @@ from pscompose.settings import DataTypes
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.task_schemas import TASK_SCHEMA, TASK_UI_SCHEMA
+from pscompose.form_schemas.tool_schemas import TOOL_SCHEMAS
 
 # Setup CRUD endpoints
 router = generate_router("task")
@@ -16,7 +17,7 @@ router = generate_router("task")
 # Cache for test-to-tools mapping
 _test_tools_cache = None
 
-PSCHEDULER_BASE_URL = "https://chic-ps-lat.es.net/pscheduler"
+# PSCHEDULER_BASE_URL = "https://chic-ps-lat.es.net/pscheduler"
 
 
 def sanitize_data(data):
@@ -44,81 +45,44 @@ router.sanitize = sanitize_data
 
 def build_test_tools_mapping():
     """
-    Fetch all tools from pScheduler API and build a mapping of test types to available tools.
+    Build a mapping of test types to available tools.
     Returns: dict mapping test_type -> list of tool names
     """
     global _test_tools_cache
 
-    # Return cached version if available
     if _test_tools_cache is not None:
         return _test_tools_cache
 
-    try:
-        # Fetch list of all tools
-        tools_url = f"{PSCHEDULER_BASE_URL}/tools"
-        response = requests.get(tools_url, timeout=10)
-        response.raise_for_status()
-        tool_urls = response.json()
+    # --- Local (static) implementation ---
+    test_to_tools = defaultdict(list)
+    for tool_data in TOOL_SCHEMAS.values():
+        tool_name = tool_data.get("name")
+        for test_type in tool_data.get("tests", []):
+            test_to_tools[test_type].append(tool_name)
 
-        # Build the mapping: test_type -> [list of tool names]
-        test_to_tools = defaultdict(list)
+    # TODO: pScheduler API implementation (swap in when ready)
+    # try:
+    #     tools_url = f"{PSCHEDULER_BASE_URL}/tools"
+    #     response = requests.get(tools_url, timeout=10)
+    #     response.raise_for_status()
+    #     tool_urls = response.json()
+    #     for tool_url in tool_urls:
+    #         try:
+    #             tool_response = requests.get(tool_url, timeout=10)
+    #             tool_response.raise_for_status()
+    #             tool_data = tool_response.json()
+    #             tool_name = tool_data.get("name")
+    #             for test_type in tool_data.get("tests", []):
+    #                 test_to_tools[test_type].append(tool_name)
+    #         except Exception as e:
+    #             print(f"Error fetching {tool_url}: {e}")
+    #             continue
+    # except Exception as e:
+    #     raise HTTPException(status_code=503, detail=f"Failed to fetch tools from pScheduler")
 
-        # Fetch details for each tool
-        for tool_url in tool_urls:
-            try:
-                tool_response = requests.get(tool_url, timeout=10)
-                tool_response.raise_for_status()
-                tool_data = tool_response.json()
-
-                tool_name = tool_data.get("name")
-                tests = tool_data.get("tests", [])
-
-                # Add this tool to each test type it supports
-                for test_type in tests:
-                    test_to_tools[test_type].append(tool_name)
-
-            except Exception as e:
-                print(f"Error fetching {tool_url}: {e}")
-                continue
-
-        # Convert to regular dict and sort tool lists
-        result = {test_type: sorted(tools) for test_type, tools in sorted(test_to_tools.items())}
-
-        # Cache the result
-        _test_tools_cache = result
-        return result
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=503, detail=f"Failed to fetch tools from pScheduler: {str(e)}"
-        )
-
-
-def get_all_tools_from_pscheduler():
-    """
-    Get a list of all unique tools from pScheduler.
-    Returns list of objects with 'id' and 'name' attributes for compatibility with enrich_schema.
-    """
-    try:
-        # Fetch list of all tools
-        tools_url = f"{PSCHEDULER_BASE_URL}/tools"
-        response = requests.get(tools_url, timeout=10)
-        response.raise_for_status()
-        tool_urls = response.json()
-
-        # Extract tool names from URLs
-        tool_names = [url.split("/")[-1] for url in tool_urls]
-
-        print("Fetched tools from pScheduler:", tool_names)
-
-        # Return in format expected by enrich_schema (objects with id and name attributes)
-        # Use tool name as both id and name since they're unique identifiers
-        return [SimpleNamespace(id=name, name=name) for name in sorted(tool_names)]
-
-    except Exception as e:
-        print(f"Error fetching tools from pScheduler: {e}")
-        # Return empty list on error so form still loads
-        return []
+    result = {test_type: sorted(tools) for test_type, tools in sorted(test_to_tools.items())}
+    _test_tools_cache = result
+    return result
 
 
 @router.get("/task/tools/{test_type}/", summary="Get available tools for a specific test type")
