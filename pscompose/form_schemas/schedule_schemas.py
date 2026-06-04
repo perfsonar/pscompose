@@ -26,16 +26,6 @@ SCHEDULE_SCHEMA = {
             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
             "description": "ISO 8601 Duration that repeats runs at the specified duration.<br>Examples:<br> PT5M (5 minutes)<br> PT10M (10 minutes)",
         },
-        # "start": {
-        #     "type": "string",
-        #     "title": "Start",
-        #     "description": "",
-        # },
-        # "until": {
-        #     "type": "string",
-        #     "title": "Until",
-        #     "description": "",
-        # },
         "max-runs": {
             "type": "integer",
             "title": "Max Runs",
@@ -74,14 +64,6 @@ SCHEDULE_UI_SCHEMA = {
                 },
             ],
         },
-        # {
-        #     "type": "Control",
-        #     "scope": "#/properties/start",
-        # },
-        # {
-        #     "type": "Control",
-        #     "scope": "#/properties/until",
-        # },
         {
             "type": "Control",
             "scope": "#/properties/max-runs",

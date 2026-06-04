@@ -15,7 +15,6 @@ router = generate_router("schedule")
 @router.get("/schedule/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    print("get new form schedule")
     payload = {"ui_schema": SCHEDULE_UI_SCHEMA, "json_schema": SCHEDULE_SCHEMA, "form_data": {}}
     return JSONResponse(content=payload)
 
