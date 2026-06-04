@@ -1,6 +1,16 @@
 export class PSFormControl extends HTMLElement {
     static get observedAttributes() {
-        return ["id", "class", "theme", "label", "value", "description", "error", "required", "disabled"];
+        return [
+            "id",
+            "class",
+            "theme",
+            "label",
+            "value",
+            "description",
+            "error",
+            "required",
+            "disabled",
+        ];
     }
 
     constructor() {
@@ -91,8 +101,8 @@ export class PSFormControl extends HTMLElement {
                     desc="${this.description}">
                 </ps-input-label>
                 ${this.slotEl || ""}
-                <ps-input-message 
-                    error='${this.dirty ? this.error : ""}'
+                <ps-input-message
+                    error="${this.dirty ? this.error.replace(/"/g, "&quot;") : ""}"
                     ${this.required ? "required" : ""}>
                 </ps-input-message>
             </div>
