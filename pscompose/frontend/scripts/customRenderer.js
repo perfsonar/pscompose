@@ -28,7 +28,10 @@ function createCustomRenderer(componentName) {
                     ? schema_path.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
                     : false),
             required,
-            error: schema?.errors ?? false,
+            error:
+                schema?.errors && s["x-invalid-message"]
+                    ? s["x-invalid-message"].replace("%s", value ?? "")
+                    : schema?.errors ?? false,
             description: s.description ?? undefined,
             value,
             onChange: (event) => {
