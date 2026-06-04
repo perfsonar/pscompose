@@ -168,7 +168,7 @@ esmond_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -188,7 +188,7 @@ esmond_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/measurement-agent",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
@@ -528,7 +528,7 @@ http_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         _RETRY_POLICY_UI,
                     ],
@@ -549,7 +549,7 @@ http_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
@@ -575,7 +575,7 @@ http_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "HorizontalLayout",
@@ -611,7 +611,7 @@ http_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
@@ -1345,7 +1345,7 @@ rabbitmq_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/routing-key",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         _RETRY_POLICY_UI,
                         {
@@ -1376,7 +1376,7 @@ rabbitmq_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/routing-key",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         _RETRY_POLICY_UI,
                         {
@@ -1632,7 +1632,7 @@ snmptrap_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/dest",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
@@ -1928,12 +1928,12 @@ tcp_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/host",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
@@ -2073,12 +2073,12 @@ udp_archiver = {
                         {
                             "type": "Control",
                             "scope": "#/properties/bind",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
                             "scope": "#/properties/host",
-                            "customComponent": "ps-input-text-autocomplete",
+                            "customComponent": "ps-input-text",
                         },
                         {
                             "type": "Control",
