@@ -243,7 +243,7 @@ esmond_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -325,7 +325,7 @@ esmond_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -659,7 +659,7 @@ http_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -728,7 +728,7 @@ http_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -752,9 +752,7 @@ http_archiver = {
                         },
                         "_headers": {
                             "type": "object",
-                            "patternProperties": {
-                                "^[!#\\$%&'*+\\-.\\^`|~0-9A-Za-z]+$": {"type": "string"}
-                            },
+                            "patternProperties": {"^.*$": {"type": "string"}},
                             "additionalProperties": False,
                         },
                         "retry-policy": {
@@ -804,7 +802,7 @@ http_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -828,9 +826,7 @@ http_archiver = {
                         },
                         "_headers": {
                             "type": "object",
-                            "patternProperties": {
-                                "^[!#\\$%&'*+\\-.\\^`|~0-9A-Za-z]+$": {"type": "string"}
-                            },
+                            "patternProperties": {"^.*$": {"type": "string"}},
                             "additionalProperties": False,
                         },
                         "verify-ssl": {
@@ -883,7 +879,7 @@ http_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -912,9 +908,7 @@ http_archiver = {
                         },
                         "_headers": {
                             "type": "object",
-                            "patternProperties": {
-                                "^[!#\\$%&'*+\\-.\\^`|~0-9A-Za-z]+$": {"type": "string"}
-                            },
+                            "patternProperties": {"^.*$": {"type": "string"}},
                             "additionalProperties": False,
                         },
                         "verify-ssl": {
@@ -1710,10 +1704,6 @@ snmptrap_archiver = {
                                 "dest": {
                                     "type": "string",
                                 },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
                                 "trap-oid": {
                                     "type": "string",
                                     "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
@@ -1748,10 +1738,6 @@ snmptrap_archiver = {
                             "properties": {
                                 "dest": {
                                     "type": "string",
-                                },
-                                "schema": {
-                                    "const": 2,
-                                    "type": "integer",
                                 },
                                 "trap-oid": {
                                     "type": "string",
@@ -1808,6 +1794,12 @@ snmptrap_archiver = {
                             },
                         },
                     ],
+                    "properties": {
+                        "schema": {
+                            "const": 1,
+                            "type": "integer",
+                        },
+                    },
                     "additionalProperties": True,
                 },
             ],
@@ -1972,7 +1964,7 @@ tcp_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -1994,7 +1986,7 @@ tcp_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -2122,7 +2114,7 @@ udp_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
@@ -2144,7 +2136,7 @@ udp_archiver = {
                             "anyOf": [
                                 {
                                     "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
                                     "maxLength": 255,
                                     "minLength": 1,
                                 },
