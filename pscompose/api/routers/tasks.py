@@ -161,8 +161,6 @@ def get_new_form():
         },
     )
 
-    print("enriched_schema:", enriched_schema)
-
     payload = {"ui_schema": TASK_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
 
