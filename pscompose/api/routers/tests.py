@@ -11,9 +11,7 @@ from pscompose.backends.postgres import backend
 from pscompose.form_schemas.test_schemas import (
     TEST_SCHEMA,
     TEST_UI_SCHEMA,
-    idle_schema,
-    throughput_schema,
-    latency_schema,
+    TEST_SCHEMAS,
 )
 
 # Setup CRUD endpoints
@@ -80,9 +78,37 @@ def fetch_pscheduler_test_list() -> list[str]:
 @router.get("/test/new/form/", summary="Return the form to be rendered")
 @version(1)
 def get_form():
-    # Clone and enrich the schema dynamically
+    # TODO: Fetch available test types from the pScheduler API
     # tests = fetch_pscheduler_test_list()
-    tests = ["idle", "latency", "throughput"]
+    tests = [
+        "clock",
+        "dhcp",
+        "disk-to-disk",
+        "dns",
+        "dns64",
+        "dot1x",
+        "http",
+        "idle",
+        "idlebgm",
+        "idleex",
+        "latency",
+        "latencybg",
+        "mtu",
+        "netreach",
+        "noop",
+        "openports",
+        "psresponse",
+        "rtt",
+        "s3throughput",
+        "simplestream",
+        "snmpget",
+        "snmpgetbgm",
+        "snmpset",
+        "throughput",
+        "trace",
+        "wifibssid",
+    ]
+
     enriched_schema = deepcopy(TEST_SCHEMA)
     enriched_schema["properties"]["type"]["oneOf"] = [
         {"const": name, "title": name.upper()} for name in tests
@@ -103,16 +129,8 @@ def get_form():
 @router.get("/test/new/{testType}/form/", summary="Return schema for the relevant test type")
 @version(1)
 def retrieve_form(testType: str):
-    print("Retrieving form for test type:", testType)
-
-    if testType == "idle":
-        return JSONResponse(content=idle_schema)
-    elif testType == "throughput":
-        return JSONResponse(content=throughput_schema)
-    elif testType == "latency":
-        return JSONResponse(content=latency_schema)
-    else:
-        return JSONResponse(content={})
+    schema = TEST_SCHEMAS.get(testType)
+    return JSONResponse(content=schema if schema else {})
 
 
 @router.get(
@@ -138,16 +156,13 @@ def get_existing_form(item_id: str, edit: bool = False):
         spec_data = response_json.pop("spec")
         response_json.update(spec_data)
 
-    print("Existing form data:", response_json)
-    print("Edit mode:", edit)
-
     # Get the test type and schema version from the existing data
     test_type = response_json.get("type")
     schema_version = response_json.get("schema")  # This is the numeric version (1, 2, 6, 7, etc.)
 
     if not test_type or schema_version is None:
         # Fallback to generic schema if no type or schema version specified
-        tests = ["idle", "latency", "throughput"]
+        tests = list(TEST_SCHEMAS.keys())
         # tests = fetch_pscheduler_test_list()
         enriched_schema = deepcopy(TEST_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
@@ -181,18 +196,18 @@ def get_existing_form(item_id: str, edit: bool = False):
     #     return JSONResponse(content=payload)
 
     # Readonly mode - build specific version schema
-    print(
-        "Available versions in schema:",
-        list(full_test_schema["spec"]["jsonschema"]["versions"].keys()),
+    versions_json = full_test_schema["spec"]["jsonschema"]["versions"]
+    versions_ui = full_test_schema["spec"]["uischema"]["versions"]
+
+    # versions is a list: index 0 is None, index N is version N
+    schema_version_key = int(schema_version)
+
+    version_jsonschema = (
+        versions_json[schema_version_key] if 0 < schema_version_key < len(versions_json) else None
     )
-    print("Looking for version:", schema_version, "type:", type(schema_version))
-
-    # Extract the specific version's jsonschema and uischema
-    # JSON keys are always strings, so convert schema_version to string
-    schema_version_key = str(schema_version)
-
-    version_jsonschema = full_test_schema["spec"]["jsonschema"]["versions"].get(schema_version_key)
-    version_uischema = full_test_schema["spec"]["uischema"]["versions"].get(schema_version_key)
+    version_uischema = (
+        versions_ui[schema_version_key] if 0 < schema_version_key < len(versions_ui) else None
+    )
 
     if not version_jsonschema or not version_uischema:
         raise HTTPException(
@@ -200,7 +215,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build the enriched schema by merging base schema with version-specific schema
-    tests = ["idle", "latency", "throughput"]
+    tests = list(TEST_SCHEMAS.keys())
     # tests = fetch_pscheduler_test_list()
     base_schema = deepcopy(TEST_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
@@ -227,11 +242,6 @@ def get_existing_form(item_id: str, edit: bool = False):
             # Replace the group's elements with the version-specific UI elements
             element["elements"] = version_uischema["elements"]
             break
-
-    print("Returning readonly schema for type:", test_type, "version:", schema_version)
-    print("json_schema:", base_schema)
-    print("ui_schema:", base_ui_schema)
-    print("form_data:", response_json)
 
     payload = {
         "ui_schema": base_ui_schema,
