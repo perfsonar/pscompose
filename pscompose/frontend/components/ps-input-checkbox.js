@@ -8,7 +8,7 @@ export class PSInputCheckbox extends PSInputText {
             this.inputEl?.setAttribute("type", "checkbox");
             this.inputEl?.removeAttribute("value");
         } else {
-            this.inputEl.value = this.value;
+            this.inputEl.value = this.value ?? false;
         }
     }
 }
