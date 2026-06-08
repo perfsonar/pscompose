@@ -36,9 +36,7 @@ export class PSInputText extends PSFormControl {
     render() {
         this.inputEl = this.querySelector("input");
         this.wrapperEl = this.querySelector(".wrapper");
-        this.inputEl.placeholder = `Enter ${this.label} ${
-            this.examples?.length ? ` e.g. ${this.examples.join(", ")}` : ""
-        }`;
+        this.inputEl.placeholder = this.examples ? `${this.examples[0]}` : `Enter ${this.label}`;
         if (this.value != null) this.inputEl.value = this.value;
         this.attachEventListener();
     }

@@ -135,9 +135,9 @@ export class PSSelect extends PSFormControl {
             this.actionBtn.setAttribute("righticon", "x");
         } else {
             this.inputEl.value = "";
-            this.inputEl.placeholder = `Select ${this.label} ${
-                this.examples?.length ? ` e.g. ${this.examples.join(", ")}` : ""
-            }`;
+            this.textAreaEl.placeholder = this.examples
+                ? `${this.examples[0]}`
+                : `Select ${this.label}`;
         }
 
         this.attachOptionClickHandler();
