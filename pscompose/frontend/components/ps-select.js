@@ -99,7 +99,7 @@ export class PSSelect extends PSFormControl {
             li.className = "no-options";
             li.textContent = "No options available";
             li.style.opacity = "0.5";
-            li.style.cursor = "not-allowed"; 
+            li.style.cursor = "not-allowed";
             li.style.pointerEvents = "none";
             this.optionsEl.appendChild(li);
         } else {
@@ -135,7 +135,9 @@ export class PSSelect extends PSFormControl {
             this.actionBtn.setAttribute("righticon", "x");
         } else {
             this.inputEl.value = "";
-            this.inputEl.placeholder = `Select ${this.label}`;
+            this.inputEl.placeholder = `Select ${this.label} ${
+                this.examples?.length ? ` e.g. ${this.examples.join(", ")}` : ""
+            }`;
         }
 
         this.attachOptionClickHandler();
