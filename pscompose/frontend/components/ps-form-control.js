@@ -10,6 +10,7 @@ export class PSFormControl extends HTMLElement {
             "error",
             "required",
             "disabled",
+            "examples",
         ];
     }
 
@@ -64,14 +65,20 @@ export class PSFormControl extends HTMLElement {
     set disabled(v) {
         v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
     }
-
     get required() {
         return this.hasAttribute("required");
     }
     set required(v) {
         v ? this.setAttribute("required", "") : this.removeAttribute("required");
     }
-
+    get examples() {
+        return this.getAttribute("examples")
+            ? JSON.parse(this.getAttribute("examples"))
+            : undefined;
+    }
+    set examples(v) {
+        this.setAttribute("examples", JSON.stringify(v) ?? "");
+    }
     get dirty() {
         return this._dirty;
     }
