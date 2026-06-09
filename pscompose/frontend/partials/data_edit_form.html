@@ -206,7 +206,8 @@
     // Change
     document.getElementById("data-edit-form").addEventListener("change", async function (event) {
         if (datatype == "task") await renderTools(event);
-        if (datatype === "test" || datatype === "archive") mergeSchema(event);
+        if (datatype === "test" || datatype === "archive" || datatype === "context")
+            mergeSchema(event);
     });
 
     // Save
