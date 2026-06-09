@@ -12,16 +12,16 @@
                 aria-expanded="false"
                 aria-controls="subnav-content-{{ key }}"
             >
-                <i id="nav-icon" data-lucide="{{ item.icon }}" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
+                <i data-lucide="{{ item.icon }}" style="width: 2rem; height: 2rem" aria-hidden="true"></i>
                 <p>{{ item.plural }}</p>
             </li>
             {% endfor %}
         </ul>
     </script>
-    <div class="subnav-container hidden"></div>
+    <div class="subnav-container hidden" aria-live="polite"></div>
     <script id="subnav-template" type="nunjucks">
-        <div class='subnav' id='subnav-content' role='region' aria-label='{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}} subnav'>
-            <h1>{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}}</h1>
+        <div class='subnav' id='subnav-content-{{data.psCompose.activeMenuItem}}' role='region' aria-label='{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}} subnav'>
+            <h1 aria-level="2">{{data.psCompose.nav[data.psCompose.activeMenuItem].plural}}</h1>
             <input
                 type="text"
                 id="subnav-search"
@@ -46,8 +46,8 @@
                 {% for item in data %}
                     <li id="{{item.id}}" class="subnav-item">
                         <div class="item-info">
-                            <ps-input-checkbox id="subnav-item-checkbox" theme="Small" style="display: none;"></ps-input-checkbox>
-                            <i id="subnav-icon" data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
+                            <ps-input-checkbox theme="Small" style="display: none;"></ps-input-checkbox>
+                            <i class="subnav-icon" data-lucide="{{data.psCompose.nav[data.psCompose.activeMenuItem].icon}}" aria-hidden="true"></i>
                             <h5>{{item.name}}</h5>
                         </div>
                         {% if item.id in data.favorites_data %}
@@ -330,7 +330,7 @@
             checkbox.style.display = "flex";
             checkbox.value = false;
         });
-        subnavContainer.querySelectorAll("#subnav-icon").forEach((icon) => {
+        subnavContainer.querySelectorAll(".subnav-icon").forEach((icon) => {
             icon.style.display = "none";
         });
     }
@@ -362,7 +362,7 @@
         subnavContainer.querySelectorAll("ps-input-checkbox").forEach((checkbox) => {
             checkbox.style.display = "none";
         });
-        subnavContainer.querySelectorAll("#subnav-icon").forEach((icon) => {
+        subnavContainer.querySelectorAll(".subnav-icon").forEach((icon) => {
             icon.style.display = "flex";
         });
     }
