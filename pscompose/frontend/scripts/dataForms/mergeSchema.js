@@ -158,19 +158,29 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
     console.log("New Form Data:", currentFormData);
 }
 
-async function mergeSchema(event) {
-    if (event.target?.label === "Type") {
-        selectedType = event.target.value;
-        additionalSchema = await getAdditionalSchema(selectedType);
-        if (additionalSchema) {
-            handleTypeChange(selectedType, additionalSchema);
-        }
+async function mergeType(selectedType) {
+    additionalSchema = await getAdditionalSchema(selectedType);
+    if (additionalSchema) {
+        handleTypeChange(selectedType, additionalSchema);
     }
+}
 
-    if (event.target?.label === "Version") {
-        const newVersion = JSON.parse(event.target.value);
-        if (additionalSchema) {
-            updateIdleVersion(newVersion, additionalSchema);
-        }
-    }
+async function mergeSchema() {
+    document.getElementById("#/properties/type").addEventListener("change", async function (event) {
+        mergeType(event.target.value);
+        document
+            .getElementById("#/properties/version")
+            .addEventListener("change", async function (event) {
+                const newVersion = JSON.parse(event.target.value);
+                if (additionalSchema) {
+                    updateIdleVersion(newVersion, additionalSchema);
+                }
+            });
+    });
+}
+
+async function mergedSchema() {
+    const form = document.querySelector("json-form");
+    const form_data = JSON.parse(form.getAttribute("form-data"));
+    mergeType(form_data.type);
 }
