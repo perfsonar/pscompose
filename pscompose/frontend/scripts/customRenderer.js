@@ -65,7 +65,6 @@ function createCustomRenderer(componentName) {
 }
 
 /* REGISTER RENDERERS */
-
 document.body.addEventListener("json-form:beforeMount", (event) => {
     let elem = event.detail[0].target;
     if (!elem) return;
@@ -82,9 +81,6 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
-    // const form = event.target;  // the json-form element itself
-    // console.log('readonly:', form.getAttribute('readonly'));
-
     if (event.target.readonly == "true") {
         componentNames.forEach((component) => {
             document
