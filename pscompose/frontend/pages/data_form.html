@@ -2,17 +2,22 @@
     <div hx-get="/partials/confirm-modals.html" hx-trigger="load"></div>
 </div>
 <script>
-    var elem = document.createElement("div");
-    var url = "/partials/data_edit_form.html";
-    if (psCompose.subsection == "new") {
-        url = "/partials/data_new_form.html";
-    } else if (psCompose.subsection == "" && window.location.search == "") {
-        url = "/partials/data_blank_form.html";
-    }
+    (function () {
+        const subsection = psCompose.subsection;
+        const hasId = new URLSearchParams(window.location.search).has("id");
+        const urlMap = {
+            new: "/partials/data_new_form.html",
+            read: "/partials/data_read_form.html",
+        };
+        const url =
+            urlMap[subsection] ??
+            (hasId ? "/partials/data_edit_form.html" : "/partials/data_blank_form.html");
 
-    elem.setAttribute("hx-get", url);
-    elem.setAttribute("hx-trigger", "load");
-    var container = document.getElementById("form");
-    container.appendChild(elem);
-    htmx.process(container);
+        const elem = document.createElement("div");
+        elem.setAttribute("hx-get", url);
+        elem.setAttribute("hx-trigger", "load");
+        const container = document.getElementById("form");
+        container.appendChild(elem);
+        htmx.process(container);
+    })();
 </script>
