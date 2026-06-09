@@ -1,4 +1,4 @@
-<div class="homepage" role="main" aria-label="pSCompose Homepage">
+<main class="homepage" aria-label="pSCompose Homepage">
     <header role="banner" aria-labelledby="getting-started-heading">
         <h1 id="getting-started-heading">Getting Started</h1>
         <br />
@@ -20,7 +20,7 @@
                     data-lucide="locate"
                     aria-hidden="true"
                 ></i>
-                <h4 class="box-name">Import Template</h4>
+                <h4 class="box-name" aria-level="2">Import Template</h4>
                 <ps-button
                     link="/import/"
                     theme="Icon-Success"
@@ -37,7 +37,7 @@
         <li class="list-box">
             <div class="box-header">
                 <i class="lucide" data-lucide="plus" aria-hidden="true"></i>
-                <h4 class="box-name">Create New Template</h4>
+                <h4 class="box-name" aria-level="2">Create New Template</h4>
                 <ps-button
                     link="wizard/1/address/"
                     theme="Icon-Success"
@@ -50,7 +50,7 @@
     </ul>
 
     <section class="published-templates" aria-labelledby="published-templates-heading">
-        <h4 id="published-templates-heading">Published Templates</h4>
+        <h4 id="published-templates-heading" aria-level="2">Published Templates</h4>
         <table aria-label="Published Templates Table">
             <thead>
                 <tr>
@@ -77,7 +77,7 @@
             <tbody nunjucks-array-template="published-templates-tbody"></tbody>
         </table>
     </section>
-</div>
+</main>
 
 <script>
     async function loadPublishedTemplateTable() {
