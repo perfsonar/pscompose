@@ -34,6 +34,7 @@ function createCustomRenderer(componentName) {
                     : schema?.errors ?? false,
             description: s.description ?? undefined,
             value,
+            examples: s.examples ?? undefined,
             onChange: (event) => {
                 if (event.target.tagName !== schema?.uischema.customComponent?.toUpperCase())
                     return;
@@ -81,7 +82,10 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 /* READONLY MODE */
 
 document.body.addEventListener("json-form:mounted", (event) => {
-    if (event.detail[0].target.readonly == "true") {
+    // const form = event.target;  // the json-form element itself
+    // console.log('readonly:', form.getAttribute('readonly'));
+
+    if (event.target.readonly == "true") {
         componentNames.forEach((component) => {
             document
                 .querySelector("json-form")
@@ -99,7 +103,7 @@ document.body.addEventListener("json-form:updated", (event) => {
             .querySelector("json-form")
             ?.querySelectorAll(component)
             .forEach((comp) => {
-                if (event.detail[0].target.readonly == "true") {
+                if (event.target.readonly == "true") {
                     comp.disabled = true;
                 } else {
                     comp.disabled = false;
