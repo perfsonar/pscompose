@@ -33,7 +33,11 @@ export class PSInputLabel extends HTMLElement {
         this.innerHTML = `                
             <label>
                 ${this.label}
-                ${this.desc ? `<ps-tooltip desc="${this.desc}"> </ps-tooltip>` : ""}
+                ${
+                    this.desc
+                        ? `<ps-tooltip desc="${this.desc.replace(/"/g, "&quot;")}"> </ps-tooltip>`
+                        : ""
+                }
             </label>`;
     }
 }

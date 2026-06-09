@@ -103,9 +103,9 @@ export class PSFormControl extends HTMLElement {
     renderControl() {
         this.innerHTML = `
             <div class="form-container">
-                <ps-input-label 
-                    label="${this.label}" 
-                    desc="${this.description}">
+                <ps-input-label
+                    label="${this.label}"
+                    desc="${this.description.replace(/"/g, "&quot;")}">
                 </ps-input-label>
                 ${this.slotEl || ""}
                 <ps-input-message
