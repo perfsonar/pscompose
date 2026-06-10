@@ -9,6 +9,7 @@ export class PSButton extends HTMLElement {
         "link",
         "confirm-modal",
         "newtab",
+        "aria-label",
     ];
 
     constructor() {
@@ -98,8 +99,13 @@ export class PSButton extends HTMLElement {
                       } style="text-decoration: none;">`
                     : ""
             }
-            <button 
+            <button
                 ${this.type ? `type="${this.type}" ` : ""}
+                ${
+                    this.getAttribute("aria-label")
+                        ? `aria-label="${this.getAttribute("aria-label")}"`
+                        : ""
+                }
                 >
                 
                 ${this.lefticon ? `<i data-lucide="${this.lefticon}"></i>` : ""}

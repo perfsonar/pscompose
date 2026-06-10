@@ -136,7 +136,7 @@
                                             {% for task in template.tasks %}
                                                 {% if loop.index0 < 2 %}
                                                     <a href="/task/?id={{task.id}}" class="inline-tag-link">
-                                                        <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
+                                                        <li class="tag" aria-label="{{ task.name }}">
                                                             {{ task.name }}
                                                         </li>
                                                     </a>
@@ -161,7 +161,7 @@
                                     <div class="td-content action-icons">
                                         <div class="action-icon">
                                             <div class="tooltip">Edit Template</div>
-                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></ps-button>
+                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-label="Edit Template"></ps-button>
                                         </div>
                                         <div class="action-icon">
                                             <div class="tooltip">Download Template</div>

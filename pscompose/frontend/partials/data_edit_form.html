@@ -6,11 +6,21 @@
                 <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon">
                     <div class="tooltip">Edit Form</div>
-                    <ps-button id="edit-icon" righticon="edit" theme="Icon"> </ps-button>
+                    <ps-button
+                        id="edit-icon"
+                        righticon="edit"
+                        theme="Icon"
+                        aria-label="Edit"
+                    ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Download Template</div>
-                    <ps-button id="export-json-btn" righticon="download" theme="Icon"></ps-button>
+                    <ps-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                        aria-label="Download Template"
+                    ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Copy Raw JSON URL</div>
@@ -18,6 +28,7 @@
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
+                        aria-label="Copy Raw JSON URL"
                     ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
@@ -27,6 +38,7 @@
                         righticon="file-json"
                         theme="Icon"
                         newtab="true"
+                        aria-label="Open Raw JSON"
                     ></ps-button>
                 </div>
                 <div class="action-icon address" style="display: none">
@@ -35,6 +47,7 @@
                         id="address-template-btn"
                         righticon="locate"
                         theme="Icon"
+                        aria-label="Template using this address"
                     ></ps-button>
                 </div>
             </div>
