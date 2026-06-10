@@ -76,10 +76,9 @@ def get_new_form():
     """TODO: Fetch available contexts from the pScheduler API"""
     # contexts = fetch_pscheduler_context_list()
     contexts = [
-        "changefail",
-        "changenothing",
-        "linuxnns",
-        "linuxvrf",
+        name
+        for name, schema in CONTEXT_SCHEMAS.items()
+        if schema.get("json-forms-compatible", False)
     ]
     one_of = [{"const": name, "title": name.upper()} for name in contexts]
 
@@ -122,7 +121,7 @@ def get_existing_form(item_id: str):
 
     if not context_type or schema_version is None:
         # Fallback to generic schema
-        contexts = list(CONTEXT_SCHEMAS.keys())
+        contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
         enriched_schema = deepcopy(CONTEXT_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
             {"const": name, "title": name.upper()} for name in contexts
@@ -158,7 +157,7 @@ def get_existing_form(item_id: str):
         )
 
     # Build enriched schema
-    contexts = list(CONTEXT_SCHEMAS.keys())
+    contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
     base_schema = deepcopy(CONTEXT_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
         {"const": name, "title": name.upper()} for name in contexts
