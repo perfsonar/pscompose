@@ -45,7 +45,7 @@ const readonlyActions = {
 };
 
 function runReadonlyActions(datatype) {
-    if (datatype != "template") refsetRender();
+    if (datatype != "template" && psCompose.activeMenuItem !== "wizard") refsetRender();
     readonlyActions[datatype]?.();
 }
 
