@@ -23,7 +23,9 @@ export class PSTextArea extends PSFormControl {
 
     render() {
         this.textAreaEl = this.querySelector("textarea");
-        this.textAreaEl.placeholder = this.examples ? `${this.examples[0]}` : `Enter ${this.label}`;
+        const ex = this.examples?.[0];
+        this.textAreaEl.placeholder =
+            ex != null ? (typeof ex === "string" ? ex : JSON.stringify(ex)) : `Enter ${this.label}`;
 
         if (this.value) this.textAreaEl.value = this.value;
         this.attachEventListener();
