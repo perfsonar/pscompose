@@ -48,6 +48,7 @@ TEST_UI_SCHEMA = {
     ],
 }
 
+
 clock_schema = {
     "name": "clock",
     "spec": {
@@ -117,61 +118,143 @@ clock_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
                         "dest": {
-                            "type": "string",
+                            "description": "Destination pScheduler host.  Any "
+                            "host:port is valid.",
+                            "examples": ["www.example.org:20165"],
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "title": "Destination",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid host:port.",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
-                            "type": "string",
+                            "description": "Source pScheduler host.  Any " "host:port is valid.",
+                            "examples": ["www.example.org:20165"],
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "title": "Source",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid host:port.",
                         },
                         "timeout": {
-                            "type": "string",
+                            "description": "Timeout for clock state request.  "
+                            "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Timeout",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
                         "dest": {
-                            "type": "string",
+                            "description": "Destination pScheduler host.  Any "
+                            "host:port is valid.",
+                            "examples": ["www.example.org:20165"],
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "title": "Destination",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid host:port.",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
-                            "type": "string",
+                            "description": "Source pScheduler host.  Any " "host:port is valid.",
+                            "examples": ["www.example.org:20165"],
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "timeout": {
+                            "title": "Source",
                             "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid host:port.",
                         },
                         "source-node": {
-                            "type": "string",
+                            "description": "Source pScheduler host, if "
+                            "different.  Any host:port is "
+                            "valid.",
+                            "examples": ["www.example.org:20165"],
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "title": "Source Node",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid " "host:port.",
+                        },
+                        "timeout": {
+                            "description": "Timeout for clock state request.  "
+                            "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Timeout",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Clock",
@@ -186,7 +269,6 @@ clock_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/clock",
 }
-
 
 dhcp_schema = {
     "name": "dhcp",
@@ -232,61 +314,79 @@ dhcp_schema = {
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "interface": {},
+                        "interface": {
+                            "description": "This can be any valid JSON.",
+                            "examples": [{"foo": "bar"}, "perfSONAR", True, 97, None],
+                            "x-info": [{"href": "https://www.json.org", "title": "JSON"}],
+                            "x-invalid-message": "'%s' is not valid JSON.",
+                        },
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "DHCP",
@@ -301,7 +401,6 @@ dhcp_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/dhcp",
 }
-
 
 disk_to_disk_schema = {
     "name": "disk-to-disk",
@@ -372,64 +471,83 @@ disk_to_disk_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                        "source",
-                    ],
+                    "required": ["dest", "source"],
                     "properties": {
-                        "dest": {
+                        "cleanup": {"type": "boolean"},
+                        "dest": {"description": "Any string is valid.", "type": "string"},
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
                             "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 1,
-                            "type": "integer",
-                        },
-                        "source": {
-                            "type": "string",
-                        },
-                        "cleanup": {
-                            "type": "boolean",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "parallel": {
-                            "type": "integer",
+                            "description": "Schema version.  This can be any " "positive integer.",
                             "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "source": {"description": "Any string is valid.", "type": "string"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Disk-to-Disk",
@@ -444,7 +562,6 @@ disk_to_disk_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/disk-to-disk",
 }
-
 
 dns_schema = {
     "name": "dns",
@@ -510,107 +627,107 @@ dns_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "query",
-                        "record",
-                    ],
+                    "required": ["query", "record"],
                     "properties": {
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "query": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "record": {
-                            "enum": [
-                                "a",
-                                "aaaa",
-                                "ns",
-                                "cname",
-                                "soa",
-                                "ptr",
-                                "mx",
-                                "txt",
-                            ],
-                            "type": "string",
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
                         "nameserver": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "query": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "record": {
+                            "enum": ["a", "aaaa", "ns", "cname", "soa", "ptr", "mx", "txt"],
+                            "type": "string",
+                        },
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "DNS",
@@ -625,7 +742,6 @@ dns_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/dns",
 }
-
 
 dns64_schema = {
     "name": "dns64",
@@ -691,96 +807,104 @@ dns64_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "query",
-                    ],
+                    "required": ["query"],
                     "properties": {
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "query": {
-                            "type": "string",
-                            "format": "uri",
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
                         "nameserver": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "query": {"format": "uri", "type": "string"},
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "translation-prefix": {
+                            "description": "Any string is valid.",
                             "type": "string",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "DNS64",
@@ -795,7 +919,6 @@ dns64_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/dns64",
 }
-
 
 dot1x_schema = {
     "name": "dot1x",
@@ -886,84 +1009,88 @@ dot1x_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "interface",
-                    ],
+                    "required": ["interface"],
                     "properties": {
+                        "_password": {"description": "Any string is valid.", "type": "string"},
+                        "_username": {"description": "Any string is valid.", "type": "string"},
+                        "bssid": {"description": "Any string is valid.", "type": "string"},
+                        "driver": {"description": "Any string is valid.", "type": "string"},
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "ssid": {
-                            "type": "string",
+                        "host-node": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
                         },
-                        "bssid": {
-                            "type": "string",
-                        },
-                        "driver": {
+                        "interface": {"description": "Any string is valid.", "type": "string"},
+                        "key-management": {
+                            "description": "Any string is valid.",
                             "type": "string",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
+                        "ssid": {"description": "Any string is valid.", "type": "string"},
                         "timeout": {
-                            "type": "string",
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "_password": {"type": "string"},
-                        "_username": {"type": "string"},
-                        "host-node": {
-                            "anyOf": [
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
-                        },
-                        "interface": {
-                            "type": "string",
-                        },
-                        "key-management": {
-                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Dot 1x",
@@ -978,7 +1105,6 @@ dot1x_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/dot1x",
 }
-
 
 http_schema = {
     "name": "http",
@@ -1194,328 +1320,341 @@ http_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "url",
-                    ],
+                    "required": ["url"],
                     "properties": {
-                        "url": {
-                            "type": "string",
-                            "format": "uri",
-                        },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "parse": {
-                            "type": "string",
+                        "host-node": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
                         },
+                        "parse": {"description": "Any string is valid.", "type": "string"},
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "timeout": {
-                            "type": "string",
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "anyOf": [
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
+                        "url": {"format": "uri", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "url",
-                    ],
+                    "required": ["schema", "url"],
                     "properties": {
-                        "url": {
-                            "type": "string",
-                            "format": "uri",
-                        },
+                        "always-succeed": {"type": "boolean"},
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "parse": {
-                            "type": "string",
+                        "host-node": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
                         },
+                        "keep-content": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "parse": {"description": "Any string is valid.", "type": "string"},
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "timeout": {
-                            "type": "string",
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "anyOf": [
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
-                        "keep-content": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "always-succeed": {
-                            "type": "boolean",
-                        },
+                        "url": {"format": "uri", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "url",
-                    ],
+                    "required": ["schema", "url"],
                     "properties": {
-                        "url": {
-                            "type": "string",
-                            "format": "uri",
-                        },
+                        "always-succeed": {"type": "boolean"},
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "parse": {
-                            "type": "string",
+                        "host-node": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "keep-content": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "parse": {"description": "Any string is valid.", "type": "string"},
                         "schema": {
                             "const": 3,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "timeout": {
-                            "type": "string",
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "anyOf": [
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "keep-content": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "always-succeed": {
-                            "type": "boolean",
-                        },
+                        "url": {"format": "uri", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "url",
-                    ],
+                    "required": ["schema", "url"],
                     "properties": {
-                        "url": {
-                            "type": "string",
-                            "format": "uri",
+                        "always-succeed": {"type": "boolean"},
+                        "headers": {
+                            "additionalProperties": False,
+                            "patternProperties": {
+                                "^[!#\\$%&'*+\\-.\\^`|~0-9A-Za-z]+$": {
+                                    "description": "Any " "string " "is " "valid.",
+                                    "type": "string",
+                                }
+                            },
+                            "type": "object",
                         },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "parse": {
-                            "type": "string",
-                        },
-                        "schema": {
-                            "const": 4,
-                            "type": "integer",
-                        },
-                        "headers": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^[!#\\$%&'*+\\-.\\^`|~0-9A-Za-z]+$": {
-                                    "type": "string",
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
                         "keep-content": {
-                            "type": "integer",
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
                             "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
                         },
-                        "always-succeed": {
-                            "type": "boolean",
+                        "parse": {"description": "Any string is valid.", "type": "string"},
+                        "schema": {
+                            "const": 4,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "url": {"format": "uri", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "HTTP",
@@ -1531,7 +1670,6 @@ http_schema = {
     "href": "https://localhost/pscheduler/tests/http",
 }
 
-
 idle_schema = {
     "name": "idle",
     "spec": {
@@ -1541,6 +1679,11 @@ idle_schema = {
                 {
                     "type": "VerticalLayout",
                     "elements": [
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/schema",
+                            "customComponent": "ps-input-text",
+                        },
                         {
                             "type": "Control",
                             "scope": "#/properties/duration",
@@ -1568,6 +1711,11 @@ idle_schema = {
                     "elements": [
                         {
                             "type": "Control",
+                            "scope": "#/properties/schema",
+                            "customComponent": "ps-input-text",
+                        },
+                        {
+                            "type": "Control",
                             "scope": "#/properties/duration",
                             "customComponent": "ps-input-text",
                         },
@@ -1583,56 +1731,79 @@ idle_schema = {
                         },
                     ],
                 },
-            ],
+            ]
         },
         "jsonschema": {
             "versions": [
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "duration",
-                    ],
+                    "required": ["duration"],
                     "properties": {
-                        "host": {
-                            "anyOf": [
+                        "duration": {
+                            "description": "How long to be idle.  This can be "
+                            "any valid ISO 8601 duration not "
+                            "involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "host": {
+                            "description": "The host that will be idle.  Any "
+                            "hostname, FQDN, IPv4 address or IPv6 "
+                            "address is valid.",
+                            "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                            "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                            "title": "Host",
+                            "type": "string",
+                            "x-invalid-message": "Invalid host name.",
+                        },
+                        "host-node": {
+                            "description": "The pScheduler node to contact for "
+                            "the host.  Any host:port is valid.",
+                            "examples": ["www.example.org:20165"],
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "title": "Host Node",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2",
+                                    "title": "RFC 3896 - Authority",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid " "host:port.",
+                        },
+                        "parting-comment": {
+                            "description": "Commentary for after idling "
+                            "is done.  Any string is "
+                            "valid.",
+                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                            "title": "Parting Comment",
+                            "type": "string",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "parting-comment": {
-                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "starting-comment": {
+                            "description": "Commentary for before "
+                            "idling starts.  Any string "
+                            "is valid.",
+                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                            "title": "Starting Comment",
                             "type": "string",
                         },
                     },
@@ -1640,56 +1811,72 @@ idle_schema = {
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "duration",
-                    ],
+                    "required": ["schema", "duration"],
                     "properties": {
+                        "duration": {
+                            "description": "How long to be idle.  This can be "
+                            "any valid ISO 8601 duration not "
+                            "involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "host": {
-                            "type": "array",
                             "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                        "maxLength": 255,
-                                        "minLength": 1,
-                                    },
-                                    {
-                                        "oneOf": [
-                                            {
-                                                "type": "string",
-                                                "format": "ipv4",
-                                            },
-                                            {
-                                                "type": "string",
-                                                "format": "ipv6",
-                                            },
-                                        ],
-                                    },
+                                "description": "Host(s) that will be idle.  "
+                                "Any hostname, FQDN, IPv4 "
+                                "address or IPv6 address is "
+                                "valid.",
+                                "examples": [
+                                    "host.example.net",
+                                    "198.51.100.45",
+                                    "2001:db8::c0de",
                                 ],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "title": "Host",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name.",
                             },
                             "minItems": 1,
+                            "type": "array",
+                        },
+                        "parting-comment": {
+                            "description": "Commentary for after idling "
+                            "is done.  Any string is "
+                            "valid.",
+                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                            "title": "Parting Comment",
+                            "type": "string",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "parting-comment": {
-                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "starting-comment": {
+                            "description": "Commentary for before "
+                            "idling starts.  Any string "
+                            "is valid.",
+                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                            "title": "Starting Comment",
                             "type": "string",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Idle",
@@ -1704,7 +1891,6 @@ idle_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/idle",
 }
-
 
 idlebgm_schema = {
     "name": "idlebgm",
@@ -1760,60 +1946,85 @@ idlebgm_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "duration",
-                    ],
+                    "required": ["duration"],
                     "properties": {
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "host-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parting-comment": {
+                            "description": "Any string is valid.",
+                            "type": "string",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "parting-comment": {
-                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "starting-comment": {
+                            "description": "Any string is valid.",
                             "type": "string",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Idle Background-Multi",
@@ -1828,7 +2039,6 @@ idlebgm_schema = {
     "scheduling-class": "background-multi",
     "href": "https://localhost/pscheduler/tests/idlebgm",
 }
-
 
 idleex_schema = {
     "name": "idleex",
@@ -1879,54 +2089,68 @@ idleex_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "duration",
-                    ],
+                    "required": ["duration"],
                     "properties": {
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "host-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "parting-comment": {
+                            "description": "Any string is valid.",
+                            "type": "string",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "host-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "parting-comment": {
-                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "starting-comment": {
+                            "description": "Any string is valid.",
                             "type": "string",
                         },
                     },
                 },
-            ],
+            ]
         },
     },
     "label": "Idle Exclusive",
@@ -1941,7 +2165,6 @@ idleex_schema = {
     "scheduling-class": "exclusive",
     "href": "https://localhost/pscheduler/tests/idleex",
 }
-
 
 latency_schema = {
     "name": "latency",
@@ -2397,546 +2620,491 @@ latency_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "flip": {
-                            "type": "boolean",
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                            "description": "The version of the schema",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "packet-padding": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
+                            "type": "string",
                         },
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "flip": {
-                            "type": "boolean",
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                            "description": "The version of the schema",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "packet-padding": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
-                        },
+                        "reverse": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "flip": {
-                            "type": "boolean",
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "schema": {
                             "const": 3,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                            "description": "The version of the schema",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "traverse-nat": {
-                            "type": "boolean",
-                        },
-                        "packet-padding": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
-                        },
+                        "reverse": {"type": "boolean"},
+                        "traverse-nat": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "flip": {
-                            "type": "boolean",
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "schema": {
                             "const": 4,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                            "description": "The version of the schema",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "protocol": {
-                            "type": "string",
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "traverse-nat": {
-                            "type": "boolean",
-                        },
-                        "packet-padding": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
-                        },
+                        "protocol": {"description": "Any string is valid.", "type": "string"},
+                        "reverse": {"type": "boolean"},
+                        "traverse-nat": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Latency",
@@ -2951,7 +3119,6 @@ latency_schema = {
     "scheduling-class": "normal",
     "href": "https://localhost/pscheduler/tests/latency",
 }
-
 
 latencybg_schema = {
     "name": "latencybg",
@@ -3192,274 +3359,276 @@ latencybg_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
-                        "flip": {
-                            "type": "boolean",
-                        },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "schema": {
-                            "const": 1,
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
                             "minimum": 1,
-                        },
-                        "packet-padding": {
+                            "title": "Schema",
                             "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                     },
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "bucket-width": {
+                            "exclusiveMaximum": 1.0,
+                            "exclusiveMinimum": 0.0,
+                            "type": "number",
+                        },
+                        "ctrl-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "data-ports": {
+                            "additionalProperties": False,
+                            "properties": {
+                                "lower": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                                "upper": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                            },
+                            "required": ["lower", "upper"],
+                            "type": "object",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
-                        "flip": {
-                            "type": "boolean",
-                        },
+                        "flip": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "schema": {
-                            "const": 1,
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "output-raw": {"type": "boolean"},
+                        "packet-count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "packet-interval": {"exclusiveMinimum": 0.0, "type": "number"},
+                        "packet-padding": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
+                        },
+                        "packet-timeout": {
+                            "description": "Zero or any positive integer " "is valid.",
+                            "examples": [1],
+                            "minimum": 0,
+                            "type": "integer",
+                            "x-invalid-message": "This must be zero or " "any positive integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "protocol": {
-                            "type": "string",
-                        },
-                        "ctrl-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "data-ports": {
-                            "type": "object",
-                            "required": [
-                                "lower",
-                                "upper",
-                            ],
-                            "properties": {
-                                "lower": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                                "upper": {
-                                    "type": "integer",
-                                    "maximum": 65535,
-                                    "minimum": 0,
-                                },
-                            },
-                            "additionalProperties": False,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "output-raw": {
-                            "type": "boolean",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "bucket-width": {
-                            "type": "number",
-                            "exclusiveMaximum": 1.0,
-                            "exclusiveMinimum": 0.0,
-                        },
-                        "packet-count": {
-                            "type": "integer",
+                        "protocol": {"description": "Any string is valid.", "type": "string"},
+                        "schema": {
+                            "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
                             "minimum": 1,
-                        },
-                        "packet-padding": {
+                            "title": "Schema",
                             "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-timeout": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "packet-interval": {
-                            "type": "number",
-                            "exclusiveMinimum": 0.0,
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                     },
                 },
-            ],
+            ]
         },
     },
     "label": "Latency Background-Multi",
@@ -3474,7 +3643,6 @@ latencybg_schema = {
     "scheduling-class": "background-multi",
     "href": "https://localhost/pscheduler/tests/latencybg",
 }
-
 
 mtu_schema = {
     "name": "mtu",
@@ -3555,181 +3723,209 @@ mtu_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
+                            "description": "Destination point for the test",
+                            "hint": "ps.example.net",
+                            "title": "Destination",
                         },
                         "port": {
-                            "type": "integer",
+                            "description": "Port number to use for the test",
+                            "hint": "12345",
                             "maximum": 65535,
                             "minimum": 0,
+                            "title": "Port",
+                            "type": "integer",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version of the specification "
+                            "for this test  This can be any "
+                            "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema Version",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
+                            "description": "Origin point for the test",
+                            "hint": "ps.example.org",
+                            "title": "Source",
                         },
                         "source-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
+                            "description": "perfSONAR node for origin point " "for the test",
+                            "hint": "ps.example.org",
+                            "title": "Source Node",
                         },
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
+                            "description": "Destination point for the test",
+                            "hint": "ps.example.net",
+                            "title": "Destination",
+                        },
+                        "ip-version": {
+                            "description": "What version of the IP protocol "
+                            "to use for the test (4 or 6)",
+                            "enum": [4, 6],
+                            "hint": "ps.example.net",
+                            "title": "IP Version",
+                            "type": "integer",
                         },
                         "port": {
-                            "type": "integer",
+                            "description": "Port number to use for the test",
+                            "hint": "12345",
                             "maximum": 65535,
                             "minimum": 0,
+                            "title": "Port",
+                            "type": "integer",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version of the specification "
+                            "for this test  This can be any "
+                            "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema Version",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            "description": "Origin point for the test",
+                            "hint": "ps.example.org",
+                            "title": "Source",
                         },
                         "source-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                             ],
+                            "description": "perfSONAR node for origin point " "for the test",
+                            "hint": "ps.example.org",
+                            "title": "Source Node",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "MTU",
@@ -3744,7 +3940,6 @@ mtu_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/mtu",
 }
-
 
 netreach_schema = {
     "name": "netreach",
@@ -3810,115 +4005,121 @@ netreach_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "network",
-                    ],
+                    "required": ["network"],
                     "properties": {
-                        "host": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "scan": {
-                            "enum": [
-                                "up",
-                                "down",
-                                "edges",
-                                "random",
-                            ],
-                            "type": "string",
-                        },
-                        "limit": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
                         "gateway": {
                             "oneOf": [
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
                                 {
                                     "oneOf": [
                                         {
-                                            "type": "integer",
+                                            "description": "Any positive " "integer is " "valid.",
+                                            "examples": [1],
                                             "minimum": 1,
-                                        },
-                                        {
                                             "type": "integer",
-                                            "maximum": -1,
+                                            "x-invalid-message": "'%s' is "
+                                            "not a "
+                                            "positive "
+                                            "integer.",
                                         },
-                                    ],
+                                        {"maximum": -1, "type": "integer"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "network": {
-                            "type": "string",
-                            "pattern": "(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))$)",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
+                        "host": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "limit": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "network": {
+                            "pattern": "(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))$)",
+                            "type": "string",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "scan": {"enum": ["up", "down", "edges", "random"], "type": "string"},
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                 },
-            ],
+            ]
         },
     },
     "label": "Network Reachability",
@@ -3933,7 +4134,6 @@ netreach_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/netreach",
 }
-
 
 noop_schema = {
     "name": "noop",
@@ -3981,46 +4181,56 @@ noop_schema = {
                     "type": "object",
                     "required": [],
                     "properties": {
-                        "data": {},
+                        "data": {
+                            "description": "This can be any valid JSON.",
+                            "examples": [{"foo": "bar"}, "perfSONAR", True, 97, None],
+                            "x-info": [{"href": "https://www.json.org", "title": "JSON"}],
+                            "x-invalid-message": "'%s' is not valid JSON.",
+                        },
                         "fail": {
-                            "type": "number",
+                            "description": "Any value in [0.0..1.0] is valid.",
                             "maximum": 1.0,
                             "minimum": 0.0,
+                            "type": "number",
+                            "x-invalid-message": "Value must be in [0.0..1.0].",
                         },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "host-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "host-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "No-Op",
@@ -4035,162 +4245,6 @@ noop_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/noop",
 }
-
-
-openports_schema = {
-    "name": "openports",
-    "spec": {
-        "uischema": {
-            "#": "The zeroth element of this is always null since there is no version 0.",
-            "versions": [
-                None,
-                {
-                    "type": "VerticalLayout",
-                    "elements": [
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/network",
-                            "customComponent": "ps-input-text",
-                        },
-                        {
-                            "type": "Control",
-                            "scope": "#/properties/ports",
-                            "customComponent": "ps-input-text",
-                        },
-                        {
-                            "type": "HorizontalLayout",
-                            "elements": [
-                                {
-                                    "type": "Control",
-                                    "scope": "#/properties/source",
-                                    "customComponent": "ps-input-text",
-                                },
-                                {
-                                    "type": "Control",
-                                    "scope": "#/properties/source-node",
-                                    "customComponent": "ps-input-text",
-                                },
-                            ],
-                        },
-                        {
-                            "type": "HorizontalLayout",
-                            "elements": [
-                                {
-                                    "type": "Control",
-                                    "scope": "#/properties/timeout",
-                                    "customComponent": "ps-input-text",
-                                },
-                                {
-                                    "type": "Control",
-                                    "scope": "#/properties/services",
-                                    "customComponent": "ps-input-checkbox",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        },
-        "jsonschema": {
-            "versions": [
-                None,
-                {
-                    "type": "object",
-                    "required": [
-                        "network",
-                    ],
-                    "properties": {
-                        "ports": {
-                            "type": "string",
-                            "pattern": "^(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})((,(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4}))|(-(6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[0-9]{1,4})))*$",
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "source": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "network": {
-                            "oneOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))$)",
-                                },
-                                {
-                                    "anyOf": [
-                                        {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                            "maxLength": 255,
-                                            "minLength": 1,
-                                        },
-                                        {
-                                            "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "services": {
-                            "type": "boolean",
-                        },
-                        "source-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                    },
-                    "additionalProperties": False,
-                },
-            ],
-        },
-    },
-    "label": "Open Ports",
-    "schema": 2,
-    "version": "1.0",
-    "maintainer": {
-        "href": "http://www.perfsonar.net",
-        "name": "perfSONAR Development Team",
-        "email": "perfsonar-developer@internet2.edu",
-    },
-    "description": "Identifies open ports on a given host/subnet",
-    "scheduling-class": "background",
-    "href": "https://localhost/pscheduler/tests/openports",
-}
-
 
 psresponse_schema = {
     "name": "psresponse",
@@ -4236,89 +4290,100 @@ psresponse_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "source-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
+                            ]
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
                             ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "pScheduler Response",
@@ -4333,7 +4398,6 @@ psresponse_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/psresponse",
 }
-
 
 rtt_schema = {
     "name": "rtt",
@@ -4779,480 +4843,631 @@ rtt_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
-                        "ttl": {
-                            "type": "integer",
+                        "count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "deadline": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "count": {
+                        "flow-label": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
+                            "minimum": 0,
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "hostnames": {"type": "boolean"},
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "length": {
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "deadline": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "suppress-loopback": {
-                            "type": "boolean",
+                        "suppress-loopback": {"type": "boolean"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
                         },
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "ttl": {
-                            "type": "integer",
+                        "count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "deadline": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "count": {
+                        "flow-label": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
+                            "minimum": 0,
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "hostnames": {"type": "boolean"},
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "length": {
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "deadline": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "protocol": {
-                            "enum": [
-                                "icmp",
-                                "twamp",
-                            ],
-                            "type": "string",
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "suppress-loopback": {
-                            "type": "boolean",
+                        "suppress-loopback": {"type": "boolean"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
+                        "ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "protocol": {"enum": ["icmp", "twamp"], "type": "string"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "ttl": {
-                            "type": "integer",
+                        "count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "deadline": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "count": {
+                        "flow-label": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
+                            "minimum": 0,
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "hostnames": {"type": "boolean"},
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "length": {
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 3,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "deadline": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "fragment": {
-                            "type": "boolean",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "protocol": {
-                            "enum": [
-                                "icmp",
-                                "twamp",
-                            ],
-                            "type": "string",
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "suppress-loopback": {
-                            "type": "boolean",
+                        "suppress-loopback": {"type": "boolean"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
+                        "ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "fragment": {"type": "boolean"},
+                        "protocol": {"enum": ["icmp", "twamp"], "type": "string"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "ttl": {
-                            "type": "integer",
+                        "count": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "deadline": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "port": {
-                            "type": "integer",
-                            "maximum": 65535,
+                        "flow-label": {
+                            "description": "Zero or any positive integer is " "valid.",
+                            "examples": [1],
                             "minimum": 0,
-                        },
-                        "count": {
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "This must be zero or any " "positive integer.",
+                        },
+                        "hostnames": {"type": "boolean"},
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
-                        },
-                        "length": {
+                            "title": "TOS",
                             "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 4,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "deadline": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "fragment": {
-                            "type": "boolean",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "protocol": {
-                            "enum": [
-                                "icmp",
-                                "twamp",
-                            ],
-                            "type": "string",
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 0,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "suppress-loopback": {
-                            "type": "boolean",
+                        "suppress-loopback": {"type": "boolean"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
+                        "ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "fragment": {"type": "boolean"},
+                        "port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "protocol": {"description": "Any string is valid.", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "RTT",
@@ -5267,7 +5482,6 @@ rtt_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/rtt",
 }
-
 
 s3throughput_schema = {
     "name": "s3throughput",
@@ -5348,94 +5562,112 @@ s3throughput_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "_access-key",
-                        "bucket",
-                        "_secret-key",
-                        "url",
-                        "object-size",
-                    ],
+                    "required": ["_access-key", "bucket", "_secret-key", "url", "object-size"],
                     "properties": {
-                        "url": {
+                        "_access-key": {"description": "Any string is valid.", "type": "string"},
+                        "_secret-key": {"description": "Any string is valid.", "type": "string"},
+                        "bucket": {"description": "Any string is valid.", "type": "string"},
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
                             "type": "string",
-                            "format": "uri",
-                            "pattern": "^https?://",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "bucket": {
-                            "type": "string",
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
                         "iterations": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "_access-key": {"type": "string"},
-                        "_secret-key": {"type": "string"},
                         "object-size": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "url": {"format": "uri", "pattern": "^https?://", "type": "string"},
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "S3 Throughput",
@@ -5450,7 +5682,6 @@ s3throughput_schema = {
     "scheduling-class": "exclusive",
     "href": "https://localhost/pscheduler/tests/s3throughput",
 }
-
 
 simplestream_schema = {
     "name": "simplestream",
@@ -5499,7 +5730,7 @@ simplestream_schema = {
                                     "type": "Control",
                                     "scope": "#/properties/fail",
                                     "customComponent": "ps-input-number",
-                                },
+                                }
                             ],
                         },
                         {
@@ -5676,272 +5907,320 @@ simplestream_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
+                        "dawdle": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
                         "fail": {
-                            "type": "number",
+                            "description": "Any value in [0.0..1.0] is valid.",
                             "maximum": 1.0,
                             "minimum": 0.0,
-                        },
-                        "dawdle": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "type": "number",
+                            "x-invalid-message": "Value must be in [0.0..1.0].",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "test-material": {
                             "type": "string",
+                        },
+                        "test-material": {"description": "Any string is valid.", "type": "string"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "dawdle": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
                         "fail": {
-                            "type": "number",
+                            "description": "Any value in [0.0..1.0] is valid.",
                             "maximum": 1.0,
                             "minimum": 0.0,
-                        },
-                        "dawdle": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "type": "number",
+                            "x-invalid-message": "Value must be in [0.0..1.0].",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "test-material": {
                             "type": "string",
                         },
+                        "test-material": {"description": "Any string is valid.", "type": "string"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
                     },
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
+                        "dawdle": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
+                        },
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
                         "fail": {
-                            "type": "number",
+                            "description": "Any value in [0.0..1.0] is valid.",
                             "maximum": 1.0,
                             "minimum": 0.0,
-                        },
-                        "port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "dawdle": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "type": "number",
+                            "x-invalid-message": "Value must be in [0.0..1.0].",
                         },
                         "schema": {
                             "const": 3,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "test-material": {
                             "type": "string",
                         },
+                        "test-material": {"description": "Any string is valid.", "type": "string"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "port": {"maximum": 65535, "minimum": 0, "type": "integer"},
                     },
                 },
-            ],
+            ]
         },
     },
     "label": "Simple Stream",
@@ -5957,16 +6236,12 @@ simplestream_schema = {
     "href": "https://localhost/pscheduler/tests/simplestream",
 }
 
-
 snmpget_schema = {
     "name": "snmpget",
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
-            "versions": [
-                None,
-                {},
-            ],
+            "versions": [None, {}],
         },
         "jsonschema": {
             "versions": [
@@ -5974,273 +6249,307 @@ snmpget_schema = {
                 {
                     "oneOf": [
                         {
-                            "type": "object",
-                            "required": [
-                                "version",
-                                "_community",
-                                "dest",
-                                "oid",
-                                "polls",
-                            ],
+                            "additionalProperties": False,
+                            "required": ["version", "_community", "dest", "oid", "polls"],
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
-                                    },
-                                    "minItems": 1,
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
-                                },
-                                "polls": {
-                                    "type": "integer",
-                                },
-                                "period": {
-                                    "type": "integer",
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "1",
-                                        "2c",
-                                    ],
-                                    "type": "string",
-                                },
-                                "protocol": {
-                                    "enum": [
-                                        "tcp",
-                                        "udp",
-                                    ],
-                                    "type": "string",
+                                    ]
                                 },
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "_community": {"type": "string"},
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                },
+                                "period": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "polls": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "protocol": {"enum": ["tcp", "udp"], "type": "string"},
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
+                                    ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "_community": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "version": {"enum": ["1", "2c"], "type": "string"},
                             },
-                            "additionalProperties": False,
                         },
                         {
-                            "type": "object",
-                            "required": [
-                                "version",
-                                "dest",
-                                "oid",
-                                "polls",
-                            ],
+                            "additionalProperties": False,
+                            "required": ["version", "dest", "oid", "polls"],
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
-                                    },
-                                    "minItems": 1,
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "polls": {
-                                    "type": "integer",
-                                },
-                                "period": {
-                                    "type": "integer",
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "context": {
-                                    "type": "string",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "3",
-                                    ],
-                                    "type": "string",
-                                },
-                                "protocol": {
-                                    "enum": [
-                                        "tcp",
-                                        "udp",
-                                    ],
-                                    "type": "string",
-                                },
-                                "_auth-key": {"type": "string"},
-                                "_priv-key": {"type": "string"},
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "auth-protocol": {
-                                    "enum": [
-                                        "MD5",
-                                        "SHA",
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                },
+                                "period": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "polls": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "protocol": {"enum": ["tcp", "udp"], "type": "string"},
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
                                     ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "_auth-key": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "_priv-key": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "auth-protocol": {"enum": ["MD5", "SHA"], "type": "string"},
+                                "context": {
+                                    "description": "Any string is valid.",
                                     "type": "string",
                                 },
                                 "priv-protocol": {
-                                    "enum": [
-                                        "AES",
-                                        "AES128",
-                                        "AES192",
-                                        "AES256",
-                                        "DES",
-                                        "3DES",
-                                    ],
-                                    "type": "string",
-                                },
-                                "security-name": {
+                                    "enum": ["AES", "AES128", "AES192", "AES256", "DES", "3DES"],
                                     "type": "string",
                                 },
                                 "security-level": {
-                                    "enum": [
-                                        "noAuthNoPriv",
-                                        "authNoPriv",
-                                        "authPriv",
-                                    ],
+                                    "enum": ["noAuthNoPriv", "authNoPriv", "authPriv"],
                                     "type": "string",
                                 },
+                                "security-name": {
+                                    "description": "Any string is " "valid.",
+                                    "type": "string",
+                                },
+                                "version": {"enum": ["3"], "type": "string"},
                             },
-                            "additionalProperties": False,
                         },
                     ],
+                    "properties": {
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        }
+                    },
                 },
-            ],
+            ]
         },
     },
     "label": "SNMP Get",
@@ -6251,21 +6560,18 @@ snmpget_schema = {
         "name": "perfSONAR Development Team",
         "email": "perfsonar-developer@internet2.edu",
     },
-    "description": "Make an/multiple SNMP get query(ies) to a destination and (optionally) calculate delta values between polls.",
+    "description": "Make an/multiple SNMP get query(ies) to a destination and (optionally) calculate delta values between "
+    "polls.",
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/snmpget",
 }
-
 
 snmpgetbgm_schema = {
     "name": "snmpgetbgm",
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
-            "versions": [
-                None,
-                {},
-            ],
+            "versions": [None, {}],
         },
         "jsonschema": {
             "versions": [
@@ -6273,268 +6579,313 @@ snmpgetbgm_schema = {
                 {
                     "oneOf": [
                         {
+                            "required": ["version", "_community", "dest", "oid", "polls"],
                             "type": "object",
-                            "required": [
-                                "version",
-                                "_community",
-                                "dest",
-                                "oid",
-                                "polls",
-                            ],
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
-                                    },
-                                    "minItems": 1,
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
-                                },
-                                "polls": {
-                                    "type": "integer",
-                                },
-                                "period": {
-                                    "type": "integer",
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "1",
-                                        "2c",
-                                        "3",
-                                    ],
-                                    "type": "string",
-                                },
-                                "protocol": {
-                                    "enum": [
-                                        "tcp",
-                                        "udp",
-                                    ],
-                                    "type": "string",
+                                    ]
                                 },
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "_community": {"type": "string"},
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                },
+                                "period": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "polls": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
+                                    ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "_community": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "protocol": {"enum": ["tcp", "udp"], "type": "string"},
+                                "version": {"enum": ["1", "2c"], "type": "string"},
                             },
                         },
                         {
-                            "type": "object",
                             "required": [
                                 "version",
                                 "dest",
                                 "oid",
                                 "polls",
+                                "auth-protocol",
+                                "_auth-key",
                             ],
+                            "type": "object",
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
-                                    },
-                                    "minItems": 1,
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "polls": {
-                                    "type": "integer",
-                                },
-                                "period": {
-                                    "type": "integer",
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "context": {
-                                    "type": "string",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "1",
-                                        "2c",
-                                        "3",
-                                    ],
-                                    "type": "string",
-                                },
-                                "_auth-key": {"type": "string"},
-                                "_priv-key": {"type": "string"},
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "auth-protocol": {
-                                    "enum": [
-                                        "MD5",
-                                        "SHA",
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                },
+                                "period": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "polls": {
+                                    "description": "Any integer is valid.",
+                                    "examples": [5],
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "integer.",
+                                },
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
                                     ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "_auth-key": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "_priv-key": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "auth-protocol": {"enum": ["MD5", "SHA"], "type": "string"},
+                                "context": {
+                                    "description": "Any string is valid.",
                                     "type": "string",
                                 },
                                 "priv-protocol": {
-                                    "enum": [
-                                        "AES",
-                                        "AES128",
-                                        "AES192",
-                                        "AES256",
-                                        "DES",
-                                        "3DES",
-                                    ],
-                                    "type": "string",
-                                },
-                                "security-name": {
+                                    "enum": ["AES", "AES128", "AES192", "AES256", "DES", "3DES"],
                                     "type": "string",
                                 },
                                 "security-level": {
-                                    "enum": [
-                                        "noAuthNoPriv",
-                                        "authNoPriv",
-                                        "authPriv",
-                                    ],
+                                    "enum": ["noAuthNoPriv", "authNoPriv", "authPriv"],
                                     "type": "string",
                                 },
+                                "security-name": {
+                                    "description": "Any string is " "valid.",
+                                    "type": "string",
+                                },
+                                "version": {"const": "3", "type": "string"},
                             },
                         },
                     ],
-                    "additionalProperties": False,
+                    "properties": {
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        }
+                    },
                 },
-            ],
+            ]
         },
     },
     "label": "SNMP Get Background-Multi",
@@ -6545,281 +6896,298 @@ snmpgetbgm_schema = {
         "name": "perfSONAR Development Team",
         "email": "perfsonar-developer@internet2.edu",
     },
-    "description": "Make an/multiple SNMP get query(ies) to a destination and (optionally) calculate the delta between each poll.",
+    "description": "Make an/multiple SNMP get query(ies) to a destination and (optionally) calculate the delta between "
+    "each poll.",
     "scheduling-class": "background-multi",
     "href": "https://localhost/pscheduler/tests/snmpgetbgm",
 }
-
 
 snmpset_schema = {
     "name": "snmpset",
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
-            "versions": [
-                None,
-                {},
-            ],
+            "versions": [None, {}],
         },
         "jsonschema": {
             "versions": [
                 None,
                 {
+                    "additionalProperties": False,
                     "oneOf": [
                         {
+                            "required": ["version", "_community", "dest", "oid"],
                             "type": "object",
-                            "required": [
-                                "version",
-                                "_community",
-                                "dest",
-                                "oid",
-                            ],
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
-                                    },
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "1",
-                                        "2c",
-                                        "3",
-                                    ],
-                                    "type": "string",
-                                },
-                                "protocol": {
-                                    "enum": [
-                                        "tcp",
-                                        "udp",
-                                    ],
-                                    "type": "string",
+                                    ]
                                 },
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "_community": {"type": "string"},
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
+                                    ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "_community": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string",
+                                    },
+                                    "type": "array",
+                                },
+                                "protocol": {"enum": ["tcp", "udp"], "type": "string"},
+                                "version": {"enum": ["1", "2c", "3"], "type": "string"},
                             },
                         },
                         {
+                            "required": ["version", "dest", "oid"],
                             "type": "object",
-                            "required": [
-                                "version",
-                                "dest",
-                                "oid",
-                            ],
                             "properties": {
-                                "oid": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "pattern": "^((\\.\\d)|\\d)+(\\.\\d+)*$",
-                                    },
-                                },
                                 "dest": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
                                 "host": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname as "
+                                            "described in RFCs "
+                                            "952, 1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' is not "
+                                            "a valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
-                                },
-                                "schema": {
-                                    "const": 1,
-                                    "type": "integer",
-                                },
-                                "context": {
-                                    "type": "string",
-                                },
-                                "timeout": {
-                                    "type": "string",
-                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                    "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                                },
-                                "version": {
-                                    "enum": [
-                                        "1",
-                                        "2c",
-                                        "3",
-                                    ],
-                                    "type": "string",
-                                },
-                                "auth-key": {
-                                    "type": "string",
-                                },
-                                "priv-key": {
-                                    "type": "string",
-                                },
-                                "protocol": {
-                                    "enum": [
-                                        "tcp",
-                                        "udp",
-                                    ],
-                                    "type": "string",
+                                    ]
                                 },
                                 "host-node": {
                                     "anyOf": [
                                         {
-                                            "type": "string",
-                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                            "description": "Any hostname "
+                                            "as described "
+                                            "in RFCs 952, "
+                                            "1123 or 2181 "
+                                            "is valid.",
+                                            "examples": ["host.example.edu"],
                                             "maxLength": 255,
                                             "minLength": 1,
+                                            "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                            "type": "string",
+                                            "x-invalid-message": "'%s' "
+                                            "is not "
+                                            "a "
+                                            "valid "
+                                            "hostname.",
                                         },
                                         {
                                             "oneOf": [
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv4",
-                                                },
-                                                {
-                                                    "type": "string",
-                                                    "format": "ipv6",
-                                                },
-                                            ],
+                                                {"format": "ipv4", "type": "string"},
+                                                {"format": "ipv6", "type": "string"},
+                                            ]
                                         },
-                                    ],
+                                    ]
                                 },
-                                "auth-protocol": {
-                                    "enum": [
-                                        "md5",
-                                        "sha",
+                                "schema": {
+                                    "const": 1,
+                                    "description": "Schema version.  This can "
+                                    "be any positive integer.",
+                                    "minimum": 1,
+                                    "title": "Schema",
+                                    "type": "integer",
+                                    "x-invalid-message": "'%s' is not a valid " "schema number.",
+                                },
+                                "timeout": {
+                                    "description": "This can be any valid ISO "
+                                    "8601 duration not "
+                                    "involving months or "
+                                    "years, which are inexact.",
+                                    "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                                    "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                    "title": "Duration",
+                                    "type": "string",
+                                    "x-info": [
+                                        {
+                                            "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                            "title": "ISO 8601 " "Durations",
+                                        }
                                     ],
+                                    "x-invalid-message": "'%s' is not a valid "
+                                    "ISO 8601 duration.",
+                                },
+                                "auth-key": {
+                                    "description": "Any string is valid.",
                                     "type": "string",
                                 },
-                                "priv-protocol": {
-                                    "enum": [
-                                        "aes",
-                                        "des",
-                                    ],
+                                "auth-protocol": {"enum": ["md5", "sha"], "type": "string"},
+                                "context": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "oid": {
+                                    "items": {
+                                        "pattern": "^((\\.\\d)|\\d)+(\\. " "\\d+)*$",
+                                        "type": "string",
+                                    },
+                                    "type": "array",
+                                },
+                                "priv-key": {
+                                    "description": "Any string is valid.",
+                                    "type": "string",
+                                },
+                                "priv-protocol": {"enum": ["aes", "des"], "type": "string"},
+                                "protocol": {"enum": ["tcp", "udp"], "type": "string"},
+                                "security-level": {
+                                    "enum": ["noauthnopriv", "authnopriv", "authpriv"],
                                     "type": "string",
                                 },
                                 "security-name": {
+                                    "description": "Any string is " "valid.",
                                     "type": "string",
                                 },
-                                "security-level": {
-                                    "enum": [
-                                        "noauthnopriv",
-                                        "authnopriv",
-                                        "authpriv",
-                                    ],
-                                    "type": "string",
-                                },
+                                "version": {"enum": ["1", "2c", "3"], "type": "string"},
                             },
                         },
                     ],
-                    "additionalProperties": False,
+                    "properties": {
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        }
+                    },
                 },
-            ],
+            ]
         },
     },
     "label": "SNMP Set",
@@ -6834,7 +7202,6 @@ snmpset_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/snmpset",
 }
-
 
 throughput_schema = {
     "name": "throughput",
@@ -8156,106 +8523,210 @@ throughput_schema = {
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
+                        "source-node": {
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "zero-copy": {
-                            "type": "boolean",
+                        "udp": {"type": "boolean"},
+                        "window-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "zero-copy": {"type": "boolean"},
                         "congestion": {
                             "enum": [
                                 "bbr",
@@ -8269,164 +8740,216 @@ throughput_schema = {
                             ],
                             "type": "string",
                         },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "source-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "window-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "buffer-length": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "client-cpu-affinity": {
-                            "type": "integer",
-                        },
-                        "server-cpu-affinity": {
-                            "type": "integer",
-                        },
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
+                        "source-node": {
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "zero-copy": {
-                            "type": "boolean",
+                        "udp": {"type": "boolean"},
+                        "window-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "zero-copy": {"type": "boolean"},
                         "congestion": {
                             "enum": [
                                 "bbr",
@@ -8440,62 +8963,12 @@ throughput_schema = {
                             ],
                             "type": "string",
                         },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "source-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "window-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
-                        },
-                        "client-cpu-affinity": {
-                            "type": "integer",
-                        },
-                        "server-cpu-affinity": {
-                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
                     },
                     "additionalProperties": False,
@@ -8503,112 +8976,210 @@ throughput_schema = {
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 3,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "link-rtt": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
+                        "source-node": {
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
-                        "zero-copy": {
-                            "type": "boolean",
+                        "udp": {"type": "boolean"},
+                        "window-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "zero-copy": {"type": "boolean"},
                         "congestion": {
                             "enum": [
                                 "bbr",
@@ -8622,62 +9193,28 @@ throughput_schema = {
                             ],
                             "type": "string",
                         },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "source-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "window-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
-                        "client-cpu-affinity": {
-                            "type": "integer",
-                        },
-                        "server-cpu-affinity": {
-                            "type": "integer",
+                        "link-rtt": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
@@ -8685,743 +9222,984 @@ throughput_schema = {
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 4,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "link-rtt": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "zero-copy": {
-                            "type": "boolean",
-                        },
-                        "burst-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "congestion": {
-                            "type": "string",
-                            "minLength": 1,
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "udp": {"type": "boolean"},
                         "window-size": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "bandwidth-strict": {
-                            "type": "boolean",
-                        },
+                        "zero-copy": {"type": "boolean"},
+                        "congestion": {"minLength": 1, "type": "string"},
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
-                        "client-cpu-affinity": {
+                        "link-rtt": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "burst-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "server-cpu-affinity": {
-                            "type": "integer",
-                        },
+                        "bandwidth-strict": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 5,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "link-rtt": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "loopback": {
-                            "type": "boolean",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "zero-copy": {
-                            "type": "boolean",
-                        },
-                        "burst-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "congestion": {
-                            "type": "string",
-                            "minLength": 1,
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "udp": {"type": "boolean"},
                         "window-size": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "bandwidth-strict": {
-                            "type": "boolean",
-                        },
+                        "zero-copy": {"type": "boolean"},
+                        "congestion": {"minLength": 1, "type": "string"},
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
-                        "client-cpu-affinity": {
+                        "link-rtt": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "burst-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "server-cpu-affinity": {
-                            "type": "integer",
-                        },
+                        "bandwidth-strict": {"type": "boolean"},
+                        "loopback": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 6,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "link-rtt": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "loopback": {
-                            "type": "boolean",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "zero-copy": {
-                            "type": "boolean",
-                        },
-                        "burst-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "congestion": {
-                            "type": "string",
-                            "minLength": 1,
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "udp": {"type": "boolean"},
                         "window-size": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "bandwidth-strict": {
-                            "type": "boolean",
-                        },
+                        "zero-copy": {"type": "boolean"},
+                        "congestion": {"minLength": 1, "type": "string"},
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
-                        "client-cpu-affinity": {
+                        "link-rtt": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "burst-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "reverse-connections": {
-                            "type": "boolean",
-                        },
-                        "server-cpu-affinity": {
-                            "type": "integer",
-                        },
+                        "bandwidth-strict": {"type": "boolean"},
+                        "loopback": {"type": "boolean"},
+                        "reverse-connections": {"type": "boolean"},
                     },
                     "additionalProperties": False,
                 },
                 {
                     "type": "object",
                     "title": "pScheduler Throughput Specification Schema",
-                    "required": [
-                        "schema",
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "mss": {
-                            "type": "integer",
+                        "bandwidth": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "udp": {
-                            "type": "boolean",
+                        "buffer-length": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "client-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "omit": {
+                        "dest-node": {
+                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
                             "type": "string",
+                        },
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "interval": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "IP type of service.  Any value in "
+                            "[0..255] is valid.",
+                            "examples": [0, 42],
                             "maximum": 255,
                             "minimum": 0,
+                            "title": "TOS",
+                            "type": "integer",
+                            "x-info": [
+                                {
+                                    "href": "https://datatracker.ietf.org/doc/html/rfc1349",
+                                    "title": "RFC 1349",
+                                }
+                            ],
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
+                        "local-address": {
+                            "anyOf": [
+                                {
+                                    "description": "Any hostname as "
+                                    "described in RFCs "
+                                    "952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
+                                    "maxLength": 255,
+                                    "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid " "hostname.",
+                                },
+                                {
+                                    "oneOf": [
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
+                                },
+                            ]
+                        },
+                        "mss": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
+                        },
+                        "no-delay": {"type": "boolean"},
+                        "omit": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "parallel": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "reverse": {"type": "boolean"},
                         "schema": {
                             "const": 7,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "server-cpu-affinity": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a " "valid integer.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "fq-rate": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "reverse": {
-                            "type": "boolean",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "interval": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "link-rtt": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "loopback": {
-                            "type": "boolean",
-                        },
-                        "no-delay": {
-                            "type": "boolean",
-                        },
-                        "parallel": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "bandwidth": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "dest-node": {
-                            "type": "string",
-                            "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
-                        },
-                        "zero-copy": {
-                            "type": "boolean",
-                        },
-                        "burst-size": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "congestion": {
-                            "type": "string",
-                            "minLength": 1,
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
                         },
+                        "udp": {"type": "boolean"},
                         "window-size": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
-                        },
-                        "single-ended": {
-                            "type": "boolean",
-                        },
-                        "buffer-length": {
                             "type": "integer",
-                            "minimum": 1,
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "local-address": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
-                                    "maxLength": 255,
-                                    "minLength": 1,
-                                },
-                                {
-                                    "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        "bandwidth-strict": {
-                            "type": "boolean",
-                        },
+                        "zero-copy": {"type": "boolean"},
+                        "congestion": {"minLength": 1, "type": "string"},
+                        "single-ended": {"type": "boolean"},
                         "single-ended-port": {
+                            "description": "Any integer is valid.",
+                            "examples": [5],
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid " "integer.",
                         },
-                        "client-cpu-affinity": {
+                        "link-rtt": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "burst-size": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
-                        "reverse-connections": {
-                            "type": "boolean",
-                        },
-                        "server-cpu-affinity": {
+                        "bandwidth-strict": {"type": "boolean"},
+                        "loopback": {"type": "boolean"},
+                        "reverse-connections": {"type": "boolean"},
+                        "fq-rate": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "Throughput",
@@ -9436,7 +10214,6 @@ throughput_schema = {
     "scheduling-class": "exclusive",
     "href": "https://localhost/pscheduler/tests/throughput",
 }
-
 
 trace_schema = {
     "name": "trace",
@@ -9697,253 +10474,280 @@ trace_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["dest"],
                     "properties": {
-                        "as": {
-                            "type": "boolean",
-                        },
+                        "algorithm": {"description": "Any string is valid.", "type": "string"},
+                        "as": {"type": "boolean"},
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
+                        "dest-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "first-ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "fragment": {"type": "boolean"},
                         "hops": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
                         },
-                        "wait": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
+                        "hostnames": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
                         "length": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "probe-type": {"enum": ["icmp", "udp", "tcp"], "type": "string"},
+                        "queries": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "sendwait": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "queries": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "fragment": {
-                            "type": "boolean",
-                        },
-                        "sendwait": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "algorithm": {
-                            "type": "string",
-                        },
-                        "dest-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "first-ttl": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "probe-type": {
-                            "enum": [
-                                "icmp",
-                                "udp",
-                                "tcp",
-                            ],
-                            "type": "string",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "wait": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                 },
                 {
                     "type": "object",
-                    "required": [
-                        "dest",
-                    ],
+                    "required": ["schema", "dest"],
                     "properties": {
-                        "as": {
-                            "type": "boolean",
-                        },
+                        "algorithm": {"description": "Any string is valid.", "type": "string"},
+                        "as": {"type": "boolean"},
                         "dest": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
+                        "dest-port": {"maximum": 65535, "minimum": 0, "type": "integer"},
+                        "first-ttl": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "fragment": {"type": "boolean"},
                         "hops": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive integer.",
                         },
-                        "wait": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
+                        "hostnames": {"type": "boolean"},
                         "ip-tos": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
+                        "ip-version": {"enum": [4, 6], "type": "integer"},
                         "length": {
-                            "type": "integer",
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
                             "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
+                        },
+                        "probe-type": {"enum": ["icmp", "udp", "tcp"], "type": "string"},
+                        "queries": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                         "schema": {
                             "const": 2,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "sendwait": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                         "source": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described "
+                                    "in RFCs 952, 1123 or 2181 "
+                                    "is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "queries": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "fragment": {
-                            "type": "boolean",
-                        },
-                        "sendwait": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "algorithm": {
-                            "type": "string",
-                        },
-                        "dest-port": {
-                            "type": "integer",
-                            "maximum": 65535,
-                            "minimum": 0,
-                        },
-                        "first-ttl": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "hostnames": {
-                            "type": "boolean",
-                        },
-                        "flow-label": {
-                            "type": "integer",
-                            "minimum": 1,
-                        },
-                        "ip-version": {
-                            "enum": [
-                                4,
-                                6,
-                            ],
-                            "type": "integer",
-                        },
-                        "probe-type": {
-                            "enum": [
-                                "icmp",
-                                "udp",
-                                "tcp",
-                            ],
-                            "type": "string",
+                            ]
                         },
                         "source-node": {
-                            "type": "string",
                             "pattern": "(^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])(:[0-9]+)?$)|(^\\[(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\](:[0-9]+)?$)",
+                            "type": "string",
+                        },
+                        "wait": {
+                            "description": "This can be any valid ISO 8601 duration "
+                            "not involving months or years, which "
+                            "are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
+                        "flow-label": {
+                            "description": "Any positive integer is valid.",
+                            "examples": [1],
+                            "minimum": 1,
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a positive " "integer.",
                         },
                     },
                 },
-            ],
+            ]
         },
     },
     "label": "Trace",
@@ -9958,7 +10762,6 @@ trace_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/trace",
 }
-
 
 wifibssid_schema = {
     "name": "wifibssid",
@@ -10019,79 +10822,96 @@ wifibssid_schema = {
                 None,
                 {
                     "type": "object",
-                    "required": [
-                        "interface",
-                        "ssid",
-                    ],
+                    "required": ["interface", "ssid"],
                     "properties": {
+                        "duration": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
+                            "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
+                        },
                         "host": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as described in "
+                                    "RFCs 952, 1123 or 2181 is "
+                                    "valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a valid " "hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
-                        },
-                        "ssid": {
-                            "type": "string",
-                        },
-                        "schema": {
-                            "const": 1,
-                            "type": "integer",
-                        },
-                        "timeout": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
-                        },
-                        "duration": {
-                            "type": "string",
-                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
+                            ]
                         },
                         "host-node": {
                             "anyOf": [
                                 {
-                                    "type": "string",
-                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{1,62})*\\.?$",
+                                    "description": "Any hostname as "
+                                    "described in RFCs 952, "
+                                    "1123 or 2181 is valid.",
+                                    "examples": ["host.example.edu"],
                                     "maxLength": 255,
                                     "minLength": 1,
+                                    "pattern": "^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$",
+                                    "type": "string",
+                                    "x-invalid-message": "'%s' is not a " "valid hostname.",
                                 },
                                 {
                                     "oneOf": [
-                                        {
-                                            "type": "string",
-                                            "format": "ipv4",
-                                        },
-                                        {
-                                            "type": "string",
-                                            "format": "ipv6",
-                                        },
-                                    ],
+                                        {"format": "ipv4", "type": "string"},
+                                        {"format": "ipv6", "type": "string"},
+                                    ]
                                 },
-                            ],
+                            ]
                         },
-                        "interface": {
+                        "interface": {"description": "Any string is valid.", "type": "string"},
+                        "schema": {
+                            "const": 1,
+                            "description": "Schema version.  This can be any " "positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
+                            "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema " "number.",
+                        },
+                        "ssid": {"description": "Any string is valid.", "type": "string"},
+                        "timeout": {
+                            "description": "This can be any valid ISO 8601 "
+                            "duration not involving months or "
+                            "years, which are inexact.",
+                            "examples": ["PT10S", "PT45.67S", "PT1H30M"],
+                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                            "title": "Duration",
                             "type": "string",
+                            "x-info": [
+                                {
+                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                    "title": "ISO 8601 Durations",
+                                }
+                            ],
+                            "x-invalid-message": "'%s' is not a valid ISO 8601 " "duration.",
                         },
                     },
                     "additionalProperties": False,
                 },
-            ],
+            ]
         },
     },
     "label": "WiFi BSSID",
@@ -10106,6 +10926,7 @@ wifibssid_schema = {
     "scheduling-class": "background",
     "href": "https://localhost/pscheduler/tests/wifibssid",
 }
+
 
 TEST_SCHEMAS = {
     "clock": clock_schema,
@@ -10123,7 +10944,6 @@ TEST_SCHEMAS = {
     "mtu": mtu_schema,
     "netreach": netreach_schema,
     "noop": noop_schema,
-    "openports": openports_schema,
     "psresponse": psresponse_schema,
     "rtt": rtt_schema,
     "s3throughput": s3throughput_schema,

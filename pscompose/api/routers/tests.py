@@ -96,7 +96,6 @@ def get_form():
         "mtu",
         "netreach",
         "noop",
-        "openports",
         "psresponse",
         "rtt",
         "s3throughput",
