@@ -83,7 +83,11 @@ changefail_context = {
                     "properties": {
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema number.",
                         },
                     },
                     "additionalProperties": False,
@@ -124,7 +128,11 @@ changenothing_context = {
                     "properties": {
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema number.",
                         },
                     },
                     "additionalProperties": False,
@@ -170,16 +178,18 @@ linuxnns_context = {
                     "type": "object",
                     "required": ["namespace"],
                     "properties": {
+                        "namespace": {
+                            "pattern": "^[^/\\0]+$",
+                            "type": "string",
+                            "x-invalid-message": "'%s' is not a valid namespace name.",
+                        },
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
-                        },
-                        "namespace": {
-                            "type": "string",
-                            "title": "Namespace",
-                            "description": "Linux network namespace to switch to",
-                            "pattern": "^[^/\\0]+$",
-                            "x-invalid-message": "'%s' is not a valid namespace name.",
+                            "x-invalid-message": "'%s' is not a valid schema number.",
                         },
                     },
                     "additionalProperties": False,
@@ -227,13 +237,15 @@ linuxvrf_context = {
                     "properties": {
                         "schema": {
                             "const": 1,
+                            "description": "Schema version.  This can be any positive integer.",
+                            "minimum": 1,
+                            "title": "Schema",
                             "type": "integer",
+                            "x-invalid-message": "'%s' is not a valid schema number.",
                         },
                         "vrf": {
-                            "type": "string",
-                            "title": "VRF Name",
-                            "description": "Linux VRF (Virtual Routing and Forwarding) name",
                             "pattern": "^[^/\\0]+$",
+                            "type": "string",
                             "x-invalid-message": "'%s' is not a valid VRF name.",
                         },
                     },
