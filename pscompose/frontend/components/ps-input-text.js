@@ -4,7 +4,7 @@ export class PSInputText extends PSFormControl {
     constructor() {
         super();
         this.slotEl = `
-            <div class="wrapper">
+            <div class="ps-wrapper">
                 <input type='text' />
             </div>
         `;
@@ -12,8 +12,14 @@ export class PSInputText extends PSFormControl {
         this.wrapperEl = null;
     }
 
+    disconnectedCallback() {
+        if (this.inputEl && this._onChange) {
+            this.inputEl.removeEventListener("change", this._onChange);
+        }
+    }
+
     attachEventListener() {
-        this.inputEl?.addEventListener("change", (e) => {
+        this._onChange = (e) => {
             this.markDirty();
             switch (this.inputEl.type) {
                 case "file":
@@ -30,12 +36,13 @@ export class PSInputText extends PSFormControl {
                     break;
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        };
+        this.inputEl?.addEventListener("change", this._onChange);
     }
 
     render() {
         this.inputEl = this.querySelector("input");
-        this.wrapperEl = this.querySelector(".wrapper");
+        this.wrapperEl = this.querySelector(".ps-wrapper");
         const ex = this.examples?.[0];
         this.inputEl.placeholder =
             ex != null ? (typeof ex === "string" ? ex : JSON.stringify(ex)) : `Enter ${this.label}`;

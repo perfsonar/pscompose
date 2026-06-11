@@ -11,6 +11,8 @@ export class PSInputTextMulti extends PSFormControl {
         this.inputEls = [];
     }
 
+    disconnectedCallback() {}
+
     syncValue() {
         const inputs = Array.from(this.containerEl.querySelectorAll("input"));
         const ar = inputs.map((i) => i.value).filter(Boolean);
@@ -29,7 +31,7 @@ export class PSInputTextMulti extends PSFormControl {
         });
 
         const row = document.createElement("div");
-        row.classList.add("wrapper");
+        row.classList.add("ps-wrapper");
 
         const removeBtn = document.createElement("ps-button");
         removeBtn.setAttribute("type", "button");
@@ -50,7 +52,7 @@ export class PSInputTextMulti extends PSFormControl {
     render() {
         this.containerEl = this.querySelector(".inputs-container");
 
-        const initialValues = this.value.length > 0 ? this.value : [""];
+        const initialValues = this.value && this.value.length > 0 ? this.value : [""];
         initialValues.forEach((v) => this.addInput(v));
 
         this.querySelector("#input-text-add-btn").addEventListener("click", () => {
