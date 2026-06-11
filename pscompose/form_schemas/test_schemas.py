@@ -51,6 +51,7 @@ TEST_UI_SCHEMA = {
 
 clock_schema = {
     "name": "clock",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -272,6 +273,7 @@ clock_schema = {
 
 dhcp_schema = {
     "name": "dhcp",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -404,6 +406,7 @@ dhcp_schema = {
 
 disk_to_disk_schema = {
     "name": "disk-to-disk",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -565,6 +568,7 @@ disk_to_disk_schema = {
 
 dns_schema = {
     "name": "dns",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -745,6 +749,7 @@ dns_schema = {
 
 dns64_schema = {
     "name": "dns64",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -922,6 +927,7 @@ dns64_schema = {
 
 dot1x_schema = {
     "name": "dot1x",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -1108,6 +1114,7 @@ dot1x_schema = {
 
 http_schema = {
     "name": "http",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -1672,6 +1679,7 @@ http_schema = {
 
 idle_schema = {
     "name": "idle",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "versions": [
@@ -1894,6 +1902,7 @@ idle_schema = {
 
 idlebgm_schema = {
     "name": "idlebgm",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -2042,6 +2051,7 @@ idlebgm_schema = {
 
 idleex_schema = {
     "name": "idleex",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -2168,6 +2178,7 @@ idleex_schema = {
 
 latency_schema = {
     "name": "latency",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -3122,6 +3133,7 @@ latency_schema = {
 
 latencybg_schema = {
     "name": "latencybg",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -3646,6 +3658,7 @@ latencybg_schema = {
 
 mtu_schema = {
     "name": "mtu",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -3943,6 +3956,7 @@ mtu_schema = {
 
 netreach_schema = {
     "name": "netreach",
+    "json-forms-compatible": False,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -4137,6 +4151,7 @@ netreach_schema = {
 
 noop_schema = {
     "name": "noop",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -4248,6 +4263,7 @@ noop_schema = {
 
 psresponse_schema = {
     "name": "psresponse",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -4401,6 +4417,7 @@ psresponse_schema = {
 
 rtt_schema = {
     "name": "rtt",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -5485,6 +5502,7 @@ rtt_schema = {
 
 s3throughput_schema = {
     "name": "s3throughput",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -5685,6 +5703,7 @@ s3throughput_schema = {
 
 simplestream_schema = {
     "name": "simplestream",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -6238,6 +6257,7 @@ simplestream_schema = {
 
 snmpget_schema = {
     "name": "snmpget",
+    "json-forms-compatible": False,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -6568,6 +6588,7 @@ snmpget_schema = {
 
 snmpgetbgm_schema = {
     "name": "snmpgetbgm",
+    "json-forms-compatible": False,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -6904,6 +6925,7 @@ snmpgetbgm_schema = {
 
 snmpset_schema = {
     "name": "snmpset",
+    "json-forms-compatible": False,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -7205,6 +7227,7 @@ snmpset_schema = {
 
 throughput_schema = {
     "name": "throughput",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -10217,6 +10240,7 @@ throughput_schema = {
 
 trace_schema = {
     "name": "trace",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",
@@ -10765,6 +10789,7 @@ trace_schema = {
 
 wifibssid_schema = {
     "name": "wifibssid",
+    "json-forms-compatible": True,
     "spec": {
         "uischema": {
             "#": "The zeroth element of this is always null since there is no version 0.",

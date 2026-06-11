@@ -57,6 +57,7 @@ changefail_context = {
     "label": "Changefail",
     "description": "Fail to change contexts - NOT FOR PRODUCTION",
     "href": "https://localhost/pscheduler/contexts/changefail",
+    "json-forms-compatible": True,
     "version": "1.0",
     "schema": 2,
     "maintainer": {
@@ -102,6 +103,7 @@ changenothing_context = {
     "label": "Change Nothing",
     "description": "Make no changes - NOT FOR PRODUCTION",
     "href": "https://localhost/pscheduler/contexts/changenothing",
+    "json-forms-compatible": True,
     "version": "1.0",
     "schema": 2,
     "maintainer": {
@@ -147,6 +149,7 @@ linuxnns_context = {
     "label": "Linux Network Namespace",
     "description": "Change Linux network namespace",
     "href": "https://localhost/pscheduler/contexts/linuxnns",
+    "json-forms-compatible": True,
     "version": "1.0",
     "schema": 2,
     "maintainer": {
@@ -204,6 +207,7 @@ linuxvrf_context = {
     "label": "Linux VRF",
     "description": "Change Linux VRF",
     "href": "https://localhost/pscheduler/contexts/linuxvrf",
+    "json-forms-compatible": True,
     "version": "1.0",
     "schema": 2,
     "maintainer": {

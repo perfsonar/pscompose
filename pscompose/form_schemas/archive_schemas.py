@@ -151,6 +151,7 @@ bitbucket_archiver = {
     },
     "description": "Discard results",
     "href": "https://localhost/pscheduler/archivers/bitbucket",
+    "json-forms-compatible": True,
 }
 
 
@@ -369,6 +370,7 @@ esmond_archiver = {
     },
     "description": "Send results to Esmond",
     "href": "https://localhost/pscheduler/archivers/esmond",
+    "json-forms-compatible": True,
 }
 
 
@@ -541,6 +543,7 @@ failer_archiver = {
     },
     "description": "Dummy archiver that fails some of the time",
     "href": "https://localhost/pscheduler/archivers/failer",
+    "json-forms-compatible": True,
 }
 
 
@@ -1077,6 +1080,7 @@ http_archiver = {
     },
     "description": "Send a raw JSON result to a HTTP server",
     "href": "https://localhost/pscheduler/archivers/http",
+    "json-forms-compatible": True,
 }
 
 
@@ -1308,6 +1312,7 @@ kafka_archiver = {
     },
     "description": "Archives data to an Apache Kafka message bus",
     "href": "https://localhost/pscheduler/archivers/kafka",
+    "json-forms-compatible": False,
 }
 
 
@@ -1438,6 +1443,7 @@ postgresql_archiver = {
     },
     "description": "PostgreSQL database archiver",
     "href": "https://localhost/pscheduler/archivers/postgresql",
+    "json-forms-compatible": True,
 }
 
 
@@ -1842,6 +1848,7 @@ rabbitmq_archiver = {
     },
     "description": "Send a JSON result to RabbitMQ",
     "href": "https://localhost/pscheduler/archivers/rabbitmq",
+    "json-forms-compatible": False,
 }
 
 
@@ -2064,6 +2071,7 @@ snmptrap_archiver = {
     },
     "description": "Send an SNMP trap to a destination.",
     "href": "https://localhost/pscheduler/archivers/snmptrap",
+    "json-forms-compatible": False,
 }
 
 
@@ -2166,6 +2174,7 @@ syslog_archiver = {
     },
     "description": "Send a raw JSON result to Syslog",
     "href": "https://localhost/pscheduler/archivers/syslog",
+    "json-forms-compatible": True,
 }
 
 
@@ -2313,6 +2322,7 @@ tcp_archiver = {
     },
     "description": "Send a raw JSON result to a TCP socket",
     "href": "https://localhost/pscheduler/archivers/tcp",
+    "json-forms-compatible": True,
 }
 
 
@@ -2472,6 +2482,7 @@ udp_archiver = {
     },
     "description": "Send a JSON result as a UDP datagram",
     "href": "https://localhost/pscheduler/archivers/udp",
+    "json-forms-compatible": True,
 }
 
 ARCHIVE_SCHEMAS = {

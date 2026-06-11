@@ -73,17 +73,9 @@ def get_new_form():
     """TODO: Fetch available archiver types from the pScheduler API"""
     # archives = fetch_pscheduler_archiver_list()
     archives = [
-        "bitbucket",
-        "esmond",
-        "failer",
-        "http",
-        "kafka",
-        "postgresql",
-        "rabbitmq",
-        "snmptrap",
-        "syslog",
-        "tcp",
-        "udp",
+        name
+        for name, schema in ARCHIVE_SCHEMAS.items()
+        if schema.get("json-forms-compatible", False)
     ]
     one_of = [{"const": name, "title": name.upper()} for name in archives]
 
@@ -127,7 +119,7 @@ def get_existing_form(item_id: str, edit: bool = False):
 
     if not archive_type or schema_version is None:
         # Fallback to generic schema
-        archives = list(ARCHIVE_SCHEMAS.keys())
+        archives = [n for n, s in ARCHIVE_SCHEMAS.items() if s.get("json-forms-compatible", False)]
         enriched_schema = deepcopy(ARCHIVE_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
             {"const": name, "title": name.upper()} for name in archives
@@ -163,7 +155,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build enriched schema
-    archives = list(ARCHIVE_SCHEMAS.keys())
+    archives = [n for n, s in ARCHIVE_SCHEMAS.items() if s.get("json-forms-compatible", False)]
     base_schema = deepcopy(ARCHIVE_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
         {"const": name, "title": name.upper()} for name in archives

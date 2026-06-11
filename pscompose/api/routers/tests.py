@@ -81,31 +81,7 @@ def get_form():
     # TODO: Fetch available test types from the pScheduler API
     # tests = fetch_pscheduler_test_list()
     tests = [
-        "clock",
-        "dhcp",
-        "disk-to-disk",
-        "dns",
-        "dns64",
-        "dot1x",
-        "http",
-        "idle",
-        "idlebgm",
-        "idleex",
-        "latency",
-        "latencybg",
-        "mtu",
-        "netreach",
-        "noop",
-        "psresponse",
-        "rtt",
-        "s3throughput",
-        "simplestream",
-        "snmpget",
-        "snmpgetbgm",
-        "snmpset",
-        "throughput",
-        "trace",
-        "wifibssid",
+        name for name, schema in TEST_SCHEMAS.items() if schema.get("json-forms-compatible", False)
     ]
 
     enriched_schema = deepcopy(TEST_SCHEMA)
@@ -161,7 +137,7 @@ def get_existing_form(item_id: str, edit: bool = False):
 
     if not test_type or schema_version is None:
         # Fallback to generic schema if no type or schema version specified
-        tests = list(TEST_SCHEMAS.keys())
+        tests = [n for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
         # tests = fetch_pscheduler_test_list()
         enriched_schema = deepcopy(TEST_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
@@ -214,7 +190,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build the enriched schema by merging base schema with version-specific schema
-    tests = list(TEST_SCHEMAS.keys())
+    tests = [n for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
     # tests = fetch_pscheduler_test_list()
     base_schema = deepcopy(TEST_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
