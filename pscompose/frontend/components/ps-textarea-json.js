@@ -4,7 +4,7 @@ export class InputTextAreaJSON extends PSFormControl {
     constructor() {
         super();
         this.slotEl = `
-            <div class='wrapper'>
+            <div class='ps-wrapper'>
                 <textarea></textarea>
             </div>`;
         this.textAreaEl = null;
