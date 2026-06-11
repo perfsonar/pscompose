@@ -52,13 +52,11 @@ function ensureVersionDropdown(group) {
 }
 
 async function handleTypeChange(selectedType, additionalSchema) {
-    console.log("Selected type ", selectedType, additionalSchema);
     const versionsArray = additionalSchema?.spec?.jsonschema?.versions || [];
     const versions = versionsArray.slice(1).map((_, i) => String(i + 1));
     if (!versions.length) return;
 
     const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
-    console.log("Highest version:", highestVersion);
 
     const elem = document.querySelector("json-form");
     const baseSchema = JSON.parse(elem.schemaData);
@@ -99,14 +97,9 @@ async function handleTypeChange(selectedType, additionalSchema) {
     elem.setAttribute("schema-data", JSON.stringify(baseSchema));
     elem.setAttribute("layout-data", JSON.stringify(baseLayout));
     elem.setAttribute("form-data", JSON.stringify(currentFormData));
-
-    console.log("Schema:", baseSchema);
-    console.log("UI Schema:", baseLayout);
-    console.log("Form Data:", currentFormData);
 }
 
 function updateIdleVersion(selectedVersion, additionalSchema) {
-    console.log("Updating to version:", selectedVersion, additionalSchema);
     const elem = document.querySelector("json-form");
     const currentSchema = JSON.parse(elem.schemaData);
     const currentLayout = JSON.parse(elem.layoutData);
@@ -152,10 +145,6 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
     elem.setAttribute("schema-data", JSON.stringify(currentSchema));
     elem.setAttribute("layout-data", JSON.stringify(currentLayout));
     elem.setAttribute("form-data", JSON.stringify(currentFormData));
-
-    console.log("New Schema:", currentSchema);
-    console.log("New UI Schema:", currentLayout);
-    console.log("New Form Data:", currentFormData);
 }
 
 async function mergeType(selectedType) {
@@ -168,14 +157,15 @@ async function mergeType(selectedType) {
 async function mergeSchema() {
     document.getElementById("#/properties/type").addEventListener("change", async function (event) {
         mergeType(event.target.value);
-        document
-            .getElementById("#/properties/version")
-            .addEventListener("change", async function (event) {
-                const newVersion = JSON.parse(event.target.value);
-                if (additionalSchema) {
-                    updateIdleVersion(newVersion, additionalSchema);
-                }
-            });
+    });
+
+    document.addEventListener("change", async function (event) {
+        if (event.target.id === "#/properties/version") {
+            const newVersion = JSON.parse(event.target.value);
+            if (additionalSchema) {
+                updateIdleVersion(newVersion, additionalSchema);
+            }
+        }
     });
 }
 
