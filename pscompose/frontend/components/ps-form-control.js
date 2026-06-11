@@ -1,3 +1,5 @@
+import { attr, boolAttr } from "./ps-utils.js";
+
 export class PSFormControl extends HTMLElement {
     static get observedAttributes() {
         return [
@@ -21,64 +23,29 @@ export class PSFormControl extends HTMLElement {
     }
 
     get value() {
-        return this.getAttribute("value") ? JSON.parse(this.getAttribute("value")) : undefined;
+        try {
+            return this.getAttribute("value") ? JSON.parse(this.getAttribute("value")) : undefined;
+        } catch {
+            return this.getAttribute("value");
+        }
     }
     set value(v) {
         this.setAttribute("value", JSON.stringify(v) ?? "");
     }
 
-    get label() {
-        return this.getAttribute("label") ?? "";
-    }
-    set label(v) {
-        this.setAttribute("label", v ?? "");
-    }
-    get id() {
-        return this.getAttribute("id") ?? "";
-    }
-    set id(v) {
-        this.setAttribute("id", v ?? "");
-    }
-    get class() {
-        return this.getAttribute("class") ?? "";
-    }
-    set class(v) {
-        this.setAttribute("class", v ?? "");
-    }
-    get description() {
-        return this.getAttribute("description") ?? "";
-    }
-    set description(v) {
-        this.setAttribute("description", v ?? "");
-    }
-
-    get error() {
-        return this.getAttribute("error") ?? "";
-    }
-    set error(v) {
-        this.setAttribute("error", v ?? "");
-    }
-
-    get disabled() {
-        return this.hasAttribute("disabled");
-    }
-    set disabled(v) {
-        v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
-    }
-    get required() {
-        return this.hasAttribute("required");
-    }
-    set required(v) {
-        v ? this.setAttribute("required", "") : this.removeAttribute("required");
-    }
     get examples() {
-        return this.getAttribute("examples")
-            ? JSON.parse(this.getAttribute("examples"))
-            : undefined;
+        try {
+            return this.getAttribute("examples")
+                ? JSON.parse(this.getAttribute("examples"))
+                : undefined;
+        } catch {
+            return undefined;
+        }
     }
     set examples(v) {
         this.setAttribute("examples", JSON.stringify(v) ?? "");
     }
+
     get dirty() {
         return this._dirty;
     }
@@ -119,5 +86,15 @@ export class PSFormControl extends HTMLElement {
 
     render() {}
 }
+
+Object.defineProperties(PSFormControl.prototype, {
+    label: attr("label"),
+    id: attr("id"),
+    class: attr("class"),
+    description: attr("description"),
+    error: attr("error"),
+    disabled: boolAttr("disabled"),
+    required: boolAttr("required"),
+});
 
 customElements.define("ps-form-control", PSFormControl);
