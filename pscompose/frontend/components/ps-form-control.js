@@ -67,12 +67,24 @@ export class PSFormControl extends HTMLElement {
         this.render();
     }
 
+    _buildDesc() {
+        const parts = [];
+        if (this.description) parts.push(this.description);
+        if (this.examples?.length) {
+            const formatted = this.examples
+                .map((ex) => (typeof ex === "string" ? ex : JSON.stringify(ex)))
+                .join(", ");
+            parts.push(`e.g. ${formatted}`);
+        }
+        return parts.join(" — ");
+    }
+
     renderControl() {
         this.innerHTML = `
             <div class="form-container">
                 <ps-input-label
                     label="${this.label}"
-                    desc="${this.description.replace(/"/g, "&quot;")}">
+                    desc="${this._buildDesc().replace(/"/g, "&quot;")}">
                 </ps-input-label>
                 ${this.slotEl || ""}
                 <ps-input-message
