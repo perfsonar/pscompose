@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect, sync_playwright
+from playwright.sync_api import Page, expect
 
 BASE_URL = "http://localhost:5001"
 
@@ -108,20 +108,12 @@ def new_form_nav_top_visible(page: Page) -> None:
     expect(logo).to_be_visible()
 
 
-def test_new_forms():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
+def test_new_forms(page: Page) -> None:
+    new_form_nav_top_visible(page)
 
-        new_form_nav_top_visible(page)
-
-        for dt in DATATYPES:
-            new_form_structure(page, dt)
-            new_form_save_button_attributes(page, dt)
-            new_form_empty_submit_stays_on_page(page, dt)
-            new_form_subnav_closed(page, dt)
-            new_form_star_checkbox_present(page, dt)
-
-        context.close()
-        browser.close()
+    for dt in DATATYPES:
+        new_form_structure(page, dt)
+        new_form_save_button_attributes(page, dt)
+        new_form_empty_submit_stays_on_page(page, dt)
+        new_form_subnav_closed(page, dt)
+        new_form_star_checkbox_present(page, dt)

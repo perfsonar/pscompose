@@ -1,5 +1,5 @@
 import requests
-from playwright.sync_api import Page, expect, sync_playwright
+from playwright.sync_api import Page, expect
 
 BASE_URL = "http://localhost:5001"
 API_BASE = "http://localhost:8000/api"
@@ -291,19 +291,11 @@ def edit_form_favorite_star(page: Page) -> None:
 # ── Entry point ────────────────────────────────────────────────────────────────
 
 
-def test_edit_forms():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
-
-        edit_form_address(page)
-        edit_form_group(page)
-        edit_form_schedule(page)
-        edit_form_test(page)
-        edit_form_delete_modal(page)
-        edit_form_template_action_icons(page)
-        edit_form_favorite_star(page)
-
-        context.close()
-        browser.close()
+def test_edit_forms(page: Page) -> None:
+    edit_form_address(page)
+    edit_form_group(page)
+    edit_form_schedule(page)
+    edit_form_test(page)
+    edit_form_delete_modal(page)
+    edit_form_template_action_icons(page)
+    edit_form_favorite_star(page)
