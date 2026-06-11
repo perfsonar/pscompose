@@ -1,20 +1,21 @@
 import { PSInputText } from "./ps-input-text.js";
 
-class PSInputTextAutocomplete extends PSInputText {
+export class PSInputTextAutocomplete extends PSInputText {
     constructor() {
         super();
         this.slotEl = `
-            <div class="dropdown">
-                <div class="wrapper">
+            <div class="ps-dropdown">
+                <div class="ps-wrapper">
                     <input type="search" />
                 </div>
-                <ul class="options"></ul>
+                <ul class="ps-options"></ul>
             </div>
         `;
         this.inputEl = null;
         this.wrapperEl = null;
         this.optionsEl = null;
         this.actionBtn = null;
+        this._closeDropdownBound = null;
         this.autocompleteOptions = [
             "{% address[0] %}",
             "{% address[1] %}",
@@ -30,7 +31,17 @@ class PSInputTextAutocomplete extends PSInputText {
 
     attachAutocompleteEventListener() {
         this.inputEl.addEventListener("input", (e) => this.handleInput(e));
-        document.addEventListener("click", (e) => this.closeDropdownOutside(e));
+        if (!this._closeDropdownBound) {
+            this._closeDropdownBound = (e) => this.closeDropdownOutside(e);
+            document.addEventListener("click", this._closeDropdownBound);
+        }
+    }
+
+    disconnectedCallback() {
+        if (this._closeDropdownBound) {
+            document.removeEventListener("click", this._closeDropdownBound);
+            this._closeDropdownBound = null;
+        }
     }
 
     handleInput(e) {
@@ -95,8 +106,8 @@ class PSInputTextAutocomplete extends PSInputText {
         super.render();
 
         this.inputEl = this.querySelector("input");
-        this.wrapperEl = this.querySelector(".wrapper");
-        this.optionsEl = this.querySelector(".options");
+        this.wrapperEl = this.querySelector(".ps-wrapper");
+        this.optionsEl = this.querySelector(".ps-options");
 
         this.attachAutocompleteEventListener();
     }

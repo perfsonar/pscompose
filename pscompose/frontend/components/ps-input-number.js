@@ -35,6 +35,7 @@ export function parseSI(raw) {
     return numeric * multiplier;
 }
 
+import { nullableAttr } from "./ps-utils.js";
 import { PSInputText } from "./ps-input-text.js";
 
 export class PSInputNumber extends PSInputText {
@@ -51,27 +52,6 @@ export class PSInputNumber extends PSInputText {
             "min",
             "max",
         ];
-    }
-
-    get min() {
-        return this.getAttribute("min") ?? null;
-    }
-    set min(v) {
-        this.setAttribute("min", v ?? "");
-    }
-
-    get max() {
-        return this.getAttribute("max") ?? null;
-    }
-    set max(v) {
-        this.setAttribute("max", v ?? "");
-    }
-
-    get step() {
-        return this.getAttribute("step") ?? null;
-    }
-    set step(v) {
-        this.setAttribute("step", v ?? "");
     }
 
     constructor() {
@@ -143,10 +123,18 @@ export class PSInputNumber extends PSInputText {
         super.render();
         this.inputEl?.setAttribute("type", "text");
         this.inputEl?.setAttribute("inputmode", "decimal");
+        this.inputEl?.setAttribute("role", "spinbutton");
 
-        if (this.min !== null) this.inputEl?.setAttribute("min", this.min);
-        if (this.max !== null) this.inputEl?.setAttribute("max", this.max);
+        if (this.min !== null) {
+            this.inputEl?.setAttribute("min", this.min);
+            this.inputEl?.setAttribute("aria-valuemin", this.min);
+        }
+        if (this.max !== null) {
+            this.inputEl?.setAttribute("max", this.max);
+            this.inputEl?.setAttribute("aria-valuemax", this.max);
+        }
         if (this.step !== null) this.inputEl?.setAttribute("step", this.step);
+        if (this.value != null) this.inputEl?.setAttribute("aria-valuenow", this.value);
 
         const actionBtns = `
             <div class="buttons">
@@ -160,5 +148,11 @@ export class PSInputNumber extends PSInputText {
         this._attachAdditionalListeners();
     }
 }
+
+Object.defineProperties(PSInputNumber.prototype, {
+    min: nullableAttr("min"),
+    max: nullableAttr("max"),
+    step: nullableAttr("step"),
+});
 
 customElements.define("ps-input-number", PSInputNumber);

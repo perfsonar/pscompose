@@ -1,3 +1,5 @@
+import { boolAttr } from "./ps-utils.js";
+
 class PSInputCheckboxStar extends HTMLElement {
     static get observedAttributes() {
         return ["value", "disabled"];
@@ -6,27 +8,25 @@ class PSInputCheckboxStar extends HTMLElement {
     get value() {
         return this._value === true;
     }
-
     set value(v) {
         this._value = Boolean(v);
         this.setAttribute("value", this._value);
     }
 
-    get disabled() {
-        return this.hasAttribute("disabled");
-    }
-
-    set disabled(v) {
-        v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
-    }
-
     constructor() {
         super();
+        this._onClick = null;
     }
 
     connectedCallback() {
         this.render();
         lucide.createIcons();
+    }
+
+    disconnectedCallback() {
+        if (this.starEl && this._onClick) {
+            this.starEl.removeEventListener("click", this._onClick);
+        }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -37,26 +37,29 @@ class PSInputCheckboxStar extends HTMLElement {
 
     toggle() {
         if (this.hasAttribute("disabled")) return;
-
         this.value = !this.value;
         this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     attachEventListener() {
-        this.starEl.addEventListener("click", () => this.toggle());
+        this._onClick = () => this.toggle();
+        this.starEl.addEventListener("click", this._onClick);
     }
 
     render() {
         const disabled = this.hasAttribute("disabled");
-
         this.innerHTML = `<button class="star ${this.value ? "checked" : ""}" ${
             disabled ? "disabled" : ""
         }>
-                <i data-lucide='star'></i>
-            </button>`;
+            <i data-lucide="star"></i>
+        </button>`;
         this.starEl = this.querySelector("button");
         this.attachEventListener();
     }
 }
+
+Object.defineProperties(PSInputCheckboxStar.prototype, {
+    disabled: boolAttr("disabled"),
+});
 
 customElements.define("ps-input-checkbox-star", PSInputCheckboxStar);

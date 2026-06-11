@@ -44,5 +44,7 @@
         });
 
         initFormSubmit("data-new-form");
+        if (psCompose.activeMenuItem == "wizard" && psCompose.activeRoute.singular == "Template")
+            document.querySelector(".header").style.display = "none";
     })();
 </script>

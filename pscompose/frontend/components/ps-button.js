@@ -1,3 +1,5 @@
+import { attr, boolAttr } from "./ps-utils.js";
+
 export class PSButton extends HTMLElement {
     static observedAttributes = [
         "id",
@@ -16,64 +18,18 @@ export class PSButton extends HTMLElement {
         super();
     }
 
-    get label() {
-        return this.getAttribute("label") ?? "";
-    }
-    set label(v) {
-        this.setAttribute("label", v ?? "");
-    }
-    get id() {
-        return this.getAttribute("id") ?? "";
-    }
-    set id(v) {
-        this.setAttribute("id", v ?? "");
-    }
-    get type() {
-        return this.getAttribute("type") ?? "";
-    }
-    set type(v) {
-        this.setAttribute("type", v ?? "");
-    }
-    get theme() {
-        return this.getAttribute("theme") ?? "";
-    }
-    set theme(v) {
-        this.setAttribute("theme", v ?? "");
-    }
-    get lefticon() {
-        return this.getAttribute("lefticon") ?? "";
-    }
-    set lefticon(v) {
-        this.setAttribute("lefticon", v ?? "");
-    }
-    get righticon() {
-        return this.getAttribute("righticon") ?? "";
-    }
-    set righticon(v) {
-        this.setAttribute("righticon", v ?? "");
-    }
-    get link() {
-        return this.getAttribute("link") ?? "";
-    }
-    set link(v) {
-        this.setAttribute("link", v ?? "");
-    }
-    get disabled() {
-        return this.hasAttribute("disabled");
-    }
-    set disabled(v) {
-        v ? this.setAttribute("disabled", "") : this.removeAttribute("disabled");
-    }
-    get newtab() {
-        return this.hasAttribute("newtab");
-    }
-    set newtab(v) {
-        v ? this.setAttribute("newtab", "") : this.removeAttribute("newtab");
-    }
-
     connectedCallback() {
         this.render();
         lucide.createIcons();
+        // Attach once at component level — survives innerHTML re-renders
+        this._onConfirmClick = () => {
+            if (this.getAttribute("confirm-modal")) this.openModal();
+        };
+        this.addEventListener("click", this._onConfirmClick);
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener("click", this._onConfirmClick);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -100,26 +56,32 @@ export class PSButton extends HTMLElement {
                     : ""
             }
             <button
-                ${this.type ? `type="${this.type}" ` : ""}
+                ${this.type ? `type="${this.type}"` : ""}
                 ${
                     this.getAttribute("aria-label")
                         ? `aria-label="${this.getAttribute("aria-label")}"`
                         : ""
                 }
-                >
-                
+            >
                 ${this.lefticon ? `<i data-lucide="${this.lefticon}"></i>` : ""}
                 ${this.label || ""}
                 ${this.righticon ? `<i data-lucide="${this.righticon}"></i>` : ""}
             </button>
             ${this.link ? `</a>` : ""}
         `;
-
-        let btn = this.querySelector("button");
-        if (this.getAttribute("confirm-modal")) {
-            btn.addEventListener("click", () => this.openModal());
-        }
     }
 }
+
+Object.defineProperties(PSButton.prototype, {
+    label: attr("label"),
+    id: attr("id"),
+    type: attr("type"),
+    theme: attr("theme"),
+    lefticon: attr("lefticon"),
+    righticon: attr("righticon"),
+    link: attr("link"),
+    disabled: boolAttr("disabled"),
+    newtab: boolAttr("newtab"),
+});
 
 customElements.define("ps-button", PSButton);

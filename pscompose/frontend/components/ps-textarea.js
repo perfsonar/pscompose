@@ -4,19 +4,27 @@ export class PSTextArea extends PSFormControl {
     constructor() {
         super();
         this.slotEl = `
-            <div class='wrapper'>
+            <div class='ps-wrapper'>
                 <textarea></textarea>
             </div>`;
         this.textAreaEl = null;
+        this._onChange = null;
+    }
+
+    disconnectedCallback() {
+        if (this.textAreaEl && this._onChange) {
+            this.textAreaEl.removeEventListener("change", this._onChange);
+        }
     }
 
     attachEventListener() {
-        this.textAreaEl?.addEventListener("change", (e) => {
+        this._onChange = (e) => {
             e.preventDefault();
             this.markDirty();
             this.value = this.textAreaEl.value === undefined ? "" : this.textAreaEl.value;
             this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        };
+        this.textAreaEl?.addEventListener("change", this._onChange);
         this.textAreaEl?.addEventListener("input", () => this.markDirty(), { once: true });
         this.textAreaEl?.addEventListener("blur", () => this.markDirty(), { once: true });
     }

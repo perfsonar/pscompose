@@ -264,7 +264,6 @@
             } else {
                 selected = selected.filter((id) => id !== item.id); // Fixed: use filter instead of pop
             }
-            console.log("im here", cb.value);
 
             ul.setAttribute("data-list", JSON.stringify(selected));
         } else {

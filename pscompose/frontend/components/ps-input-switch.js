@@ -1,49 +1,51 @@
+import { attr, boolAttr } from "./ps-utils.js";
+
 export class PSInputSwitch extends HTMLElement {
     static get observedAttributes() {
         return ["checked", "icon"];
     }
-    
-    get checked() {
-        return this.hasAttribute("checked");
-    }
-    set checked(v) {
-        v ? this.setAttribute("checked", "") : this.removeAttribute("checked");
-    }
 
-    get icon() {
-        return this.getAttribute("icon") ?? "";
-    }
-    set icon(v) {
-        this.setAttribute("icon", v ?? "");
-    }
-    
     constructor() {
         super();
+        this._onChange = null;
     }
 
     connectedCallback() {
         this.render();
     }
 
+    disconnectedCallback() {
+        if (this.inputEl && this._onChange) {
+            this.inputEl.removeEventListener("change", this._onChange);
+        }
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) this.render();
     }
 
-
     attachEventListener() {
-        this.inputEl.addEventListener("change", (e) => {
+        this._onChange = (e) => {
             e.preventDefault();
             this.checked = this.inputEl.checked;
+            this.setAttribute("aria-checked", String(this.inputEl.checked));
             this.dispatchEvent(new Event("change", { bubbles: true }));
-        });
+        };
+        this.inputEl.addEventListener("change", this._onChange);
     }
 
     render() {
         this.innerHTML = `
-            <div class="ps-input-switch-container" ${this.checked ? 'checked' : ''}>
-                <input type="checkbox" class="ps-input-switch-input" ${this.checked ? 'checked' : ''}/>
+            <div class="ps-input-switch-container" ${this.checked ? "checked" : ""}>
+                <input
+                    type="checkbox"
+                    class="ps-input-switch-input"
+                    role="switch"
+                    aria-checked="${this.checked}"
+                    ${this.checked ? "checked" : ""}
+                />
                 <span class="ps-input-switch-indicator">
-                    <i class="ps-input-switch-icon" data-lucide=${this.icon ? this.icon : ''}></i>
+                    <i class="ps-input-switch-icon" data-lucide="${this.icon || ""}"></i>
                 </span>
             </div>
         `;
@@ -52,5 +54,10 @@ export class PSInputSwitch extends HTMLElement {
         lucide.createIcons();
     }
 }
+
+Object.defineProperties(PSInputSwitch.prototype, {
+    icon: attr("icon"),
+    checked: boolAttr("checked"),
+});
 
 customElements.define("ps-input-switch", PSInputSwitch);

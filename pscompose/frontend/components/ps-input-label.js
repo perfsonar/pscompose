@@ -1,20 +1,8 @@
+import { attr } from "./ps-utils.js";
+
 export class PSInputLabel extends HTMLElement {
     static get observedAttributes() {
-        ["label", "desc"];
-    }
-
-    get label() {
-        return this.getAttribute("label") ?? "";
-    }
-    set label(v) {
-        this.setAttribute("label", v ?? "");
-    }
-
-    get desc() {
-        return this.getAttribute("desc") ?? "";
-    }
-    set desc(v) {
-        this.setAttribute("desc", v ?? "");
+        return ["label", "desc"];
     }
 
     constructor() {
@@ -30,7 +18,7 @@ export class PSInputLabel extends HTMLElement {
     }
 
     render() {
-        this.innerHTML = `                
+        this.innerHTML = `
             <label>
                 ${this.label}
                 ${
@@ -41,5 +29,10 @@ export class PSInputLabel extends HTMLElement {
             </label>`;
     }
 }
+
+Object.defineProperties(PSInputLabel.prototype, {
+    label: attr("label"),
+    desc: attr("desc"),
+});
 
 customElements.define("ps-input-label", PSInputLabel);
