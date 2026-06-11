@@ -15,11 +15,15 @@ export class InputTextAreaJSON extends PSFormControl {
             e.preventDefault();
             this.markDirty();
             const raw = this.textAreaEl.value.trim();
-            try {
-                this.value = JSON.parse(raw);
-            } catch (err) {
-                // Not valid JSON, treat as plain string
-                this.value = raw;
+            if (!raw) {
+                this.removeAttribute("value");
+            } else {
+                try {
+                    this.value = JSON.parse(raw);
+                } catch (err) {
+                    // Not valid JSON, treat as plain string
+                    this.value = raw;
+                }
             }
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
@@ -28,7 +32,7 @@ export class InputTextAreaJSON extends PSFormControl {
     }
 
     formatValue(value) {
-        if (value === null || value === undefined) return "";
+        if (value === null || value === undefined || value === "") return undefined;
         if (typeof value === "string") return value;
         return JSON.stringify(value, null, 2);
     }
