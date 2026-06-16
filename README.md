@@ -132,3 +132,48 @@ make run-frontend
 ```
 
 You should be able to see the frontend at: `http://localhost:5001/`
+
+## Testing
+
+`pytest` and `playwright` are listed in `dev_requirements.txt`. Both test targets depend on a `.dev-installed` — dependencies and Playwright browsers are installed once on first run, and again automatically if `dev_requirements.txt` changes.
+
+### Backend tests
+
+Backend tests live in `tests/*.py` and require only the API to be running (`make run-api`):
+
+```
+make test
+```
+
+### Frontend tests (Playwright)
+
+Frontend tests live in `tests/frontend/` and require **both** servers to be running first:
+
+```
+make run-api
+make run-frontend
+```
+
+```
+make test-frontend
+```
+
+Playwright browser binaries are installed automatically the first time this runs. Subsequent runs skip the install.
+
+To force a reinstall of browsers: `rm .playwright-installed && make test-frontend`
+
+#### Useful options
+
+| Flag               | Effect                                        |
+| ------------------ | --------------------------------------------- |
+| `--headed`         | Show the browser window while tests run       |
+| `-x`               | Stop after the first failure                  |
+| `-k "test_wizard"` | Run only tests whose name matches the pattern |
+| `--tb=short`       | Shorter traceback output on failure           |
+
+Example — run only the wizard test with the browser visible:
+
+```
+source venv/bin/activate
+python -m pytest tests/frontend/test_wizard.py --headed -v
+```

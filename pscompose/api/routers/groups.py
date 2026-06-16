@@ -14,63 +14,32 @@ router = generate_router("group")
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
     json_data = data["json"]
-    filtered_json = {}
-
-    # Cleaning up the data
-    if "schema" in data and "group_type" in data:
-        schema = data["schema"]
-        group_type = data["group_type"]
-
-        # Find the matching schema for the relevant group type
-        type_schema = next(
-            (
-                item
-                for item in schema.get("allOf", [])
-                if item.get("if", {}).get("properties", {}).get("type", {}).get("const")
-                == group_type
-            ),
-            None,
-        )
-
-        if not type_schema:
-            raise ValueError(f"No schema found for type {group_type}")
-
-        # Filter json_data to only include properties that are allowed for this type
-        allowed_keys = type_schema.get("then", {}).get("properties", {}).keys()
-        filtered_json = {k: json_data[k] for k in allowed_keys if k in json_data}
-
-        # Remove these keys from the main data dictionary
-        if "schema" in data:
-            del data["schema"]
-
-        if "group_type" in data:
-            del data["group_type"]
+    ref_set = data["ref_set"]
 
     # Formatting Excludes
     # FROM {'local-address': id, 'target-addresses': [id, id]}
     # TO {"local-address": {"name": id }, "target-addresses": [{"name": id}, ...]}
     exclude_addresses = []
     if json_data.get("excludes"):
-        filtered_json["excludes"] = []
         for exclude in json_data["excludes"]:
             local = exclude["local-address"]
             targets = exclude["target-addresses"]
 
-            exclude_addresses.append(local)
-            exclude_addresses.extend(targets)
-
-            filtered_json["excludes"].append(
+            exclude_addresses.append(
                 {
                     "local-address": {"name": local},
                     "target-addresses": [{"name": t} for t in targets],
                 }
             )
 
-    else:
-        filtered_json = json_data
+            # update ref_set
+            if local not in ref_set:
+                ref_set.append(local)
+            for t in targets:
+                if t not in ref_set:
+                    ref_set.append(t)
+        json_data["excludes"] = exclude_addresses
 
-    # Update Refset
-    ref_set = data["ref_set"]
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
             address_id_array = []
@@ -79,14 +48,10 @@ def sanitize_data(data):
                 if address not in ref_set:
                     ref_set.append(address)
                 address_id_array.append(obj)
-            filtered_json[key] = address_id_array
-
-    for exclude in exclude_addresses:
-        if exclude not in ref_set:
-            ref_set.append(exclude)
+            json_data[key] = address_id_array
 
     data["ref_set"] = ref_set
-    data["json"] = filtered_json
+    data["json"] = json_data
     return data
 
 
@@ -139,6 +104,7 @@ def get_new_form():
             "target-addresses": address_rows,
         },
     )
+    print("json_schema: ", enriched_schema)
 
     payload = {"ui_schema": GROUP_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
