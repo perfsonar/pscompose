@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, expect
+import pytest
 
 BASE_URL = "http://localhost:5001"
-
 DATATYPES = [
     {"key": "address", "singular": "Address"},
     {"key": "archive", "singular": "Archive"},
@@ -21,17 +21,17 @@ def new_form_structure(page: Page, dt: dict) -> None:
     wrapper = page.locator(".datatype.new-form")
     expect(wrapper).to_be_visible(timeout=10_000)
 
-    # Heading set by JS after json-form mounts
-    heading = wrapper.locator("#data-name")
-    expect(heading).to_be_visible(timeout=10_000)
-    expect(heading).to_have_text(f"New {dt['singular']}")
-
     # JSON Forms element
     form = wrapper.locator("#data-new-form")
     expect(form).to_be_visible()
 
     json_form = form.locator("json-form")
     expect(json_form).to_be_visible(timeout=10_000)
+
+    # Heading set by JS after json-form mounts
+    heading = wrapper.locator("#data-name")
+    expect(heading).to_be_visible(timeout=10_000)
+    expect(heading).to_have_text(f"New {dt['singular']}")
 
     # Save button
     save_btn = form.locator("ps-button[type='submit'][label='Save']")
@@ -108,12 +108,11 @@ def new_form_nav_top_visible(page: Page) -> None:
     expect(logo).to_be_visible()
 
 
-def test_new_forms(page: Page) -> None:
+@pytest.mark.parametrize("dt", DATATYPES, ids=[d["key"] for d in DATATYPES])
+def test_blank_form(page: Page, dt: dict) -> None:
     new_form_nav_top_visible(page)
-
-    for dt in DATATYPES:
-        new_form_structure(page, dt)
-        new_form_save_button_attributes(page, dt)
-        new_form_empty_submit_stays_on_page(page, dt)
-        new_form_subnav_closed(page, dt)
-        new_form_star_checkbox_present(page, dt)
+    new_form_structure(page, dt)
+    new_form_save_button_attributes(page, dt)
+    new_form_empty_submit_stays_on_page(page, dt)
+    new_form_subnav_closed(page, dt)
+    new_form_star_checkbox_present(page, dt)

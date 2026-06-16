@@ -29,9 +29,17 @@ run-frontend:
 	@echo "Starting simple HTTP server on http://localhost:5001/"
 	cd pscompose/frontend && npm run generate-components-index && python3 server.py --port=5001
 
+.dev-installed: dev_requirements.txt
+	source venv/bin/activate && pip install -r dev_requirements.txt && playwright install
+	touch .dev-installed
+
 .PHONY: test
-test:
-	@echo "Running pytest test harness for Frontend (playwright/pytest) and Backend (standard pytest) tests..."
-	source venv/bin/activate && pip install -r dev_requirements.txt
-	source venv/bin/activate && playwright install
+test: .dev-installed
+	@echo "Running backend tests..."
 	source venv/bin/activate && PSCOMPOSE_SETTINGS=$(TEST_CONFIG) python3 -m pytest -v -s tests/*.py
+
+.PHONY: test-frontend
+test-frontend: .dev-installed
+	@echo "Running frontend (Playwright) tests — ensure make run-api and make run-frontend are running first."
+	source venv/bin/activate && python3 -m pytest -v tests/frontend/
+

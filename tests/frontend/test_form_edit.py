@@ -37,7 +37,6 @@ def create_group(address_id: str) -> str:
         {
             "ref_set": [],
             "type": "group",
-            "group_type": "list",
             "json": {
                 "type": "list",
                 "addresses": [address_id],
@@ -99,11 +98,6 @@ def assert_edit_form_structure(page: Page, item_name: str) -> None:
     wrapper = page.locator(".datatype.edit-form")
     expect(wrapper).to_be_visible(timeout=15_000)
 
-    # Item name heading (set after json-form mounts)
-    heading = wrapper.locator("#data-name")
-    expect(heading).to_be_visible(timeout=10_000)
-    expect(heading).to_have_text(item_name)
-
     # Edit pencil icon
     edit_icon = wrapper.locator("#edit-icon")
     expect(edit_icon).to_be_visible()
@@ -112,6 +106,11 @@ def assert_edit_form_structure(page: Page, item_name: str) -> None:
     json_form = wrapper.locator("json-form")
     expect(json_form).to_be_visible(timeout=10_000)
     expect(json_form).to_have_attribute("readonly", "true")
+
+    # Item name heading (set after json-form mounts)
+    heading = wrapper.locator("#data-name")
+    expect(heading).to_be_visible(timeout=10_000)
+    expect(heading).to_have_text(item_name)
 
 
 def assert_edit_mode(page: Page) -> None:
@@ -148,7 +147,7 @@ def assert_cancel_returns_to_readonly(page: Page) -> None:
 # ── Per-datatype test functions ────────────────────────────────────────────────
 
 
-def edit_form_address(page: Page) -> None:
+def test_edit_form_address(page: Page) -> None:
     item_id = create_address()
     try:
         page.goto(f"{BASE_URL}/address/?id={item_id}")
@@ -169,7 +168,7 @@ def edit_form_address(page: Page) -> None:
         _delete("address", item_id)
 
 
-def edit_form_group(page: Page) -> None:
+def test_edit_form_group(page: Page) -> None:
     addr_id = create_address()
     grp_id = create_group(addr_id)
     try:
@@ -182,7 +181,7 @@ def edit_form_group(page: Page) -> None:
         _delete("address", addr_id)
 
 
-def edit_form_schedule(page: Page) -> None:
+def test_edit_form_schedule(page: Page) -> None:
     item_id = create_schedule()
     try:
         page.goto(f"{BASE_URL}/schedule/?id={item_id}")
@@ -193,7 +192,7 @@ def edit_form_schedule(page: Page) -> None:
         _delete("schedule", item_id)
 
 
-def edit_form_test(page: Page) -> None:
+def test_edit_form_test(page: Page) -> None:
     item_id = create_test()
     try:
         page.goto(f"{BASE_URL}/test/?id={item_id}")
@@ -204,7 +203,7 @@ def edit_form_test(page: Page) -> None:
         _delete("test", item_id)
 
 
-def edit_form_delete_modal(page: Page) -> None:
+def test_edit_form_delete_modal(page: Page) -> None:
     """Clicking the Delete button opens the delete confirmation modal."""
     item_id = create_address()
     try:
@@ -238,7 +237,7 @@ def edit_form_delete_modal(page: Page) -> None:
         _delete("address", item_id)
 
 
-def edit_form_template_action_icons(page: Page) -> None:
+def test_edit_form_template_action_icons(page: Page) -> None:
     """Template edit form exposes Download, Copy, and Open JSON action icons."""
     addr_id = create_address()
     grp_id = create_group(addr_id)
@@ -273,7 +272,7 @@ def edit_form_template_action_icons(page: Page) -> None:
         _delete("address", addr_id)
 
 
-def edit_form_favorite_star(page: Page) -> None:
+def test_edit_form_favorite_star(page: Page) -> None:
     """Favorite star checkbox is present in the edit form header."""
     item_id = create_address()
     try:
@@ -288,14 +287,14 @@ def edit_form_favorite_star(page: Page) -> None:
         _delete("address", item_id)
 
 
-# ── Entry point ────────────────────────────────────────────────────────────────
+# # ── Entry point ────────────────────────────────────────────────────────────────
 
 
-def test_edit_forms(page: Page) -> None:
-    edit_form_address(page)
-    edit_form_group(page)
-    edit_form_schedule(page)
-    edit_form_test(page)
-    edit_form_delete_modal(page)
-    edit_form_template_action_icons(page)
-    edit_form_favorite_star(page)
+# def test_edit_forms(page: Page) -> None:
+#     edit_form_address(page)
+#     edit_form_group(page)
+#     edit_form_schedule(page)
+#     edit_form_test(page)
+#     edit_form_delete_modal(page)
+#     edit_form_template_action_icons(page)
+#     edit_form_favorite_star(page)

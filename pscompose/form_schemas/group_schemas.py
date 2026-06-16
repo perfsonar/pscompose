@@ -39,7 +39,6 @@ GROUP_SCHEMA = {
                         "type": "boolean",
                         "title": "Unidirectional",
                         "description": "Check this box if it's unidirectional",
-                        "default": False,
                     },
                     "a-addresses": {
                         "type": "array",

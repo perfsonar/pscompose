@@ -1,5 +1,4 @@
 async function submit(mode, formData) {
-    console.log("submit");
     // 1. Retrieve jsonform data
     const { name, ...rest } = formData; // Need to remove name from the form
 
@@ -14,12 +13,6 @@ async function submit(mode, formData) {
         // url: ""
         last_edited_at: new Date().toISOString(),
     };
-
-    // 1.1 Additional properties added according to datatype
-    if (datatype == "group") {
-        data.schema = JSON.parse(document.querySelector("json-form").schemaData);
-        data.group_type = rest.type;
-    }
 
     // Map "type" back to "archiver" for archives
     if (datatype == "archive") {

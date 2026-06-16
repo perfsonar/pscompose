@@ -1,4 +1,5 @@
 import re
+import pytest
 from playwright.sync_api import Page, expect
 
 BASE_URL = "http://localhost:5001"
@@ -123,10 +124,10 @@ def blank_form_subnav_item_click_loads_edit(page: Page, dt: dict) -> None:
     expect(edit_form).to_be_visible(timeout=10_000)
 
 
-def test_blank_forms(page: Page) -> None:
-    for dt in DATATYPES:
-        blank_form_heading(page, dt)
-        blank_form_subnav_opens(page, dt)
-        blank_form_subnav_search_filters(page, dt)
-        blank_form_subnav_new_button_navigates(page, dt)
-        blank_form_subnav_item_click_loads_edit(page, dt)
+@pytest.mark.parametrize("dt", DATATYPES, ids=[d["key"] for d in DATATYPES])
+def test_blank_form(page: Page, dt: dict) -> None:
+    blank_form_heading(page, dt)
+    blank_form_subnav_opens(page, dt)
+    blank_form_subnav_search_filters(page, dt)
+    blank_form_subnav_new_button_navigates(page, dt)
+    blank_form_subnav_item_click_loads_edit(page, dt)
