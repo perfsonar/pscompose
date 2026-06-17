@@ -1,0 +1,2687 @@
+[
+    {
+        "description": "Discard results",
+        "href": "https://localhost/pscheduler/archivers/bitbucket",
+        "json-forms-compatible": true,
+        "label": "Bit Bucket",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bitbucket",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": []
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send results to Esmond",
+        "href": "https://localhost/pscheduler/archivers/esmond",
+        "json-forms-compatible": true,
+        "label": "Esmond",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "esmond",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_auth-token": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "bind": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "data-formatting-policy": {
+                                "enum": [
+                                    "prefer-mapped",
+                                    "mapped-and-raw",
+                                    "mapped-only",
+                                    "raw-only"
+                                ],
+                                "type": "string"
+                            },
+                            "measurement-agent": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "Any positive integer is valid.",
+                                            "examples": [5, 2, 19],
+                                            "minimum": 1,
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer.",
+                                            "title": "Attempts"
+                                        },
+                                        "wait": {
+                                            "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Duration",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "summaries": {
+                                "items": {
+                                    "properties": {
+                                        "event-type": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string",
+                                            "title": "Event Type"
+                                        },
+                                        "summary-type": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string",
+                                            "title": "Summary Type"
+                                        },
+                                        "summary-window": {
+                                            "description": "Zero or any positive integer is valid.",
+                                            "examples": [0, 1, 5, 19],
+                                            "minimum": 0,
+                                            "type": "integer",
+                                            "x-invalid-message": "This must be zero or any positive integer.",
+                                            "title": "Summary Window"
+                                        }
+                                    },
+                                    "required": ["event-type", "summary-type", "summary-window"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "url": {
+                                "description": "Any uniform resource identifier (URI) is valid.",
+                                "examples": ["https://www.example.org"],
+                                "format": "uri",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://datatracker.ietf.org/doc/html/rfc3986",
+                                        "title": "Uniform Resource Identifiers"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid URI."
+                            },
+                            "verify-ssl": {
+                                "type": "boolean"
+                            }
+                        },
+                        "required": ["url"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "HorizontalLayout",
+                                "elements": [
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_auth-token",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/verify-ssl",
+                                        "customComponent": "ps-input-checkbox"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/measurement-agent",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/data-formatting-policy",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/summaries",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/event-type",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/summary-type",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/summary-window",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Dummy archiver that fails some of the time",
+        "href": "https://localhost/pscheduler/archivers/failer",
+        "json-forms-compatible": true,
+        "label": "Failer",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "failer",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "delay": {
+                                "description": "How long to delay before completing.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Delay",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "fail": {
+                                "description": "Probability that any attempt will fail.  Any value in [0.0..1.0] is valid.",
+                                "maximum": 1.0,
+                                "minimum": 0.0,
+                                "title": "Fail",
+                                "type": "number",
+                                "x-invalid-message": "Value must be in [0.0..1.0]."
+                            },
+                            "retry": {
+                                "description": "Probability that a retry will be requested after a failure.  Any value in [0.0..1.0] is valid.",
+                                "maximum": 1.0,
+                                "minimum": 0.0,
+                                "title": "Retry",
+                                "type": "number",
+                                "x-invalid-message": "Value must be in [0.0..1.0]."
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "badly": {
+                                "description": "When failing, fail badly with an internal error.",
+                                "title": "Fail Badly",
+                                "type": "boolean"
+                            },
+                            "delay": {
+                                "description": "How long to delay before completing.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Delay",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "fail": {
+                                "description": "Probability that any attempt will fail.  Any value in [0.0..1.0] is valid.",
+                                "maximum": 1.0,
+                                "minimum": 0.0,
+                                "title": "Fail",
+                                "type": "number",
+                                "x-invalid-message": "Value must be in [0.0..1.0]."
+                            },
+                            "retry": {
+                                "description": "Probability that a retry will be requested after a failure.  Any value in [0.0..1.0] is valid.",
+                                "maximum": 1.0,
+                                "minimum": 0.0,
+                                "title": "Retry",
+                                "type": "number",
+                                "x-invalid-message": "Value must be in [0.0..1.0]."
+                            },
+                            "schema": {
+                                "const": 2,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["schema"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/fail",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/delay",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry",
+                                "customComponent": "ps-input-number"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "HorizontalLayout",
+                                "elements": [
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/fail",
+                                        "customComponent": "ps-input-number"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/delay",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/retry",
+                                        "customComponent": "ps-input-number"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/badly",
+                                        "customComponent": "ps-input-checkbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send a raw JSON result to a HTTP server",
+        "href": "https://localhost/pscheduler/archivers/http",
+        "json-forms-compatible": true,
+        "label": "HTTP",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "http",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_url": {
+                                "description": "URL for archive.  Any uniform resource identifier (URI) is valid.",
+                                "examples": ["https://www.example.org"],
+                                "format": "uri",
+                                "title": "URL",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://datatracker.ietf.org/doc/html/rfc3986",
+                                        "title": "Uniform Resource Identifiers"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid URI."
+                            },
+                            "bind": {
+                                "description": "Source address for outgoing request.  Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "title": "bind",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "op": {
+                                "description": "HTTP operation.  Must be \"put\" or \"post\".",
+                                "enum": ["put", "post"],
+                                "title": "Operation",
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["_url"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_headers": {
+                                "additionalProperties": false,
+                                "patternProperties": {
+                                    "^.*$": {
+                                        "description": "A HTTP header value  Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "title": "Header",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "_url": {
+                                "description": "URL for archive.  Any uniform resource identifier (URI) is valid.",
+                                "examples": ["https://www.example.org"],
+                                "format": "uri",
+                                "title": "URL",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://datatracker.ietf.org/doc/html/rfc3986",
+                                        "title": "Uniform Resource Identifiers"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid URI."
+                            },
+                            "bind": {
+                                "description": "Source address for outgoing request.  Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "title": "Bind",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "op": {
+                                "description": "HTTP operation.  Must be \"put\" or \"post\".",
+                                "enum": ["put", "post"],
+                                "title": "Operation",
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 2,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["schema", "_url"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_headers": {
+                                "additionalProperties": false,
+                                "patternProperties": {
+                                    "^.*$": {
+                                        "description": "A HTTP header value  Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "title": "Header",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "_url": {
+                                "description": "URL for archive.  Any uniform resource identifier (URI) is valid.",
+                                "examples": ["https://www.example.org"],
+                                "format": "uri",
+                                "title": "URL",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://datatracker.ietf.org/doc/html/rfc3986",
+                                        "title": "Uniform Resource Identifiers"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid URI."
+                            },
+                            "bind": {
+                                "description": "Source address for outgoing request.  Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "title": "Bind",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "op": {
+                                "description": "HTTP operation.  Must be \"put\" or \"post\".",
+                                "enum": ["put", "post"],
+                                "title": "Operation",
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 3,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "verify-ssl": {
+                                "description": "Require that the server present a valid SSL certificate.",
+                                "title": "Verify SSL",
+                                "type": "boolean"
+                            }
+                        },
+                        "required": ["schema", "_url"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_headers": {
+                                "additionalProperties": false,
+                                "patternProperties": {
+                                    "^.*$": {
+                                        "description": "A HTTP header value  Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "title": "Header",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "_url": {
+                                "description": "URL for archive.  Any uniform resource identifier (URI) is valid.",
+                                "examples": ["https://www.example.org"],
+                                "format": "uri",
+                                "title": "URL",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://datatracker.ietf.org/doc/html/rfc3986",
+                                        "title": "Uniform Resource Identifiers"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid URI."
+                            },
+                            "bind": {
+                                "description": "Source address for outgoing request.  Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "title": "Bind",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "op": {
+                                "description": "HTTP operation.  Must be \"put\" or \"post\".",
+                                "enum": ["put", "post"],
+                                "title": "Operation",
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 4,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "timeout": {
+                                "description": "How long to wait before giving up.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Timeout",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "verify-ssl": {
+                                "description": "Require that the server present a valid SSL certificate.",
+                                "title": "Verify SSL",
+                                "type": "boolean"
+                            }
+                        },
+                        "required": ["schema", "_url"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_headers",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "HorizontalLayout",
+                                "elements": [
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_headers",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/verify-ssl",
+                                        "customComponent": "ps-input-checkbox"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/op",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/timeout",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "HorizontalLayout",
+                                "elements": [
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_headers",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/verify-ssl",
+                                        "customComponent": "ps-input-checkbox"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Archives data to an Apache Kafka message bus",
+        "href": "https://localhost/pscheduler/archivers/kafka",
+        "json-forms-compatible": false,
+        "label": "Kafka",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "kafka",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "server": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "topic": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            }
+                        },
+                        "required": ["topic", "server"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": true,
+                        "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "security-protocol": {
+                                            "const": "SSL"
+                                        }
+                                    },
+                                    "required": ["security-protocol"]
+                                },
+                                "then": {
+                                    "properties": {
+                                        "_ssl-cacert": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string"
+                                        },
+                                        "_ssl-cert": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string"
+                                        },
+                                        "_ssl-key": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string"
+                                        },
+                                        "_ssl-password": {
+                                            "description": "Any string is valid.",
+                                            "examples": ["xyzzy", "foo", "bar", "baz"],
+                                            "type": "string"
+                                        },
+                                        "ssl-checkhostname": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "properties": {
+                            "archiver-id": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "kafka-retries": {
+                                "description": "Any integer is valid.",
+                                "examples": [5, -17, 0],
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid integer."
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 2,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "security-protocol": {
+                                "default": "PLAINTEXT",
+                                "enum": ["PLAINTEXT", "SSL"]
+                            },
+                            "server": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "topic": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            }
+                        },
+                        "required": ["schema", "topic", "server", "security-protocol"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/topic",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/server",
+                                "customComponent": "ps-input-text"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/topic",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/server",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/archiver-id",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/kafka-retries",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/security-protocol",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Group",
+                                "rule": {
+                                    "effect": "SHOW",
+                                    "condition": {
+                                        "scope": "#/properties/security-protocol",
+                                        "schema": {
+                                            "const": "SSL"
+                                        }
+                                    }
+                                },
+                                "elements": [
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_ssl-key",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_ssl-cert",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_ssl-cacert",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/_ssl-password",
+                                        "customComponent": "ps-input-text"
+                                    },
+                                    {
+                                        "type": "Control",
+                                        "scope": "#/properties/ssl-checkhostname",
+                                        "customComponent": "ps-input-checkbox"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.2"
+    },
+    {
+        "description": "PostgreSQL database archiver",
+        "href": "https://localhost/pscheduler/archivers/postgresql",
+        "json-forms-compatible": true,
+        "label": "PostgreSQL",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "postgresql",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_dsn": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "column": {
+                                "maxLength": 63,
+                                "minLength": 1,
+                                "pattern": "^[A-Za-z_][A-Za-z0-9_\\$]*$",
+                                "type": "string"
+                            },
+                            "connection-expires": {
+                                "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Duration",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "table": {
+                                "maxLength": 63,
+                                "minLength": 1,
+                                "pattern": "^[A-Za-z_][A-Za-z0-9_\\$]*$",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["_dsn", "table", "column"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_dsn",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/table",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/column",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/connection-expires",
+                                "customComponent": "ps-input-text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send a JSON result to RabbitMQ",
+        "href": "https://localhost/pscheduler/archivers/rabbitmq",
+        "json-forms-compatible": false,
+        "label": "RabbitMQ",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "rabbitmq",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_url": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "exchange": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "routing-key": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["_url"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_url": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "connection-expires": {
+                                "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Duration",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "exchange": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "routing-key": {
+                                "anyOf": [
+                                    {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "args": {
+                                                "description": "This can be any valid JSON.",
+                                                "examples": [
+                                                    {
+                                                        "foo": "bar"
+                                                    },
+                                                    "perfSONAR",
+                                                    true,
+                                                    97,
+                                                    null
+                                                ],
+                                                "x-info": [
+                                                    {
+                                                        "href": "https://www.json.org",
+                                                        "title": "JSON"
+                                                    }
+                                                ],
+                                                "x-invalid-message": "'%s' is not valid JSON."
+                                            },
+                                            "output-raw": {
+                                                "type": "boolean"
+                                            },
+                                            "script": {
+                                                "anyOf": [
+                                                    {
+                                                        "description": "Any string is valid.",
+                                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "description": "Any string is valid.",
+                                                            "examples": [
+                                                                "xyzzy",
+                                                                "foo",
+                                                                "bar",
+                                                                "baz"
+                                                            ],
+                                                            "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": ["script"],
+                                        "type": "object"
+                                    }
+                                ]
+                            },
+                            "schema": {
+                                "const": 2,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["schema", "_url"],
+                        "type": "object"
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "_url": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "connection-expires": {
+                                "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Duration",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            },
+                            "exchange": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "routing-key": {
+                                "anyOf": [
+                                    {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "args": {
+                                                "description": "This can be any valid JSON.",
+                                                "examples": [
+                                                    {
+                                                        "foo": "bar"
+                                                    },
+                                                    "perfSONAR",
+                                                    true,
+                                                    97,
+                                                    null
+                                                ],
+                                                "x-info": [
+                                                    {
+                                                        "href": "https://www.json.org",
+                                                        "title": "JSON"
+                                                    }
+                                                ],
+                                                "x-invalid-message": "'%s' is not valid JSON."
+                                            },
+                                            "output-raw": {
+                                                "type": "boolean"
+                                            },
+                                            "script": {
+                                                "anyOf": [
+                                                    {
+                                                        "description": "Any string is valid.",
+                                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "description": "Any string is valid.",
+                                                            "examples": [
+                                                                "xyzzy",
+                                                                "foo",
+                                                                "bar",
+                                                                "baz"
+                                                            ],
+                                                            "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": ["script"],
+                                        "type": "object"
+                                    }
+                                ]
+                            },
+                            "schema": {
+                                "const": 3,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            },
+                            "timeout": {
+                                "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+                                "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                "title": "Duration",
+                                "type": "string",
+                                "x-info": [
+                                    {
+                                        "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                        "title": "ISO 8601 Durations"
+                                    }
+                                ],
+                                "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                            }
+                        },
+                        "required": ["schema", "_url"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/exchange",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/routing-key",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/exchange",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/routing-key",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/connection-expires",
+                                "customComponent": "ps-input-text"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_url",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/timeout",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/exchange",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/routing-key",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/connection-expires",
+                                "customComponent": "ps-input-text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send an SNMP trap to a destination.",
+        "href": "https://localhost/pscheduler/archivers/snmptrap",
+        "json-forms-compatible": false,
+        "label": "SNMP Trap",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "snmptrap",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": true,
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "_community": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "dest": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "instance-index": {
+                                        "description": "Any integer is valid.",
+                                        "examples": [5, -17, 0],
+                                        "type": "integer",
+                                        "x-invalid-message": "'%s' is not a valid integer."
+                                    },
+                                    "trap-oid": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string"
+                                    },
+                                    "trap-varbinds": {
+                                        "items": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "oid": {
+                                                    "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                                    "type": "string",
+                                                    "title": "Oid"
+                                                },
+                                                "value": {
+                                                    "description": "This can be any valid JSON.",
+                                                    "examples": [
+                                                        {
+                                                            "foo": "bar"
+                                                        },
+                                                        "perfSONAR",
+                                                        true,
+                                                        97,
+                                                        null
+                                                    ],
+                                                    "x-info": [
+                                                        {
+                                                            "href": "https://www.json.org",
+                                                            "title": "JSON"
+                                                        }
+                                                    ],
+                                                    "x-invalid-message": "'%s' is not valid JSON.",
+                                                    "title": "Value"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": ["dest", "_community", "trap-oid"],
+                                "type": "object"
+                            },
+                            {
+                                "properties": {
+                                    "_auth-key": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "_priv-key": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "auth-protocol": {
+                                        "enum": ["MD5", "SHA"],
+                                        "type": "string"
+                                    },
+                                    "dest": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "instance-index": {
+                                        "description": "Any integer is valid.",
+                                        "examples": [5, -17, 0],
+                                        "type": "integer",
+                                        "x-invalid-message": "'%s' is not a valid integer."
+                                    },
+                                    "priv-protocol": {
+                                        "enum": [
+                                            "AES",
+                                            "AES128",
+                                            "AES192",
+                                            "AES256",
+                                            "DES",
+                                            "3DES"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "security-level": {
+                                        "enum": ["noAuthNoPriv", "authNoPriv", "authPriv"],
+                                        "type": "string"
+                                    },
+                                    "security-name": {
+                                        "description": "Any string is valid.",
+                                        "examples": ["xyzzy", "foo", "bar", "baz"],
+                                        "type": "string"
+                                    },
+                                    "trap-oid": {
+                                        "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                        "type": "string"
+                                    },
+                                    "trap-varbinds": {
+                                        "items": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "oid": {
+                                                    "pattern": "^(((\\.\\d)|\\d)+(\\.\\d+)*)|([a-z][A-Z]*)$",
+                                                    "type": "string",
+                                                    "title": "Oid"
+                                                },
+                                                "value": {
+                                                    "description": "This can be any valid JSON.",
+                                                    "examples": [
+                                                        {
+                                                            "foo": "bar"
+                                                        },
+                                                        "perfSONAR",
+                                                        true,
+                                                        97,
+                                                        null
+                                                    ],
+                                                    "x-info": [
+                                                        {
+                                                            "href": "https://www.json.org",
+                                                            "title": "JSON"
+                                                        }
+                                                    ],
+                                                    "x-invalid-message": "'%s' is not valid JSON.",
+                                                    "title": "Value"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": ["dest", "security-name", "trap-oid"],
+                                "type": "object"
+                            }
+                        ],
+                        "properties": {
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        }
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/dest",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/trap-oid",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_community",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/trap-varbinds",
+                                "customComponent": "ps-input-array"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/instance-index",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_auth-key",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/_priv-key",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/auth-protocol",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/priv-protocol",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/security-name",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/security-level",
+                                "customComponent": "ps-select"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0.0.3"
+    },
+    {
+        "description": "Send a raw JSON result to Syslog",
+        "href": "https://localhost/pscheduler/archivers/syslog",
+        "json-forms-compatible": true,
+        "label": "Syslog",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "syslog",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "facility": {
+                                "enum": [
+                                    "kern",
+                                    "user",
+                                    "mail",
+                                    "daemon",
+                                    "auth",
+                                    "lpr",
+                                    "news",
+                                    "uucp",
+                                    "cron",
+                                    "syslog",
+                                    "local0",
+                                    "local1",
+                                    "local2",
+                                    "local3",
+                                    "local4",
+                                    "local5",
+                                    "local6",
+                                    "local7"
+                                ],
+                                "type": "string"
+                            },
+                            "ident": {
+                                "description": "Any string is valid.",
+                                "examples": ["xyzzy", "foo", "bar", "baz"],
+                                "type": "string"
+                            },
+                            "priority": {
+                                "enum": [
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug"
+                                ],
+                                "type": "string"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/ident",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/facility",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/priority",
+                                "customComponent": "ps-select"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send a raw JSON result to a TCP socket",
+        "href": "https://localhost/pscheduler/archivers/tcp",
+        "json-forms-compatible": true,
+        "label": "TCP",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "tcp",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "bind": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "host": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "ip-version": {
+                                "enum": [4, 6],
+                                "type": "integer"
+                            },
+                            "port": {
+                                "maximum": 65535,
+                                "minimum": 0,
+                                "type": "integer"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["host", "port"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/host",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/port",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/ip-version",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    },
+    {
+        "description": "Send a JSON result as a UDP datagram",
+        "href": "https://localhost/pscheduler/archivers/udp",
+        "json-forms-compatible": true,
+        "label": "UDP",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "udp",
+        "schema": 2,
+        "spec": {
+            "jsonschema": {
+                "versions": [
+                    null,
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "bind": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "host": {
+                                "description": "Any hostname, FQDN, IPv4 address or IPv6 address is valid.",
+                                "examples": ["host.example.net", "198.51.100.45", "2001:db8::c0de"],
+                                "pattern": "(^[A-Za-z0-9_][A-Za-z0-9\\-]{0,62}(\\.[A-Za-z0-9][A-Za-z0-9\\-]{0,62})*\\.?$)|(^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$)|(^((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|:(?:(?::[0-9A-Fa-f]{1,4}){1,6}))$)",
+                                "type": "string",
+                                "x-invalid-message": "Invalid host name."
+                            },
+                            "ip-version": {
+                                "enum": [4, 6],
+                                "type": "integer"
+                            },
+                            "payload-size": {
+                                "description": "Any positive integer is valid.",
+                                "examples": [5, 2, 19],
+                                "minimum": 1,
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a positive integer."
+                            },
+                            "port": {
+                                "maximum": 65535,
+                                "minimum": 0,
+                                "type": "integer"
+                            },
+                            "retry-policy": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attempts": {
+                                            "description": "How many times to try.  Any positive integer is valid.",
+                                            "examples": ["5"],
+                                            "minimum": 1,
+                                            "title": "Attempts",
+                                            "type": "integer",
+                                            "x-invalid-message": "'%s' is not a positive integer."
+                                        },
+                                        "wait": {
+                                            "description": "How long to wait between tries.  This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
+                                            "examples": [
+                                                "PT10S",
+                                                "PT45.67S",
+                                                "PT1H30M",
+                                                "P1D",
+                                                "P2D3H37M"
+                                            ],
+                                            "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+                                            "title": "Wait",
+                                            "type": "string",
+                                            "x-info": [
+                                                {
+                                                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                                                    "title": "ISO 8601 Durations"
+                                                }
+                                            ],
+                                            "x-invalid-message": "'%s' is not a valid ISO 8601 duration."
+                                        }
+                                    },
+                                    "required": ["attempts", "wait"],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "schema": {
+                                "const": 1,
+                                "description": "Schema version.  This can be any positive integer.",
+                                "minimum": 1,
+                                "title": "Schema",
+                                "type": "integer",
+                                "x-invalid-message": "'%s' is not a valid schema number."
+                            }
+                        },
+                        "required": ["host", "port"],
+                        "type": "object"
+                    }
+                ]
+            },
+            "uischema": {
+                "#": "The zeroth element of this is always null since there is no version 0.",
+                "versions": [
+                    null,
+                    {
+                        "type": "VerticalLayout",
+                        "elements": [
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/bind",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/host",
+                                "customComponent": "ps-input-text"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/port",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/ip-version",
+                                "customComponent": "ps-select"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/payload-size",
+                                "customComponent": "ps-input-number"
+                            },
+                            {
+                                "type": "Control",
+                                "scope": "#/properties/retry-policy",
+                                "options": {
+                                    "detail": {
+                                        "type": "HorizontalLayout",
+                                        "elements": [
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/wait",
+                                                "customComponent": "ps-input-text"
+                                            },
+                                            {
+                                                "type": "Control",
+                                                "scope": "#/properties/attempts",
+                                                "customComponent": "ps-input-number"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "version": "1.0"
+    }
+]

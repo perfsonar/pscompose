@@ -1,0 +1,632 @@
+[
+    {
+        "description": "Scans given interface for all BSSIDs. Returns a list of all associated BSSIDs in json format for the given SSID",
+        "href": "https://localhost/pscheduler/tools/bssidscanner",
+        "label": "BSSID Scanner",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bssidscanner",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["wifibssid"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput between hosts with BWCTL and iperf2 - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/bwctliperf2",
+        "label": "BWCTL Iperf2",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bwctliperf2",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput with BWCTL - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/bwctliperf3",
+        "label": "BWCTL Iperf3",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bwctliperf3",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure the round-trip time to another host with BWCTL - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/bwctlping",
+        "label": "BWCTL Ping",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bwctlping",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine the path to another host with BWCTL tracepath - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/bwctltracepath",
+        "label": "BWCTL Tracepath",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bwctltracepath",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine the path between hosts with BWCTL - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/bwctltraceroute",
+        "label": "BWCTL Traceroute",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "bwctltraceroute",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "cURL-based tool for HTTP tests",
+        "href": "https://localhost/pscheduler/tools/curl",
+        "label": "cURL",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "curl",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["http"],
+        "version": "1.0"
+    },
+    {
+        "description": "cURL-based tool for disk-to-disk tests",
+        "href": "https://localhost/pscheduler/tools/curl-d2d",
+        "label": "cURL Disk-to-Disk",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "curl-d2d",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["disk-to-disk"],
+        "version": "1.0"
+    },
+    {
+        "description": "Runs dhclient to assess DHCP response time.",
+        "href": "https://localhost/pscheduler/tools/dhclient",
+        "label": "DH Client",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "dhclient",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["dhcp"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure DNS transaction time",
+        "href": "https://localhost/pscheduler/tools/dnspy",
+        "label": "DNSPy",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "dnspy",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["dns"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine the route between hosts with Dublin Traceroute",
+        "href": "https://localhost/pscheduler/tools/dublin-traceroute",
+        "label": "Dublin Traceroute",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "dublin-traceroute",
+        "preference": -20,
+        "schema": 1,
+        "tests": ["trace"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput with Ethr",
+        "href": "https://localhost/pscheduler/tools/ethr",
+        "label": "Ethr",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "ethr",
+        "preference": -10,
+        "schema": 1,
+        "tests": ["throughput"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine network reachability with fping",
+        "href": "https://localhost/pscheduler/tools/fpingreach",
+        "label": "FPing Reach",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "fpingreach",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["netreach"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure Maximum Transmission Unit (MTU)",
+        "href": "https://localhost/pscheduler/tools/fwmtu",
+        "label": "FW MTU",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "fwmtu",
+        "preference": -10,
+        "schema": 1,
+        "tests": ["mtu"],
+        "version": "1.0"
+    },
+    {
+        "description": "Globus tool for disk-to-disk testing via GridFTP",
+        "href": "https://localhost/pscheduler/tools/globus",
+        "label": "Globus",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "globus",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["disk-to-disk"],
+        "version": "1.0"
+    },
+    {
+        "description": "halfping tool for approximate latency",
+        "href": "https://localhost/pscheduler/tools/halfping",
+        "label": "Half Ping",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "halfping",
+        "preference": -100,
+        "schema": 1,
+        "tests": ["latency"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput with iperf2",
+        "href": "https://localhost/pscheduler/tools/iperf2",
+        "label": "Iperf2",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "iperf2",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["throughput"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput with iperf3",
+        "href": "https://localhost/pscheduler/tools/iperf3",
+        "label": "Iperf3",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "iperf3",
+        "preference": 10,
+        "schema": 1,
+        "tests": ["throughput"],
+        "version": "1.0"
+    },
+    {
+        "description": "Set a variable via SNMP Set",
+        "href": "https://localhost/pscheduler/tools/net-snmp-set",
+        "label": "Net SNMP Set",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "net-snmp-set",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["snmpset"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine network reachability with nmap",
+        "href": "https://localhost/pscheduler/tools/nmapreach",
+        "label": "NMAP Reach",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "nmapreach",
+        "preference": -100,
+        "schema": 1,
+        "tests": ["netreach"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure network throughput with nuttcp",
+        "href": "https://localhost/pscheduler/tools/nuttcp",
+        "label": "Nuttcp",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "nuttcp",
+        "preference": 5,
+        "schema": 1,
+        "tests": ["throughput"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine one-way latency with OWAMP",
+        "href": "https://localhost/pscheduler/tools/owping",
+        "label": "OWPing",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "owping",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["latency"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine the route between hosts with Paris Traceroute",
+        "href": "https://localhost/pscheduler/tools/paris-traceroute",
+        "label": "Paris Traceroute",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "paris-traceroute",
+        "preference": -5,
+        "schema": 1,
+        "tests": ["trace"],
+        "version": "1.0"
+    },
+    {
+        "description": "Pass data from noop through as a result",
+        "href": "https://localhost/pscheduler/tools/passthrough",
+        "label": "Passthrough",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "passthrough",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["noop"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure the round-trip time to another host with ping",
+        "href": "https://localhost/pscheduler/tools/ping",
+        "label": "Ping",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "ping",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["rtt"],
+        "version": "1.0"
+    },
+    {
+        "description": "Repeatedly measure latency with OWAMP's powstream",
+        "href": "https://localhost/pscheduler/tools/powstream",
+        "label": "Powstream",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "powstream",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["latencybg"],
+        "version": "1.0"
+    },
+    {
+        "description": "Compare the clocks on two pScheduler nodes",
+        "href": "https://localhost/pscheduler/tools/psclock",
+        "label": "pS Clock",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "psclock",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["clock"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure pScheduler response time",
+        "href": "https://localhost/pscheduler/tools/pstimer",
+        "label": "pS Timer",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "pstimer",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["psresponse"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure HTTP query response time - NON-FUNCTIONING",
+        "href": "https://localhost/pscheduler/tools/psurl",
+        "label": "pS URL",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "psurl",
+        "preference": 0,
+        "schema": 1,
+        "tests": [],
+        "version": "1.0"
+    },
+    {
+        "description": "Tool to validate DNS64 queries",
+        "href": "https://localhost/pscheduler/tools/pydns64",
+        "label": "Py DNS64",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "pydns64",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["dns64"],
+        "version": "1.0"
+    },
+    {
+        "description": "Make an SNMP get query to a destination",
+        "href": "https://localhost/pscheduler/tools/pysnmp",
+        "label": "Py SNMP",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "pysnmp",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["snmpget", "snmpgetbgm"],
+        "version": "1.0.0.3"
+    },
+    {
+        "description": "Tool for measuring perfomance of an S3 web server",
+        "href": "https://localhost/pscheduler/tools/s3-benchmark",
+        "label": "S3 Benchmark",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "s3-benchmark",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["s3throughput"],
+        "version": "1.0"
+    },
+    {
+        "description": "Stream data from one node to another with TCP",
+        "href": "https://localhost/pscheduler/tools/simplestreamer",
+        "label": "Simple Streamer",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "simplestreamer",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["simplestream"],
+        "version": "1.0"
+    },
+    {
+        "description": "Sleep for periods longer than 15 seconds",
+        "href": "https://localhost/pscheduler/tools/sleep",
+        "label": "Sleep",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "sleep",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["idle", "idleex"],
+        "version": "1.0"
+    },
+    {
+        "description": "Consume time in the background multiple times",
+        "href": "https://localhost/pscheduler/tools/sleepbgm",
+        "label": "Sleep Background-Multi",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "sleepbgm",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["idlebgm"],
+        "version": "1.0"
+    },
+    {
+        "description": "Sleep for periods of 60 seconds or less",
+        "href": "https://localhost/pscheduler/tools/snooze",
+        "label": "Snooze",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "snooze",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["idle", "idleex"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure the round-trip time to another host with tcpping",
+        "href": "https://localhost/pscheduler/tools/tcpping",
+        "label": "TCP Ping",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "tcpping",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["rtt"],
+        "version": "1.0"
+    },
+    {
+        "description": "Measure Maximum Transmission Unit (MTU) using traceroute",
+        "href": "https://localhost/pscheduler/tools/tracemtu",
+        "label": "Trace MTU",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "tracemtu",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["mtu"],
+        "version": "1.0"
+    },
+    {
+        "description": "Map the route between hosts with tracepath",
+        "href": "https://localhost/pscheduler/tools/tracepath",
+        "label": "Tracepath",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "tracepath",
+        "preference": -10,
+        "schema": 1,
+        "tests": ["trace"],
+        "version": "1.0"
+    },
+    {
+        "description": "Map the route between hosts with traceroute",
+        "href": "https://localhost/pscheduler/tools/traceroute",
+        "label": "Traceroute",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "traceroute",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["trace"],
+        "version": "1.0"
+    },
+    {
+        "description": "Determine latency with TWAMP",
+        "href": "https://localhost/pscheduler/tools/twping",
+        "label": "TWPING",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "twping",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["latency", "rtt"],
+        "version": "1.0"
+    },
+    {
+        "description": "uses wpa supplicant to do 802.1x authentication",
+        "href": "https://localhost/pscheduler/tools/umichwpa",
+        "label": "UMich WPA",
+        "maintainer": {
+            "email": "perfsonar-developer@internet2.edu",
+            "href": "http://www.perfsonar.net",
+            "name": "perfSONAR Development Team"
+        },
+        "name": "umichwpa",
+        "preference": 0,
+        "schema": 1,
+        "tests": ["dot1x"],
+        "version": "1.0"
+    }
+]
