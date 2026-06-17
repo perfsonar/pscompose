@@ -25,7 +25,7 @@ async function applyToolsToSchema(testId, clearExisting = false) {
         const elem = document.querySelector("json-form");
         const currentSchema = JSON.parse(elem.schemaData);
 
-        const toolsOneOf = tools.map((toolName) => ({ const: toolName, title: toolName }));
+        const toolsOneOf = tools.map((tool) => ({ const: tool.name, title: tool.label }));
 
         if (currentSchema.properties.tools?.items) {
             currentSchema.properties.tools.items.oneOf = toolsOneOf;

@@ -1,4 +1,7 @@
-# import requests
+import json
+import requests
+
+from pathlib import Path
 from collections import defaultdict
 from types import SimpleNamespace
 from fastapi import HTTPException
@@ -9,15 +12,19 @@ from pscompose.settings import DataTypes
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.task_schemas import TASK_SCHEMA, TASK_UI_SCHEMA
-from pscompose.form_schemas.tool_schemas import TOOL_SCHEMAS
+
+PSCHEDULER_BASE_URL = "http://127.0.0.1:21044/pscheduler"
+try:
+    _raw = requests.get(f"{PSCHEDULER_BASE_URL}/tools?expanded", timeout=5).json()
+except Exception:
+    _raw = json.load((Path(__file__).parents[2] / "form_schemas" / "tools.json").open())
+TOOL_SCHEMAS = {item["name"]: item for item in _raw}
 
 # Setup CRUD endpoints
 router = generate_router("task")
 
 # Cache for test-to-tools mapping
 _test_tools_cache = None
-
-# PSCHEDULER_BASE_URL = "https://chic-ps-lat.es.net/pscheduler"
 
 
 def sanitize_data(data):
@@ -99,7 +106,10 @@ def get_tools_for_test(test_type: str):
     if not tools:
         raise HTTPException(status_code=404, detail=f"No tools found for test type: {test_type}")
 
-    return JSONResponse(content={"test_type": test_type, "tools": tools})
+    tools_with_labels = [
+        {"name": name, "label": TOOL_SCHEMAS.get(name, {}).get("label", name)} for name in tools
+    ]
+    return JSONResponse(content={"test_type": test_type, "tools": tools_with_labels})
 
 
 @router.get("/task/new/form/", summary="Return the new form to be rendered")
@@ -164,14 +174,22 @@ def get_existing_form(item_id: str, edit: bool = False):
                     if test_type:
                         mapping = build_test_tools_mapping()
                         available_tools = mapping.get(test_type, [])
-                        tools = [SimpleNamespace(id=name, name=name) for name in available_tools]
+                        tools = [
+                            SimpleNamespace(
+                                id=name, name=TOOL_SCHEMAS.get(name, {}).get("label", name)
+                            )
+                            for name in available_tools
+                        ]
                 except Exception as e:
                     print(f"Error fetching tools for test: {e}")
         else:
             # Readonly mode: Only create options for selected tools (no pScheduler API call needed)
             selected_tools = response_json.get("tools", [])
             if selected_tools:
-                tools = [SimpleNamespace(id=name, name=name) for name in selected_tools]
+                tools = [
+                    SimpleNamespace(id=name, name=TOOL_SCHEMAS.get(name, {}).get("label", name))
+                    for name in selected_tools
+                ]
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch data: {str(e)}")

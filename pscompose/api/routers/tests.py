@@ -1,5 +1,6 @@
 import requests
 import json
+from pathlib import Path
 from copy import deepcopy
 from fastapi import HTTPException
 from fastapi_versioning import version
@@ -11,11 +12,17 @@ from pscompose.backends.postgres import backend
 from pscompose.form_schemas.test_schemas import (
     TEST_SCHEMA,
     TEST_UI_SCHEMA,
-    TEST_SCHEMAS,
 )
 
 # Setup CRUD endpoints
 router = generate_router("test")
+
+PSCHEDULER_BASE_URL = "http://127.0.0.1:21044/pscheduler"
+try:
+    _raw = requests.get(f"{PSCHEDULER_BASE_URL}/tests?expanded", timeout=5).json()
+except Exception:
+    _raw = json.load((Path(__file__).parents[2] / "form_schemas" / "tests.json").open())
+TEST_SCHEMAS = {item["name"]: item for item in _raw}
 
 
 # Custom sanitize function to transform the data for the backend
@@ -81,12 +88,14 @@ def get_form():
     # TODO: Fetch available test types from the pScheduler API
     # tests = fetch_pscheduler_test_list()
     tests = [
-        name for name, schema in TEST_SCHEMAS.items() if schema.get("json-forms-compatible", False)
+        (name, schema.get("label", name))
+        for name, schema in TEST_SCHEMAS.items()
+        if schema.get("json-forms-compatible", False)
     ]
 
     enriched_schema = deepcopy(TEST_SCHEMA)
     enriched_schema["properties"]["type"]["oneOf"] = [
-        {"const": name, "title": name.upper()} for name in tests
+        {"const": name, "title": label} for name, label in tests
     ]
 
     # Remove "spec" from TEST_UI_SCHEMA for the new form
@@ -141,7 +150,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         # tests = fetch_pscheduler_test_list()
         enriched_schema = deepcopy(TEST_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
-            {"const": name, "title": name.upper()} for name in tests
+            {"const": name, "title": label} for name, label in tests
         ]
 
         payload = {
@@ -194,7 +203,7 @@ def get_existing_form(item_id: str, edit: bool = False):
     # tests = fetch_pscheduler_test_list()
     base_schema = deepcopy(TEST_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
-        {"const": name, "title": name.upper()} for name in tests
+        {"const": name, "title": label} for name, label in tests
     ]
 
     # Merge version-specific properties into base schema

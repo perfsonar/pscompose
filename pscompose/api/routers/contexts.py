@@ -1,6 +1,7 @@
 import json
 import requests
 
+from pathlib import Path
 from copy import deepcopy
 from fastapi import HTTPException
 from fastapi_versioning import version
@@ -12,13 +13,17 @@ from pscompose.backends.postgres import backend
 from pscompose.form_schemas.context_schemas import (
     CONTEXT_SCHEMA,
     CONTEXT_UI_SCHEMA,
-    CONTEXT_SCHEMAS,
 )
 
 # Setup CRUD endpoints
 router = generate_router("context")
 
-PSCHEDULER_BASE_URL = "https://chic-ps-lat.es.net/pscheduler"
+PSCHEDULER_BASE_URL = "http://127.0.0.1:21044/pscheduler"
+try:
+    _raw = requests.get(f"{PSCHEDULER_BASE_URL}/contexts?expanded", timeout=5).json()
+except Exception:
+    _raw = json.load((Path(__file__).parents[2] / "form_schemas" / "contexts.json").open())
+CONTEXT_SCHEMAS = {item["name"]: item for item in _raw}
 
 
 def sanitize_data(data):
@@ -76,11 +81,11 @@ def get_new_form():
     """TODO: Fetch available contexts from the pScheduler API"""
     # contexts = fetch_pscheduler_context_list()
     contexts = [
-        name
+        (name, schema.get("label", name))
         for name, schema in CONTEXT_SCHEMAS.items()
         if schema.get("json-forms-compatible", False)
     ]
-    one_of = [{"const": name, "title": name.upper()} for name in contexts]
+    one_of = [{"const": name, "title": label} for name, label in contexts]
 
     enriched_schema = deepcopy(CONTEXT_SCHEMA)
     enriched_schema["properties"]["type"]["oneOf"] = one_of
@@ -124,7 +129,7 @@ def get_existing_form(item_id: str):
         contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
         enriched_schema = deepcopy(CONTEXT_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
-            {"const": name, "title": name.upper()} for name in contexts
+            {"const": name, "title": label} for name, label in contexts
         ]
 
         payload = {
@@ -160,7 +165,7 @@ def get_existing_form(item_id: str):
     contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
     base_schema = deepcopy(CONTEXT_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
-        {"const": name, "title": name.upper()} for name in contexts
+        {"const": name, "title": label} for name, label in contexts
     ]
 
     # Merge version-specific properties
