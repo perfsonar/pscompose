@@ -5,17 +5,8 @@ TASK_SCHEMA = {
         "name": {
             "type": "string",
             "title": "Task Name",
-            "description": "A string to identify this task",
+            "description": "A string to identify this task.",
         },
-        # "scheduled-by": {
-        #     "title": "Scheduled By",
-        #     "allOf": [
-        #         {
-        #             "type": "integer",
-        #             "minimum": 0
-        #         }
-        #     ]
-        # },
         "group": {
             "type": "string",
             "title": "Group",
@@ -34,7 +25,7 @@ TASK_SCHEMA = {
         "disabled": {
             "type": "boolean",
             "title": "Disabled",
-            "description": "Check this box if this task is disabled. Set to False by default",
+            "description": "Check this box if this task is disabled. Set to False by default.",
             "default": False,
         },
         "archives": {
@@ -47,11 +38,6 @@ TASK_SCHEMA = {
             "title": "Tools",
             "items": {"oneOf": []},
         },
-        # "subtasks": {
-        #     "type": "array",
-        #     "title": "Subtasks",
-        #     "items": {"oneOf": []},
-        # },
         "priority": {
             "type": "integer",
             "title": "Priority",
@@ -63,7 +49,7 @@ TASK_SCHEMA = {
         "_meta": {
             "type": "object",
             "title": "Other Meta",
-            "description": "Fill in information such as display-name and display-set as an object",
+            "description": "Fill in information such as display-name and display-set as an object.",
         },
     },
     "required": ["name", "group", "test"],
@@ -117,12 +103,6 @@ TASK_UI_SCHEMA = {
         {
             "type": "HorizontalLayout",
             "elements": [
-                # {
-                #     "type": "Control",
-                #     "scope": "#/properties/tools",
-                #     "options": {"format": "select"},
-                #     "customComponent": "ps-select-multi",
-                # },
                 {
                     "type": "Control",
                     "scope": "#/properties/priority",

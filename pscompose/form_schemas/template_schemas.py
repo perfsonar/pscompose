@@ -5,7 +5,7 @@ TEMPLATE_SCHEMA = {
         "name": {
             "type": "string",
             "title": "Name",
-            "description": "A string to identify this template",
+            "description": "A string to identify this template.",
         },
         "tasks": {
             "type": "array",

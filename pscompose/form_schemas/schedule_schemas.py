@@ -13,6 +13,14 @@ SCHEDULE_SCHEMA = {
             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
             "description": "ISO 8601 Duration that allows the start of each run to be as much as the Duration later than their ideal scheduled time. Default is 5 minutes (PT5M)",
             "default": "PT5M",
+            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+            "x-info": [
+                {
+                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                    "title": "ISO 8601 Durations",
+                }
+            ],
+            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
         },
         "sliprand": {
             "type": "boolean",
@@ -25,6 +33,14 @@ SCHEDULE_SCHEMA = {
             "title": "Repeat",
             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
             "description": "ISO 8601 Duration that repeats runs at the specified duration.<br>Examples:<br> PT5M (5 minutes)<br> PT10M (10 minutes)",
+            "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
+            "x-info": [
+                {
+                    "href": "https://en.wikipedia.org/wiki/ISO_8601#Durations",
+                    "title": "ISO 8601 Durations",
+                }
+            ],
+            "x-invalid-message": "'%s' is not a valid ISO 8601 duration.",
         },
         "max-runs": {
             "type": "integer",
