@@ -34,9 +34,9 @@ const readonlyActions = {
             .getElementById("address-template-btn")
             .setAttribute("link", `${window.API_BASE_URL}/template/address/${id}/`);
     },
-    test: () => mergedSchema(),
-    archive: () => mergedSchema(),
-    context: () => mergedSchema(),
+    // test: () => mergedSchema(),
+    // archive: () => mergedSchema(),
+    // context: () => mergedSchema(),
     task: () => {
         document.querySelector("ps-button[data-task-ref]")?.remove();
         document.getElementById("task-modal")?.remove();
