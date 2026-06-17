@@ -794,7 +794,9 @@ json-form[readonly="true"] button.array-list-item-delete {
         ps-input-text-autocomplete,
         ps-input-number,
         ps-select-multi,
-        ps-select
+        ps-select,
+        ps-textarea,
+        ps-textarea-json
     ) {
     @apply w-full;
 }
