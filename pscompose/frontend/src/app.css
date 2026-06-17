@@ -669,6 +669,19 @@ table .ps-tags {
     @apply flex pt-lg;
 }
 
+/* vanilla group renderer */
+fieldset .group-item .vertical-layout {
+    @apply flex flex-col items-start w-full bg-surface_1 border border-shadow rounded-lg p-lg;
+}
+
+.group-item .vertical-layout label {
+    @apply text-sm font-medium;
+}
+
+legend.group-label {
+    @apply font-semibold mb-3;
+}
+
 /* vanilla array renderer */
 fieldset.array-list {
     @apply flex flex-col gap-3 border-none p-none m-none;

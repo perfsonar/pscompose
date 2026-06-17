@@ -23,6 +23,7 @@ function createCustomRenderer(componentName) {
             id: schema?.uischema.scope ?? false,
             path: schema_path,
             label:
+                schema.label ??
                 s.title ??
                 (schema_path
                     ? schema_path.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
