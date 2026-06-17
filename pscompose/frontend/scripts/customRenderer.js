@@ -80,38 +80,88 @@ document.body.addEventListener("json-form:beforeMount", (event) => {
 
 /* READONLY MODE */
 
-document.body.addEventListener("json-form:mounted", (event) => {
-    if (event.target.readonly == "true") {
-        componentNames.forEach((component) => {
-            document
-                .querySelector("json-form")
-                ?.querySelectorAll(component)
-                .forEach((comp) => {
-                    comp.disabled = true;
-                });
-        });
+function buildMaxItemsMap() {
+    try {
+        const schema = JSON.parse(
+            document.querySelector("json-form")?.getAttribute("schema-data") || "{}",
+        );
+        const map = {};
+        for (const [key, prop] of Object.entries(schema.properties || {})) {
+            if (prop.type === "array" && prop.maxItems !== undefined) {
+                if (prop.title) map[prop.title.toLowerCase()] = prop.maxItems;
+                map[key.toLowerCase()] = prop.maxItems;
+            }
+        }
+        return map;
+    } catch (e) {
+        return {};
     }
-});
+}
 
-document.body.addEventListener("json-form:updated", (event) => {
+function syncArrayButtons(readonly) {
+    setTimeout(() => {
+        if (readonly) {
+            document
+                .querySelectorAll(".array-list-add")
+                .forEach((btn) => (btn.style.display = "none"));
+            return;
+        }
+        const map = buildMaxItemsMap();
+        document.querySelectorAll(".array-list").forEach((arrayList) => {
+            const addBtn = arrayList.querySelector(".array-list-add");
+            if (!addBtn) return;
+            const label =
+                arrayList.querySelector(".array-list-label")?.textContent?.trim().toLowerCase() ??
+                "";
+            const maxItems = map[label];
+            if (maxItems === undefined) return;
+            const count = arrayList.querySelectorAll(".array-list-item-wrapper").length;
+            addBtn.style.display = count >= maxItems ? "none" : "";
+        });
+    }, 0);
+}
+
+// Intercept add/delete clicks to re-evaluate after Vue updates the DOM
+document.body.addEventListener(
+    "click",
+    (e) => {
+        if (e.target.closest(".array-list-add") || e.target.closest(".array-list-item-delete")) {
+            syncArrayButtons(false);
+        }
+    },
+    true,
+);
+
+document.body.addEventListener("json-form:mounted", (event) => {
+    const readonly = event.target.readonly == "true";
     componentNames.forEach((component) => {
         document
             .querySelector("json-form")
             ?.querySelectorAll(component)
             .forEach((comp) => {
-                if (event.target.readonly == "true") {
-                    comp.disabled = true;
-                } else {
-                    comp.disabled = false;
-                    document
-                        .querySelectorAll(".array-list-add, .array-list-item-delete")
-                        .forEach((btn) => {
-                            btn.disabled = false;
-                            btn.removeAttribute("disabled");
-                        });
+                comp.disabled = readonly;
+            });
+    });
+    syncArrayButtons(readonly);
+});
+
+document.body.addEventListener("json-form:updated", (event) => {
+    const readonly = event.target.readonly == "true";
+    componentNames.forEach((component) => {
+        document
+            .querySelector("json-form")
+            ?.querySelectorAll(component)
+            .forEach((comp) => {
+                comp.disabled = readonly;
+                if (!readonly) {
+                    document.querySelectorAll(".array-list-item-delete").forEach((btn) => {
+                        btn.disabled = false;
+                        btn.removeAttribute("disabled");
+                    });
                 }
             });
     });
+    syncArrayButtons(readonly);
 });
 
 /* Mark Dirty */
