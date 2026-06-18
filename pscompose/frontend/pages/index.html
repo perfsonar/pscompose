@@ -1,4 +1,4 @@
-<div class="homepage" role="main" aria-label="pSCompose Homepage">
+<main class="homepage" aria-label="pSCompose Homepage">
     <header role="banner" aria-labelledby="getting-started-heading">
         <h1 id="getting-started-heading">Getting Started</h1>
         <br />
@@ -20,7 +20,7 @@
                     data-lucide="locate"
                     aria-hidden="true"
                 ></i>
-                <h4 class="box-name">Import Template</h4>
+                <h4 class="box-name" aria-level="2">Import Template</h4>
                 <ps-button
                     link="/import/"
                     theme="Icon-Success"
@@ -37,7 +37,7 @@
         <li class="list-box">
             <div class="box-header">
                 <i class="lucide" data-lucide="plus" aria-hidden="true"></i>
-                <h4 class="box-name">Create New Template</h4>
+                <h4 class="box-name" aria-level="2">Create New Template</h4>
                 <ps-button
                     link="wizard/1/address/"
                     theme="Icon-Success"
@@ -50,7 +50,7 @@
     </ul>
 
     <section class="published-templates" aria-labelledby="published-templates-heading">
-        <h4 id="published-templates-heading">Published Templates</h4>
+        <h4 id="published-templates-heading" aria-level="2">Published Templates</h4>
         <table aria-label="Published Templates Table">
             <thead>
                 <tr>
@@ -77,7 +77,7 @@
             <tbody nunjucks-array-template="published-templates-tbody"></tbody>
         </table>
     </section>
-</div>
+</main>
 
 <script>
     async function loadPublishedTemplateTable() {
@@ -131,25 +131,20 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <div class='td-content tags'>
+                                    <div class='td-content ps-tags'>
                                         {% if template.tasks and template.tasks.length > 0 %}
                                             {% for task in template.tasks %}
                                                 {% if loop.index0 < 2 %}
-                                                    <a href="/task/?id={{task.id}}" class="inline-tag-link">
-                                                        <li class="tag" aria-labelledby="shortcut-{{ task.id }}">
-                                                            {{ task.name }}
-                                                        </li>
+                                                    <a href="/task/?id={{task.id}}" class="ps-tag" style="text-decoration: none;" aria-label="{{ task.name }}">
+                                                        {{ task.name }}
                                                     </a>
                                                 {% endif %}
                                             {% endfor %}
-                                            
-                                            <!-- View full list button if more than 2 tasks -->
                                             {% if template.tasks.length > 2 %}
-                                                <ps-button 
-                                                    link="/template/?id={{template.id}}#tasks" 
-                                                    label="(view {{ template.tasks.length }} tasks)" 
-                                                    theme="Small"
-                                                    size="Small">
+                                                <ps-button
+                                                    link="/template/?id={{template.id}}#tasks"
+                                                    label="+{{ template.tasks.length - 2 }} more"
+                                                    theme="Small">
                                                 </ps-button>
                                             {% endif %}
                                         {% else %}
@@ -161,7 +156,7 @@
                                     <div class="td-content action-icons">
                                         <div class="action-icon">
                                             <div class="tooltip">Edit Template</div>
-                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-hidden="true"></ps-button>
+                                            <ps-button link="{{template.editlink}}" righticon="edit" theme="Icon" aria-label="Edit Template"></ps-button>
                                         </div>
                                         <div class="action-icon">
                                             <div class="tooltip">Download Template</div>

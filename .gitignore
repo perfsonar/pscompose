@@ -20,3 +20,5 @@ pscompose/schemas-manual.py
 
 # TODO: remove this later, closer to production
 pscompose/frontend/css/pscompose.css
+pscompose/frontend/css/color.css
+pscompose/frontend/components/index.js

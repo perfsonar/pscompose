@@ -3,11 +3,12 @@ line-length = 99
 extend-exclude = '''
 /(
   | pscompose/schemas.py
-  | pscompose/form_schemas.py
+  | pscompose/form_schemas/
 )/
 '''
 
 # call using pflake8
 [tool.flake8]
 max-line-length = 99
-exclude = 'pscompose/schemas.py, pscompose/form_schemas.py'
+exclude = "pscompose/schemas.py"
+per-file-ignores = "pscompose/form_schemas/*.py:E501"

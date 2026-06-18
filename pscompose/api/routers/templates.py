@@ -7,7 +7,7 @@ from copy import deepcopy
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import (
+from pscompose.form_schemas.template_schemas import (
     TEMPLATE_SCHEMA,
     TEMPLATE_UI_SCHEMA,
     TEMPLATE_IMPORT_SCHEMA,

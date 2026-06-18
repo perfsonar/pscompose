@@ -6,9 +6,10 @@ export class PSInputCheckbox extends PSInputText {
         this.inputEl.checked = this.value === "true" || this.value === true;
         if (!this.disabled) {
             this.inputEl?.setAttribute("type", "checkbox");
+            this.inputEl?.setAttribute("aria-checked", String(this.inputEl.checked));
             this.inputEl?.removeAttribute("value");
         } else {
-            this.inputEl.value = this.value;
+            this.inputEl.value = this.value ?? "";
         }
     }
 }

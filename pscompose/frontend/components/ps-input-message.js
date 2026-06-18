@@ -1,20 +1,8 @@
+import { attr, boolAttr } from "./ps-utils.js";
+
 export class PSInputMessage extends HTMLElement {
     static get observedAttributes() {
         return ["required", "error"];
-    }
-
-    get error() {
-        return this.getAttribute("error") ?? "";
-    }
-    set error(v) {
-        this.setAttribute("error", v ?? "");
-    }
-
-    get required() {
-        return this.hasAttribute("required");
-    }
-    set required(v) {
-        v ? this.setAttribute("required", "") : this.removeAttribute("required");
     }
 
     constructor() {
@@ -30,11 +18,16 @@ export class PSInputMessage extends HTMLElement {
     }
 
     render() {
-        this.innerHTML = `                
+        this.innerHTML = `
             <div class='error ${this.error ? "show" : ""}'>${this.error}</div>
             <div class="required">${this.required ? "Required" : ""}</div>
     `;
     }
 }
+
+Object.defineProperties(PSInputMessage.prototype, {
+    error: attr("error"),
+    required: boolAttr("required"),
+});
 
 customElements.define("ps-input-message", PSInputMessage);

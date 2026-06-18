@@ -1,5 +1,4 @@
 async function submit(mode, formData) {
-    console.log("submit");
     // 1. Retrieve jsonform data
     const { name, ...rest } = formData; // Need to remove name from the form
 
@@ -14,12 +13,6 @@ async function submit(mode, formData) {
         // url: ""
         last_edited_at: new Date().toISOString(),
     };
-
-    // 1.1 Additional properties added according to datatype
-    if (datatype == "group") {
-        data.schema = JSON.parse(document.querySelector("json-form").schemaData);
-        data.group_type = rest.type;
-    }
 
     // Map "type" back to "archiver" for archives
     if (datatype == "archive") {
@@ -77,16 +70,12 @@ async function formValidation(event) {
     const form_data = JSON.parse(elem.serializeForm());
     const isFormEmpty = Object.keys(form_data).length === 0;
     const isValid = elem.validate();
-    const group_with_excludes = Boolean(datatype == "group" && !!form_data["excludes"]);
 
     document.querySelectorAll("ps-modal").forEach((modal) => {
         modal.setAttribute("confirm-data-name", form_data.name || "");
     });
 
-    if (
-        (!isValid || isFormEmpty || !!document.getElementById("#/properties/name").error) &&
-        !group_with_excludes
-    ) {
+    if (!isValid || isFormEmpty || !!document.getElementById("#/properties/name").error) {
         document.dispatchEvent(new CustomEvent("markAllDirty"));
     } else {
         document.dispatchEvent(new Event("validated"));

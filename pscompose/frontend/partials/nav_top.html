@@ -7,48 +7,52 @@
     </div>
 
     <div class="top-right">
-        <a href="https://docs.perfsonar.net/index.html" aria-label="README" class="readme">README</a>
-        <ps-button
-            theme="Icon"
-            righticon="user-circle-2"
-            aria-label="User account"
+        <a
+            href="https://docs.perfsonar.net/index.html"
+            aria-label="README"
+            class="readme"
+            target="_blank"
+            >README</a
         >
-        </ps-button>
+        <ps-button theme="Icon" righticon="user-circle-2" aria-label="User account"> </ps-button>
         <ps-input-switch id="theme-switch" checked icon="moon" aria-label="Toggle dark mode">
         </ps-input-switch>
     </div>
 </nav>
 
 <script>
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    const themeSwitch = document.getElementById('theme-switch');
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    const themeSwitch = document.getElementById("theme-switch");
 
     function updateHTML(theme) {
         const html = document.documentElement;
-        html.setAttribute('data-theme', theme);
-    } 
+        html.setAttribute("data-theme", theme);
+    }
 
     function updateLogo(theme) {
-        const logoImg = document.querySelector('.Logo');
-        const logoSrc = theme === 'dark' ? '/static/perfsonar-icon-light.png' : '/static/perfsonar-icon-dark.png';
+        const logoImg = document.querySelector(".Logo");
+        const logoSrc =
+            theme === "dark"
+                ? "/static/perfsonar-icon-light.png"
+                : "/static/perfsonar-icon-dark.png";
         logoImg.src = logoSrc;
     }
 
     function updateSwitch(theme) {
-        themeSwitch.checked = theme === 'dark';
-        themeSwitch.icon = theme === 'dark' ? 'moon' : 'sun';
+        themeSwitch.checked = theme === "dark";
+        themeSwitch.icon = theme === "dark" ? "moon" : "sun";
     }
-    
+
     updateHTML(savedTheme);
     updateLogo(savedTheme);
     updateSwitch(savedTheme);
-    
-  // Toggle handler
-  themeSwitch.addEventListener('change', (event) => {
-    const newTheme = event.target.checked ? 'dark' : 'light';
-    updateHTML(newTheme);
-    updateLogo(newTheme);
-    updateSwitch(newTheme);
-    localStorage.setItem('theme', newTheme);
-  });
+
+    // Toggle handler
+    themeSwitch.addEventListener("change", (event) => {
+        const newTheme = event.target.checked ? "dark" : "light";
+        updateHTML(newTheme);
+        updateLogo(newTheme);
+        updateSwitch(newTheme);
+        localStorage.setItem("theme", newTheme);
+    });
 </script>

@@ -1,139 +1,58 @@
-async function filterTools() {
-    const formData = JSON.parse(elem.serializeForm());
-    const testId = formData.test;
-    if (!testId) return;
+async function fetchToolsForTest(testId) {
+    const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
+        headers: { "Content-Type": "application/json" },
+    });
+    if (!testResponse.ok) throw new Error("Failed to fetch test details");
 
-    try {
-        // Fetch the selected test to get its type
-        const testResponse = await fetch(
-            `${window.API_BASE_URL}/test/${testId}/`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            },
-        );
+    const testData = await testResponse.json();
+    const testType = testData.json?.type;
+    if (!testType) throw new Error("Test type not found");
 
-        if (testResponse.ok) {
-            const testData = await testResponse.json();
-            const testType = testData.json?.type;
+    const toolsResponse = await fetch(`${window.API_BASE_URL}/task/tools/${testType}/`, {
+        headers: { "Content-Type": "application/json" },
+    });
+    if (!toolsResponse.ok) throw new Error(`No tools found for test type: ${testType}`);
 
-            if (testType) {
-                // Fetch available tools for this test type
-                const toolsResponse = await fetch(
-                    `${window.API_BASE_URL}/task/tools/${testType}/`,
-                    {
-                        method: "GET",
-                        headers: { "Content-Type": "application/json" },
-                    },
-                );
-
-                if (toolsResponse.ok) {
-                    const toolsData = await toolsResponse.json();
-                    const availableTools = toolsData.tools;
-
-                    // Update the schema to populate tools dropdown with only compatible tools
-                    const currentSchema = JSON.parse(elem.schemaData);
-
-                    // Build oneOf array from available tools
-                    const toolsOneOf = availableTools.map((toolName) => ({
-                        const: toolName,
-                        title: toolName,
-                    }));
-
-                    if (currentSchema.properties.tools?.items) {
-                        currentSchema.properties.tools.items.oneOf = toolsOneOf;
-                    }
-
-                    elem.setAttribute(
-                        "schema-data",
-                        JSON.stringify(currentSchema),
-                    );
-                    console.log(
-                        `Populated tools on initial load: ${toolsOneOf.length} compatible tools for test type ${testType}`,
-                    );
-                }
-            }
-        }
-    } catch (error) {
-        console.error("Error populating tools on initial load:", error);
-    }
+    const toolsData = await toolsResponse.json();
+    return { testType, tools: toolsData.tools };
 }
 
-async function updateToolsDropdown(testId) {
+async function applyToolsToSchema(testId, clearExisting = false) {
     if (!testId) return;
 
     try {
-        // Fetch the selected test to get its type
-        const testResponse = await fetch(`${window.API_BASE_URL}/test/${testId}/`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
-
-        if (!testResponse.ok) {
-            console.error("Failed to fetch test details");
-            return;
-        }
-
-        const testData = await testResponse.json();
-        const testType = testData.json?.type;
-
-        if (!testType) {
-            console.error("Test type not found in test data");
-            return;
-        }
-
-        // Fetch available tools for this test type
-        const toolsResponse = await fetch(
-            `${window.API_BASE_URL}/task/tools/${testType}/`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            },
-        );
-
-        if (!toolsResponse.ok) {
-            console.error(`No tools found for test type: ${testType}`);
-            return;
-        }
-
-        const toolsData = await toolsResponse.json();
-        const availableTools = toolsData.tools;
-
-        console.log(`Test type: ${testType}, Available tools:`, availableTools);
-
-        // Update the schema to populate tools dropdown with only compatible tools
+        const { testType, tools } = await fetchToolsForTest(testId);
         const elem = document.querySelector("json-form");
         const currentSchema = JSON.parse(elem.schemaData);
 
-        // Build oneOf array from available tools
-        const toolsOneOf = availableTools.map((toolName) => ({
-            const: toolName,
-            title: toolName,
-        }));
+        const toolsOneOf = tools.map((tool) => ({ const: tool.name, title: tool.label }));
 
-        // Update the schema
         if (currentSchema.properties.tools?.items) {
             currentSchema.properties.tools.items.oneOf = toolsOneOf;
         }
 
-        // Clear existing tool selections to avoid render errors
-        const currentFormData = JSON.parse(elem.serializeForm());
-        currentFormData.tools = [];
-
-        // Apply updated schema
         elem.setAttribute("schema-data", JSON.stringify(currentSchema));
-        elem.setAttribute("form-data", JSON.stringify(currentFormData));
 
-        console.log(
-            `Updated tools dropdown: ${toolsOneOf.length} compatible tools for test type ${testType}`,
-        );
+        if (clearExisting) {
+            const currentFormData = JSON.parse(elem.serializeForm());
+            currentFormData.tools = [];
+            elem.setAttribute("form-data", JSON.stringify(currentFormData));
+        }
+
+        console.log(`${tools.length} compatible tools loaded for test type ${testType}`);
     } catch (error) {
-        console.error("Error updating tools dropdown:", error);
+        console.error("Error loading tools:", error);
     }
 }
 
-async function renderTools(event) {
-    if (event.target.label === "Test") {
-        await updateToolsDropdown(event.target.value);
-    }
+async function filterTools() {
+    document.getElementById("#/properties/test").addEventListener("change", async function (event) {
+        await applyToolsToSchema(event.target.value, true);
+    });
+}
+
+async function filteredTools() {
+    const form = document.querySelector("json-form");
+    const form_data = JSON.parse(form.getAttribute("form-data"));
+    await applyToolsToSchema(form_data.test, false);
 }

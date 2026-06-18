@@ -4,64 +4,56 @@ from fastapi.responses import JSONResponse
 
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
+from pscompose.form_schemas.group_schemas import GROUP_SCHEMA, GROUP_UI_SCHEMA
 from pscompose.utils import generate_router, enrich_schema
 
 # Setup CRUD endpoints
 router = generate_router("group")
 
+
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
     json_data = data["json"]
-    filtered_json = {}
-
-    # Cleaning up the data
-    if "schema" in data and "group_type" in data:
-        schema = data["schema"]
-        group_type = data["group_type"]
-
-        # Find the matching schema for the relevant group type
-        type_schema = next(
-            (
-                item
-                for item in schema.get("allOf", [])
-                if item.get("if", {}).get("properties", {}).get("type", {}).get("const")
-                == group_type
-            ),
-            None,
-        )
-
-        if not type_schema:
-            raise ValueError(f"No schema found for type {group_type}")
-
-        # Filter json_data to only include properties that are allowed for this type
-        allowed_keys = type_schema.get("then", {}).get("properties", {}).keys()
-        filtered_json = {k: json_data[k] for k in allowed_keys if k in json_data}
-
-        # Remove these keys from the main data dictionary
-        if "schema" in data:
-            del data["schema"]
-
-        if "group_type" in data:
-            del data["group_type"]
-     
-    else:
-        filtered_json = json_data
-
     ref_set = data["ref_set"]
+
+    # Formatting Excludes
+    # FROM {'local-address': id, 'target-addresses': [id, id]}
+    # TO {"local-address": {"name": id }, "target-addresses": [{"name": id}, ...]}
+    exclude_addresses = []
+    if json_data.get("excludes"):
+        for exclude in json_data["excludes"]:
+            local = exclude["local-address"]
+            targets = exclude["target-addresses"]
+
+            exclude_addresses.append(
+                {
+                    "local-address": {"name": local},
+                    "target-addresses": [{"name": t} for t in targets],
+                }
+            )
+
+            # update ref_set
+            if local not in ref_set:
+                ref_set.append(local)
+            for t in targets:
+                if t not in ref_set:
+                    ref_set.append(t)
+        json_data["excludes"] = exclude_addresses
+
     for key in ("addresses", "a-addresses", "b-addresses"):
         if json_data.get(key) is not None:
             address_id_array = []
             for address in json_data.get(key, []):
-                obj = { "name": address }  # or {name: id} based on your variables
+                obj = {"name": address}  # or {name: id} based on your variables
                 if address not in ref_set:
                     ref_set.append(address)
                 address_id_array.append(obj)
-            filtered_json[key] = address_id_array
+            json_data[key] = address_id_array
 
     data["ref_set"] = ref_set
-    data["json"] = filtered_json
+    data["json"] = json_data
     return data
+
 
 def sanitize_response(response_json):
     json_data = response_json.copy()
@@ -71,9 +63,27 @@ def sanitize_response(response_json):
         if json_data.get(key) is not None:
             json_data[key] = [addr["name"] for addr in json_data.get(key, [])]
 
+    # Transform exclude address fields from list of dicts to list of strings
+    # FROM {"local-address": {"name": id}, "target-addresses": [{"name": id}, ...]}
+    # TO {'local-address': id, 'target-addresses': [id, id]}
+    if json_data.get("excludes") is not None:
+        back_excludes = json_data["excludes"]
+        front_excludes = []
+        for back_exclude in back_excludes:
+            front_exclude = {}
+
+            front_exclude["local-address"] = back_exclude["local-address"]["name"]
+            front_exclude["target-addresses"] = [
+                target["name"] for target in back_exclude["target-addresses"]
+            ]
+            front_excludes.append(front_exclude)
+        json_data["excludes"] = front_excludes
+
     return json_data
 
+
 router.sanitize = sanitize_data
+
 
 # Custom endpoints
 @router.get("/group/new/form/", summary="Return the new form to be rendered")
@@ -90,9 +100,11 @@ def get_new_form():
             "addresses": address_rows,
             "a-addresses": address_rows,
             "b-addresses": address_rows,
-            "excludes": address_rows,
+            "local-address": address_rows,
+            "target-addresses": address_rows,
         },
     )
+    print("json_schema: ", enriched_schema)
 
     payload = {"ui_schema": GROUP_UI_SCHEMA, "json_schema": enriched_schema, "form_data": {}}
     return JSONResponse(content=payload)
@@ -126,7 +138,8 @@ def get_existing_form(item_id: str):
             "addresses": address_rows,
             "a-addresses": address_rows,
             "b-addresses": address_rows,
-            "excludes": address_rows,
+            "local-address": address_rows,
+            "target-addresses": address_rows,
         },
     )
 

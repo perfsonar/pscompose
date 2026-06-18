@@ -35,7 +35,9 @@ export class PSSelectMulti extends PSSelect {
             const li = document.createElement("li");
             li.dataset.value = option.const;
             li.textContent = option.title;
-            if (option.const === this.value) li.classList.add("active");
+            li.setAttribute("tabindex", "-1");
+            li.setAttribute("role", "option");
+            li.setAttribute("aria-selected", "false");
             li.addEventListener("click", (e) => this.handleOptionClick(e));
             this.optionsEl.appendChild(li);
         });
@@ -49,21 +51,21 @@ export class PSSelectMulti extends PSSelect {
 
         const optionsMap = new Map(this.options.map((opt) => [opt.const, opt.title]));
 
-        this.optionsEl = this.querySelector(".options");
-        this.wrapperEl = this.querySelector(".wrapper");
+        this.optionsEl = this.querySelector(".ps-options");
+        this.wrapperEl = this.querySelector(".ps-wrapper");
         this.inputEl.placeholder = `Select ${this.label}`;
 
         if (this.selectedValues.length > 0) {
             const tagsHTML = this.selectedValues
                 .map(
                     (val) =>
-                        `<span class="tag">
+                        `<span class="ps-tag">
                         ${optionsMap.get(val) || "Option Not Found"}
                         <ps-button id="remove-tag" type="button" value="${val}" righticon="x" theme="Icon-Small" />
                     </span>`,
                 )
                 .join("");
-            const tags = `<div class="tags">${tagsHTML}</div>`;
+            const tags = `<div class="ps-tags">${tagsHTML}</div>`;
             this.querySelector(".form-container").insertAdjacentHTML("beforeend", tags);
         }
 

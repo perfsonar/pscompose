@@ -33,43 +33,18 @@
     </div>
 </div>
 
-<script src="/scripts/dataForms/tools.js"></script>
-<script src="/scripts/dataForms/mergeSchema.js"></script>
-<script src="/scripts/dataForms/submitForm.js"></script>
-<script src="/scripts/dataForms/sameName.js"></script>
-
 <script>
-    var params = new URLSearchParams(window.location.search);
-    var datatype = psCompose.activeRoute.singular.toLowerCase();
+    (function () {
+        const datatype = psCompose.activeRoute.singular.toLowerCase();
 
-    // Setting the hx-get attribute dynamically
-    document
-        .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}new/form/`);
+        initJsonForm(`${psCompose.activeRoute.list_endpoint}new/form/`, () => {
+            document.getElementById("data-name").textContent =
+                "New " + psCompose.activeRoute.singular;
+            runEditActions(datatype);
+        });
 
-    // Set Up JSON Form
-    document.body.addEventListener("json-form:mounted", () => {
-        document.getElementById("data-name").textContent = "New " + psCompose.activeRoute.singular;
-        sameNameValidationEventListener();
-
-        // For each datatype update as needed
-        switch (datatype) {
-            case "address":
-                addressMetaData();
-                break;
-            case "task":
-                filterTools();
-                taskReference();
-                break;
-        }
-    });
-
-    // Change
-    document.getElementById("data-new-form").addEventListener("change", async function (event) {
-        if (datatype == "task") await renderTools(event);
-        if (datatype === "test" || datatype === "archive") mergeSchema(event);
-    });
-
-    // Save
-    document.getElementById("data-new-form").addEventListener("submit", (e) => formValidation(e));
+        initFormSubmit("data-new-form");
+        if (psCompose.activeMenuItem == "wizard" && psCompose.activeRoute.singular == "Template")
+            document.querySelector(".header").style.display = "none";
+    })();
 </script>

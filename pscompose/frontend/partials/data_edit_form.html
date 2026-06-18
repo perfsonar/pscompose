@@ -6,11 +6,21 @@
                 <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon">
                     <div class="tooltip">Edit Form</div>
-                    <ps-button id="edit-icon" righticon="edit" theme="Icon"> </ps-button>
+                    <ps-button
+                        id="edit-icon"
+                        righticon="edit"
+                        theme="Icon"
+                        aria-label="Edit"
+                    ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Download Template</div>
-                    <ps-button id="export-json-btn" righticon="download" theme="Icon"></ps-button>
+                    <ps-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                        aria-label="Download Template"
+                    ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Copy Raw JSON URL</div>
@@ -18,11 +28,18 @@
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
+                        aria-label="Copy Raw JSON URL"
                     ></ps-button>
                 </div>
                 <div class="action-icon template" style="display: none">
                     <div class="tooltip">Open Raw JSON</div>
-                    <ps-button id="url-json-btn" righticon="file-json" theme="Icon"></ps-button>
+                    <ps-button
+                        id="url-json-btn"
+                        righticon="file-json"
+                        theme="Icon"
+                        newtab="true"
+                        aria-label="Open Raw JSON"
+                    ></ps-button>
                 </div>
                 <div class="action-icon address" style="display: none">
                     <div class="tooltip">Template using this address</div>
@@ -30,6 +47,7 @@
                         id="address-template-btn"
                         righticon="locate"
                         theme="Icon"
+                        aria-label="Template using this address"
                     ></ps-button>
                 </div>
             </div>
@@ -57,8 +75,7 @@
                         theme="Error"
                         righticon="trash-2"
                         confirm-modal="delete-modal"
-                    >
-                    </ps-button>
+                    ></ps-button>
                     <ps-button
                         id="save-btn"
                         type="submit"
@@ -66,19 +83,17 @@
                         theme="Secondary"
                         righticon="save"
                         confirm-modal="save-modal"
-                    >
-                    </ps-button>
+                    ></ps-button>
                     <ps-button
                         id="cancel-btn"
                         type="button"
                         label="Cancel"
                         theme="Primary"
                         righticon="x"
-                    >
-                    </ps-button>
+                    ></ps-button>
                 </div>
             </form>
-            <div class="refset">
+            <div class="refset" style="display: none">
                 <h6 class="refset-name">References</h6>
                 <div class="refset-container"></div>
             </div>
@@ -86,185 +101,78 @@
     </div>
 </div>
 
-<script src="/scripts/dataForms/tools.js"></script>
-<script src="/scripts/dataForms/mergeSchema.js"></script>
-<script src="/scripts/dataForms/submitForm.js"></script>
-<script src="/scripts/dataForms/sameName.js"></script>
-<script src="/scripts/dataForms/displaySet.js"></script>
-
 <script>
-    var params = new URLSearchParams(window.location.search);
-    var id = params.get("id");
-    var datatype = psCompose.activeRoute.singular.toLowerCase();
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const datatype = psCompose.activeRoute.singular.toLowerCase();
+        let elem = null;
 
-    // Open subnav when not wizard page
-    if (
-        psCompose.activeMenuItem !== "wizard" &&
-        psCompose.activeMenuItem !== "import" &&
-        window.innerWidth > 1025
-    ) {
-        showSubnav();
-    }
+        if (
+            psCompose.activeMenuItem !== "wizard" &&
+            psCompose.activeMenuItem !== "import" &&
+            window.innerWidth > 1025
+        ) {
+            showSubnav();
+        }
 
-    function editMode(bool) {
-        document.querySelector("json-form").setAttribute("readonly", String(!bool));
+        initJsonForm(`${psCompose.activeRoute.list_endpoint}${id}/form/`, (event) => {
+            elem = JSON.parse(event.target.closest("json-form")?.getAttribute("form-data"));
+            editMode(params.get("edit"));
 
-        if (bool) {
-            // EDIT MODE
-            hideSubnav();
+            document.getElementById("data-name").textContent = elem?.name;
+            document.querySelectorAll(".confirm-data-name").forEach((el) => {
+                el.textContent = elem?.data?.name || "";
+            });
+            setUpFavorites(id);
+            attachFavoritesHandler(id);
+        });
 
-            // For each datatype update as needed
-            switch (datatype) {
-                case "address":
-                    addressMetaData();
-                    break;
-                case "task":
-                    filterTools();
-                    taskReference();
-                    break;
-                case "group":
-                    invalidRefsetRender();
-                    break;
-                case "test":
-                    invalidRefsetRender();
-                    break;
-            }
-        } else {
-            // READONLY
+        function editMode(bool) {
+            const form = document.querySelector("json-form");
+            form.setAttribute("readonly", String(!bool));
 
-            switch (datatype) {
-                // For each datatype update as needed
-                case "template":
-                    document.querySelectorAll(".action-icon.template").forEach((icon) => {
-                        icon.style.display = "block";
-                    });
-                    const exportBtn = document.getElementById("export-json-btn");
-                    exportBtn.addEventListener("click", async () => {
-                        await exportTemplateJSON(id, elem?.data?.name);
-                    });
-                    const copyBtn = document.getElementById("copy-json-btn");
-                    copyBtn.addEventListener("click", async () => {
-                        await copyTemplateJSON(id, elem?.data?.name);
-                    });
-                    const urlBtn = document.getElementById("url-json-btn");
-                    urlBtn.setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json`);
-                    break;
-                case "address":
-                    document.querySelector("ps-button[data-address-meta]")?.remove();
-                    document.getElementById("address-modal")?.remove();
-
-                    document.querySelectorAll(".action-icon.address").forEach((icon) => {
-                        icon.style.display = "block";
-                    });
-                    const addressTemplateBtn = document.getElementById("address-template-btn");
-                    addressTemplateBtn.setAttribute(
-                        "link",
-                        `${window.API_BASE_URL}/template/address/${id}/`,
-                    );
-
-                    // TODO: addressTemplateBtn - api link
-                    break;
-                case "task":
-                    document.querySelector("ps-button[data-task-ref]")?.remove();
-                    document.getElementById("task-modal")?.remove();
-                    break;
+            if (bool) {
+                hideSubnav();
+                runEditActions(datatype);
+            } else {
+                runReadonlyActions(datatype);
             }
         }
-    }
 
-    // Setting the hx-get attribute dynamically
-    document
-        .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/`);
-
-    // Setting edit-icon
-    document.getElementById("edit-icon").addEventListener("click", (event) => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("id", id);
-        url.searchParams.set("edit", "true");
-
-        window.history.pushState({}, "", url.toString());
-        editMode(true);
-    });
-
-    window.addEventListener("popstate", (event) => {
-        editMode(params.get("edit"));
-    });
-
-    // Set Up JSON Form
-    document.getElementById("data-edit-form").addEventListener("json-form:mounted", (event) => {
-        let elem = event.detail[0].target;
-        document.getElementById("data-name").textContent = elem?.data?.name;
-        editMode(params.get("edit"));
-
-        // Render Refset
-        if (psCompose.activeMenuItem != "wizard")
-            loadSection(`${psCompose.activeRoute.list_endpoint}${id}/find/`, ".refset-container");
-
-        // Favorites Set Up
-        setUpFavorites(id);
-        attachFavoritesHandler(id);
-
-        document.querySelectorAll(".confirm-data-name").forEach((name) => {
-            name.textContent = elem?.data?.name || "";
+        document.getElementById("edit-icon").addEventListener("click", () => {
+            const url = new URL(window.location.href);
+            url.searchParams.set("id", id);
+            url.searchParams.set("edit", "true");
+            window.history.pushState({}, "", url.toString());
+            editMode(true);
         });
 
-        sameNameValidationEventListener();
-    });
-
-    // Change
-    document.getElementById("data-edit-form").addEventListener("change", async function (event) {
-        if (datatype == "task") await renderTools(event);
-        if (datatype === "test" || datatype === "archive") mergeSchema(event);
-    });
-
-    // Save
-    document.getElementById("data-edit-form").addEventListener("submit", (e) => formValidation(e));
-
-    // Delete
-    document.getElementById("delete-btn").addEventListener("click", async function (event) {
-        document.dispatchEvent(new Event("validated"));
-        deleteModal.addEventListener("confirm-yes-clicked", async function (event) {
-            try {
-                const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/`, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                });
-                if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
-                newMessageBanner(`Successfully deleted ${datatype}!`, "Success", false);
-                window.location = psCompose.activeRoute.page_url;
-            } catch (error) {
-                console.error("Error:", error);
-                newMessageBanner(error.message, "Success", true);
-            }
+        document.getElementById("cancel-btn").addEventListener("click", () => {
+            window.history.back();
+            window.addEventListener("popstate", () => window.location.reload(), { once: true });
         });
-    });
 
-    // Cancel
-    document.getElementById("cancel-btn").addEventListener("click", () => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("id", id);
-        url.searchParams.delete("edit");
+        initFormSubmit("data-edit-form");
 
-        window.history.pushState({}, "", url.toString());
-        editMode(false);
-    });
+        document.getElementById("delete-btn").addEventListener("click", () => {
+            document.dispatchEvent(new Event("validated"));
+            deleteModal.addEventListener("confirm-yes-clicked", async () => {
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/${datatype}/${id}/`, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    if (!response.ok) throw new Error(`HTTP error ${response.statusText}`);
+                    newMessageBanner(`Successfully deleted ${datatype}!`, "Success", false);
+                    window.location = psCompose.activeRoute.page_url;
+                } catch (error) {
+                    console.error("Error:", error);
+                    newMessageBanner(error.message, "Error", true);
+                }
+            });
+        });
 
-    // Invalid Parent When Delete (CASE: Group -> Task || Test -> Task )
-    function invalidRefsetRender() {
-        const refsetContainer = document.querySelector(".refset-container");
-        const allHaveIds = Array.from(refsetContainer.children).every((child) => child.id);
-        const idsArray = Array.from(refsetContainer.children)
-            .map((child) => child.id)
-            .filter((id) => id);
-
-        if (!(refsetContainer && refsetContainer.children.length > 0 && allHaveIds)) return;
-        document.querySelector("#delete-btn").disabled = true;
-        const tooltip = document.createElement("ps-tooltip");
-        tooltip.setAttribute("desc", "Delete blocked: This will break the parent template");
-        document.querySelector(".refset").querySelector("h6").appendChild(tooltip);
-
-        /* V1.1TODO: Add delete all button */
-        // Might need to collect a list of parent template it affects by deleting all tasks
-    }
+        window.addEventListener("popstate", () => editMode(params.get("edit")));
+    })();
 </script>

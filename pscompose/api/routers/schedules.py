@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from pscompose.settings import DataTypes
 from pscompose.utils import generate_router
 from pscompose.backends.postgres import backend
-from pscompose.form_schemas import SCHEDULE_SCHEMA, SCHEDULE_UI_SCHEMA
+from pscompose.form_schemas.schedule_schemas import SCHEDULE_SCHEMA, SCHEDULE_UI_SCHEMA
 
 # Setup CRUD endpoints
 router = generate_router("schedule")
@@ -15,7 +15,6 @@ router = generate_router("schedule")
 @router.get("/schedule/new/form/", summary="Return the new form to be rendered")
 @version(1)
 def get_new_form():
-    print("get new form schedule")
     payload = {"ui_schema": SCHEDULE_UI_SCHEMA, "json_schema": SCHEDULE_SCHEMA, "form_data": {}}
     return JSONResponse(content=payload)
 

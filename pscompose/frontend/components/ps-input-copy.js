@@ -4,7 +4,7 @@ export class PSInputCopy extends PSInputText {
     constructor() {
         super();
         this.slotEl = `
-      <div class="wrapper">
+      <div class="ps-wrapper">
         <input type="text" disabled />
         <ps-button type="button" id="copyBtn" theme="Icon-Simple" righticon="copy"></ps-button>
       </div>

@@ -30,7 +30,7 @@
     display: none;
 }
 
-.form-container .wrapper {
+.form-container .ps-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -46,13 +46,13 @@
     border: 1px solid #c3c7d9;
 }
 
-.form-container:has(ps-input-message .error.show) .wrapper {
+.form-container:has(ps-input-message .error.show) .ps-wrapper {
     border: 2px solid var(--color-core-red-700, #a6111b);
     box-shadow: var(--size-border-width-none, 0) var(--size-border-width-none, 0) 0.9px 2px
         rgba(222, 0, 0, 0.26);
 }
 
-[disabled] .form-container .wrapper {
+[disabled] .form-container .ps-wrapper {
     background-color: transparent;
     border: none;
     font-family: "Source Code Pro";
@@ -61,7 +61,7 @@
     padding: 0px 4px;
 }
 
-[disabled] .form-container:has(ps-input-message .error.show) .wrapper {
+[disabled] .form-container:has(ps-input-message .error.show) .ps-wrapper {
     border: none;
     box-shadow: none;
 }
@@ -106,29 +106,29 @@
     color: transparent;
 }
 
-.form-container .wrapper:has(input:focus) {
+.form-container .ps-wrapper:has(input:focus) {
     border: 1.5px solid rgb(var(--success));
 }
 
-.form-container .wrapper input:focus {
+.form-container .ps-wrapper input:focus {
     border: none;
 }
 
-.form-container .wrapper .buttons {
+.form-container .ps-wrapper .buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 8px;
 }
 
-[disabled] .form-container .wrapper input {
+[disabled] .form-container .ps-wrapper input {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
     height: 24px;
 }
 
-[disabled] .form-container .wrapper .buttons {
+[disabled] .form-container .ps-wrapper .buttons {
     display: none;
 }
 
@@ -212,7 +212,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 0;
 }
 
-.form-container .wrapper .selected-files {
+.form-container .ps-wrapper .selected-files {
     padding: 8px 0;
     color: rgb(var(--copy));
     width: 100%;
@@ -226,7 +226,7 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: transparent;
 }
 
-.form-container .wrapper .selected-files.none {
+.form-container .ps-wrapper .selected-files.none {
     color: rgb(var(--copyAlt));
 }
 
@@ -244,7 +244,7 @@ input[type="number"]::-webkit-outer-spin-button {
     order: 2;
 }
 
-.form-container:has(input[type="checkbox"]) .wrapper {
+.form-container:has(input[type="checkbox"]) .ps-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -262,17 +262,17 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
-.form-container .wrapper input[type="checkbox"] {
+.form-container .ps-wrapper input[type="checkbox"] {
     width: 32px;
     height: 32px;
     cursor: pointer;
 }
 
-.form-container:has(input[type="checkbox"]:checked) .wrapper {
+.form-container:has(input[type="checkbox"]:checked) .ps-wrapper {
     background: rgb(var(--success));
 }
 
-.form-container .wrapper input[type="checkbox"]:checked::after {
+.form-container .ps-wrapper input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
     left: 8px;
@@ -291,7 +291,7 @@ ps-input-checkbox[disabled] {
     margin-top: 0;
 }
 
-ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]) .wrapper {
+ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]) .ps-wrapper {
     width: 20px;
     height: 20px;
     background: rgb(var(--surface_1));
@@ -305,17 +305,17 @@ ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]) .wr
     cursor: pointer;
 }
 
-ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"] {
+ps-input-checkbox[theme="Small"] .form-container .ps-wrapper input[type="checkbox"] {
     width: 20px;
     height: 20px;
     cursor: pointer;
 }
 
-ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]:checked) .wrapper {
+ps-input-checkbox[theme="Small"] .form-container:has(input[type="checkbox"]:checked) .ps-wrapper {
     background: rgb(var(--success));
 }
 
-ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]:checked::after {
+ps-input-checkbox[theme="Small"] .form-container .ps-wrapper input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
     left: 5px;
@@ -383,17 +383,17 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     flex: 1 1 auto;
 }
 
-.form-container .wrapper:has(textarea:focus) {
+.form-container .ps-wrapper:has(textarea:focus) {
     outline: none;
     border: 1.5px solid rgb(var(--success));
 }
 
-.form-container .wrapper textarea:focus {
+.form-container .ps-wrapper textarea:focus {
     outline: none;
     border: none;
 }
 
-[disabled] .wrapper textarea {
+[disabled] .ps-wrapper textarea {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -414,34 +414,34 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
 
 /* DROPDOWN-SELECT */
 
-.form-container .dropdown {
+.form-container .ps-dropdown {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.form-container .dropdown .wrapper {
+.form-container .ps-dropdown .ps-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.form-container .dropdown:has(.options.open) {
+.form-container .ps-dropdown:has(.ps-options.open) {
     outline: none;
     border: 1.5px solid rgb(var(--success));
 }
 
-.form-container .dropdown .wrapper:has(input:focus) {
+.form-container .ps-dropdown .ps-wrapper:has(input:focus) {
     outline: none;
 }
 
-.form-container .dropdown input[type="search"]::-webkit-search-cancel-button {
+.form-container .ps-dropdown input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
 }
 
-.form-container .dropdown .options {
+.form-container .ps-dropdown .ps-options {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -457,7 +457,7 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
         padding 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.form-container .dropdown .options.open {
+.form-container .ps-dropdown .ps-options.open {
     max-height: 350px;
     opacity: 1;
     padding: 8px;
@@ -465,7 +465,7 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     scrollbar-color: rgb(var(--copyAlt)) rgb(var(--copy));
 }
 
-.form-container .dropdown li {
+.form-container .ps-dropdown li {
     display: flex;
     flex-direction: row;
     padding: 4px;
@@ -473,31 +473,31 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     cursor: pointer;
 }
 
-.form-container .dropdown li.active {
+.form-container .ps-dropdown li.active {
     background-color: rgba(var(--success) / 0.5);
     align-items: center;
     justify-content: space-between;
 }
 
-[disabled] .form-container .dropdown {
+[disabled] .form-container .ps-dropdown {
     pointer-events: none;
     user-select: none;
     cursor: not-allowed;
 }
 
-[disabled] .form-container .dropdown ps-button {
+[disabled] .form-container .ps-dropdown ps-button {
     display: none;
 }
 
 /* ps-select-multi */
 
-.form-container .tags {
+.form-container .ps-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.form-container .tag {
+.form-container .ps-tag {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -518,11 +518,11 @@ ps-input-checkbox[theme="Small"] .form-container .wrapper input[type="checkbox"]
     padding: 0;
 }
 
-ps-select-multi[disabled] .form-container .dropdown {
+ps-select-multi[disabled] .form-container .ps-dropdown {
     display: none;
 }
 
-[disabled] .tag {
+[disabled] .ps-tag {
     padding: 4px 12px;
     align-self: flex-start;
 }
@@ -532,114 +532,13 @@ ps-select-multi[disabled] .form-container .dropdown {
 }
 
 /* ps-select-chip */
-ps-select-chip[disabled] .form-container .dropdown {
+ps-select-chip[disabled] .form-container .ps-dropdown {
     display: none;
 }
 
-[disabled] .tag {
+[disabled] .ps-tag {
     padding: 4px 12px;
     align-self: flex-start;
-}
-
-/* EXCLUDES DROPDOWN */
-
-.form-container .excludes-container {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: start;
-    margin-bottom: 0.5rem;
-
-    opacity: 0;
-    transform: translateY(-20px);
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
-}
-
-.form-container .excludes-container.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.form-container .excludes-container.removing {
-    opacity: 0;
-    transform: translateY(-50px);
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
-}
-
-.form-container .excludes-container .dropdown-container {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    flex: 1;
-}
-
-.form-container .excludes-container .dropdown-container label {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.form-container .excludes-container .dropdown-container ps-select,
-ps-select-multi {
-    flex: 1;
-}
-
-.form-container .excludes-container #excludes-minus-btn {
-    display: flex;
-    margin-top: 14px;
-}
-
-.form-container .excludes-table {
-    display: none;
-}
-
-[disabled] .form-container .excludes-container {
-    display: none;
-}
-
-[disabled] .form-container .excludes-table {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    width: 100%;
-}
-
-[disabled] .form-container .excludes-table tr {
-    display: flex;
-}
-
-[disabled] .form-container .excludes-table th {
-    width: 100%;
-    padding: 12px;
-    background-color: rgba(var(--surface_2) / 0.01);
-    font-weight: 500;
-    font-size: 14px;
-    flex: 1;
-    color: rgb(var(--copyAlt));
-}
-
-[disabled] .form-container .excludes-table td {
-    width: 100%;
-    font-family: "Source Code Pro";
-    color: rgb(var(--copy));
-    padding: 12px;
-    flex: 1;
-}
-
-[disabled] .form-container .excludes-container #excludes-minus-btn {
-    display: none;
-}
-
-ps-select-excludes #excludes-add-btn {
-    display: flex;
-    margin-top: 8px;
-}
-
-ps-select-excludes[disabled] #excludes-add-btn {
-    display: none;
 }
 
 /* ps-button */
@@ -981,6 +880,10 @@ ps-modal .data-box {
     animation-timing-function: ease;
 }
 
+#confirm-modal .save-cancel {
+    width: 80%;
+}
+
 #confirm-modal > .modal-underlay {
     /* underlay takes up the entire viewport. This is only
   required if you want to click to dismiss the popup */
@@ -1159,4 +1062,14 @@ ps-modal .data-box {
     color: rgb(var(--success));
     width: 20px;
     height: 20px;
+}
+
+/* ps-progress-bar */
+
+.ps-progress-bar-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }

@@ -6,7 +6,12 @@
                 <ps-input-checkbox-star></ps-input-checkbox-star>
                 <div class="action-icon template">
                     <div class="tooltip">Download Template</div>
-                    <ps-button id="export-json-btn" righticon="download" theme="Icon"></ps-button>
+                    <ps-button
+                        id="export-json-btn"
+                        righticon="download"
+                        theme="Icon"
+                        aria-label="Download Template"
+                    ></ps-button>
                 </div>
                 <div class="action-icon template">
                     <div class="tooltip">Copy Raw JSON URL</div>
@@ -14,6 +19,7 @@
                         id="copy-json-btn"
                         righticon="clipboard-copy"
                         theme="Icon"
+                        aria-label="Copy Raw JSON URL"
                     ></ps-button>
                 </div>
             </div>
@@ -56,46 +62,27 @@
 </div>
 
 <script>
-    var params = new URLSearchParams(window.location.search);
-    var id = params.get("id");
-    var datatype = psCompose.activeRoute.singular.toLowerCase();
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const datatype = psCompose.activeRoute.singular.toLowerCase();
+        let elem = null;
 
-    // Favorites Set Up
-    setUpFavorites(id);
+        setUpFavorites(id);
 
-    // Setting the hx-get attribute dynamically
-    document
-        .getElementById("content")
-        .setAttribute("hx-get", `${psCompose.activeRoute.list_endpoint}${id}/form/`);
-
-    // Set Up JSON Form
-    document.getElementById("data-read-form").addEventListener("json-form:mounted", (event) => {
-        const name = event.detail[0].target?.data?.name;
-        document.getElementById("data-name").textContent = name;
-
-        document.querySelector("#copy-json-btn").addEventListener("click", async () => {
-            await copyTemplateJSON(params.get("id"));
-        });
-        document.querySelector("#export-json-btn").addEventListener("click", async () => {
-            await exportTemplateJSON(params.get("id"));
+        initJsonForm(`${psCompose.activeRoute.list_endpoint}${id}/form/`, (event) => {
+            elem = JSON.parse(event.target.closest("json-form")?.getAttribute("form-data"));
+            document.getElementById("data-name").textContent = elem?.name;
+            runReadonlyActions(datatype);
         });
 
-        const exportBtn = document.getElementById("export-json-btn");
-        exportBtn.addEventListener("click", async () => {
-            await exportTemplateJSON(id, name);
+        document.querySelector("#view-btn").addEventListener("click", () => {
+            window.location = `/${datatype}/?id=${id}`;
         });
-        const copyBtn = document.getElementById("copy-json-btn");
-        copyBtn.addEventListener("click", async () => {
-            await copyTemplateJSON(id, name);
+
+        document.querySelector("#another-btn").addEventListener("click", () => {
+            if (psCompose.activeMenuItem == "wizard") window.location = "/wizard/1/address/";
+            else window.location = `${psCompose.activeRoute.page_url}`;
         });
-    });
-
-    document.querySelector("#view-btn").addEventListener("click", () => {
-        window.location = `/${datatype}/?id=${id}`;
-    });
-
-    document.querySelector("#another-btn").addEventListener("click", () => {
-        if (psCompose.activeMenuItem == "wizard") window.location = "/wizard/1/address/";
-        else window.location = `${psCompose.activeRoute.page_url}`;
-    });
+    })();
 </script>

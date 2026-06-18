@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const dirPath = './components';
 const outputFile = path.join(dirPath, 'index.js');

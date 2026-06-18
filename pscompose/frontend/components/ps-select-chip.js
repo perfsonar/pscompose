@@ -6,11 +6,10 @@ export class PSSelectChip extends PSSelect {
         const optionsMap = new Map(this.options.map((opt) => [opt.const, opt.title]));
 
         if (this.disabled && this.value) {
-            const tagHTML = `<span class="tag">
+            const tagHTML = `<span class="ps-tag">
                 ${optionsMap.get(this.value) || "Option Not Found"}
-            </span>
-            `;
-            const tagDiv = `<div class="tags">${tagHTML}</div>`;
+            </span>`;
+            const tagDiv = `<div class="ps-tags">${tagHTML}</div>`;
             this.querySelector(".form-container").insertAdjacentHTML("beforeend", tagDiv);
         }
     }

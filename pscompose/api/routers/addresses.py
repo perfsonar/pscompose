@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from fastapi_versioning import version
-from pscompose.form_schemas import ADDRESS_SCHEMA, ADDRESS_UI_SCHEMA
+from pscompose.form_schemas.address_schemas import ADDRESS_SCHEMA, ADDRESS_UI_SCHEMA
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.settings import DataTypes
 from pscompose.backends.postgres import backend
@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 
 # Setup CRUD endpoints
 router = generate_router("address")
+
 
 # Custom sanitize function to transform the data for the backend
 def sanitize_data(data):
@@ -27,7 +28,9 @@ def sanitize_data(data):
     data["json"] = json_data
     return data
 
+
 router.sanitize = sanitize_data
+
 
 # Custom endpoints
 @router.get("/address/new/form/", summary="Return the new form to be rendered")

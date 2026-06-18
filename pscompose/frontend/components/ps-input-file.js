@@ -1,3 +1,4 @@
+import { nullableAttr } from "./ps-utils.js";
 import { PSInputText } from "./ps-input-text.js";
 
 export class PSInputFile extends PSInputText {
@@ -25,24 +26,25 @@ export class PSInputFile extends PSInputText {
         super.connectedCallback();
     }
 
+    disconnectedCallback() {
+        super.disconnectedCallback?.();
+        // uploadArea is a child element; it is removed from DOM with this element,
+        // so its listeners are GC'd automatically. No document-level cleanup needed.
+    }
+
     get files() {
         return this._files || null;
     }
 
     set files(fileList) {
-        this._files = fileList;  
+        this._files = fileList;
         if (fileList && fileList.length) {
-            this.value = Array.from(fileList).map(f => f.name).join(', ');
+            this.value = Array.from(fileList)
+                .map((f) => f.name)
+                .join(", ");
         } else {
             this.value = "";
         }
-    }
-
-    get accept() {
-        return this.getAttribute("accept") ?? null;
-    }
-    set accept(v) {
-        this.setAttribute("accept", v ?? "");
     }
 
     // TODO: Take on multiple files
@@ -52,13 +54,6 @@ export class PSInputFile extends PSInputText {
     // set multiple(v) {
     //     v ? this.setAttribute("multiple", "") : this.removeAttribute("multiple");
     // }
-
-    get subdesc() {
-        return this.getAttribute("subdesc") ?? null;
-    }
-    set subdesc(v) {
-        this.setAttribute("subdesc", v ?? "");
-    }
 
     _attachAdditionalListeners() {
         if (!this.uploadArea || !this.inputEl) return;
@@ -82,7 +77,7 @@ export class PSInputFile extends PSInputText {
             this.uploadArea.classList.remove("dragover");
 
             if (this.hasAttribute("disabled")) return;
-            this.files = e.dataTransfer.files
+            this.files = e.dataTransfer.files;
             this.dispatchEvent(new Event("change", { bubbles: true }));
         });
     }
@@ -92,26 +87,21 @@ export class PSInputFile extends PSInputText {
         this.inputEl?.setAttribute("type", "file");
         if (this.accept !== null) this.inputEl?.setAttribute("accept", this.accept);
 
-
         const uploadArea = ` 
         <div class="upload-area">  
             <i data-lucide="upload" aria-hidden="true"></i>
             <div class="upload-text">
                 <p>Click to select files or drag and drop files here</p>
-                ${
-                    this.subdesc
-                        ? `<p class="subdesc">${this.subdesc}</p>`
-                        : ""
-                }
+                ${this.subdesc ? `<p class="subdesc">${this.subdesc}</p>` : ""}
             </div>
         </div>
         `;
         this.wrapperEl.insertAdjacentHTML("beforeBegin", uploadArea);
 
         const selectedFile = `
-            <p class="selected-files ${this.value ? '' : 'none'} ">
-                ${this.value ?  this.value : `No Files Chosen`}
-            </p>`
+            <p class="selected-files ${this.value ? "" : "none"} ">
+                ${this.value ? this.value : `No Files Chosen`}
+            </p>`;
         this.wrapperEl.insertAdjacentHTML("beforeend", selectedFile);
 
         this.uploadArea = this.querySelector(".upload-area");
@@ -119,5 +109,10 @@ export class PSInputFile extends PSInputText {
         lucide.createIcons();
     }
 }
+
+Object.defineProperties(PSInputFile.prototype, {
+    accept: nullableAttr("accept"),
+    subdesc: nullableAttr("subdesc"),
+});
 
 customElements.define("ps-input-file", PSInputFile);
