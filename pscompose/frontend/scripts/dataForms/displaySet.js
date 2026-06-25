@@ -12,9 +12,6 @@ async function taskReference() {
     button.setAttribute("lefticon", isEdit ? "edit" : "plus");
     button.setAttribute("type", "button");
     button.setAttribute("confirm-modal", "task-modal");
-    button.addEventListener("click", async function () {
-        document.dispatchEvent(new Event("validated"));
-    });
 
     // Create modal
     const modal = document.createElement("ps-modal");
@@ -103,9 +100,6 @@ async function addressMetaData() {
     button.setAttribute("theme", "AddBtn");
     button.setAttribute("lefticon", isEdit ? "edit" : "plus");
     button.setAttribute("confirm-modal", "address-modal");
-    button.addEventListener("click", async function (event) {
-        document.dispatchEvent(new Event("validated"));
-    });
 
     // Create modal
     const modal = document.createElement("ps-modal");

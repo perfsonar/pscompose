@@ -39,11 +39,18 @@ export class PSButton extends HTMLElement {
     }
 
     openModal() {
-        const handler = () => {
-            document.getElementById(this.getAttribute("confirm-modal")).style.display = "block";
-            document.removeEventListener("validated", handler);
-        };
-        document.addEventListener("validated", handler);
+        const modalId = this.getAttribute("confirm-modal");
+        // Submit buttons wait for form validation to dispatch "validated" before opening.
+        // Non-submit (type="button") buttons have no validation step, so open immediately.
+        if (this.getAttribute("type") === "submit") {
+            const handler = () => {
+                document.getElementById(modalId).style.display = "block";
+                document.removeEventListener("validated", handler);
+            };
+            document.addEventListener("validated", handler);
+        } else {
+            document.getElementById(modalId).style.display = "block";
+        }
     }
 
     render() {
