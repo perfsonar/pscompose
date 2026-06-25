@@ -134,7 +134,7 @@
 
             if (bool) {
                 hideSubnav();
-                runEditActions(datatype);
+                runEditActions(datatype, elem?.name);
             } else {
                 runReadonlyActions(datatype);
             }

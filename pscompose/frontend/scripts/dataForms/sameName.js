@@ -1,4 +1,4 @@
-async function sameNameValidationEventListener() {
+async function sameNameValidationEventListener(currentName = null) {
     var names;
 
     try {
@@ -7,7 +7,7 @@ async function sameNameValidationEventListener() {
             headers: { "Content-Type": "application/json" },
         });
         const dts = await response.json();
-        names = dts.map((dt) => dt.name);
+        names = dts.map((dt) => dt.name).filter((name) => name !== currentName);
     } catch (error) {
         console.error("Error:", error);
     }

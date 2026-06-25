@@ -49,8 +49,8 @@ function runReadonlyActions(datatype) {
     readonlyActions[datatype]?.();
 }
 
-function runEditActions(datatype) {
+function runEditActions(datatype, currentName = null) {
     disableDeleteRefset();
-    sameNameValidationEventListener();
+    sameNameValidationEventListener(currentName);
     editActions[datatype]?.();
 }
