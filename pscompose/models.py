@@ -1,5 +1,6 @@
 import uuid
 
+from datetime import datetime, timezone
 from enum import Enum
 from typing import List
 from sqlalchemy.orm import declarative_base
@@ -15,7 +16,7 @@ from sqlalchemy import (
     Text,
     String,
     DateTime,
-    func,
+    text,
     ARRAY,
     JSON,
 )
@@ -23,7 +24,7 @@ from sqlalchemy import (
 # Pydantic Validation Model subclasses will model input and output types from the API.
 # SQLAlchemy Storage subclasses will model data as stored in the DB.
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 # engine = create_engine(
 #     "postgresql+psycopg://%s@/%s" % (POSTGRES_USER_NAME, POSTGRES_DB_NAME)
@@ -77,10 +78,8 @@ class UserTable(SQLAlchemyStorage):
     name = Column(Text)
     password = Column(LargeBinary(60))
     scopes = Column(postgresql.JSON)
-    favorites = Column(
-        MutableList.as_mutable(postgresql.JSONB), 
-        default=list
-    )
+    favorites = Column(MutableList.as_mutable(postgresql.JSONB), default=list)
+
 
 def generate_uuid():
     """Generate a 12 character UUID by truncating a standard UUID"""
@@ -105,17 +104,16 @@ class DataTable(SQLAlchemyStorage):
     url = Column(Text)
     created_by = Column(Text)
     created_at = Column(
-        DateTime(timezone=True),  # Stores timezone-aware timestamps
-        # func.now() retrieves the current timestamp from the database server
-        server_default=func.now(),
-        nullable=False,  # enforces that every record has a timestamp
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        server_default=text("timezone('utc', now())"),
+        nullable=False,
     )
     last_edited_by = Column(Text)
     last_edited_at = Column(
-        DateTime(timezone=True),  # Stores timezone-aware timestamps
-        # func.now() retrieves the current timestamp from the database server
-        server_default=func.now(),
-        # Automatically updates the column to the current timestamp whenever the record is updated
-        onupdate=func.now(),
-        nullable=False,  # enforces that every record has a timestamp
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        server_default=text("timezone('utc', now())"),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
     )

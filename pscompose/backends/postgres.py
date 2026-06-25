@@ -5,6 +5,8 @@ from pscompose.models import DataTable, engine
 from pscompose.schemas import DataTableBase
 from pydantic import ValidationError
 
+Session = sessionmaker(bind=engine)
+
 
 class PostgresBackend:
     """
@@ -14,7 +16,15 @@ class PostgresBackend:
 
     def __init__(self):
         DataTable.__table__.create(bind=engine, checkfirst=True)
-        self.session = sessionmaker(bind=engine)()
+        self.session = Session()
+
+    def _recover_session(self):
+        """Roll back or close/reopen the session when it's left in a broken state."""
+        try:
+            self.session.rollback()
+        except Exception:
+            self.session.close()
+            self.session = Session()
 
     def create_datatype(self, ref_set, datatype, json, name, created_by, last_edited_by):
         try:
@@ -33,7 +43,7 @@ class PostgresBackend:
             self.session.commit()
             return new_type
         except Exception:
-            self.session.rollback()
+            self._recover_session()
             raise HTTPException(status_code=422, detail=f"Could not create the {datatype}")
 
     def update_datatype(self, existing_result, updated_data):
@@ -46,9 +56,7 @@ class PostgresBackend:
                 # Validate the full ORM object
                 DataTableBase.from_orm(existing_result)
             except ValidationError as ve:
-                # Roll back any DB changes if validation fails
-                self.session.rollback()
-                # Raise a 422 error with detailed Pydantic errors
+                self._recover_session()
                 raise HTTPException(status_code=422, detail=ve.errors())
 
             self.session.commit()
@@ -64,7 +72,7 @@ class PostgresBackend:
                 "last_edited_at": existing_result.last_edited_at,
             }
         except Exception as e:
-            self.session.rollback()
+            self._recover_session()
             raise HTTPException(status_code=500, detail=f"Failed to update record: {str(e)}")
 
     def delete_datatype(self, res):
@@ -73,7 +81,7 @@ class PostgresBackend:
             self.session.commit()
             return {"message": f"Record with {res.id} deleted successfully"}
         except Exception as e:
-            self.session.rollback()
+            self._recover_session()
             raise HTTPException(status_code=500, detail=f"Failed to delete record: {str(e)}")
 
     def find_records(self, target_id):
@@ -90,7 +98,7 @@ class PostgresBackend:
             results = query.all()
             return results
         except Exception as e:
-            self.session.rollback()
+            self._recover_session()
             raise HTTPException(
                 status_code=500, detail=f"An error occurred while querying the database: {str(e)}"
             )
@@ -138,9 +146,7 @@ class PostgresBackend:
                         # Validate the full ORM object
                         DataTableBase.from_orm(record)
                     except ValidationError as ve:
-                        # Roll back any DB changes if validation fails
-                        self.session.rollback()
-                        # Raise a 422 error with detailed Pydantic errors
+                        self._recover_session()
                         raise HTTPException(
                             status_code=422,
                             detail=f"Cleanup would invalidate record {record.id}: {ve.errors()}",
@@ -155,7 +161,7 @@ class PostgresBackend:
             self.session.commit()
             return {"message": f"Removed {target_id} from {len(records)} record(s)"}
         except Exception as e:
-            self.session.rollback()
+            self._recover_session()
             raise HTTPException(
                 status_code=500, detail=f"Failed to remove references for {target_id}: {str(e)}"
             )
@@ -185,20 +191,14 @@ class PostgresBackend:
             row = self.session.query(DataTable).filter_by(id=item_id).first()
             return row if row else None
         else:
-            return None  
+            return None
 
     def get_results_by_datatype_and_name(self, datatype, item_name: str):
         query = self.session.query(DataTable).filter_by(type=datatype)
-        
+
         if item_name:
-            base_name_match = func.regexp_matches(
-                DataTable.name,
-                f'^{item_name}(\\s*\\(\\d+\\))?$',
-                'g'
-            )
-            
             query = query.filter(func.substring(DataTable.name, 1, len(item_name)) == item_name)
-        
+
         return query.all()
 
     def get_results_by_ids(self, item_ids: list[str], limit: int = 3):
