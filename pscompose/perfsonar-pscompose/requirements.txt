@@ -8,6 +8,7 @@ psycopg==3.2.3
 # psycopg2==2.9.10
 bcrypt==4.2.0
 uvicorn==0.21.1
+gunicorn>=21.2.0
 python-multipart==0.0.20
 pre-commit==4.3.0
 requests==2.32.5

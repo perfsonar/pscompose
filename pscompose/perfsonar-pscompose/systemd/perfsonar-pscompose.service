@@ -1,0 +1,30 @@
+[Unit]
+Description=perfSONAR pSCompose API (Gunicorn/Uvicorn)
+After=network.target
+Requires=perfsonar-pscompose.socket
+
+[Service]
+Type=notify
+User=perfsonar
+Group=perfsonar
+WorkingDirectory=/usr/lib/perfsonar/pscompose
+ExecStart=/usr/bin/gunicorn \
+    --workers 4 \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --bind unix:/run/perfsonar/pscompose.sock \
+    --umask 007 \
+    --pid /run/perfsonar/pscompose.pid \
+    --access-logfile /var/log/perfsonar/pscompose-access.log \
+    --error-logfile /var/log/perfsonar/pscompose-error.log \
+    --forwarded-allow-ips "*" \
+    -e SCRIPT_NAME=/pscompose/api \
+    pscompose.api.api:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+RuntimeDirectory=perfsonar
+LogsDirectory=perfsonar
+
+[Install]
+WantedBy=multi-user.target

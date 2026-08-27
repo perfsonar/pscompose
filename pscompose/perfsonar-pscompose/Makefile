@@ -43,3 +43,21 @@ test-frontend: .dev-installed
 	@echo "Running frontend (Playwright) tests — ensure make run-api and make run-frontend are running first."
 	source venv/bin/activate && python3 -m pytest -v tests/frontend/
 
+# RPM install target
+# Variables passed in from the spec file:
+#   ROOTPATH        - destination for Python package files
+#   CONFIGPATH      - destination for config files
+#   HTTPD-CONFIGPATH - destination for Apache config
+#   SYSTEMD-CONFIGPATH - destination for systemd unit files
+.PHONY: install
+install:
+	install -d $(ROOTPATH)
+	cp -r pscompose $(ROOTPATH)/
+	install -d $(CONFIGPATH)
+	install -m 0644 SAMPLE_CONFIG.yml $(CONFIGPATH)/settings.yml
+	install -d $(HTTPD-CONFIGPATH)
+	install -m 0644 apache/apache-pscompose.conf $(HTTPD-CONFIGPATH)/
+	install -d $(SYSTEMD-CONFIGPATH)
+	install -m 0644 systemd/perfsonar-pscompose.service $(SYSTEMD-CONFIGPATH)/
+	install -m 0644 systemd/perfsonar-pscompose.socket $(SYSTEMD-CONFIGPATH)/
+

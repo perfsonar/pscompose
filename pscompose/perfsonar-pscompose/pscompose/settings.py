@@ -2,7 +2,7 @@ import os
 import sys
 import yaml
 
-DEFAULT_CONFIG_FILE = "/etc/pscompose/settings.yml"
+DEFAULT_CONFIG_FILE = "/etc/perfsonar/pscompose/settings.yml"
 
 CONFIG_FILENAME = os.environ.get("PSCOMPOSE_SETTINGS", DEFAULT_CONFIG_FILE)
 LOGLEVEL = os.environ.get("LOGLEVEL", "WARNING").upper()
