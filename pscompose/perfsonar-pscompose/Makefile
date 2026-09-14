@@ -45,18 +45,32 @@ test-frontend: .dev-installed
 
 # RPM install target
 # Variables passed in from the spec file:
-#   ROOTPATH        - destination for Python package files
-#   CONFIGPATH      - destination for config files
-#   HTTPD-CONFIGPATH - destination for Apache config
+#   ROOTPATH           - destination for Python package files (pscompose_base)
+#   CONFIGPATH         - destination for config files
+#   HTTPD-CONFIGPATH   - destination for Apache config
 #   SYSTEMD-CONFIGPATH - destination for systemd unit files
+#   VENVPATH           - destination for the Python virtualenv
 .PHONY: install
 install:
+	# Application source
 	install -d $(ROOTPATH)
 	cp -r pscompose $(ROOTPATH)/
+	find $(ROOTPATH)/pscompose -type f | xargs chmod a-x
+	# Frontend static files
+	install -d $(ROOTPATH)/frontend
+	cp -r pscompose/frontend/. $(ROOTPATH)/frontend/
+	find $(ROOTPATH)/frontend -type f | xargs chmod a-x
+	# Virtualenv with all Python dependencies
+	python3 -m venv $(VENVPATH)
+	$(VENVPATH)/bin/pip install --upgrade pip
+	$(VENVPATH)/bin/pip install -r requirements.txt
+	# Config (install -m already sets mode correctly)
 	install -d $(CONFIGPATH)
 	install -m 0644 SAMPLE_CONFIG.yml $(CONFIGPATH)/settings.yml
+	# Apache
 	install -d $(HTTPD-CONFIGPATH)
 	install -m 0644 apache/apache-pscompose.conf $(HTTPD-CONFIGPATH)/
+	# systemd
 	install -d $(SYSTEMD-CONFIGPATH)
 	install -m 0644 systemd/perfsonar-pscompose.service $(SYSTEMD-CONFIGPATH)/
 	install -m 0644 systemd/perfsonar-pscompose.socket $(SYSTEMD-CONFIGPATH)/

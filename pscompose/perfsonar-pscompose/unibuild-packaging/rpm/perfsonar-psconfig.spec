@@ -17,18 +17,14 @@ Group:			Development/Libraries
 URL:			http://www.perfsonar.net
 Source0:		perfsonar-pscompose-%{version}.tar.gz
 BuildArch:		noarch
+# The venv contains compiled .so extensions; disable debuginfo/debugsource
+# sub-packages to avoid unpackaged debug file errors
+%global debug_package %{nil}
 BuildRequires:  systemd-rpm-macros
-Requires:       perfsonar-common
+BuildRequires:  python3
+BuildRequires:  python3-pip
+#Requires:       perfsonar-common
 Requires:       python3
-Requires:       python3-fastapi
-Requires:       python3-sqlalchemy
-Requires:       python3-pydantic
-Requires:       python3-bcrypt
-Requires:       python3-uvicorn
-Requires:       python3-gunicorn
-Requires:       python3-multipart
-Requires:       python3-requests
-Requires:       python3-psycopg2
 Requires:       postgresql
 Requires:       postgresql-contrib
 Requires:       postgresql-devel
@@ -47,10 +43,42 @@ A package that installs the perfSONAR pSCompose user interface for configuring m
 %prep
 %setup -q -n %{name}-%{version}
 
+#TODO: Add back perfsonar-common and delete below
+%pre
+/usr/sbin/groupadd -r perfsonar 2> /dev/null || :
+/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
+
 %build
 
 %install
-make ROOTPATH=%{buildroot}%{pscompose_base} CONFIGPATH=%{buildroot}%{config_base} HTTPD-CONFIGPATH=%{buildroot}/%{httpd_config_base} SYSTEMD-CONFIGPATH=%{buildroot}/%{systemd_base} install
+make ROOTPATH=%{buildroot}%{pscompose_base} CONFIGPATH=%{buildroot}%{config_base} HTTPD-CONFIGPATH=%{buildroot}/%{httpd_config_base} SYSTEMD-CONFIGPATH=%{buildroot}/%{systemd_base} VENVPATH=%{buildroot}%{pscompose_base}/venv install
+# Rewrite embedded buildroot paths in the venv so it works at install-time location
+find %{buildroot}%{pscompose_base}/venv -type f \
+    -exec grep -ql '%{buildroot}' {} \; \
+    -exec sed -i 's|%{buildroot}||g' {} \;
+# Replace the absolute python3 symlink with a relative one to avoid rpmlint error
+ln -sf ../../../../../bin/python3 \
+    %{buildroot}%{pscompose_base}/venv/bin/python3 2>/dev/null || true
+# Remove test directories from venv site-packages to avoid ambiguous shebang errors
+find %{buildroot}%{pscompose_base}/venv/lib -type d -name tests \
+    -path "*/site-packages/*" -exec rm -rf {} +
+# Rewrite ambiguous '#!/usr/bin/env python' shebangs to python3
+find %{buildroot}%{pscompose_base}/venv/lib -name "*.py" \
+    -exec grep -qm1 '^#!/usr/bin/env python$' {} \; \
+    -exec sed -i 's|^#!/usr/bin/env python$|#!/usr/bin/env python3|' {} \;
+# Strip executable bit from all venv non-script files (metadata, headers, configs, etc.)
+find %{buildroot}%{pscompose_base}/venv/lib -type f -executable \
+    ! -exec grep -qm1 '^#!' {} \; -exec chmod -x {} \;
+find %{buildroot}%{pscompose_base}/venv/pyvenv.cfg -executable 2>/dev/null \
+    -exec chmod -x {} \;
+find %{buildroot}%{pscompose_base}/venv/include -type f -executable \
+    -exec chmod -x {} \;
+# Strip executable bit from all frontend static files
+find %{buildroot}%{pscompose_base}/frontend -type f -executable \
+    ! -exec grep -qm1 '^#!' {} \; -exec chmod -x {} \;
+# Strip executable bit from systemd unit files
+chmod -x %{buildroot}%{systemd_base}/perfsonar-pscompose.service \
+         %{buildroot}%{systemd_base}/perfsonar-pscompose.socket
 
 %clean
 rm -rf %{buildroot}
@@ -78,10 +106,9 @@ fi
 %defattr(0644,perfsonar,perfsonar,0755)
 %config(noreplace) %{config_base}/settings.yml
 %{pscompose_base}/pscompose/
-%exclude %{pscompose_base}/pscompose/**/*.pyc
-%exclude %{pscompose_base}/pscompose/**/*.pyo
-%exclude %{pscompose_base}/pscompose/**/__pycache__
-%{pscompose_base}/pscompose/frontend
+%{pscompose_base}/frontend/
+%{pscompose_base}/venv/
+%attr(0755, perfsonar, perfsonar) %{pscompose_base}/venv/bin/
 %attr(0644, root, root) %{httpd_config_base}/apache-pscompose.conf
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.service
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.socket

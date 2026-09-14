@@ -8,7 +8,7 @@ Type=notify
 User=perfsonar
 Group=perfsonar
 WorkingDirectory=/usr/lib/perfsonar/pscompose
-ExecStart=/usr/bin/gunicorn \
+ExecStart=/usr/lib/perfsonar/pscompose/venv/bin/gunicorn \
     --workers 4 \
     --worker-class uvicorn.workers.UvicornWorker \
     --bind unix:/run/perfsonar/pscompose.sock \
