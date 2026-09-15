@@ -66,7 +66,7 @@ install:
 	$(VENVPATH)/bin/pip install -r requirements.txt
 	# Config (install -m already sets mode correctly)
 	install -d $(CONFIGPATH)
-	install -m 0644 SAMPLE_CONFIG.yml $(CONFIGPATH)/settings.yml
+	install -m 0644 EXAMPLE_CONFIG.yml $(CONFIGPATH)/settings.yml
 	# Apache
 	install -d $(HTTPD-CONFIGPATH)
 	install -m 0644 apache/apache-pscompose.conf $(HTTPD-CONFIGPATH)/
@@ -74,4 +74,7 @@ install:
 	install -d $(SYSTEMD-CONFIGPATH)
 	install -m 0644 systemd/perfsonar-pscompose.service $(SYSTEMD-CONFIGPATH)/
 	install -m 0644 systemd/perfsonar-pscompose.socket $(SYSTEMD-CONFIGPATH)/
+	# Scripts
+	install -d $(ROOTPATH)/scripts
+	install -m 0755 scripts/pg_setup.sh $(ROOTPATH)/scripts/
 
