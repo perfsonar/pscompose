@@ -1,5 +1,5 @@
 ---
-postgres:
+database:
     user_name: pscompose_user
     password: password
     db_name: pscompose

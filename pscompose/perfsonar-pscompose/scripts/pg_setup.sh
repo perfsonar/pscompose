@@ -101,15 +101,37 @@ else
     echo "${WHOAMI}: Generated password written to ${SETTINGS_FILE}"
 fi
 
+# -----------------------------------------------------------------------
+# Always create/update the role with the current password, using
+# scram-sha-256 hashing.  This is idempotent and fixes any mismatch
+# between the password in settings.yml and what PostgreSQL has stored
+# (e.g. if the role was previously created with md5 hashing).
+# Must run BEFORE database creation so the role exists for GRANTs.
+# -----------------------------------------------------------------------
+echo "${WHOAMI}: Syncing PostgreSQL role '${DB_USER}' password..."
+# Check whether the role exists so we can use CREATE vs ALTER.
+# These must be plain SQL (not inside a DO block) so that
+# SET password_encryption takes effect before the password is hashed.
+ROLE_EXISTS=$(run_sql "SELECT 1 FROM pg_roles WHERE rolname='${DB_USER}';" \
+    | grep -c "^ *1" || true)
+if [ "${ROLE_EXISTS}" -gt 0 ]
+then
+    run_sql "SET password_encryption = 'scram-sha-256'; ALTER ROLE ${DB_USER} WITH LOGIN PASSWORD '${PG_PASSWORD}';" \
+        || die "Failed to update role: $(cat "${TMPBASE}/error")"
+else
+    run_sql "SET password_encryption = 'scram-sha-256'; CREATE ROLE ${DB_USER} WITH LOGIN PASSWORD '${PG_PASSWORD}';" \
+        || die "Failed to create role: $(cat "${TMPBASE}/error")"
+fi
+
 if [ "${DB_EXISTS}" -gt 0 ]
 then
-    echo "${WHOAMI}: Database '${DB_NAME}' already exists, skipping database/role creation."
+    echo "${WHOAMI}: Database '${DB_NAME}' already exists, skipping database creation."
 else
     # -----------------------------------------------------------------------
-    # Create PostgreSQL role, database, and grant permissions
+    # Create database and grant permissions (role already exists above)
     # -----------------------------------------------------------------------
     echo "${WHOAMI}: Creating database '${DB_NAME}'..."
-    run_sql "CREATE DATABASE ${DB_NAME};" \
+    run_sql "CREATE DATABASE ${DB_NAME} OWNER ${DB_USER};" \
         || die "Failed to create database: $(cat "${TMPBASE}/error")"
 
     echo "${WHOAMI}: Granting permissions..."
@@ -125,25 +147,6 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ${DB_USER};"
         || die "Failed to grant schema privileges: $(cat "${TMPBASE}/error")"
 
 fi  # end fresh-install block
-
-# -----------------------------------------------------------------------
-# Always create/update the role with the current password, using
-# scram-sha-256 hashing.  This is idempotent and fixes any mismatch
-# between the password in settings.yml and what PostgreSQL has stored
-# (e.g. if the role was previously created with md5 hashing).
-# -----------------------------------------------------------------------
-echo "${WHOAMI}: Syncing PostgreSQL role '${DB_USER}' password..."
-run_sql "SET password_encryption = 'scram-sha-256';
-DO \$\$
-BEGIN
-  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '${DB_USER}') THEN
-    ALTER ROLE ${DB_USER} WITH LOGIN PASSWORD '${PG_PASSWORD}';
-  ELSE
-    CREATE ROLE ${DB_USER} WITH LOGIN PASSWORD '${PG_PASSWORD}';
-  END IF;
-END
-\$\$;" \
-    || die "Failed to create/update role: $(cat "${TMPBASE}/error")"
 
 # ---------------------------------------------------------------------------
 # Configure pg_hba.conf to allow pscompose_user to authenticate with
