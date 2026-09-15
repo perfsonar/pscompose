@@ -1,5 +1,6 @@
 import bcrypt
 
+from typing import Optional
 from sqlalchemy.orm import sessionmaker
 from fastapi import Depends, HTTPException
 from pscompose.settings import TOKEN_SCOPES
@@ -134,7 +135,7 @@ def optional_auth_check(
     username,
     password,
     needed_scopes: SecurityScopes = [TOKEN_SCOPES["read"]],
-) -> User | None:
+) -> Optional[User]:
     if username and password:
         return get_user(username, password, needed_scopes)
     return None
