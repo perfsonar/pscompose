@@ -96,7 +96,7 @@ else
     PG_PASSWORD=$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 32)
     sed -i "s|^\(\s*password:\s*\).*|\1${PG_PASSWORD}|" "${SETTINGS_FILE}" \
         || die "Failed to write password to ${SETTINGS_FILE}"
-    chown root:perfsonar "${SETTINGS_FILE}"
+    chown perfsonar:perfsonar "${SETTINGS_FILE}"
     chmod 0640 "${SETTINGS_FILE}"
     echo "${WHOAMI}: Generated password written to ${SETTINGS_FILE}"
 fi

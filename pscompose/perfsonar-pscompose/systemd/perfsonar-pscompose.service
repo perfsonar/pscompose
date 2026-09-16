@@ -6,7 +6,7 @@ Requires=perfsonar-pscompose.socket
 [Service]
 Type=notify
 User=perfsonar
-Group=perfsonar
+Group=apache
 WorkingDirectory=/usr/lib/perfsonar/pscompose
 ExecStart=/usr/lib/perfsonar/pscompose/venv/bin/gunicorn \
     --workers 4 \
@@ -17,8 +17,9 @@ ExecStart=/usr/lib/perfsonar/pscompose/venv/bin/gunicorn \
     --access-logfile /var/log/perfsonar/pscompose-access.log \
     --error-logfile /var/log/perfsonar/pscompose-error.log \
     --forwarded-allow-ips "*" \
-    -e SCRIPT_NAME=/pscompose/api \
+    --umask 007 \
     pscompose.api.api:app
+Environment=SCRIPT_NAME=/pscompose/api
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

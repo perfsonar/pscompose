@@ -24,6 +24,7 @@ BuildRequires:  systemd-rpm-macros
 BuildRequires:  python3
 BuildRequires:  python3-pip
 #Requires:       perfsonar-common
+#Requires: pscheduler-bundle-full
 Requires:       python3
 Requires:       postgresql
 Requires:       postgresql-contrib
@@ -66,6 +67,14 @@ find %{buildroot}%{pscompose_base}/venv/lib -type d -name tests \
 find %{buildroot}%{pscompose_base}/venv/lib -name "*.py" \
     -exec grep -qm1 '^#!/usr/bin/env python$' {} \; \
     -exec sed -i 's|^#!/usr/bin/env python$|#!/usr/bin/env python3|' {} \;
+# Remove pre-compiled bytecode from the venv: it was compiled by the build
+# container's Python, which may be a different version than the system Python
+# on the target machine.  Python will recompile .pyc files on first import.
+find %{buildroot}%{pscompose_base}/venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+find %{buildroot}%{pscompose_base}/venv -name "*.pyc" -delete 2>/dev/null || true
+# Do the same for the pscompose package itself
+find %{buildroot}%{pscompose_base}/pscompose -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+find %{buildroot}%{pscompose_base}/pscompose -name "*.pyc" -delete 2>/dev/null || true
 # Strip executable bit from all venv non-script files (metadata, headers, configs, etc.)
 find %{buildroot}%{pscompose_base}/venv/lib -type f -executable \
     ! -exec grep -qm1 '^#!' {} \; -exec chmod -x {} \;
@@ -86,6 +95,8 @@ rm -rf %{buildroot}
 %post
 %systemd_post perfsonar-pscompose.socket perfsonar-pscompose.service
 if [ "$1" = "1" ]; then
+    # Run the PostgreSQL database setup script
+    %{pscompose_base}/scripts/pg_setup.sh
     # Fresh install: enable and start the socket and Apache
     systemctl enable --now perfsonar-pscompose.socket
     systemctl enable httpd
@@ -112,6 +123,7 @@ fi
 %attr(0644, root, root) %{httpd_config_base}/apache-pscompose.conf
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.service
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.socket
+%attr(0755, root, root) %{pscompose_base}/scripts/pg_setup.sh
 
 %changelog
 * Thu Aug 27 2026 Andy Lake <andy@es.net> - 5.3.0-0.a1.0
