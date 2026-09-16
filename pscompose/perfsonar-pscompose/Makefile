@@ -74,6 +74,7 @@ install:
 	install -d $(SYSTEMD-CONFIGPATH)
 	install -m 0644 systemd/perfsonar-pscompose.service $(SYSTEMD-CONFIGPATH)/
 	install -m 0644 systemd/perfsonar-pscompose.socket $(SYSTEMD-CONFIGPATH)/
+	install -m 0644 systemd/perfsonar-pscompose-frontend.service $(SYSTEMD-CONFIGPATH)/
 	# Scripts
 	install -d $(ROOTPATH)/scripts
 	install -m 0755 scripts/pg_setup.sh $(ROOTPATH)/scripts/

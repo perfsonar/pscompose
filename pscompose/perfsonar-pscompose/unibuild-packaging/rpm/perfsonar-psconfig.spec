@@ -87,31 +87,34 @@ find %{buildroot}%{pscompose_base}/frontend -type f -executable \
     ! -exec grep -qm1 '^#!' {} \; -exec chmod -x {} \;
 # Strip executable bit from systemd unit files
 chmod -x %{buildroot}%{systemd_base}/perfsonar-pscompose.service \
-         %{buildroot}%{systemd_base}/perfsonar-pscompose.socket
+         %{buildroot}%{systemd_base}/perfsonar-pscompose.socket \
+         %{buildroot}%{systemd_base}/perfsonar-pscompose-frontend.service
 
 %clean
 rm -rf %{buildroot}
 
 %post
-%systemd_post perfsonar-pscompose.socket perfsonar-pscompose.service
+%systemd_post perfsonar-pscompose.socket perfsonar-pscompose.service perfsonar-pscompose-frontend.service
 if [ "$1" = "1" ]; then
     # Run the PostgreSQL database setup script
     %{pscompose_base}/scripts/pg_setup.sh
-    # Fresh install: enable and start the socket and Apache
+    # Fresh install: enable and start the socket, frontend, and Apache
     systemctl enable --now perfsonar-pscompose.socket
+    systemctl enable --now perfsonar-pscompose-frontend.service
     systemctl enable httpd
     systemctl restart httpd
 fi
 if [ "$1" = "2" ]; then
-    # Upgrade: reload service
+    # Upgrade: reload services
     systemctl try-restart perfsonar-pscompose.service
+    systemctl try-restart perfsonar-pscompose-frontend.service
 fi
 
 %preun
-%systemd_preun perfsonar-pscompose.socket perfsonar-pscompose.service
+%systemd_preun perfsonar-pscompose.socket perfsonar-pscompose.service perfsonar-pscompose-frontend.service
 
 %postun
-%systemd_postun_with_restart perfsonar-pscompose.service
+%systemd_postun_with_restart perfsonar-pscompose.service perfsonar-pscompose-frontend.service
 
 %files
 %defattr(0644,perfsonar,perfsonar,0755)
@@ -123,6 +126,7 @@ fi
 %attr(0644, root, root) %{httpd_config_base}/apache-pscompose.conf
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.service
 %attr(0644, root, root) %{systemd_base}/perfsonar-pscompose.socket
+%attr(0644, root, root) %{systemd_base}/perfsonar-pscompose-frontend.service
 %attr(0755, root, root) %{pscompose_base}/scripts/pg_setup.sh
 
 %changelog
