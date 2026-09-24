@@ -1,4 +1,4 @@
-import componentNames from "/components/index.js";
+import componentNames from "root/components/index.js";
 
 /* CREATE TESTER AND RENDERERS */
 

@@ -10,14 +10,8 @@ import argparse
 # modify this to add additional routes
 STATIC_ROUTES = (
     # [url_prefix]
-    "/pages",
-    "/partials",
-    "/lib",
     "/app",
-    "/components",
-    "/css",
-    "/static",
-    "/scripts",
+    "/root",
 )
 
 
