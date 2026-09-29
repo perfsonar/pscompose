@@ -23,6 +23,7 @@ BuildArch:		noarch
 BuildRequires:  systemd-rpm-macros
 BuildRequires:  python3
 BuildRequires:  python3-pip
+BuildRequires:  npm
 #Requires:       perfsonar-common
 #Requires: pscheduler-bundle-full
 Requires:       python3

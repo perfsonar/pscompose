@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div hx-get="root/partials/confirm-modals.html" hx-trigger="load"></div>
+        <div hx-get="./root/partials/confirm-modals.html" hx-trigger="load"></div>
     </div>
 </script>
 
@@ -116,7 +116,7 @@
             const stepBox = container.querySelector(".step-box");
             if (!stepBox) return;
             stepBox.classList.replace("step-box", "step-box-column");
-            stepBox.innerHTML = `<div class="w-full" hx-get="root/partials/data_new_form.html" hx-trigger="load"></div>`;
+            stepBox.innerHTML = `<div class="w-full" hx-get="./root/partials/data_new_form.html" hx-trigger="load"></div>`;
             htmx.process(stepBox);
 
             const nextBtn = document.querySelector("#next-btn");
@@ -134,7 +134,7 @@
         if (window.location.pathname.includes("/wizard/7/complete/")) {
             document.querySelector(".step-section").innerHTML = `
                 <div class="step-box">
-                    <div class="w-full" hx-get="root/partials/data_read_form.html" hx-trigger="load"></div>
+                    <div class="w-full" hx-get="./root/partials/data_read_form.html" hx-trigger="load"></div>
                 </div>`;
 
             document
@@ -188,7 +188,7 @@
             dropdown.value = "";
             right_container.innerHTML = `
                 <div style='width: 100%' 
-                    hx-get="root/partials/data_new_form.html" 
+                    hx-get="./root/partials/data_new_form.html" 
                     hx-trigger="load">
                 </div>`;
         } else if (id) {
@@ -197,7 +197,7 @@
             dropdown.value = id;
             right_container.innerHTML = `
                 <div style='width: 100%'
-                    hx-get="root/partials/data_edit_form.html" 
+                    hx-get="./root/partials/data_edit_form.html" 
                     hx-trigger="load">
                 </div>`;
         } else {

@@ -1,7 +1,7 @@
 <nav class="top-nav" aria-label="Top Navigation">
     <div class="top-left">
         <a href="/" aria-label="Go to homepage">
-            <img class="Logo" src="root/static/perfsonar-icon-light.png" alt="Perfsonar Icon" />
+            <img class="Logo" src="./root/static/perfsonar-icon-light.png" alt="Perfsonar Icon" />
             <span class="pscompose">pSCompose</span>
         </a>
     </div>
@@ -33,8 +33,8 @@
         const logoImg = document.querySelector(".Logo");
         const logoSrc =
             theme === "dark"
-                ? "root/static/perfsonar-icon-light.png"
-                : "root/static/perfsonar-icon-dark.png";
+                ? "./root/static/perfsonar-icon-light.png"
+                : "./root/static/perfsonar-icon-dark.png";
         logoImg.src = logoSrc;
     }
 

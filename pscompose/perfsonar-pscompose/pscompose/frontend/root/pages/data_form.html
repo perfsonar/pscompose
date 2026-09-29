@@ -1,17 +1,17 @@
 <div id="form" class="w-full">
-    <div hx-get="root/partials/confirm-modals.html" hx-trigger="load"></div>
+    <div hx-get="./root/partials/confirm-modals.html" hx-trigger="load"></div>
 </div>
 <script>
     (function () {
         const subsection = psCompose.subsection;
         const hasId = new URLSearchParams(window.location.search).has("id");
         const urlMap = {
-            new: "root/partials/data_new_form.html",
-            read: "root/partials/data_read_form.html",
+            new: "./root/partials/data_new_form.html",
+            read: "./root/partials/data_read_form.html",
         };
         const url =
             urlMap[subsection] ??
-            (hasId ? "root/partials/data_edit_form.html" : "root/partials/data_blank_form.html");
+            (hasId ? "./root/partials/data_edit_form.html" : "./root/partials/data_blank_form.html");
 
         const elem = document.createElement("div");
         elem.setAttribute("hx-get", url);

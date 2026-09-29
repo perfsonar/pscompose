@@ -27,7 +27,7 @@ css-watch:
 .PHONY: run-frontend
 run-frontend:
 	@echo "Starting simple HTTP server on http://localhost:5001/"
-	cd pscompose/frontend && npm run generate-components-index && python3 server.py --port=5001
+	(cd pscompose/frontend && npm run generate-components-index) && cd pscompose/frontend/root && python3 server.py --port=5001
 
 .dev-installed: dev_requirements.txt
 	source venv/bin/activate && pip install -r dev_requirements.txt && playwright install
@@ -59,6 +59,9 @@ install:
 	# Frontend static files
 	install -d $(ROOTPATH)/frontend
 	cp -r pscompose/frontend/. $(ROOTPATH)/frontend/
+	# build the frontend components index file
+	cd $(ROOTPATH)/frontend && npm run generate-components-index
+	cp conf/settings.packaged.js $(ROOTPATH)/frontend/root/static/settings.js
 	find $(ROOTPATH)/frontend -type f | xargs chmod a-x
 	# Virtualenv with all Python dependencies
 	python3 -m venv $(VENVPATH)
@@ -66,7 +69,7 @@ install:
 	$(VENVPATH)/bin/pip install -r requirements.txt
 	# Config (install -m already sets mode correctly)
 	install -d $(CONFIGPATH)
-	install -m 0644 EXAMPLE_CONFIG.yml $(CONFIGPATH)/settings.yml
+	install -m 0644 conf/settings.yml $(CONFIGPATH)/settings.yml
 	# Apache
 	install -d $(HTTPD-CONFIGPATH)
 	install -m 0644 apache/apache-pscompose.conf $(HTTPD-CONFIGPATH)/

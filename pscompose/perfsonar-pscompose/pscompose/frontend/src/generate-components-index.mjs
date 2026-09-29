@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const dirPath = './components';
+const dirPath = './root/components';
 const outputFile = path.join(dirPath, 'index.js');
 
 // Read directory
@@ -24,7 +24,7 @@ fs.readdir(dirPath, (err, files) => {
     }
 
     // Generate dynamic imports + auto-registration
-    const importStatements = componentFiles.map(file => `import '/components/${file}';`).join('\n    ');
+    const importStatements = componentFiles.map(file => `import './${file}';`).join('\n    ');
 
     const content = 
     `

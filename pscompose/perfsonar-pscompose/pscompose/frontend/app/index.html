@@ -3,18 +3,18 @@
     <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="root/css/google-fonts-signika-and-source-sans.css" rel="stylesheet" />
+        <link href="./root/css/google-fonts-signika-and-source-sans.css" rel="stylesheet" />
         <!-- psCompose -->
-        <link rel="stylesheet" href="root/css/pscompose.css" />
-        <link rel="stylesheet" href="root/css/components.css" />
+        <link rel="stylesheet" href="./root/css/pscompose.css" />
+        <link rel="stylesheet" href="./root/css/components.css" />
 
         <!-- Lucide Icon Library -->
-        <script src="root/lib/lucide.min.js@0.479.0" type="text/javascript"></script>
+        <script src="./root/lib/lucide.min.js@0.479.0" type="text/javascript"></script>
 
         <!-- HTMX Library -->
-        <script src="root/lib/htmx.org@2.0.4"></script>
-        <script src="root/lib/client-side-templates.min.js@2.0.4"></script>
-        <script src="root/lib/nunjucks.min.js@3.2.4"></script>
+        <script src="./root/lib/htmx.org@2.0.4"></script>
+        <script src="./root/lib/client-side-templates.min.js@2.0.4"></script>
+        <script src="./root/lib/nunjucks.min.js@3.2.4"></script>
 
         <!-- JSON Forms Web Component Library -->
         <script
@@ -31,26 +31,24 @@
         ></script>
         <script
             src="https://cdn.jsdelivr.net/gh/FumingPower3925/htmx-dynamic-url@main/dist/dynamic-url.min.js"
-            integrity="sha384-xzJhFGTvjMySqCy1UJ/W3aBlfKC2xvFn/cxc0+VcRaJSL3HLvWX622kBDyi0c5Ro"
-            crossorigin="anonymous"
         ></script>
 
         <!-- Web Components + Form Scripts -->
-        <script src="root/components/index.js" type="module"></script>
-        <script src="root/scripts/messageBanner.js"></script>
-        <script src="root/scripts/customRenderer.js" type="module"></script>
-        <script src="root/scripts/templateJSON.js"></script>
-        <script src="root/scripts/favorites.js"></script>
-        <script src="root/scripts/loadDatatypes.js"></script>
-        <script src="root/scripts/dataForms/tools.js"></script>
-        <script src="root/scripts/dataForms/mergeSchema.js"></script>
-        <script src="root/scripts/dataForms/submitForm.js"></script>
-        <script src="root/scripts/dataForms/sameName.js"></script>
-        <script src="root/scripts/dataForms/displaySet.js"></script>
-        <script src="root/scripts/dataForms/formScriptsLibrary.js"></script>
-        <script src="root/scripts/dataForms/formActionMaps.js"></script>
+        <script src="./root/components/index.js" type="module"></script>
+        <script src="./root/scripts/messageBanner.js"></script>
+        <script src="./root/scripts/customRenderer.js" type="module"></script>
+        <script src="./root/scripts/templateJSON.js"></script>
+        <script src="./root/scripts/favorites.js"></script>
+        <script src="./root/scripts/loadDatatypes.js"></script>
+        <script src="./root/scripts/dataForms/tools.js"></script>
+        <script src="./root/scripts/dataForms/mergeSchema.js"></script>
+        <script src="./root/scripts/dataForms/submitForm.js"></script>
+        <script src="./root/scripts/dataForms/sameName.js"></script>
+        <script src="./root/scripts/dataForms/displaySet.js"></script>
+        <script src="./root/scripts/dataForms/formScriptsLibrary.js"></script>
+        <script src="./root/scripts/dataForms/formActionMaps.js"></script>
 
-        <script src="root/static/settings.js"></script>
+        <script src="./root/static/settings.js"></script>
         <script>
             document.addEventListener("htmx:afterRequest", function (evt) {
                 lucide.createIcons();
@@ -58,6 +56,9 @@
 
             if (!window.BASE_URL) window.BASE_URL = window.location.origin;
             if (!window.API_BASE_URL) window.API_BASE_URL = `${window.BASE_URL}/api`;
+
+            // Shared utility: promise-based delay used by nav partials
+            function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 
             // probably we'll need something like this too:
             /*document.addEventListener("htmx:beforeRequest", function(outboundReq){
@@ -69,9 +70,9 @@
         <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
     </head>
     <body class="packets-ui" hx-ext="client-side-templates">
-        <nav hx-get="root/partials/nav_top.html" hx-trigger="load"></nav>
+        <nav hx-get="./root/partials/nav_top.html" hx-trigger="load"></nav>
         <div class="backdrop">
-            <nav hx-get="root/partials/nav_left.html" hx-trigger="load"></nav>
+            <nav hx-get="./root/partials/nav_left.html" hx-trigger="load"></nav>
             <main id="page-content">
                 <div class="flex flex-col w-full">
                     <div id="response-container"></div>
@@ -81,7 +82,7 @@
                     class="inline-flex"
                     role="complementary"
                     aria-label="Shortcuts"
-                    hx-get="root/partials/nav_shortcuts.html"
+                    hx-get="./root/partials/nav_shortcuts.html"
                     hx-trigger="load"
                 ></aside>
             </main>
@@ -134,7 +135,7 @@
                         singular: "Template",
                         plural: "Templates",
                         page_url: "/",
-                        page_template: "root/pages/index.html",
+                        page_template: "./root/pages/index.html",
                         list_endpoint: `${window.API_BASE_URL}/template/`,
                         icon: "locate",
                     },
@@ -143,7 +144,7 @@
                         singular: "Address",
                         plural: "Addresses",
                         page_url: "/address/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/address/`,
                         icon: "hard-drive-download",
                         desc: "Addresses represent the systems involved in your tests and measurements. Make sure that all addresses required for your groups are present in the list below.",
@@ -153,7 +154,7 @@
                         singular: "Archive",
                         plural: "Archives",
                         page_url: "/archive/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/archive/`,
                         icon: "database",
                         desc: "Archives are optional components that specify where the results of your tasks will be stored. Make sure that all archives required for your tasks are included in the list below.",
@@ -164,7 +165,7 @@
                         singular: "Context",
                         plural: "Contexts",
                         page_url: "/context/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/context/`,
                         icon: "file-question",
                     },
@@ -173,7 +174,7 @@
                         singular: "Group",
                         plural: "Groups",
                         page_url: "/group/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/group/`,
                         icon: "group",
                         desc: "Groups describe how addresses are combined when building the list of tasks. Make sure that all groups required for your tasks are included in the list below.",
@@ -184,7 +185,7 @@
                         singular: "Schedule",
                         plural: "Schedules",
                         page_url: "/schedule/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/schedule/`,
                         icon: "calendar-check",
                         desc: "Schedules are optional components that specify how often to run each task. Make sure that all schedules required for your tasks are included in the list below.",
@@ -195,7 +196,7 @@
                         singular: "Task",
                         plural: "Tasks",
                         page_url: "/task/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/task/`,
                         icon: "clipboard-list",
                         desc: "Tasks are jobs that include a set of input addresses (defined by a group), a test with the necessary parameters, and an optional schedule and/or archive. Make sure that all tasks required for your template are included in the list below.",
@@ -205,7 +206,7 @@
                         singular: "Template",
                         plural: "Templates",
                         page_url: "/template/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/template/`,
                         icon: "locate",
                         desc: "You have reached the final step!<br />Please enter a name for the template, select all tasks you want to include, and save your changes.",
@@ -215,7 +216,7 @@
                         singular: "Test",
                         plural: "Tests",
                         page_url: "/test/",
-                        page_template: "root/pages/data_form.html",
+                        page_template: "./root/pages/data_form.html",
                         list_endpoint: `${window.API_BASE_URL}/test/`,
                         icon: "flask-conical",
                         desc: "Tests define the parameters of the job to be carried out by the task. Make sure that all tests required for your tasks are included in the list below.",
@@ -225,7 +226,7 @@
                         singular: "Template",
                         plural: "Templates",
                         page_url: "/import/",
-                        page_template: "root/pages/template_import.html",
+                        page_template: "./root/pages/template_import.html",
                         list_endpoint: `${window.API_BASE_URL}/template/`,
                         icon: "locate",
                     },
@@ -239,7 +240,7 @@
                             "task",
                             "template",
                         ],
-                        page_template: "root/pages/template_wizard.html",
+                        page_template: "./root/pages/template_wizard.html",
                         singular: "",
                         list_endpoint: "",
                         page_url: "",
@@ -287,7 +288,9 @@
 
             // the actual URL router
             function urlRouter(path, searchString) {
+                if (window.PROXY_BASE_PATH) path = path.replace(window.PROXY_BASE_PATH, "");
                 path = path.replace("/app", "");
+
                 psCompose.activeRoute = psCompose.router[path];
                 psCompose.activeMenuItem = String(path.split("/")[1]);
                 psCompose.subsection = path.split("/")[2];

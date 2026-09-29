@@ -71,8 +71,6 @@
     const parentMenuItems = document.querySelectorAll(".nav .parent-item");
     var attached = false;
 
-    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
     // RENDER AND CLEAR ACTIVE CLASSES
     const clearActiveClasses = (selector) => {
         document.querySelectorAll(selector).forEach((el) => {
