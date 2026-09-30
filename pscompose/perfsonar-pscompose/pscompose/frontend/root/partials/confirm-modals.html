@@ -88,7 +88,7 @@
                                     .map(
                                         (item) => `
                                     <li>
-                                        <a href="/${pluralWord(item.type)}/?id=${
+                                        <a href="${(window.PROXY_BASE_PATH || '')}/${pluralWord(item.type)}/?id=${
                                             item.id
                                         }" target="_blank">
                                             ${item.name}
