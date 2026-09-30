@@ -22,7 +22,7 @@
                 ></i>
                 <h4 class="box-name" aria-level="2">Import Template</h4>
                 <ps-button
-                    link="/import/"
+                    link="import/"
                     theme="Icon-Success"
                     righticon="arrow-right"
                     aria-label="Import an existing template"
@@ -126,7 +126,7 @@
                         {% for template in templates_data %}
                             <tr>
                                 <td>
-                                    <a class="td-content" href="/template/?id={{template.id}}">
+                                    <a class="td-content" href="template/?id={{template.id}}">
                                         {{template.name}}
                                     </a>
                                 </td>
@@ -135,14 +135,14 @@
                                         {% if template.tasks and template.tasks.length > 0 %}
                                             {% for task in template.tasks %}
                                                 {% if loop.index0 < 2 %}
-                                                    <a href="/task/?id={{task.id}}" class="ps-tag" style="text-decoration: none;" aria-label="{{ task.name }}">
+                                                    <a href="task/?id={{task.id}}" class="ps-tag" style="text-decoration: none;" aria-label="{{ task.name }}">
                                                         {{ task.name }}
                                                     </a>
                                                 {% endif %}
                                             {% endfor %}
                                             {% if template.tasks.length > 2 %}
                                                 <ps-button
-                                                    link="/template/?id={{template.id}}#tasks"
+                                                    link="template/?id={{template.id}}#tasks"
                                                     label="+{{ template.tasks.length - 2 }} more"
                                                     theme="Small">
                                                 </ps-button>

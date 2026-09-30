@@ -59,8 +59,14 @@ install:
 	# Frontend static files
 	install -d $(ROOTPATH)/frontend
 	cp -r pscompose/frontend/. $(ROOTPATH)/frontend/
+	# install frontend npm dependencies
+	cd $(ROOTPATH)/frontend && npm install
+	# build the frontend CSS (color tokens + tailwind)
+	cd $(ROOTPATH)/frontend && npm run build-css
 	# build the frontend components index file
 	cd $(ROOTPATH)/frontend && npm run generate-components-index
+	# Remove the node modules now that npm steps are complete
+	rm -rf $(ROOTPATH)/frontend/node_modules
 	cp conf/settings.packaged.js $(ROOTPATH)/frontend/root/static/settings.js
 	find $(ROOTPATH)/frontend -type f | xargs chmod a-x
 	# Virtualenv with all Python dependencies

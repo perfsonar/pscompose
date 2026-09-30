@@ -5,9 +5,9 @@ export default {
   content: [
     "./mockups/**/*.html",
     "./app/**/*.html",
-    "./app/index.html",
-    "./pages/**/*.html",
-    "./partials/**/*.html",
+    "./root/pages/**/*.html",
+    "./root/partials/**/*.html",
+    "./root/components/**/*.js",
   ],
   theme: {
     fontFamily: {

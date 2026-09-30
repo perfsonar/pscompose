@@ -1,4 +1,4 @@
-@import "../css/color.css";
+@import "../root/css/color.css";
 
 @tailwind base;
 @tailwind components;

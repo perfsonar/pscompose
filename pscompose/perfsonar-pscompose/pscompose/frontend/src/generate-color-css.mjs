@@ -1,6 +1,11 @@
 // This script generates a css/color.css defining themed color variables
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import * as tokens from "@esnet/esnet-tokens";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const OUTPUT_PATH = path.resolve(__dirname, "../root/css/color.css");
 
 const css = `
 /* AUTO-GENERATED — DO NOT EDIT */
@@ -43,4 +48,4 @@ function hexToRgbChannels(hex) {
 }
 
 
-fs.writeFileSync("./css/color.css", css);
+fs.writeFileSync(OUTPUT_PATH, css);

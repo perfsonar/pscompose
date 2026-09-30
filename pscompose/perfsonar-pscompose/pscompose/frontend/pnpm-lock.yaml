@@ -143,7 +143,7 @@ packages:
     dev: false
 
   /@esnet/esnet-tokens@1.1.0(style-dictionary@4.2.0):
-    resolution: {integrity: sha1-QLOodncVLQ0r+Dja18TBc005AWU=, tarball: https://gitlab.es.net/api/v4/projects/898/packages/npm/@esnet/esnet-tokens/-/@esnet/esnet-tokens-1.1.0.tgz}
+    resolution: {tarball: file:npm_pkgs/esnet-tokens-1.1.1.tgz}
     dependencies:
       sd-tailwindcss-transformer: 1.4.6(style-dictionary@4.2.0)
     transitivePeerDependencies:
@@ -151,7 +151,7 @@ packages:
     dev: false
 
   /@esnet/packets-ui@0.6.1(antd@5.22.2)(lucide-react@0.436.0)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha1-4k/6+fKGKSmnhQajqaxmZcpBL5I=, tarball: https://gitlab.es.net/api/v4/projects/898/packages/npm/@esnet/packets-ui/-/@esnet/packets-ui-0.6.1.tgz}
+    resolution: {tarball: file:npm_pkgs/packets-ui-0.6.1.tgz}
     peerDependencies:
       antd: ^5.4.0
       lucide-react: ^0.436.0

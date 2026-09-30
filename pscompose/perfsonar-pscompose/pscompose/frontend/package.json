@@ -4,11 +4,13 @@
     "description": "",
     "main": "index.html",
     "scripts": {
-        "css-watch": "node ./src/generate-color-css.mjs && npx tailwindcss -i ./src/app.css -o ./css/pscompose.css --watch",
+        "css-watch": "node ./src/generate-color-css.mjs && npx tailwindcss -i ./src/app.css -o ./root/css/pscompose.css --watch",
+        "build-css": "node ./src/generate-color-css.mjs && npx tailwindcss -i ./src/app.css -o ./root/css/pscompose.css",
         "generate-components-index": "node ./src/generate-components-index.mjs"
     },
     "dependencies": {
-        "@esnet/esnet-tokens": "^1.1.0",
+        "@esnet/esnet-tokens": "file:npm_pkgs/esnet-tokens-1.1.1.tgz",
+        "@esnet/packets-ui": "file:npm_pkgs/packets-ui-0.6.1.tgz",
         "lucide": "^0.503.0"
     },
     "keywords": [],
