@@ -58,6 +58,15 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 # and then normalize the path to the real file on disk
                 output_path = normalize_path(path, root)
                 break
+        else:
+            # If the default SPA path doesn't exist as a file, check whether
+            # the path resolves to a real file when rooted under app/ (e.g.
+            # via symlinks like app/import/root -> ../../root).  This handles
+            # URLs such as /import/root/partials/nav_top.html where "root" is
+            # a symlink inside app/import/.
+            candidate = normalize_path(path, os.path.join(root, "app"))
+            if os.path.isfile(candidate):
+                output_path = candidate
         print("reading file from %s" % output_path)
         return output_path
 
