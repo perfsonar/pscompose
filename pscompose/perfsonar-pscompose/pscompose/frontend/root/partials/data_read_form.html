@@ -73,7 +73,7 @@
         initJsonForm(`${psCompose.activeRoute.list_endpoint}${id}/form/`, (event) => {
             elem = JSON.parse(event.target.closest("json-form")?.getAttribute("form-data"));
             document.getElementById("data-name").textContent = elem?.name;
-            runReadonlyActions(datatype);
+            runReadonlyActions(datatype, elem);
         });
 
         document.querySelector("#view-btn").addEventListener("click", () => {

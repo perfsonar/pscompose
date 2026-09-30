@@ -10,15 +10,15 @@ const editActions = {
 };
 
 const readonlyActions = {
-    template: () => {
+    template: (elem) => {
         document.querySelectorAll(".action-icon.template").forEach((icon) => {
             icon.style.display = "block";
         });
         document.getElementById("export-json-btn").addEventListener("click", async () => {
-            await exportTemplateJSON(id, elem?.data?.name);
+            await exportTemplateJSON(id, elem?.name);
         });
         document.getElementById("copy-json-btn").addEventListener("click", async () => {
-            await copyTemplateJSON(id, elem?.data?.name);
+            await copyTemplateJSON(id, elem?.name);
         });
         document
             .getElementById("url-json-btn")
@@ -44,9 +44,9 @@ const readonlyActions = {
     },
 };
 
-function runReadonlyActions(datatype) {
+function runReadonlyActions(datatype, elem) {
     if (datatype != "template" && psCompose.activeMenuItem !== "wizard") refsetRender();
-    readonlyActions[datatype]?.();
+    readonlyActions[datatype]?.(elem);
 }
 
 function runEditActions(datatype, currentName = null) {
