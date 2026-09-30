@@ -1,3 +1,9 @@
+function absoluteApiUrl(path) {
+    const base = window.API_BASE_URL || "";
+    const fullBase = /^https?:\/\//i.test(base) ? base : window.location.origin + base;
+    return fullBase.replace(/\/$/, "") + "/" + path.replace(/^\//, "");
+}
+
 const editActions = {
     address: () => addressMetaData(),
     task: () => {
@@ -18,11 +24,17 @@ const readonlyActions = {
             await exportTemplateJSON(id, elem?.name);
         });
         document.getElementById("copy-json-btn").addEventListener("click", async () => {
-            await copyTemplateJSON(id, elem?.name);
+            const jsonUrl = absoluteApiUrl(`${datatype}/${id}/json/`);
+            try {
+                await navigator.clipboard.writeText(jsonUrl);
+                newMessageBanner("URL copied to clipboard", "Success", true);
+            } catch (e) {
+                newMessageBanner("Failed to copy URL", "Error", true);
+            }
         });
         document
             .getElementById("url-json-btn")
-            .setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json/`);
+            ?.setAttribute("link", absoluteApiUrl(`${datatype}/${id}/json/`));
     },
     address: () => {
         document.querySelector("ps-button[data-address-meta]")?.remove();

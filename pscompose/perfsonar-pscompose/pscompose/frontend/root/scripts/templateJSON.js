@@ -34,7 +34,7 @@ async function exportTemplateJSON(id, name = "Template") {
 // Copy Template Json
 async function copyTemplateJSON(id) {
     try {
-        const url = `${window.API_BASE_URL}/template/${id}/json/`;
+        const url = absoluteApiUrl(`template/${id}/json/`);
         await navigator.clipboard.writeText(url);
         newMessageBanner("JSON copied to clipboard", "Success", true);
 
