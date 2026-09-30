@@ -21,6 +21,7 @@ if conf is None:
 ENVIRONMENT = conf.get("environment", "production")
 DATABASE = conf.get("database", {})  # default to empty dict so we can set further defaults
 AUTH = conf.get("auth", {})
+PSCHEDULER = conf.get("pscheduler", {})
 
 DATABASE_NAME = DATABASE.get("db_name", "pscompose")
 DATABASE_USER = DATABASE.get("user_name", "pscompose_user")
@@ -33,6 +34,8 @@ DATABASE_URL = f"postgresql+psycopg://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATAB
 if ENVIRONMENT == "test":
     # allow config to override postgres connection string in testing environments
     DATABASE_URL = DATABASE.get("connection_string", DATABASE_URL)
+
+PSCHEDULER_BASE_URL = PSCHEDULER.get("base_url", "/pscheduler")
 
 TOKEN_SCOPES = {
     "read": AUTH.get("read_scope", "pscompose:read"),

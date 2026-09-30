@@ -12,3 +12,6 @@ auth:
     write_scope: "pscompose:write"
     publish_scope: "pscompose:publish"
     admin_scope: "pscompose:admin"
+
+pscheduler:
+    base_url: "/pscheduler"
