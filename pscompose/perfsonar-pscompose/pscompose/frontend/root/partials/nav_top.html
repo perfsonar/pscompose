@@ -1,6 +1,6 @@
 <nav class="top-nav" aria-label="Top Navigation">
     <div class="top-left">
-        <a href="/" aria-label="Go to homepage">
+        <a id="home-link" href="/" aria-label="Go to homepage">
             <img class="Logo" src="./root/static/perfsonar-icon-light.png" alt="Perfsonar Icon" />
             <span class="pscompose">pSCompose</span>
         </a>
@@ -21,6 +21,8 @@
 </nav>
 
 <script>
+    document.getElementById("home-link").href = (window.PROXY_BASE_PATH || "") + "/";
+
     const savedTheme = localStorage.getItem("theme") || "dark";
     const themeSwitch = document.getElementById("theme-switch");
 
