@@ -69,6 +69,7 @@
         let elem = null;
 
         setUpFavorites(id);
+        attachFavoritesHandler(id);
 
         initJsonForm(`${psCompose.activeRoute.list_endpoint}${id}/form/`, (event) => {
             elem = JSON.parse(event.target.closest("json-form")?.getAttribute("form-data"));
