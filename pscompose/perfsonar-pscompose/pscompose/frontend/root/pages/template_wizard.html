@@ -81,15 +81,15 @@
             leftIcon: meta.icon || "info",
             prevLink:
                 step > 1
-                    ? (window.PROXY_BASE_PATH || "") + "/wizard/" +
+                    ? (window.BASE_URL || "") + "/wizard/" +
                       (step - 1) +
                       "/" +
                       psCompose.metadata.wizard.order[step - 2] +
                       "/"
-                    : (window.PROXY_BASE_PATH || "") + "/",
+                    : (window.BASE_URL || "") + "/",
             nextLink:
                 step < 9
-                    ? (window.PROXY_BASE_PATH || "") + "/wizard/" +
+                    ? (window.BASE_URL || "") + "/wizard/" +
                       (Number(step) + 1) +
                       "/" +
                       psCompose.metadata.wizard.order[step] +
@@ -112,7 +112,7 @@
         // Render new template form
         if (window.location.pathname.includes("/wizard/7/template/")) {
             if (params.get("id"))
-                window.location = (window.PROXY_BASE_PATH || "") + "/wizard/7/complete/" + "?id=" + params.get("id");
+                window.location = (window.BASE_URL || "") + "/wizard/7/complete/" + "?id=" + params.get("id");
             const stepBox = container.querySelector(".step-box");
             if (!stepBox) return;
             stepBox.classList.replace("step-box", "step-box-column");

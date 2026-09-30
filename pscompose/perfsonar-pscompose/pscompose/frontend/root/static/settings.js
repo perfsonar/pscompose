@@ -1,3 +1,2 @@
-window.BASE_URL = 'http://localhost:5001'
-window.API_BASE_URL = 'http://localhost:8000/api'
-window.PROXY_BASE_PATH = ''
+window.BASE_URL = ''
+window.API_BASE_URL = '/api'

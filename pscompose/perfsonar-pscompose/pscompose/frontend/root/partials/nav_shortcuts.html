@@ -79,7 +79,7 @@
         toggleBtn.setAttribute("onclick", "showShortcuts()");
     }
 
-    const _basePath = (window.PROXY_BASE_PATH || "") + "/";
+    const _basePath = (window.BASE_URL || "") + "/";
     if (window.location.pathname == _basePath) showShortcuts();
     if (window.location.pathname != _basePath) hideShortcuts();
 </script>

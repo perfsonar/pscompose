@@ -21,7 +21,7 @@
 </nav>
 
 <script>
-    document.getElementById("home-link").href = (window.PROXY_BASE_PATH || "") + "/";
+    document.getElementById("home-link").href = (window.BASE_URL || "") + "/";
 
     const savedTheme = localStorage.getItem("theme") || "dark";
     const themeSwitch = document.getElementById("theme-switch");
