@@ -77,11 +77,11 @@
         });
 
         document.querySelector("#view-btn").addEventListener("click", () => {
-            window.location = `/${datatype}/?id=${id}`;
+            window.location = `${window.PROXY_BASE_PATH || ""}/${datatype}/?id=${id}`;
         });
 
         document.querySelector("#another-btn").addEventListener("click", () => {
-            if (psCompose.activeMenuItem == "wizard") window.location = "/wizard/1/address/";
+            if (psCompose.activeMenuItem == "wizard") window.location = `${window.PROXY_BASE_PATH || ""}/wizard/1/address/`;
             else window.location = `${psCompose.activeRoute.page_url}`;
         });
     })();

@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -15,7 +17,11 @@ from pscompose.api.routers import (
 )
 
 # initialize FastAPI application
-app = FastAPI()
+# root_path tells FastAPI the proxy prefix so that redirects (e.g. trailing-slash
+# 307s) and generated URLs include the full path rather than a bare root-relative one.
+# The value is read from the SCRIPT_NAME env var set in the systemd unit file;
+# it falls back to '' so dev environments work unchanged.
+app = FastAPI(root_path=os.environ.get("SCRIPT_NAME", ""))
 
 app.add_middleware(
     CORSMiddleware,

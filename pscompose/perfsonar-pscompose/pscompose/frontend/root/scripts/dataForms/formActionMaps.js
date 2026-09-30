@@ -22,7 +22,7 @@ const readonlyActions = {
         });
         document
             .getElementById("url-json-btn")
-            .setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json`);
+            .setAttribute("link", `${window.API_BASE_URL}/${datatype}/${id}/json/`);
     },
     address: () => {
         document.querySelector("ps-button[data-address-meta]")?.remove();
