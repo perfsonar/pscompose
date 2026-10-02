@@ -92,7 +92,7 @@
                         if (!url) return;
                         try {
                             const response = await fetch(url);
-                            jsonContent = JSON.parse(await response.json()); // Validate JSON
+                            jsonContent = JSON.parse(await response.text()); // Validate JSON
                         } catch (error) {
                             console.error("Failed to fetch JSON:", error);
                         }

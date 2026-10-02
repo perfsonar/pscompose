@@ -146,7 +146,7 @@ def get_existing_form(item_id: str, edit: bool = False):
 
     if not test_type or schema_version is None:
         # Fallback to generic schema if no type or schema version specified
-        tests = [n for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+        tests = [(n, s["label"]) for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
         # tests = fetch_pscheduler_test_list()
         enriched_schema = deepcopy(TEST_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
@@ -199,7 +199,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build the enriched schema by merging base schema with version-specific schema
-    tests = [n for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+    tests = [(n, s["label"]) for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
     # tests = fetch_pscheduler_test_list()
     base_schema = deepcopy(TEST_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
