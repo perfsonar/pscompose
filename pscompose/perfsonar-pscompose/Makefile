@@ -67,7 +67,7 @@ install:
 	cd $(ROOTPATH)/frontend && npm run generate-components-index
 	# Remove the node modules now that npm steps are complete
 	rm -rf $(ROOTPATH)/frontend/node_modules
-	cp conf/settings.packaged.js $(ROOTPATH)/frontend/root/static/settings.js
+	install -m 0644 conf/settings.packaged.js $(ROOTPATH)/frontend/root/static/settings.js
 	find $(ROOTPATH)/frontend -type f | xargs chmod a-x
 	# Virtualenv with all Python dependencies
 	python3 -m venv $(VENVPATH)

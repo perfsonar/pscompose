@@ -1,7 +1,5 @@
-from fastapi import APIRouter, HTTPException, Security
+from fastapi import APIRouter, HTTPException
 from fastapi_versioning import version
-from pscompose.auth import auth_check
-from pscompose.settings import TOKEN_SCOPES
 from pscompose.auth.basic import backend
 from pscompose.models import User, UserCreate, UserUpdate, PasswordReset
 
@@ -10,7 +8,7 @@ router = APIRouter(tags=["HTTP Basic Auth User Management"])
 
 @router.get("/user", summary="List HTTP Basic Auth Users")
 @version(1)
-def list_users(user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]), limit=10):
+def list_users(limit=10):
     rows = backend.query(limit=limit)
     return [
         User(username=row.username, email=row.username, name=row.name, scopes=row.scopes, favorites=row.favorites)
@@ -20,16 +18,14 @@ def list_users(user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]])
 
 @router.get("/current_user", summary="Return the current HTTP Basic User")
 @version(1)
-def current_user(user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]])):
-    return user
+def current_user():
+    from pscompose.auth.basic import _PROXY_USER
+    return _PROXY_USER
 
 
 @router.post("/user", summary="Create HTTP Basic Auth User")
 @version(1)
-def create_user(
-    new_user: UserCreate,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
-):
+def create_user(new_user: UserCreate):
     response = backend.create_user(
         email=new_user.username,
         name=new_user.name,
@@ -41,11 +37,7 @@ def create_user(
 
 @router.put("/user/{username}", summary="Update HTTP Basic Auth User")
 @version(1)
-def update_user(
-    username: str,
-    update_user: UserUpdate,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
-):
+def update_user(username: str, update_user: UserUpdate):
     try:
         db_user = backend.query(username=username)[0]
     except Exception:
@@ -63,10 +55,7 @@ def update_user(
 
 @router.delete("/user/{username}", summary="Delete HTTP Basic Auth User")
 @version(1)
-def delete_user(
-    username: str,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
-):
+def delete_user(username: str):
     try:
         db_user = backend.query(username=username)[0]
     except Exception:
@@ -77,11 +66,7 @@ def delete_user(
 
 @router.put("/user/{username}/set_password", summary="Set HTTP Basic Auth User Password")
 @version(1)
-def set_password(
-    username: str,
-    password: PasswordReset,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["admin"]]),
-):
+def set_password(username: str, password: PasswordReset):
     try:
         db_user = backend.query(username=username)[0]
     except Exception:

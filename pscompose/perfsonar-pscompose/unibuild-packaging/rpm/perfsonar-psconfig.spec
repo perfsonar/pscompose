@@ -110,6 +110,12 @@ if [ "$1" = "2" ]; then
     systemctl try-restart perfsonar-pscompose.service
     systemctl try-restart perfsonar-pscompose-frontend.service
 fi
+# Make sure password file exists
+# Add a group of users who can login to the web ui
+mkdir -p /etc/perfsonar/toolkit/
+touch /etc/perfsonar/toolkit/psadmin.htpasswd
+chgrp apache /etc/perfsonar/toolkit/psadmin.htpasswd
+chmod 0640 /etc/perfsonar/toolkit/psadmin.htpasswd
 
 %preun
 %systemd_preun perfsonar-pscompose.socket perfsonar-pscompose.service perfsonar-pscompose-frontend.service

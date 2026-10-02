@@ -6,7 +6,6 @@ async function loadSection(apiEndpoint, containerSelector) {
         // TODO: FETCH USER DATA
         const response = await fetch(apiEndpoint, {
             method: "GET",
-            headers: { Authorization: `${AUTH_HEADER}` },
         });
         const data = await response.json();
         data.forEach((item) => {

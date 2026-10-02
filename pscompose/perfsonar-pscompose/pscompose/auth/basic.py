@@ -2,10 +2,10 @@ import bcrypt
 
 from typing import Optional
 from sqlalchemy.orm import sessionmaker
-from fastapi import Depends, HTTPException
+from fastapi import HTTPException
 from pscompose.settings import TOKEN_SCOPES
 from pscompose.models import User, UserTable, engine
-from fastapi.security import HTTPBasic, HTTPBasicCredentials, SecurityScopes
+from fastapi.security import SecurityScopes
 
 
 class BasicBackend:
@@ -99,7 +99,15 @@ class BasicBackend:
 
 backend = BasicBackend()
 
-security = HTTPBasic()
+# HTTPBasic disabled — authentication is handled entirely by the Apache proxy.
+# auth_check is kept as a no-op so existing route signatures don't need changes.
+_PROXY_USER = User(
+    username="admin",
+    email="admin",
+    name="Proxy-Authenticated User",
+    scopes=[s for s in TOKEN_SCOPES.values()],
+    favorites=[],
+)
 
 
 def read_write_auth(username, password) -> User:
@@ -123,12 +131,12 @@ def get_user(username, password, needed_scopes) -> User:
     return user
 
 
-# This is the function that API calls should use as a Depends to ensure
-# that they get back the current User from the Authorization header
-def auth_check(
-    needed_scopes: SecurityScopes, credentials: HTTPBasicCredentials = Depends(security)
-):
-    return get_user(credentials.username, credentials.password, needed_scopes)
+# auth_check is a no-op: HTTP proxy handles authentication, so every
+# request reaching FastAPI is already authenticated. We return a synthetic
+# admin user so existing route Security() dependencies keep working without
+# any credential challenge.
+def auth_check(needed_scopes: SecurityScopes = None):
+    return _PROXY_USER
 
 
 def optional_auth_check(

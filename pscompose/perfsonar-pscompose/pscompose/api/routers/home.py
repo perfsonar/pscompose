@@ -1,11 +1,11 @@
-from fastapi import APIRouter, HTTPException, Security
+from fastapi import APIRouter, HTTPException
 from pscompose.backends.postgres import backend
 from fastapi_versioning import version
 
-from pscompose.auth import auth_check
-from pscompose.settings import TOKEN_SCOPES
+# from pscompose.auth import auth_check
+# from pscompose.settings import TOKEN_SCOPES
+# from pscompose.models import User
 from pscompose.auth.basic import backend as backend_user
-from pscompose.models import User
 
 # Setup CRUD endpoints
 router = APIRouter(tags=["home"])
@@ -23,7 +23,6 @@ def recently_edited():
 @version(1)
 def get_user_favorites_id(
     username: str,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
 ):
     try:
         db_user = backend_user.query(username=username)[0]
@@ -41,7 +40,6 @@ def get_user_favorites_id(
 @version(1)
 def get_user_favorites(
     username: str,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
 ):
     try:
         db_user = backend_user.query(username=username)[0]
@@ -62,7 +60,6 @@ def get_user_favorites(
 def is_user_favorites(
     username: str,
     item_id: str,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
 ):
     try:
         db_user = backend_user.query(username=username)[0]
@@ -82,8 +79,7 @@ def is_user_favorites(
 @version(1)
 def add_user_favorite(
     username: str,
-    item_id: str, 
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["write"]]),
+    item_id: str,
 ):
     try:
         db_user = backend_user.query(username=username)[0]
@@ -113,7 +109,6 @@ def add_user_favorite(
 def delete_user_favorite(
     username: str,
     item_id: str,
-    user: User = Security(auth_check, scopes=[TOKEN_SCOPES["write"]]),
 ):
     try:
         db_user = backend_user.query(username=username)[0]

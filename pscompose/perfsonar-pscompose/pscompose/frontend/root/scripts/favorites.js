@@ -1,7 +1,6 @@
 async function fetchFavoriteIDs() {
     const response = await fetch(`${window.API_BASE_URL}/favorites/${USERNAME}/id/`, {
         method: "GET",
-        headers: { Authorization: `${AUTH_HEADER}` },
     });
 
     if (!response.ok) {
@@ -17,7 +16,6 @@ async function setUpFavorites(id) {
     try {
         const response = await fetch(`${window.API_BASE_URL}/favorites/${USERNAME}/${id}/`, {
             method: "GET",
-            headers: { Authorization: `${AUTH_HEADER}` },
         });
 
         if (!response.ok) {
@@ -36,7 +34,6 @@ async function updateFavorite(id, isFavorite) {
 
     const response = await fetch(`${window.API_BASE_URL}/favorites/${USERNAME}/${id}/`, {
         method: method,
-        headers: { Authorization: AUTH_HEADER },
     });
 
     if (!response.ok) throw new Error(`HTTP error ${response.status}: ${response.statusText}`);

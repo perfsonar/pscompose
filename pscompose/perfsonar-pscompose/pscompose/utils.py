@@ -3,16 +3,16 @@ from typing import Dict, List, Optional
 from fastapi import Body
 from fastapi_versioning import version
 from sqlalchemy.exc import IntegrityError
-from fastapi import APIRouter, HTTPException, Security, Header
+from fastapi import APIRouter, HTTPException, Header
 from pscompose.backends.postgres import backend
 from pscompose.schemas import DataTableBase, DataTableUpdate
 from pscompose.logger import logger
 from pydantic import ValidationError
 
-from pscompose.auth import auth_check
-from pscompose.settings import TOKEN_SCOPES
+# from pscompose.auth import auth_check
+# from pscompose.settings import TOKEN_SCOPES
+# from pscompose.models import User
 from pscompose.auth.basic import backend as backend_user
-from pscompose.models import User
 
 
 def generate_router(datatype: str):
@@ -46,7 +46,6 @@ def generate_router(datatype: str):
     @version(1)
     def list_items_favs(
         username: str,
-        user: User = Security(auth_check, scopes=[TOKEN_SCOPES["read"]]),
     ):
         try:
             db_user = backend_user.query(username=username)[0]
