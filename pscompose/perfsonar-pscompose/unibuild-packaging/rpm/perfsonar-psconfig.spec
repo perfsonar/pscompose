@@ -35,6 +35,7 @@ Requires:       postgresql-plpython3
 Requires:       postgresql-server
 Requires:       httpd
 Requires:       mod_ssl
+Requires:       drop-in
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -96,6 +97,8 @@ rm -rf %{buildroot}
 
 %post
 %systemd_post perfsonar-pscompose.socket perfsonar-pscompose.service perfsonar-pscompose-frontend.service
+# Add Apache to the perfsonar group so it can access the sockets
+/usr/sbin/usermod -aG perfsonar apache 2>/dev/null || :
 if [ "$1" = "1" ]; then
     # Run the PostgreSQL database setup script
     %{pscompose_base}/scripts/pg_setup.sh

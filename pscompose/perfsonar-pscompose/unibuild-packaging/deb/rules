@@ -54,3 +54,9 @@ override_dh_install:
 	# Strip executable bit from frontend static files
 	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/frontend -type f \
 	    -exec chmod a-x {} \;
+	# Patch systemd units: use www-data (Debian Apache group) instead of apache (RPM name)
+	sed -i 's/^Group=apache$$/Group=www-data/' \
+	    debian/perfsonar-pscompose/lib/systemd/system/perfsonar-pscompose.service \
+	    debian/perfsonar-pscompose/lib/systemd/system/perfsonar-pscompose-frontend.service
+	sed -i 's/^SocketGroup=apache$$/SocketGroup=www-data/' \
+	    debian/perfsonar-pscompose/lib/systemd/system/perfsonar-pscompose.socket
