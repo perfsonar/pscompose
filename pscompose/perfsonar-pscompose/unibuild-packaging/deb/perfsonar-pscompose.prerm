@@ -1,0 +1,29 @@
+#!/bin/bash
+# prerm script for perfsonar-pscompose
+#
+# see: dh_installdeb(1)
+
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+        systemctl stop perfsonar-pscompose.service || true
+        systemctl stop perfsonar-pscompose.socket || true
+        systemctl stop perfsonar-pscompose-frontend.service || true
+        systemctl disable perfsonar-pscompose.socket || true
+        systemctl disable perfsonar-pscompose-frontend.service || true
+        a2disconf apache-pscompose 2>/dev/null || true
+        systemctl reload apache2 || true
+    ;;
+
+    failed-upgrade)
+    ;;
+
+    *)
+        echo "prerm called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+exit 0

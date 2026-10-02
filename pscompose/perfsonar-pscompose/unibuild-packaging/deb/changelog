@@ -1,0 +1,5 @@
+perfsonar-pscompose (5.3.0~a1.0-1) perfsonar-5.3; urgency=low
+
+  * Initial package.
+
+ -- perfSONAR developers <debian@perfsonar.net>  Thu, 02 Oct 2026 00:00:00 +0000

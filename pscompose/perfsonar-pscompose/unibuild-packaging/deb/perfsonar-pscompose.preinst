@@ -1,0 +1,26 @@
+#!/bin/bash
+# preinst script for perfsonar-pscompose
+#
+# see: dh_installdeb(1)
+
+set -e
+
+case "$1" in
+    install|upgrade)
+        # Create perfsonar group and user if they don't exist
+        getent group perfsonar > /dev/null 2>&1 || \
+            groupadd -r perfsonar
+        getent passwd perfsonar > /dev/null 2>&1 || \
+            useradd -g perfsonar -r -s /sbin/nologin \
+                    -c "perfSONAR User" -d /tmp perfsonar
+    ;;
+    abort-upgrade)
+    ;;
+    *)
+        echo "preinst called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+exit 0

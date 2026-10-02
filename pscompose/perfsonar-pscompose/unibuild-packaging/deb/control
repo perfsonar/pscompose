@@ -1,0 +1,24 @@
+Source: perfsonar-pscompose
+Section: net
+Priority: optional
+Maintainer: perfSONAR developers <debian@perfsonar.net>
+Build-Depends: debhelper (>= 10), python3, python3-venv, python3-pip, npm, nodejs
+Standards-Version: 3.9.8
+Homepage: https://github.com/perfsonar/pscompose
+
+Package: perfsonar-pscompose
+Architecture: all
+Depends: ${misc:Depends},
+ python3,
+ python3-pip,
+ postgresql,
+ postgresql-contrib,
+ postgresql-client,
+ libpq-dev,
+ apache2,
+ apache2-utils,
+ libapache2-mod-ssl | ssl-cert,
+ openssl
+Description: perfSONAR pSCompose
+ A package that installs the perfSONAR pSCompose user interface
+ for configuring measurements.

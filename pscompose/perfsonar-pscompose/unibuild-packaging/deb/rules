@@ -1,0 +1,56 @@
+#!/usr/bin/make -f
+
+# Uncomment to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+# Skip the default auto-build and auto-install — we drive everything ourselves
+override_dh_auto_build:
+
+override_dh_auto_test:
+
+override_dh_auto_install:
+
+override_dh_install:
+	make \
+	    ROOTPATH=debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose \
+	    CONFIGPATH=debian/perfsonar-pscompose/etc/perfsonar/pscompose \
+	    HTTPD-CONFIGPATH=debian/perfsonar-pscompose/etc/apache2/conf-available \
+	    SYSTEMD-CONFIGPATH=debian/perfsonar-pscompose/lib/systemd/system \
+	    VENVPATH=debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv \
+	    install
+	# Rewrite embedded build-tree paths in the venv so it works at install-time location
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv -type f \
+	    -exec grep -ql 'debian/perfsonar-pscompose' {} \; \
+	    -exec sed -i 's|$(CURDIR)/debian/perfsonar-pscompose||g' {} \;
+	# Replace absolute python3 symlink with a relative one
+	ln -sf ../../../../../bin/python3 \
+	    debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/bin/python3 2>/dev/null || true
+	# Remove test directories from venv site-packages
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/lib \
+	    -type d -name tests -path "*/site-packages/*" -exec rm -rf {} + 2>/dev/null || true
+	# Rewrite ambiguous '#!/usr/bin/env python' shebangs to python3
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/lib -name "*.py" \
+	    -exec grep -qm1 '^#!/usr/bin/env python$$' {} \; \
+	    -exec sed -i 's|^#!/usr/bin/env python$$|#!/usr/bin/env python3|' {} \;
+	# Remove pre-compiled bytecode (compiled by build host, may differ from target)
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv \
+	    -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv \
+	    -name "*.pyc" -delete 2>/dev/null || true
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/pscompose \
+	    -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/pscompose \
+	    -name "*.pyc" -delete 2>/dev/null || true
+	# Strip executable bit from venv lib/ and include/ — fast blanket pass
+	chmod -R a-x debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/lib
+	chmod -R a-x debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/include 2>/dev/null || true
+	chmod    a-x debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/pyvenv.cfg 2>/dev/null || true
+	# Restore +x on actual scripts in venv/bin/
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/venv/bin -type f \
+	    -exec grep -qm1 '^#!' {} \; -exec chmod +x {} \;
+	# Strip executable bit from frontend static files
+	find debian/perfsonar-pscompose/usr/lib/perfsonar/pscompose/frontend -type f \
+	    -exec chmod a-x {} \;
