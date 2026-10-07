@@ -1,0 +1,148 @@
+<ps-modal
+    id="save-modal"
+    theme="Success"
+    question="Are you sure mate?"
+    confirm-label="Save"
+    icon="save"
+>
+</ps-modal>
+
+<ps-modal
+    id="delete-modal"
+    theme="Error"
+    question="Are you sure mate?"
+    confirm-label="Delete"
+    icon="trash-2"
+>
+</ps-modal>
+
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id");
+    var datatype = psCompose.activeRoute.singular.toLowerCase();
+
+    // Insert api/find results
+    function resultToHtml(result) {
+        if (datatype === "template") {
+            return ``;
+        } else if (result.length === 0) {
+            return `
+                <div class="data-box">
+                    <i
+                        data-lucide="${psCompose.activeRoute.icon}"
+                        class="shortcut-icon"
+                        aria-hidden="true"
+                    ></i>
+                    <div class="data-info">
+                        <span>${psCompose.activeRoute.singular}</span>
+                        <h5 class="confirm-data-name"></h5>
+                    </div>
+                </div>
+                <br/>
+                <div class="confirm-message">
+                    <h6>Making changes to this ${datatype} will not affect any existing data.</h6>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="data-box">
+                    <i
+                        data-lucide="${psCompose.activeRoute.icon}"
+                        class="shortcut-icon"
+                        aria-hidden="true"
+                    ></i>
+                    <div class="data-info">
+                        <span>${psCompose.activeRoute.singular}</span>
+                        <h5 class="confirm-data-name"></h5>
+                    </div>
+                </div>
+                <br/>
+                <div class="confirm-message">
+                <p>This ${datatype} is used in the following:</p>
+                <div class="collapsible-list">
+                    ${Object.entries(
+                        result.reduce((acc, item) => {
+                            const type = capitalizeFirstLetter(item.type);
+                            acc[type] = acc[type] || [];
+                            acc[type].push(item);
+                            return acc;
+                        }, {}),
+                    )
+                        .map(
+                            ([type, items]) => `
+                    <details class="collapsible-item">
+                        <summary>
+                            <div class="summary-content">
+                                <i
+                                    data-lucide="${psCompose.metadata[type.toLowerCase()].icon}"
+                                    class="shortcut-icon"
+                                    aria-hidden="true"
+                                ></i>
+                                ${type}
+                            </div>
+                            <i data-lucide="chevron-down" class="collapse-icon" aria-hidden="true"></i>
+                        </summary>
+                        <div class="collapsible-content">
+                            <ul>
+                                ${items
+                                    .map(
+                                        (item) => `
+                                    <li>
+                                        <a href="${(window.BASE_URL || '')}/${pluralWord(item.type)}/?id=${
+                                            item.id
+                                        }" target="_blank">
+                                            ${item.name}
+                                        </a>
+                                    </li>
+                                `,
+                                    )
+                                    .join("")}
+                            </ul>
+                        </div>
+                    </details>
+                    `,
+                        )
+                        .join("")}
+                </div>
+                `;
+        }
+    }
+
+    (async () => {
+        let result = [];
+        try {
+            const response = await fetch(`${psCompose.activeRoute.list_endpoint}${id}/find/`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            result = await response.json();
+        } catch (error) {
+            console.error("Error:", error);
+        }
+
+        deleteModal.setAttribute("message", resultToHtml(result));
+    })();
+
+    // Save Datatype
+    var saveModal = document.querySelector("#save-modal");
+    var saveMsg = "Are you sure you want to save this " + datatype + " ?";
+    saveModal.setAttribute("question", saveMsg);
+
+    // Delete Datatype
+    var deleteModal = document.querySelector("#delete-modal");
+    var deleteMsg = "Are you sure you want to delete this " + datatype + " ?";
+    deleteModal.setAttribute("question", deleteMsg);
+
+    function capitalizeFirstLetter(str) {
+        if (!str) return str;
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function pluralWord(str) {
+        if (!str) return str;
+        if (str === "address") return "addresses";
+        else return str + "s";
+    }
+</script>

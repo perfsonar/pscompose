@@ -1,0 +1,58 @@
+#!/bin/bash
+# postinst script for perfsonar-pscompose
+#
+# see: dh_installdeb(1)
+
+set -e
+
+PSCOMPOSE_BASE=/usr/lib/perfsonar/pscompose
+
+case "$1" in
+    configure)
+        # Enable required Apache modules
+        a2enmod proxy proxy_http ssl rewrite 2>/dev/null || true
+        # Enable the pscompose Apache config
+        a2enconf apache-pscompose 2>/dev/null || true
+
+        # Make sure htpasswd file exists with correct permissions
+        # (www-data is the Apache group on Debian/Ubuntu)
+        mkdir -p /etc/perfsonar/toolkit/
+        touch /etc/perfsonar/toolkit/psadmin.htpasswd
+        chown root:www-data /etc/perfsonar/toolkit/psadmin.htpasswd
+        chmod 0640 /etc/perfsonar/toolkit/psadmin.htpasswd
+
+        # Fresh install (no previous version configured)
+        if [ -z "$2" ]; then
+            # Run the PostgreSQL database setup script
+            ${PSCOMPOSE_BASE}/scripts/pg_setup.sh || true
+
+            # Enable and start services
+            systemctl daemon-reload || true
+            systemctl enable perfsonar-pscompose.socket || true
+            systemctl enable perfsonar-pscompose-frontend.service || true
+            systemctl start perfsonar-pscompose.socket || true
+            systemctl start perfsonar-pscompose-frontend.service || true
+
+            # Enable and restart Apache
+            systemctl enable apache2 || true
+            systemctl restart apache2 || true
+        else
+            # Upgrade: reload services
+            systemctl daemon-reload || true
+            systemctl try-restart perfsonar-pscompose.service || true
+            systemctl try-restart perfsonar-pscompose-frontend.service || true
+            systemctl reload apache2 || true
+        fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+exit 0

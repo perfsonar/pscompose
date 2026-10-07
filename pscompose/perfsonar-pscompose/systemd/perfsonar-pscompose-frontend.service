@@ -1,0 +1,16 @@
+[Unit]
+Description=perfSONAR pSCompose Frontend (server.py)
+After=network.target
+
+[Service]
+Type=simple
+User=perfsonar
+Group=apache
+WorkingDirectory=/usr/lib/perfsonar/pscompose/frontend
+ExecStart=/usr/lib/perfsonar/pscompose/venv/bin/python3 \
+    /usr/lib/perfsonar/pscompose/frontend/server.py \
+    --port=8008
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

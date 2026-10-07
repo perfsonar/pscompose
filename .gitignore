@@ -14,11 +14,18 @@ node_modules
 
 # mac annoyance
 .DS_Store
-pscompose/psconfig-schema.json
-pscompose/schemas-codegen.py
-pscompose/schemas-manual.py
+pscompose/perfsonar-pscompose/pscompose/psconfig-schema.json
+pscompose/perfsonar-pscompose/pscompose/schemas-codegen.py
+pscompose/perfsonar-pscompose/pscompose/schemas-manual.py
 
 # TODO: remove this later, closer to production
-pscompose/frontend/css/pscompose.css
-pscompose/frontend/css/color.css
-pscompose/frontend/components/index.js
+pscompose/perfsonar-pscompose/pscompose/frontend/css/pscompose.css
+pscompose/perfsonar-pscompose/pscompose/frontend/css/color.css
+pscompose/perfsonar-pscompose/pscompose/frontend/components/index.js
+
+# Ignore unibuild files 
+unibuild-log
+unibuild-work/
+unibuild-repo/
+unibuild-scripts/
+DOSB/
