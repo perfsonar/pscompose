@@ -11,4 +11,4 @@ extend-exclude = '''
 [tool.flake8]
 max-line-length = 99
 exclude = "pscompose/schemas.py"
-per-file-ignores = "pscompose/form_schemas/*.py:E501"
+per-file-ignores = "*/form_schemas/*.py:E501"

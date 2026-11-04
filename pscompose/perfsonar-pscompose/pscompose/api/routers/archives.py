@@ -8,7 +8,7 @@ from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 
 from pscompose.settings import DataTypes
-from pscompose.utils import generate_router
+from pscompose.utils import generate_router, add_locked_version_field
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.archive_schemas import (
     ARCHIVE_SCHEMA,
@@ -212,6 +212,7 @@ def get_existing_form(item_id: str, edit: bool = False):
         if element.get("type") == "Group" and "rule" in element:
             element["rule"]["condition"]["schema"]["const"] = archive_type
             element["elements"] = version_uischema["elements"]
+            add_locked_version_field(base_schema, element, response_json, schema_version)
             break
 
     payload = {

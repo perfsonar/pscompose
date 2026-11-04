@@ -1,6 +1,7 @@
 var selectedType = "";
 var additionalSchema = null;
 var baseSchemaPropertiesEdit = null;
+var highestVersion = null;
 
 async function getAdditionalSchema(type) {
     try {
@@ -42,7 +43,11 @@ function mergeLayout(group, uiVersionData) {
 
 function ensureVersionDropdown(group) {
     group.elements = Array.isArray(group.elements) ? group.elements : [];
-    if (!group.elements.some((e) => e.scope === "#/properties/version")) {
+    const existing = group.elements.find((e) => e.scope === "#/properties/version");
+    if (existing) {
+        // Unlock the saved-version field from edit mode once the type changes
+        delete existing.options;
+    } else {
         group.elements.unshift({
             type: "Control",
             scope: "#/properties/version",
@@ -53,10 +58,14 @@ function ensureVersionDropdown(group) {
 
 async function handleTypeChange(selectedType, additionalSchema) {
     const versionsArray = additionalSchema?.spec?.jsonschema?.versions || [];
-    const versions = versionsArray.slice(1).map((_, i) => String(i + 1));
+    // Highest to lowest, so the dropdown lists the newest version first
+    const versions = versionsArray
+        .slice(1)
+        .map((_, i) => i + 1)
+        .sort((a, b) => b - a);
     if (!versions.length) return;
 
-    const highestVersion = Number(versions.sort((a, b) => Number(b) - Number(a))[0]);
+    highestVersion = versions[0];
 
     const elem = document.querySelector("json-form");
     const baseSchema = JSON.parse(elem.schemaData);
@@ -69,9 +78,9 @@ async function handleTypeChange(selectedType, additionalSchema) {
     ensureVersionDropdown(group);
 
     baseSchema.properties.version = {
-        type: "string",
+        type: "integer",
         title: "Version",
-        oneOf: versions.map((v) => ({ const: v, title: `Version ${v}` })),
+        oneOf: versions.map((v) => ({ const: v, title: String(v) })),
         default: highestVersion,
     };
 
@@ -91,7 +100,7 @@ async function handleTypeChange(selectedType, additionalSchema) {
         }
     });
 
-    currentFormData.version = String(highestVersion);
+    currentFormData.version = highestVersion;
     currentFormData.schema = highestVersion;
 
     elem.setAttribute("schema-data", JSON.stringify(baseSchema));
@@ -139,8 +148,8 @@ function updateIdleVersion(selectedVersion, additionalSchema) {
         }
     });
 
-    currentFormData.version = String(selectedVersion);
-    currentFormData.schema = selectedVersion;
+    currentFormData.version = Number(selectedVersion);
+    currentFormData.schema = Number(selectedVersion);
 
     elem.setAttribute("schema-data", JSON.stringify(currentSchema));
     elem.setAttribute("layout-data", JSON.stringify(currentLayout));
@@ -161,7 +170,8 @@ async function mergeSchema() {
 
     document.addEventListener("change", async function (event) {
         if (event.target.id === "#/properties/version") {
-            const newVersion = JSON.parse(event.target.value);
+            // Clearing the version (X) falls back to the highest version
+            const newVersion = event.target.value ?? highestVersion;
             if (additionalSchema) {
                 updateIdleVersion(newVersion, additionalSchema);
             }

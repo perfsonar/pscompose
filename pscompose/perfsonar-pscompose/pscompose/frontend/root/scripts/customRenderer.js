@@ -43,6 +43,9 @@ function createCustomRenderer(componentName) {
             },
         };
 
+        // fields locked by the ui schema stay disabled in edit mode
+        if (schema?.uischema?.options?.readonly) props["data-locked"] = "true";
+
         // numeric constraints
         if (s.minimum != null) props.min = s.minimum;
         else if (s.exclusiveMinimum != null) props.min = s.exclusiveMinimum;
@@ -140,7 +143,7 @@ document.body.addEventListener("json-form:mounted", (event) => {
             .querySelector("json-form")
             ?.querySelectorAll(component)
             .forEach((comp) => {
-                comp.disabled = readonly;
+                comp.disabled = readonly || comp.hasAttribute("data-locked");
             });
     });
     syncArrayButtons(readonly);
@@ -153,7 +156,7 @@ document.body.addEventListener("json-form:updated", (event) => {
             .querySelector("json-form")
             ?.querySelectorAll(component)
             .forEach((comp) => {
-                comp.disabled = readonly;
+                comp.disabled = readonly || comp.hasAttribute("data-locked");
                 if (!readonly) {
                     document.querySelectorAll(".array-list-item-delete").forEach((btn) => {
                         btn.disabled = false;

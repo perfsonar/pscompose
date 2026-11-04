@@ -7,7 +7,7 @@ from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 
 from pscompose.settings import DataTypes
-from pscompose.utils import generate_router
+from pscompose.utils import generate_router, add_locked_version_field
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.test_schemas import (
     TEST_SCHEMA,
@@ -146,7 +146,11 @@ def get_existing_form(item_id: str, edit: bool = False):
 
     if not test_type or schema_version is None:
         # Fallback to generic schema if no type or schema version specified
-        tests = [(n, s["label"]) for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+        tests = [
+            (n, s["label"])
+            for n, s in TEST_SCHEMAS.items()
+            if s.get("json-forms-compatible", False)
+        ]
         # tests = fetch_pscheduler_test_list()
         enriched_schema = deepcopy(TEST_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
@@ -199,7 +203,9 @@ def get_existing_form(item_id: str, edit: bool = False):
         )
 
     # Build the enriched schema by merging base schema with version-specific schema
-    tests = [(n, s["label"]) for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+    tests = [
+        (n, s["label"]) for n, s in TEST_SCHEMAS.items() if s.get("json-forms-compatible", False)
+    ]
     # tests = fetch_pscheduler_test_list()
     base_schema = deepcopy(TEST_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
@@ -225,6 +231,7 @@ def get_existing_form(item_id: str, edit: bool = False):
             element["rule"]["condition"]["schema"]["const"] = test_type
             # Replace the group's elements with the version-specific UI elements
             element["elements"] = version_uischema["elements"]
+            add_locked_version_field(base_schema, element, response_json, schema_version)
             break
 
     payload = {

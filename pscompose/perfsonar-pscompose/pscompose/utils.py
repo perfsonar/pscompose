@@ -301,3 +301,25 @@ def enrich_schema(base_schema: Dict, updates: Dict[str, List]) -> Dict:
     walk(schema_copy)
 
     return schema_copy
+
+
+def add_locked_version_field(schema: Dict, group: Dict, form_data: Dict, schema_version) -> None:
+    """
+    Show the saved schema version as a locked Version dropdown at the top of the type's group.
+
+    Used by the existing-record forms (readonly and edit), which are built for a single version.
+    """
+    saved_version = int(schema_version)
+    schema["properties"]["version"] = {
+        "type": "integer",
+        "title": "Version",
+        "oneOf": [{"const": saved_version, "title": str(saved_version)}],
+    }
+    version_control = {
+        "type": "Control",
+        "scope": "#/properties/version",
+        "customComponent": "ps-select",
+        "options": {"readonly": True},
+    }
+    group["elements"] = [version_control] + group["elements"]
+    form_data["version"] = saved_version
