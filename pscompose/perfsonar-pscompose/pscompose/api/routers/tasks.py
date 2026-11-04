@@ -8,12 +8,11 @@ from fastapi import HTTPException
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 
-from pscompose.settings import DataTypes
+from pscompose.settings import DataTypes, PSCHEDULER_BASE_URL
 from pscompose.utils import generate_router, enrich_schema
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.task_schemas import TASK_SCHEMA, TASK_UI_SCHEMA
 
-PSCHEDULER_BASE_URL = "http://127.0.0.1:21044/pscheduler"
 try:
     _raw = requests.get(f"{PSCHEDULER_BASE_URL}/tools?expanded", timeout=5).json()
 except Exception:

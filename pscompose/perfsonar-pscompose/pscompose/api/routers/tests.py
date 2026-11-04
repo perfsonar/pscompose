@@ -6,7 +6,7 @@ from fastapi import HTTPException
 from fastapi_versioning import version
 from fastapi.responses import JSONResponse
 
-from pscompose.settings import DataTypes
+from pscompose.settings import DataTypes, PSCHEDULER_BASE_URL
 from pscompose.utils import generate_router, add_locked_version_field
 from pscompose.backends.postgres import backend
 from pscompose.form_schemas.test_schemas import (
@@ -16,8 +16,6 @@ from pscompose.form_schemas.test_schemas import (
 
 # Setup CRUD endpoints
 router = generate_router("test")
-
-PSCHEDULER_BASE_URL = "http://127.0.0.1:21044/pscheduler"
 try:
     _raw = requests.get(f"{PSCHEDULER_BASE_URL}/tests?expanded", timeout=5).json()
 except Exception:
