@@ -27,7 +27,7 @@ css-watch:
 .PHONY: run-frontend
 run-frontend:
 	@echo "Starting simple HTTP server on http://localhost:5001/"
-	(cd pscompose/frontend && npm run generate-components-index) && cd pscompose/frontend/root && python3 server.py --port=5001
+	cd pscompose/frontend && npm run generate-components-index && python3 server.py --port=5001
 
 .dev-installed: dev_requirements.txt
 	source venv/bin/activate && pip install -r dev_requirements.txt && playwright install
