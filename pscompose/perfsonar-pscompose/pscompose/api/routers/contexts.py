@@ -124,7 +124,11 @@ def get_existing_form(item_id: str):
 
     if not context_type or schema_version is None:
         # Fallback to generic schema
-        contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+        contexts = [
+            (n, s.get("label", n))
+            for n, s in CONTEXT_SCHEMAS.items()
+            if s.get("json-forms-compatible", False)
+        ]
         enriched_schema = deepcopy(CONTEXT_SCHEMA)
         enriched_schema["properties"]["type"]["oneOf"] = [
             {"const": name, "title": label} for name, label in contexts
@@ -160,7 +164,11 @@ def get_existing_form(item_id: str):
         )
 
     # Build enriched schema
-    contexts = [n for n, s in CONTEXT_SCHEMAS.items() if s.get("json-forms-compatible", False)]
+    contexts = [
+        (n, s.get("label", n))
+        for n, s in CONTEXT_SCHEMAS.items()
+        if s.get("json-forms-compatible", False)
+    ]
     base_schema = deepcopy(CONTEXT_SCHEMA)
     base_schema["properties"]["type"]["oneOf"] = [
         {"const": name, "title": label} for name, label in contexts
