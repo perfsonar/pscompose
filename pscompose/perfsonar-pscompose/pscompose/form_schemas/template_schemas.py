@@ -10,6 +10,8 @@ TEMPLATE_SCHEMA = {
         "tasks": {
             "type": "array",
             "title": "Tasks",
+            "minItems": 1,
+            "x-invalid-message": "Select at least one task.",
             "items": {"oneOf": []},
         },
         "_meta": {

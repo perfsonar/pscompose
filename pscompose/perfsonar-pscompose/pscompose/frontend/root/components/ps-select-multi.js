@@ -18,6 +18,7 @@ export class PSSelectMulti extends PSSelect {
         this.querySelectorAll("#remove-tag").forEach((btn) => {
             btn.addEventListener("click", () => {
                 const value = this.parseValue(btn.getAttribute("value"));
+                this.markDirty();
                 this.selectedValues = this.selectedValues.filter((v) => v !== value);
                 this.value = this.selectedValues;
                 this.dispatchEvent(new Event("change", { bubbles: true }));

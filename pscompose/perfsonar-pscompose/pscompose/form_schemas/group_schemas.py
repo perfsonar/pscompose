@@ -20,7 +20,13 @@ GROUP_SCHEMA = {
             "then": {
                 "properties": {
                     "type": {"const": "list"},
-                    "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
+                    "addresses": {
+                        "type": "array",
+                        "title": "Addresses",
+                        "minItems": 1,
+                        "x-invalid-message": "Select at least one address.",
+                        "items": {"oneOf": []},
+                    },
                     "_meta": {
                         "type": "object",
                         "title": "Other Meta",
@@ -43,11 +49,15 @@ GROUP_SCHEMA = {
                     "a-addresses": {
                         "type": "array",
                         "title": "A-Addresses",
+                        "minItems": 1,
+                        "x-invalid-message": "Select at least one A-address.",
                         "items": {"oneOf": []},
                     },
                     "b-addresses": {
                         "type": "array",
                         "title": "B-Addresses",
+                        "minItems": 1,
+                        "x-invalid-message": "Select at least one B-address.",
                         "items": {"oneOf": []},
                     },
                     "excludes-self": {
@@ -77,6 +87,8 @@ GROUP_SCHEMA = {
                                 "target-addresses": {
                                     "type": "array",
                                     "title": "Target Addresses",
+                                    "minItems": 1,
+                                    "x-invalid-message": "Select at least one target address.",
                                     "items": {"oneOf": []},
                                 },
                             },
@@ -97,7 +109,13 @@ GROUP_SCHEMA = {
             "then": {
                 "properties": {
                     "type": {"const": "mesh"},
-                    "addresses": {"type": "array", "title": "Addresses", "items": {"oneOf": []}},
+                    "addresses": {
+                        "type": "array",
+                        "title": "Addresses",
+                        "minItems": 1,
+                        "x-invalid-message": "Select at least one address.",
+                        "items": {"oneOf": []},
+                    },
                     "excludes-self": {
                         "type": "string",
                         "title": "Excludes Self",
@@ -125,6 +143,8 @@ GROUP_SCHEMA = {
                                 "target-addresses": {
                                     "type": "array",
                                     "title": "Target Addresses",
+                                    "minItems": 1,
+                                    "x-invalid-message": "Select at least one target address.",
                                     "items": {"oneOf": []},
                                 },
                             },
