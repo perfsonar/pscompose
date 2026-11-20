@@ -26,7 +26,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Difference",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -363,7 +363,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -434,7 +434,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -535,7 +535,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -614,7 +614,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -895,7 +895,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -971,7 +971,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1100,7 +1100,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1175,7 +1175,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1287,7 +1287,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1374,7 +1374,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1516,7 +1516,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1580,7 +1580,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1637,7 +1637,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1708,7 +1708,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1783,7 +1783,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1869,7 +1869,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -2393,7 +2393,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time Slept",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -2457,7 +2457,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -4903,7 +4903,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5243,7 +5243,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5350,7 +5350,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Max",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5364,7 +5364,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Mean",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5378,7 +5378,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Min",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5450,7 +5450,7 @@
                                                 "P2D3H37M"
                                             ],
                                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                            "title": "Duration",
+                                            "title": "RTT",
                                             "type": "string",
                                             "x-info": [
                                                 {
@@ -5495,7 +5495,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Standard Deviation",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5535,7 +5535,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Deadline",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5566,7 +5566,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5636,7 +5636,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5671,7 +5671,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Deadline",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5702,7 +5702,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5776,7 +5776,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5811,7 +5811,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Deadline",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5845,7 +5845,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5919,7 +5919,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5954,7 +5954,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Deadline",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -5988,7 +5988,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6068,7 +6068,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6592,7 +6592,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6692,7 +6692,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6809,7 +6809,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Dawdled",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6828,7 +6828,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Elapsed Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6879,7 +6879,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Dawdle",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6953,7 +6953,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -6973,7 +6973,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Dawdle",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -7051,7 +7051,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -7071,7 +7071,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Dawdle",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -7154,7 +7154,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -7651,7 +7651,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -7751,7 +7751,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -7877,7 +7877,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -8180,7 +8180,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -8279,7 +8279,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -8401,7 +8401,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -8709,7 +8709,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -8796,7 +8796,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -8902,7 +8902,7 @@
                                             "P2D3H37M"
                                         ],
                                         "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                        "title": "Duration",
+                                        "title": "Timeout",
                                         "type": "string",
                                         "x-info": [
                                             {
@@ -9337,7 +9337,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9386,7 +9386,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9539,7 +9539,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9588,7 +9588,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9750,7 +9750,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9782,7 +9782,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Link RTT",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9813,7 +9813,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -9976,7 +9976,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10008,7 +10008,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Link RTT",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10039,7 +10039,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10202,7 +10202,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10234,7 +10234,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Link RTT",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10268,7 +10268,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10431,7 +10431,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10463,7 +10463,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Link RTT",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10497,7 +10497,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10670,7 +10670,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Interval",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10702,7 +10702,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Link RTT",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -10736,7 +10736,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Omit",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12253,7 +12253,7 @@
                                                     "P2D3H37M"
                                                 ],
                                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                                "title": "Duration",
+                                                "title": "RTT",
                                                 "type": "string",
                                                 "x-info": [
                                                     {
@@ -12374,7 +12374,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Send Wait",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12408,7 +12408,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Wait",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12512,7 +12512,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Send Wait",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12546,7 +12546,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Wait",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12909,7 +12909,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Time",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -12985,7 +12985,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {

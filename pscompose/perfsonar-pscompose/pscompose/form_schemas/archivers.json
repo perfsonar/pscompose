@@ -112,7 +112,7 @@
                                                 "P2D3H37M"
                                             ],
                                             "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                            "title": "Duration",
+                                            "title": "Wait",
                                             "type": "string",
                                             "x-info": [
                                                 {
@@ -1377,7 +1377,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Connection Expires",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1596,7 +1596,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Connection Expires",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1733,7 +1733,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Connection Expires",
                                 "type": "string",
                                 "x-info": [
                                     {
@@ -1858,7 +1858,7 @@
                                 "description": "This can be any valid ISO 8601 duration not involving months or years, which are inexact.",
                                 "examples": ["PT10S", "PT45.67S", "PT1H30M", "P1D", "P2D3H37M"],
                                 "pattern": "^P(?:\\d+(?:\\.\\d+)?W)?(?:\\d+(?:\\.\\d+)?D)?(?:T(?:\\d+(?:\\.\\d+)?H)?(?:\\d+(?:\\.\\d+)?M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
-                                "title": "Duration",
+                                "title": "Timeout",
                                 "type": "string",
                                 "x-info": [
                                     {
