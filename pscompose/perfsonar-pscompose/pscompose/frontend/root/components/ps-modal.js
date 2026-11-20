@@ -102,6 +102,9 @@ export class PSModal extends HTMLElement {
                 </div>
             </div>
         `;
+        this.querySelectorAll(".confirm-data-name").forEach((el) => {
+            el.textContent = this.getAttribute("confirm-data-name") || "";
+        });
         this.attachListeners();
     }
 }

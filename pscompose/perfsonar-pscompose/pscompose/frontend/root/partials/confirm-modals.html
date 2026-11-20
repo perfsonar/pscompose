@@ -38,7 +38,6 @@
                         <h5 class="confirm-data-name"></h5>
                     </div>
                 </div>
-                <br/>
                 <div class="confirm-message">
                     <h6>Making changes to this ${datatype} will not affect any existing data.</h6>
                 </div>
@@ -56,7 +55,6 @@
                         <h5 class="confirm-data-name"></h5>
                     </div>
                 </div>
-                <br/>
                 <div class="confirm-message">
                 <p>This ${datatype} is used in the following:</p>
                 <div class="collapsible-list">
@@ -88,9 +86,9 @@
                                     .map(
                                         (item) => `
                                     <li>
-                                        <a href="${(window.BASE_URL || '')}/${pluralWord(item.type)}/?id=${
-                                            item.id
-                                        }" target="_blank">
+                                        <a href="${window.BASE_URL || ""}/${pluralWord(
+                                            item.type,
+                                        )}/?id=${item.id}" target="_blank">
                                             ${item.name}
                                         </a>
                                     </li>

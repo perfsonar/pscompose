@@ -121,8 +121,8 @@
             editMode(params.get("edit"));
 
             document.getElementById("data-name").textContent = elem?.name;
-            document.querySelectorAll(".confirm-data-name").forEach((el) => {
-                el.textContent = elem?.data?.name || "";
+            document.querySelectorAll("ps-modal").forEach((modal) => {
+                modal.setAttribute("confirm-data-name", elem?.name || "");
             });
             setUpFavorites(id);
             attachFavoritesHandler(id);
