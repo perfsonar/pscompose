@@ -1,0 +1,186 @@
+var selectedType = "";
+var additionalSchema = null;
+var baseSchemaPropertiesEdit = null;
+var highestVersion = null;
+
+async function getAdditionalSchema(type) {
+    try {
+        const url = `${psCompose.activeRoute.list_endpoint}new/${type}/form/`;
+        const res = await fetch(url, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        if (!res.ok) throw new Error(`Failed to fetch schema: ${res.status}`);
+        return await res.json();
+    } catch (err) {
+        console.error("Error fetching schema:", err);
+        return null;
+    }
+}
+
+function findGroup(layout) {
+    return layout.elements.find(
+        (el) => el.type === "Group" && el.rule?.condition?.scope === "#/properties/type",
+    );
+}
+
+function mergeSchemaProperties(baseSchema, versionData) {
+    if (!baseSchemaPropertiesEdit) {
+        baseSchemaPropertiesEdit = new Set(Object.keys(baseSchema.properties));
+    }
+    const keysToRemove = Object.keys(baseSchema.properties).filter(
+        (key) => !baseSchemaPropertiesEdit.has(key),
+    );
+    keysToRemove.forEach((key) => delete baseSchema.properties[key]);
+    Object.assign(baseSchema.properties, versionData.properties);
+    const baseRequired = ["name", "type"];
+    baseSchema.required = [...new Set([...baseRequired, ...(versionData.required || [])])];
+}
+
+function mergeLayout(group, uiVersionData) {
+    group.elements = group.elements.slice(0, 1).concat(uiVersionData.elements);
+}
+
+function ensureVersionDropdown(group) {
+    group.elements = Array.isArray(group.elements) ? group.elements : [];
+    const existing = group.elements.find((e) => e.scope === "#/properties/version");
+    if (existing) {
+        // Unlock the saved-version field from edit mode once the type changes
+        delete existing.options;
+    } else {
+        group.elements.unshift({
+            type: "Control",
+            scope: "#/properties/version",
+            customComponent: "ps-select",
+        });
+    }
+}
+
+async function handleTypeChange(selectedType, additionalSchema) {
+    const versionsArray = additionalSchema?.spec?.jsonschema?.versions || [];
+    // Highest to lowest, so the dropdown lists the newest version first
+    const versions = versionsArray
+        .slice(1)
+        .map((_, i) => i + 1)
+        .sort((a, b) => b - a);
+    if (!versions.length) return;
+
+    highestVersion = versions[0];
+
+    const elem = document.querySelector("json-form");
+    const baseSchema = JSON.parse(elem.schemaData);
+    const baseLayout = JSON.parse(elem.layoutData);
+
+    const group = findGroup(baseLayout);
+    if (!group) return;
+
+    group.rule.condition.schema.const = selectedType;
+    ensureVersionDropdown(group);
+
+    baseSchema.properties.version = {
+        type: "integer",
+        title: "Version",
+        oneOf: versions.map((v) => ({ const: v, title: String(v) })),
+        default: highestVersion,
+    };
+
+    const versionData = additionalSchema.spec.jsonschema.versions[highestVersion];
+    const uiVersionData = additionalSchema.spec.uischema.versions[highestVersion];
+
+    mergeSchemaProperties(baseSchema, versionData);
+    mergeLayout(group, uiVersionData);
+    const currentFormData = JSON.parse(elem.serializeForm());
+    Object.keys(versionData.properties).forEach((key) => {
+        const property = versionData.properties[key];
+        if (!property) return;
+        if (property.default !== undefined) {
+            currentFormData[key] = property.default;
+        } else {
+            delete currentFormData[key];
+        }
+    });
+
+    currentFormData.version = highestVersion;
+    currentFormData.schema = highestVersion;
+
+    elem.setAttribute("schema-data", JSON.stringify(baseSchema));
+    elem.setAttribute("layout-data", JSON.stringify(baseLayout));
+    elem.setAttribute("form-data", JSON.stringify(currentFormData));
+}
+
+function updateIdleVersion(selectedVersion, additionalSchema) {
+    const elem = document.querySelector("json-form");
+    const currentSchema = JSON.parse(elem.schemaData);
+    const currentLayout = JSON.parse(elem.layoutData);
+    const currentFormData = JSON.parse(elem.serializeForm());
+
+    const versionData = additionalSchema.spec.jsonschema.versions[selectedVersion];
+    const uiVersionData = additionalSchema.spec.uischema.versions[selectedVersion];
+
+    if (!versionData || !uiVersionData) return;
+
+    mergeSchemaProperties(currentSchema, versionData);
+
+    const group = findGroup(currentLayout);
+    if (!group) return;
+
+    mergeLayout(group, uiVersionData);
+
+    const newSchemaProperties = new Set(Object.keys(versionData.properties));
+    if (baseSchemaPropertiesEdit) {
+        baseSchemaPropertiesEdit.forEach((key) => newSchemaProperties.add(key));
+    }
+    newSchemaProperties.add("version");
+
+    Object.keys(currentFormData).forEach((key) => {
+        if (!newSchemaProperties.has(key)) {
+            delete currentFormData[key];
+        }
+    });
+
+    Object.keys(versionData.properties).forEach((key) => {
+        const property = versionData.properties[key];
+        if (!property) return;
+        if (property.default !== undefined) {
+            currentFormData[key] = property.default;
+        } else {
+            delete currentFormData[key];
+        }
+    });
+
+    currentFormData.version = Number(selectedVersion);
+    currentFormData.schema = Number(selectedVersion);
+
+    elem.setAttribute("schema-data", JSON.stringify(currentSchema));
+    elem.setAttribute("layout-data", JSON.stringify(currentLayout));
+    elem.setAttribute("form-data", JSON.stringify(currentFormData));
+}
+
+async function mergeType(selectedType) {
+    additionalSchema = await getAdditionalSchema(selectedType);
+    if (additionalSchema) {
+        handleTypeChange(selectedType, additionalSchema);
+    }
+}
+
+async function mergeSchema() {
+    document.getElementById("#/properties/type").addEventListener("change", async function (event) {
+        mergeType(event.target.value);
+    });
+
+    document.addEventListener("change", async function (event) {
+        if (event.target.id === "#/properties/version") {
+            // Clearing the version (X) falls back to the highest version
+            const newVersion = event.target.value ?? highestVersion;
+            if (additionalSchema) {
+                updateIdleVersion(newVersion, additionalSchema);
+            }
+        }
+    });
+}
+
+async function mergedSchema() {
+    const form = document.querySelector("json-form");
+    const form_data = JSON.parse(form.getAttribute("form-data"));
+    mergeType(form_data.type);
+}

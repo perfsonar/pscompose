@@ -9,6 +9,7 @@ repos:
     hooks:
       - id: flake8
         entry: pflake8
+        args: [--config=pscompose/perfsonar-pscompose/pyproject.toml]
         additional_dependencies: [pyproject-flake8]
   - repo: https://github.com/ambv/black
     rev: 25.1.0

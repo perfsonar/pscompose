@@ -1,0 +1,91 @@
+import os
+import posixpath
+from urllib.parse import unquote
+import http.server
+import argparse
+
+# BaseHTTPServer
+# from SimpleHTTPServer import SimpleHTTPRequestHandler
+
+# modify this to add additional routes
+STATIC_ROUTES = (
+    # [url_prefix]
+    "/app",
+    "/root",
+)
+
+
+def normalize_path(path, root):
+    # normalize path and prepend root directory
+    words = path.split("/")
+    words = filter(None, words)
+
+    path = root
+    for word in words:
+        drive, word = os.path.splitdrive(word)
+        head, word = os.path.split(word)
+        if word in (os.curdir, os.pardir):
+            continue
+        path = os.path.join(path, word)
+    return path
+
+
+class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    def send_no_cache_headers(self):
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        pass
+
+    def end_headers(self):
+        self.send_no_cache_headers()
+        http.server.SimpleHTTPRequestHandler.end_headers(self)
+
+    def translate_path(self, path):
+        """translate path given routes"""
+        # set default root to cwd
+        root = os.getcwd()
+
+        path = path.split("?", 1)[0]
+        path = path.split("#", 1)[0]
+        path = posixpath.normpath(unquote(path))
+        # this is an SPA app. By default, vend index.html for all routes
+        output_path = os.path.join(root, "app/%s/index.html" % path)
+        # unless the route is listed in STATIC_ROUTES. In that case...
+        for pattern in STATIC_ROUTES:
+            if path.startswith(pattern):
+                # remove the static section from the url
+                # and then normalize the path to the real file on disk
+                output_path = normalize_path(path, root)
+                break
+        else:
+            # If the default SPA path doesn't exist as a file, check whether
+            # the path resolves to a real file when rooted under app/ (e.g.
+            # via symlinks like app/import/root -> ../../root).  This handles
+            # URLs such as /import/root/partials/nav_top.html where "root" is
+            # a symlink inside app/import/.
+            candidate = normalize_path(path, os.path.join(root, "app"))
+            if os.path.isfile(candidate):
+                output_path = candidate
+        print("reading file from %s" % output_path)
+        return output_path
+
+    def do_POST(self, *args, **kwargs):
+        self.do_GET(*args, **kwargs)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, default=8000)
+    args = parser.parse_args()
+
+    HOST = "127.0.0.1"
+    PORT = args.port
+    server = http.server.HTTPServer((HOST, PORT), RequestHandler)
+    print("Serving HTTP on %s:%s" % (HOST, PORT))
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    print("\nExiting on Interrupt")
+    server.server_close()
